@@ -70,4 +70,4 @@ JavaCore_1.4.1_Maven
 hs_err_pid*
 
 # Properties
-.properties
+*.properties
