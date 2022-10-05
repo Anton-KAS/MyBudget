@@ -1,0 +1,25 @@
+package ru.kas.myBudget.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import ru.kas.myBudget.models.WebUser;
+import ru.kas.myBudget.repositories.WebUserRepository;
+import ru.kas.myBudget.security.WebUserDetails;
+
+import java.util.Optional;
+
+@Service
+public class WebUserService {
+    private final WebUserRepository webUserRepository;
+
+    @Autowired
+    public WebUserService(WebUserRepository webUserRepository) {
+        this.webUserRepository = webUserRepository;
+    }
+
+    public Optional<WebUser> loadUserByUsername(String username) throws UsernameNotFoundException {
+        return webUserRepository.findByUsername(username);
+    }
+}
