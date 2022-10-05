@@ -10,3 +10,7 @@ spring.jpa.properties.hibernate.show_sql=false
 
 # Включение методов PUT, PATCH, DELETE в HTTP запросах
 spring.mvc.hiddenmethod.filter.enabled=true
+
+# Telegram BOT API
+telegram.bot.username=@NAME_BOT
+telegram.bot.token=TOKEN
