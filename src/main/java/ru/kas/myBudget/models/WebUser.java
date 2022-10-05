@@ -20,6 +20,9 @@ public class WebUser {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "role")
+    private String role;
+
     public WebUser() {
     }
 
@@ -50,6 +53,14 @@ public class WebUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

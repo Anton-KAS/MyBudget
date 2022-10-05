@@ -1,10 +1,12 @@
 package ru.kas.myBudget.security;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.kas.myBudget.models.WebUser;
 
 import java.util.Collection;
+import java.util.Collections;
 
 public class WebUserDetails implements UserDetails {
     private final WebUser webUser;
@@ -15,7 +17,7 @@ public class WebUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singletonList(new SimpleGrantedAuthority(webUser.getRole()));
     }
 
     @Override
