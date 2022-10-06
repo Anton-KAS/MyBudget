@@ -7,7 +7,7 @@ public class StartCommand implements Command {
 
     private final SendBotMessageService sendBotMessageService;
 
-    private final static String START_MESSAGE = "Привет!";
+    public final static String START_MESSAGE = "Привет!";
 
     public StartCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;
