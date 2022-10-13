@@ -9,11 +9,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageService;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageServiceImpl;
+import ru.kas.myBudget.services.TelegramUserService;
+import ru.kas.myBudget.services.TelegramUserServiceImpl;
 
 abstract class AbstractCommandTest {
 
     protected TelegramBot telegramBot = Mockito.mock(TelegramBot.class);
     protected SendBotMessageService sendBotMessageService = new SendBotMessageServiceImpl(telegramBot);
+    protected TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
 
     abstract String getCommandName();
 
@@ -24,11 +27,13 @@ abstract class AbstractCommandTest {
     @Test
     public void shouldProperlyExecuteCommand() throws TelegramApiException {
         //given
-        long chatId = 123456789L;
+        long userId = 123456789L;
+        long chatId = userId;
 
         Update update = new Update();
         Message message = Mockito.mock(Message.class);
         Mockito.when(message.getChatId()).thenReturn(chatId);
+        Mockito.when(message.getFrom().getId()).thenReturn(userId);
         Mockito.when(message.getText()).thenReturn(getCommandName());
         update.setMessage(message);
 
