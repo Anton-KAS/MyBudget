@@ -5,12 +5,12 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageService;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageServiceImpl;
 import ru.kas.myBudget.services.TelegramUserService;
-import ru.kas.myBudget.services.TelegramUserServiceImpl;
 
 abstract class AbstractCommandTest {
 
@@ -32,9 +32,14 @@ abstract class AbstractCommandTest {
 
         Update update = new Update();
         Message message = Mockito.mock(Message.class);
+        User from = Mockito.mock(User.class);
+
         Mockito.when(message.getChatId()).thenReturn(chatId);
-        Mockito.when(message.getFrom().getId()).thenReturn(userId);
         Mockito.when(message.getText()).thenReturn(getCommandName());
+        Mockito.when(message.getFrom()).thenReturn(from);
+        Mockito.when(from.getId()).thenReturn(userId);
+
+        message.setFrom(from);
         update.setMessage(message);
 
         SendMessage sendMessage = new SendMessage();
