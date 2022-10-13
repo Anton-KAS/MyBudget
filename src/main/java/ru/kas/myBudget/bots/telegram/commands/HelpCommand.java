@@ -14,8 +14,9 @@ public class HelpCommand implements Command {
 
                     %s - начать работу со мной
                     %s - приостановить работу со мной
+                    %s - количество активных пользователей бота
                     """,
-            START.getCommandName(), STOP.getCommandName());
+            START.getCommandName(), STOP.getCommandName(), STAT.getCommandName());
 
     public HelpCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;
@@ -23,6 +24,6 @@ public class HelpCommand implements Command {
 
     @Override
     public void execute(Update update) {
-        sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(), HELP_MESSAGE);
+        sendBotMessageService.sendMessage(getChatId(update), HELP_MESSAGE);
     }
 }

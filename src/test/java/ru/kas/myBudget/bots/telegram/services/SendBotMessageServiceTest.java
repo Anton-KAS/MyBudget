@@ -23,7 +23,7 @@ public class SendBotMessageServiceTest {
     @Test
     public void shouldProperlySendMessage() throws TelegramApiException {
         //given
-        String chatId = "test_chat_id";
+        long chatId = 123456789L;
         String message = "test message";
 
         SendMessage sendMessage = new SendMessage();
