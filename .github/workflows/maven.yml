@@ -29,6 +29,8 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+      with:
+        files: application.properties
       env:
         spring.datasource.driverClassName: org.postgresql.Driver
         spring.datasource.url: ${{ secrets.PROD_POSTGRESQL_URL }}
