@@ -44,7 +44,7 @@ jobs:
 
         telegram.bot.username: ${{ secrets.TEST_TELEGRAM_BOT_USERNAME }}
         telegram.bot.token: ${{ secrets.TEST_TELEGRAM_BOT_TOKEN }}
-      run: mvn clean test
+      run: mvn '-Dspring.datasource.url=${{ secrets.PROD_POSTGRESQL_URL }}' clean test
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
