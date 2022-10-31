@@ -24,12 +24,7 @@ public class WebUser {
 
     @Column(name = "role")
     private String role;
-    /*
-    created_at  timestamp           NOT NULL,
-    last_active timestamp           NOT NULL,
-    active      boolean             NOT NULL,
-    tg_user_id  int                 REFERENCES tg_user (id) ON DELETE SET NULL
-     */
+
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
