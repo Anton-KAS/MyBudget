@@ -24,7 +24,7 @@ jobs:
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
-        java-version: '17'
+        java-version: 17
         distribution: 'adopt'
         cache: maven
 #    - name: Build with Maven
@@ -36,8 +36,8 @@ jobs:
 #        telegram.bot.username: ${{ secrets.TEST_TELEGRAM_BOT_USERNAME }}
 #        telegram.bot.token: ${{ secrets.TEST_TELEGRAM_BOT_TOKEN }}
 #      run: mvn -B package --file pom.xml
-    - name: Unit Tests
-      run: mvn clean package
+    - name: All the Tests and Coverage Checks
+      run: mvn clean install
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
