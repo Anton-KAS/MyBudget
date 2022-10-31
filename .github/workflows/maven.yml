@@ -37,7 +37,14 @@ jobs:
 #        telegram.bot.token: ${{ secrets.TEST_TELEGRAM_BOT_TOKEN }}
 #      run: mvn -B package --file pom.xml
     - name: All the Tests and Coverage Checks
-      run: mvn clean install
+      env:
+        spring.datasource.url: ${{ secrets.PROD_POSTGRESQL_URL }}
+        spring.datasource.username: ${{ secrets.PROD_POSTGRESQL_USERNAME }}
+        spring.datasource.password: ${{ secrets.PROD_POSTGRESQL_PASSWORD }}
+
+        telegram.bot.username: ${{ secrets.TEST_TELEGRAM_BOT_USERNAME }}
+        telegram.bot.token: ${{ secrets.TEST_TELEGRAM_BOT_TOKEN }}
+      run: mvn clean test
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
