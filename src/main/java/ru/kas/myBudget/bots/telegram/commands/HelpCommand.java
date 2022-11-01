@@ -13,10 +13,14 @@ public class HelpCommand implements Command {
                     <b>Доступные команды:</b>
 
                     %s - начать работу со мной
+                    %s - открыть меню бота
                     %s - приостановить работу со мной
                     %s - количество активных пользователей бота
                     """,
-            START.getCommandName(), STOP.getCommandName(), STAT.getCommandName());
+            START.getCommandName(),
+            MENU.getCommandName(),
+            STOP.getCommandName(),
+            STAT.getCommandName());
 
     public HelpCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;

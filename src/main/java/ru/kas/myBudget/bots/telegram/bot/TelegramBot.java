@@ -52,6 +52,14 @@ public class TelegramBot extends TelegramLongPollingBot {
             } else {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
+        } else if (update.hasCallbackQuery()) {
+            String call_data = update.getCallbackQuery().getData();
+            long message_id = update.getCallbackQuery().getMessage().getMessageId();
+            long chat_id = update.getCallbackQuery().getMessage().getChatId();
+
+            System.out.println("Call data: " + call_data);
+            System.out.println("Message id: " + message_id);
+            System.out.println("Chat id: " + chat_id);
         }
     }
 }
