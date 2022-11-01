@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.commands.CommandContainer;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageServiceImpl;
 import ru.kas.myBudget.services.TelegramUserService;
@@ -23,10 +24,12 @@ public class TelegramBot extends TelegramLongPollingBot {
     private String token;
 
     private final CommandContainer commandContainer;
+    private final CallbackContainer callbackContainer;
 
     @Autowired
     public TelegramBot(TelegramUserService telegramUserService) {
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), telegramUserService);
+        this.callbackContainer = new CallbackContainer(new SendBotMessageServiceImpl(this), telegramUserService);
     }
 
     @Override
@@ -62,7 +65,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             System.out.println("Chat id: " + chat_id);
 
             String callbackIdentifier = call_data.split("_")[1].toLowerCase();
-            commandContainer.retrieveCommand(callbackIdentifier).execute(update);
+            callbackContainer.retrieveCommand(callbackIdentifier).execute(update);
         }
     }
 }
