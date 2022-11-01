@@ -4,6 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "tg_user")
@@ -44,6 +45,9 @@ public class TelegramUser {
     @ManyToOne
     @JoinColumn(name = "web_user_id", referencedColumnName = "id")
     private WebUser webUser;
+
+    @OneToMany(mappedBy = "telegramUser")
+    private List<Account> accounts;
 
     public TelegramUser() {
     }
@@ -169,6 +173,14 @@ public class TelegramUser {
 
     public void setWebUser(WebUser webUser) {
         this.webUser = webUser;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 
     @Override
