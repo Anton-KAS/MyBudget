@@ -28,7 +28,7 @@ public class MenuCommand implements Command {
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
         InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
         inlineKeyboardButton.setText("Счета");
-        inlineKeyboardButton.setCallbackData("menu_account");
+        inlineKeyboardButton.setCallbackData("menu_accounts");
         rowInline.add(inlineKeyboardButton);
         rowsInline.add(rowInline);
         markupInline.setKeyboard(rowsInline);
