@@ -17,7 +17,7 @@ public class AccountsCallback implements Callback {
     private final SendBotMessageService sendBotMessageService;
     private final TelegramUserService telegramUserService;
 
-    public String ACCOUNTS_MESSAGE = "Счета:\n";
+    public String ACCOUNTS_MESSAGE = "Счета:";
 
     public AccountsCallback(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService) {
         this.sendBotMessageService = sendBotMessageService;
@@ -47,9 +47,13 @@ public class AccountsCallback implements Callback {
         Optional<TelegramUser> telegramUser = telegramUserService.findById(getUserId(update));
         if (telegramUser.isPresent()) {
             accounts = telegramUser.get().getAccounts();
-        }
-        for (Account account: accounts) {
-            ACCOUNTS_MESSAGE += account.getTitle();
+            if (accounts.isEmpty()) {
+                ACCOUNTS_MESSAGE += "\nНет счетов";
+            } else {
+                for (Account account : accounts) {
+                    ACCOUNTS_MESSAGE += "\n" + account.getTitle() + " " + account.getDescription();
+                }
+            }
         }
         sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), ACCOUNTS_MESSAGE, markupInline);
     }
