@@ -54,6 +54,8 @@ public class AccountsCallback implements Callback {
                     ACCOUNTS_MESSAGE += "\n" + account.getTitle() + " " + account.getDescription();
                 }
             }
+        } else {
+            ACCOUNTS_MESSAGE += "\nПользователь не найде";
         }
         sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), ACCOUNTS_MESSAGE, markupInline);
     }
