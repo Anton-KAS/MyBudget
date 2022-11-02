@@ -54,7 +54,9 @@ public class AccountsCallback implements Callback {
         System.out.println("TELEGRAM USER: " + telegramUser);
         if (telegramUser.isPresent()) {
             System.out.println("TELEGRAM USER IS PRESENT");
-            List<Account> accounts = telegramUser.get().getAccounts();
+            TelegramUser actualTelegramUser = telegramUser.get();
+            //List<Account> accounts = telegramUser.get().getAccounts();
+            List<Account> accounts = actualTelegramUser.getAccounts();
             System.out.println("GOT Accounts list");
             //System.out.println("ACCOUNTS: " + accounts);
 
