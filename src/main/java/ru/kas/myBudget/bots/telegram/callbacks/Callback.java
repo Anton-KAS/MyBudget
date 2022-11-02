@@ -6,7 +6,7 @@ public interface Callback {
     void execute(Update update);
 
     default long getUserId(Update update) {
-        return update.getCallbackQuery().getMessage().getFrom().getId();
+        return update.getCallbackQuery().getFrom().getId();
     }
 
     default long getChatId(Update update) {
