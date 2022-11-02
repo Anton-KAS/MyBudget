@@ -5,12 +5,10 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageService;
 import ru.kas.myBudget.models.Account;
-import ru.kas.myBudget.models.TelegramUser;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class AccountsCallback implements Callback {
 
@@ -46,6 +44,7 @@ public class AccountsCallback implements Callback {
 
         sendMessage = ACCOUNTS_MESSAGE;
 
+        System.out.println("USER ID: " + getUserId(update));
         telegramUserService.findById(getUserId(update)).ifPresentOrElse(
                 user -> {
                     List<Account> accounts = user.getAccounts();
