@@ -33,7 +33,7 @@ public class Account {
     @JoinColumn(name = "type_id", referencedColumnName = "id")
     private AccountType accountType;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "bank_id", referencedColumnName = "id")
     private Bank bank;
 

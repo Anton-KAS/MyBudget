@@ -53,13 +53,15 @@ public class AccountsCallback implements Callback {
         Optional<TelegramUser> telegramUser = telegramUserService.findById(getUserId(update));
         System.out.println("TELEGRAM USER: " + telegramUser);
         if (telegramUser.isPresent()) {
+            System.out.println("TELEGRAM USER IS PRESENT");
             List<Account> accounts = telegramUser.get().getAccounts();
-            System.out.println("ACCOUNTS: ");
-            System.out.println(accounts);
+            System.out.println("ACCOUNTS: " + accounts);
 
             if (accounts.isEmpty()) {
+                System.out.println("ACCOUNTS IS EMPTY");
                 sendMessage = sendMessage + "\n Нет счетов";
             } else {
+
                 int n = 1;
                 for (Account account : accounts) {
                     System.out.println(account);
@@ -70,6 +72,7 @@ public class AccountsCallback implements Callback {
                 }
             }
         } else {
+            System.out.println("TELEGRAM USER NOT FOUND");
             sendMessage = sendMessage + "\n Пользователь не найден";
         }
         sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), sendMessage, markupInline);
