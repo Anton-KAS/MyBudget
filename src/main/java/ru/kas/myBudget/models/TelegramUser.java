@@ -196,6 +196,7 @@ public class TelegramUser {
                 ", createdAt=" + createdAt +
                 ", lastActive=" + lastActive +
                 ", active=" + active +
+                ", accounts=" + accounts +
                 '}';
     }
 }
