@@ -40,43 +40,31 @@ public class AccountsCallback implements Callback {
         inlineKeyboardButton.setCallbackData("accounts_addAccount");
         rowInline.add(inlineKeyboardButton);
 
+        List<InlineKeyboardButton> rowInline2 = new ArrayList<>();
         InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
         inlineKeyboardButton2.setText("<- Назад");
         inlineKeyboardButton2.setCallbackData("accounts_menu");
-        rowInline.add(inlineKeyboardButton2);
+        rowInline2.add(inlineKeyboardButton2);
 
         rowsInline.add(rowInline);
+        rowsInline.add(rowInline2);
         markupInline.setKeyboard(rowsInline);
 
         sendMessage = ACCOUNTS_MESSAGE;
-
-        System.out.println("USER ID: " + getUserId(update));
         Optional<TelegramUser> telegramUser = telegramUserService.findById(getUserId(update));
-        System.out.println("TELEGRAM USER: " + telegramUser);
         if (telegramUser.isPresent()) {
-            System.out.println("TELEGRAM USER IS PRESENT");
-            //TelegramUser actualTelegramUser = telegramUser.get();
-            //List<Account> accounts = telegramUser.get().getAccounts();
             List<Account> accounts = telegramUser.get().getAccounts();
-            System.out.println("GOT Accounts list");
-            //System.out.println("ACCOUNTS: " + accounts);
 
             if (accounts.isEmpty()) {
-                System.out.println("ACCOUNTS IS EMPTY");
                 sendMessage = sendMessage + "\n Нет счетов";
             } else {
-                System.out.println("ACCOUNTS IS NOT EMPTY");
                 int n = 1;
                 for (Account account : accounts) {
-                    //System.out.println(account);
-                    System.out.println("TITLE: " + account.getTitle());
-                    System.out.println("DESCRIPTION: " + account.getDescription());
                     sendMessage = sendMessage + "\n" + n + " - " + account.getTitle() + " - " + account.getDescription();
                     n++;
                 }
             }
         } else {
-            System.out.println("TELEGRAM USER NOT FOUND");
             sendMessage = sendMessage + "\n Пользователь не найден";
         }
         sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), sendMessage, markupInline);
