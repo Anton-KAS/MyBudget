@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kas.myBudget.models.WebUser;
 import ru.kas.myBudget.repositories.WebUserRepository;
 import ru.kas.myBudget.security.WebUserDetails;
@@ -12,6 +13,7 @@ import ru.kas.myBudget.security.WebUserDetails;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class WebUserDetailsService implements UserDetailsService {
     private final WebUserRepository webUserRepository;
 

@@ -52,6 +52,14 @@ public class Currency {
         this.numberToBasic = numberToBasic;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getCurrencyEn() {
         return currencyEn;
     }
