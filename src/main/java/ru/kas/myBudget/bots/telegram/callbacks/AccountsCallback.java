@@ -1,5 +1,6 @@
 package ru.kas.myBudget.bots.telegram.callbacks;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -29,6 +30,7 @@ public class AccountsCallback implements Callback {
     }
 
     @Override
+    @Transactional
     public void execute(Update update) {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
@@ -54,9 +56,9 @@ public class AccountsCallback implements Callback {
         System.out.println("TELEGRAM USER: " + telegramUser);
         if (telegramUser.isPresent()) {
             System.out.println("TELEGRAM USER IS PRESENT");
-            TelegramUser actualTelegramUser = telegramUser.get();
+            //TelegramUser actualTelegramUser = telegramUser.get();
             //List<Account> accounts = telegramUser.get().getAccounts();
-            List<Account> accounts = actualTelegramUser.getAccounts();
+            List<Account> accounts = telegramUser.get().getAccounts();
             System.out.println("GOT Accounts list");
             //System.out.println("ACCOUNTS: " + accounts);
 
