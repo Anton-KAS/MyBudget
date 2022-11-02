@@ -56,10 +56,11 @@ public class AccountsCallback implements Callback {
             List<Account> accounts = telegramUser.get().getAccounts();
             System.out.println("ACCOUNTS: ");
             System.out.println(accounts);
-            int n = 1;
+
             if (accounts.isEmpty()) {
                 sendMessage = sendMessage + "\n Нет счетов";
             } else {
+                int n = 1;
                 for (Account account : accounts) {
                     System.out.println(account);
                     System.out.println("TITLE: " + account.getTitle());
