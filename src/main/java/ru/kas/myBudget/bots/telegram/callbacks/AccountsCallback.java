@@ -45,6 +45,7 @@ public class AccountsCallback implements Callback {
         sendMessage = ACCOUNTS_MESSAGE;
 
         System.out.println("USER ID: " + getUserId(update));
+        System.out.println(update);
         telegramUserService.findById(getUserId(update)).ifPresentOrElse(
                 user -> {
                     List<Account> accounts = user.getAccounts();
