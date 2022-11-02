@@ -30,7 +30,6 @@ public class AccountsCallback implements Callback {
     }
 
     @Override
-    @Transactional
     public void execute(Update update) {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
