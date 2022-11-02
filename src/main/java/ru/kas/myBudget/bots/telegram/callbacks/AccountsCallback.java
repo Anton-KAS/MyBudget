@@ -17,7 +17,8 @@ public class AccountsCallback implements Callback {
     private final SendBotMessageService sendBotMessageService;
     private final TelegramUserService telegramUserService;
 
-    public String ACCOUNTS_MESSAGE = "Счета:";
+    public final static String ACCOUNTS_MESSAGE = "Счета:";
+    public String sendMessage = ACCOUNTS_MESSAGE;
 
     public AccountsCallback(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService) {
         this.sendBotMessageService = sendBotMessageService;
@@ -43,20 +44,23 @@ public class AccountsCallback implements Callback {
         rowsInline.add(rowInline);
         markupInline.setKeyboard(rowsInline);
 
-        List<Account> accounts = new ArrayList<>();
-        Optional<TelegramUser> telegramUser = telegramUserService.findById(getUserId(update));
-        if (telegramUser.isPresent()) {
-            accounts = telegramUser.get().getAccounts();
-            if (accounts.isEmpty()) {
-                ACCOUNTS_MESSAGE += "\nНет счетов";
-            } else {
-                for (Account account : accounts) {
-                    ACCOUNTS_MESSAGE += "\n" + account.getTitle() + " " + account.getDescription();
+        sendMessage = ACCOUNTS_MESSAGE;
+
+        telegramUserService.findById(getUserId(update)).ifPresentOrElse(
+                user -> {
+                    List<Account> accounts = user.getAccounts();
+                    if (accounts.isEmpty()) {
+                        sendMessage += "\nНет счетов";
+                    } else {
+                        for (Account account: accounts) {
+                            sendMessage += "\n" + account.getTitle() + " - " + account.getDescription();
+                        }
+                    }
+                },
+                () -> {
+                    sendMessage += "\nПользователь не найден";
                 }
-            }
-        } else {
-            ACCOUNTS_MESSAGE += "\nПользователь не найде";
-        }
-        sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), ACCOUNTS_MESSAGE, markupInline);
+        );
+        sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), sendMessage, markupInline);
     }
 }
