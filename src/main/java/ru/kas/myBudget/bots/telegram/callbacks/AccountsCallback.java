@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageService;
 import ru.kas.myBudget.models.Account;
+import ru.kas.myBudget.services.AccountService;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.ArrayList;
@@ -14,13 +15,15 @@ public class AccountsCallback implements Callback {
 
     private final SendBotMessageService sendBotMessageService;
     private final TelegramUserService telegramUserService;
+    private final AccountService accountService;
 
     public final static String ACCOUNTS_MESSAGE = "Счета:";
     public String sendMessage = ACCOUNTS_MESSAGE;
 
-    public AccountsCallback(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService) {
+    public AccountsCallback(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService, AccountService accountService) {
         this.sendBotMessageService = sendBotMessageService;
         this.telegramUserService = telegramUserService;
+        this.accountService = accountService;
     }
 
     @Override
@@ -46,21 +49,30 @@ public class AccountsCallback implements Callback {
 
         System.out.println("USER ID: " + getUserId(update));
         System.out.println(update);
-        telegramUserService.findById(getUserId(update)).ifPresentOrElse(
-                user -> {
-                    List<Account> accounts = user.getAccounts();
-                    if (accounts.isEmpty()) {
-                        sendMessage += "\nНет счетов";
-                    } else {
-                        for (Account account: accounts) {
-                            sendMessage += "\n" + account.getTitle() + " - " + account.getDescription();
-                        }
-                    }
-                },
-                () -> {
-                    sendMessage += "\nПользователь не найден";
-                }
-        );
-        sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), sendMessage, markupInline);
+        List<Account> accounts = accountService.findAllByTelegramUserId(getUserId(update));
+        if (accounts.isEmpty()) {
+            sendMessage += "\nНет счетов";
+        } else {
+            for (Account account : accounts) {
+                sendMessage += "\n" + account.getTitle() + " - " + account.getDescription();
+            }
+        }
+
+//        telegramUserService.findById(getUserId(update)).ifPresentOrElse(
+//                user -> {
+//                    List<Account> accounts = user.getAccounts();
+//                    if (accounts.isEmpty()) {
+//                        sendMessage += "\nНет счетов";
+//                    } else {
+//                        for (Account account: accounts) {
+//                            sendMessage += "\n" + account.getTitle() + " - " + account.getDescription();
+//                        }
+//                    }
+//                },
+//                () -> {
+//                    sendMessage += "\nПользователь не найден";
+//                }
+//        );
+            sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), sendMessage, markupInline);
+        }
     }
-}

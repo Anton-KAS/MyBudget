@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.commands.CommandContainer;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageServiceImpl;
+import ru.kas.myBudget.services.AccountService;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandName.NO;
@@ -27,9 +28,9 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final CallbackContainer callbackContainer;
 
     @Autowired
-    public TelegramBot(TelegramUserService telegramUserService) {
+    public TelegramBot(TelegramUserService telegramUserService, AccountService accountService) {
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), telegramUserService);
-        this.callbackContainer = new CallbackContainer(new SendBotMessageServiceImpl(this), telegramUserService);
+        this.callbackContainer = new CallbackContainer(new SendBotMessageServiceImpl(this), telegramUserService, accountService);
     }
 
     @Override
