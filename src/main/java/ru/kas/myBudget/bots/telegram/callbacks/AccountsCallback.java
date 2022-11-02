@@ -55,20 +55,21 @@ public class AccountsCallback implements Callback {
         if (telegramUser.isPresent()) {
             List<Account> accounts = telegramUser.get().getAccounts();
             System.out.println("ACCOUNTS: ");
+            System.out.println(accounts);
             int n = 1;
             if (accounts.isEmpty()) {
-                sendMessage += "\n Нет счетов";
+                sendMessage = sendMessage + "\n Нет счетов";
             } else {
                 for (Account account : accounts) {
                     System.out.println(account);
                     System.out.println("TITLE: " + account.getTitle());
                     System.out.println("DESCRIPTION: " + account.getDescription());
-                    sendMessage += "\n" + n + " - " + account.getTitle() + " - " + account.getDescription();
+                    sendMessage = sendMessage + "\n" + n + " - " + account.getTitle() + " - " + account.getDescription();
                     n++;
                 }
             }
         } else {
-            sendMessage += "\n Пользователь не найден";
+            sendMessage = sendMessage + "\n Пользователь не найден";
         }
         sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), sendMessage, markupInline);
     }
