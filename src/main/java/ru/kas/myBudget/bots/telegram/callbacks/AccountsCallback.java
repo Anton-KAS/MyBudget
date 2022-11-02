@@ -56,16 +56,16 @@ public class AccountsCallback implements Callback {
             System.out.println("TELEGRAM USER IS PRESENT");
             List<Account> accounts = telegramUser.get().getAccounts();
             System.out.println("GOT Accounts list");
-            System.out.println("ACCOUNTS: " + accounts);
+            //System.out.println("ACCOUNTS: " + accounts);
 
             if (accounts.isEmpty()) {
                 System.out.println("ACCOUNTS IS EMPTY");
                 sendMessage = sendMessage + "\n Нет счетов";
             } else {
-
+                System.out.println("ACCOUNTS IS NOT EMPTY");
                 int n = 1;
                 for (Account account : accounts) {
-                    System.out.println(account);
+                    //System.out.println(account);
                     System.out.println("TITLE: " + account.getTitle());
                     System.out.println("DESCRIPTION: " + account.getDescription());
                     sendMessage = sendMessage + "\n" + n + " - " + account.getTitle() + " - " + account.getDescription();
