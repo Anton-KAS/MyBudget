@@ -18,16 +18,8 @@ public interface Keyboard {
         return inlineKeyboardButton;
     }
 
-    default List<InlineKeyboardButton> getButtonRow(InlineKeyboardButton ... inlineKeyboardButtons) {
-        return new ArrayList<>(Arrays.asList(inlineKeyboardButtons));
-    }
-
-    default InlineKeyboardMarkup getInlineKeyboard(List<InlineKeyboardButton> ... inlineKeyboardButtonsLines) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-        Collections.addAll(rowsInline, inlineKeyboardButtonsLines);
-        inlineKeyboardMarkup.setKeyboard(rowsInline);
-        return inlineKeyboardMarkup;
+    default InlineKeyboardButton getReturnButton(String from, String to) {
+        return getButton("<- Назад", from + "_" + to);
     }
 
     default InlineKeyboardButton getCloseButton(String from) {

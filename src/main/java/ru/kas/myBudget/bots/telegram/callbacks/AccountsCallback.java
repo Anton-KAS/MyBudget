@@ -4,6 +4,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import ru.kas.myBudget.bots.telegram.keyboards.AccountKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.InlineKeyboardBuilder;
+import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageService;
 import ru.kas.myBudget.models.Account;
 import ru.kas.myBudget.models.TelegramUser;
@@ -31,24 +34,7 @@ public class AccountsCallback implements Callback {
 
     @Override
     public void execute(Update update) {
-        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-
-        List<InlineKeyboardButton> rowInline = new ArrayList<>();
-        InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-        inlineKeyboardButton.setText("+ Добавить");
-        inlineKeyboardButton.setCallbackData("accounts_addAccount");
-        rowInline.add(inlineKeyboardButton);
-
-        List<InlineKeyboardButton> rowInline2 = new ArrayList<>();
-        InlineKeyboardButton inlineKeyboardButton2 = new InlineKeyboardButton();
-        inlineKeyboardButton2.setText("<- Назад");
-        inlineKeyboardButton2.setCallbackData("accounts_menu");
-        rowInline2.add(inlineKeyboardButton2);
-
-        rowsInline.add(rowInline);
-        rowsInline.add(rowInline2);
-        markupInline.setKeyboard(rowsInline);
+        InlineKeyboardMarkup markupInline = new AccountKeyboard().getKeyboard();
 
         sendMessage = ACCOUNTS_MESSAGE;
         Optional<TelegramUser> telegramUser = telegramUserService.findById(getUserId(update));
