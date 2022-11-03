@@ -30,6 +30,12 @@ public class TelegramUserServiceImpl implements TelegramUserService {
     }
 
     @Override
+    public void setLastActive(TelegramUser telegramUser) {
+        telegramUser.setLastActive(new Date());
+        telegramUserRepository.save(telegramUser);
+    }
+
+    @Override
     public List<TelegramUser> retrieveAllActiveUsers() {
         return telegramUserRepository.findAllByActiveTrue();
     }

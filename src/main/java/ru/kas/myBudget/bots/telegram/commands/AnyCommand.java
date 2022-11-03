@@ -4,18 +4,15 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.models.TelegramUser;
 import ru.kas.myBudget.services.TelegramUserService;
 
-public interface Command {
-    void execute(Update update);
+public class AnyCommand implements Command {
+    private final TelegramUserService telegramUserService;
 
-    default long getUserId(Update update) {
-        return update.getMessage().getFrom().getId();
+    public AnyCommand(TelegramUserService telegramUserService) {
+        this.telegramUserService = telegramUserService;
     }
 
-    default long getChatId(Update update) {
-        return update.getMessage().getChatId();
-    }
-
-    default void checkUserInDb(TelegramUserService telegramUserService, Update update) {
+    @Override
+    public void execute(Update update) {
         telegramUserService.findById(getUserId(update)).ifPresentOrElse(
                 telegramUserService::save,
                 () -> {

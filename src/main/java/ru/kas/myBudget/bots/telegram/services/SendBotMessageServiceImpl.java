@@ -3,8 +3,10 @@ package ru.kas.myBudget.bots.telegram.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 
 import static java.lang.Math.toIntExact;
@@ -47,6 +49,15 @@ public class SendBotMessageServiceImpl implements SendBotMessageService{
         editMessage.setReplyMarkup(markupInline);
 
         execute(telegramBot, editMessage);
+    }
+
+    @Override
+    public void deleteMessage(long chatId, long messageId) {
+        DeleteMessage deleteMessage = new DeleteMessage();
+        deleteMessage.setChatId(chatId);
+        deleteMessage.setMessageId(toIntExact(messageId));
+
+        execute(telegramBot, deleteMessage);
     }
 
     private SendMessage getSendMessage(long chatId, String message) {

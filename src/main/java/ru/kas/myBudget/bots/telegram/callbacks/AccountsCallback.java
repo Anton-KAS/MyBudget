@@ -33,8 +33,8 @@ public class AccountsCallback implements Callback {
     public void execute(Update update) {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-        List<InlineKeyboardButton> rowInline = new ArrayList<>();
 
+        List<InlineKeyboardButton> rowInline = new ArrayList<>();
         InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
         inlineKeyboardButton.setText("+ Добавить");
         inlineKeyboardButton.setCallbackData("accounts_addAccount");
@@ -68,5 +68,6 @@ public class AccountsCallback implements Callback {
             sendMessage = sendMessage + "\n Пользователь не найден";
         }
         sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), sendMessage, markupInline);
+        updateUserLastActiveInDb(telegramUserService, update);
     }
 }
