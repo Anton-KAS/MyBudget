@@ -17,8 +17,10 @@ public class InlineKeyboardBuilder {
         if (rowsInline == null) {
             rowsInline = new ArrayList<>();
         }
-        if (currentRow.size() != 0) {
-            rowsInline.add(currentRow);
+        if (currentRow != null) {
+            if (currentRow.size() != 0) {
+                rowsInline.add(currentRow);
+            }
         }
         currentRow = new ArrayList<>();
         return this;
@@ -38,8 +40,10 @@ public class InlineKeyboardBuilder {
     }
 
     public InlineKeyboardMarkup build() {
-        if (currentRow.size() != 0) {
-            addRow();
+        if (currentRow != null) {
+            if (currentRow.size() != 0) {
+                addRow();
+            }
         }
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         inlineKeyboardMarkup.setKeyboard(rowsInline);
