@@ -14,10 +14,10 @@ public class InlineKeyboardBuilder {
     }
 
     public InlineKeyboardBuilder addRow() {
-        if (rowsInline.isEmpty()) {
+        if (rowsInline == null) {
             rowsInline = new ArrayList<>();
         }
-        if (!currentRow.isEmpty()) {
+        if (currentRow.size() != 0) {
             rowsInline.add(currentRow);
         }
         currentRow = new ArrayList<>();
@@ -38,7 +38,7 @@ public class InlineKeyboardBuilder {
     }
 
     public InlineKeyboardMarkup build() {
-        if (!currentRow.isEmpty()) {
+        if (currentRow.size() != 0) {
             addRow();
         }
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
