@@ -12,26 +12,16 @@ public class MenuText implements MessageText {
     @Override
     public String getText(TelegramUserService telegramUserService, long userId) {
         Optional<TelegramUser> telegramUser = telegramUserService.findById(userId);
-        int accountNum = 0;
+        int accountCount = 0;
         if (telegramUser.isPresent()) {
-            accountNum = telegramUser.get().getAccounts().size();
+            accountCount = telegramUser.get().getAccounts().size();
         }
-        String accountText;
-        switch (accountNum) {
-            case 0:
-                accountText = "нет счетов";
-                break;
-            case 1:
-                accountText = accountNum + " счет";
-                break;
-            case 2:
-            case 3:
-            case 4:
-                accountText = accountNum + "счета";
-                break;
-            default:
-                accountText = accountNum + "счетов";
-
+        StringBuilder accountText = new StringBuilder();
+        switch (accountCount) {
+            case 0 -> accountText.append("нет счетов");
+            case 1 -> accountText.append(accountCount).append(" счет");
+            case 2, 3, 4 -> accountText.append(accountCount).append(" счета");
+            default -> accountText.append(accountCount).append(" счетов");
         }
         return String.format("Меню:\n" +
                 "У вас %s", accountText);

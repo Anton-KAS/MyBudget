@@ -2,7 +2,7 @@ package ru.kas.myBudget.bots.telegram.keyboards;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
-public class AccountKeyboard implements Keyboard{
+public class AccountsKeyboard implements Keyboard{
     public final String FROM = "account";
     public final String TO = "menu";
     public final String ADD_ACCOUNT_BUTTON_TEXT = "+ Добавить";
