@@ -25,7 +25,7 @@ public class AddAccountTitleDialog implements Command {
 
     @Override
     public void execute(Update update) {
-        String text = new AddAccountDescriptionText().getText();
+        String text = new AddAccountDescriptionText().getText(telegramUserService, getUserId(update));
         long chatId = getChatId(update);
 
         sendBotMessageService.sendMessage(chatId, text);
