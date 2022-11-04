@@ -12,6 +12,11 @@ public class AccountsText implements MessageText {
     }
 
     @Override
+    public String getText() {
+        return null;
+    }
+
+    @Override
     public String getText(TelegramUserService telegramUserService, long userId) {
         Optional<TelegramUser> telegramUser = telegramUserService.findById(userId);
         StringBuilder accountTextBuilder = new StringBuilder();

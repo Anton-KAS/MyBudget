@@ -15,6 +15,10 @@ public interface Command {
         return update.getMessage().getChatId();
     }
 
+    default String getMessageText(Update update) {
+        return update.getMessage().getText().trim();
+    }
+
     default void checkUserInDb(TelegramUserService telegramUserService, Update update) {
         telegramUserService.findById(getUserId(update)).ifPresentOrElse(
                 telegramUserService::save,

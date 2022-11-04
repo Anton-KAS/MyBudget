@@ -15,6 +15,7 @@ public class CallbackContainer {
     public CallbackContainer(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService, AccountService accountService) {
         callbackMap = ImmutableMap.<String, Callback>builder()
                 .put(ACCOUNTS.getCallbackName(), new AccountsCallback(sendBotMessageService, telegramUserService, accountService))
+                .put(ADD_ACCOUNT.getCallbackName(), new AccountsCallback(sendBotMessageService, telegramUserService, accountService))
                 .put(MENU.getCallbackName(), new MenuCallback(sendBotMessageService, telegramUserService))
                 .put(CLOSE.getCallbackName(), new CloseCallback(sendBotMessageService, telegramUserService))
                 .put(NO.getCallbackName(), new NoCallback(sendBotMessageService))

@@ -10,6 +10,11 @@ public class MenuText implements MessageText {
     }
 
     @Override
+    public String getText() {
+        return null;
+    }
+
+    @Override
     public String getText(TelegramUserService telegramUserService, long userId) {
         Optional<TelegramUser> telegramUser = telegramUserService.findById(userId);
         int accountCount = 0;
