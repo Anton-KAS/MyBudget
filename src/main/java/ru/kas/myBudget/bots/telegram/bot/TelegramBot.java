@@ -78,7 +78,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             System.out.println("Message id: " + message_id);
             System.out.println("Chat id: " + chat_id);
 
-            String callbackIdentifier = call_data.split("_")[1].toLowerCase();
+            String callbackIdentifier = call_data.split("_")[1];
             callbackContainer.retrieveCommand(callbackIdentifier).execute(update);
         }
 

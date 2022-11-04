@@ -18,7 +18,6 @@ public class AddAccountCallback implements Callback {
     private final TelegramUserService telegramUserService;
     private final AccountService accountService;
     private final Map<Long, Map<String, String>> dialogsMap;
-    private final String DIALOG_NAME = "addAccountTitle";
 
     public AddAccountCallback(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService, AccountService accountService) {
         this.sendBotMessageService = sendBotMessageService;
@@ -30,11 +29,12 @@ public class AddAccountCallback implements Callback {
     @Override
     public void execute(Update update) {
         String text = new AddAccountTitleText().getText();
+        long chatId = getChatId(update);
 
-        sendBotMessageService.sendMessage(getChatId(update), text);
+        sendBotMessageService.sendMessage(chatId, text);
         updateUserLastActiveInDb(telegramUserService, update);
 
-        dialogsMap.remove(getChatId(update));
+        dialogsMap.remove(chatId);
         Map<String, String> dialogSteps = new HashMap<>();
         dialogSteps.put(CURRENT_DIALOG_STEP.getDialogName(), ADD_ACCOUNT_TITLE.getDialogName());
         dialogsMap.put(getChatId(update), dialogSteps);
