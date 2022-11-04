@@ -8,6 +8,7 @@ import ru.kas.myBudget.models.WebUser;
 import ru.kas.myBudget.repositories.WebUserRepository;
 
 @Service
+@Transactional(readOnly = true)
 public class RegistrationService {
 
     public final WebUserRepository webUserRepository;

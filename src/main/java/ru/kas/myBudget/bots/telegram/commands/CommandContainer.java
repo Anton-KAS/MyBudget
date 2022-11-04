@@ -15,9 +15,10 @@ public class CommandContainer {
         commandMap = ImmutableMap.<String, Command>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, telegramUserService))
                 .put(STOP.getCommandName(), new StopCommand(sendBotMessageService, telegramUserService))
-                .put(HELP.getCommandName(), new HelpCommand(sendBotMessageService))
+                .put(HELP.getCommandName(), new HelpCommand(sendBotMessageService, telegramUserService))
                 .put(NO.getCommandName(), new NoCommand(sendBotMessageService))
                 .put(STAT.getCommandName(), new StatCommand(sendBotMessageService, telegramUserService))
+                .put(MENU.getCommandName(), new MenuCommand(sendBotMessageService, telegramUserService))
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);

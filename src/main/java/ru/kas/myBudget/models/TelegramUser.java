@@ -52,7 +52,7 @@ public class TelegramUser {
     public TelegramUser() {
     }
 
-    public TelegramUser(long id, long chat_id, String username, String firstName, String lastName, String languageCode, boolean isPremium, Date createdAt, Date lastActive, boolean active, WebUser webUser) {
+    public TelegramUser(long id, long chat_id, String username, String firstName, String lastName, String languageCode, Boolean isPremium, Date createdAt, Date lastActive, boolean active, WebUser webUser, List<Account> accounts) {
         this.id = id;
         this.chat_id = chat_id;
         this.username = username;
@@ -64,6 +64,7 @@ public class TelegramUser {
         this.lastActive = lastActive;
         this.active = active;
         this.webUser = webUser;
+        this.accounts = accounts;
     }
 
     public TelegramUser(Update update) {
@@ -196,6 +197,7 @@ public class TelegramUser {
                 ", createdAt=" + createdAt +
                 ", lastActive=" + lastActive +
                 ", active=" + active +
+                ", accounts=" + accounts +
                 '}';
     }
 }

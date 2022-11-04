@@ -20,5 +20,6 @@ public class StatCommand implements Command {
     public void execute(Update update) {
         int activeUserCount = telegramUserService.retrieveAllActiveUsers().size();
         sendBotMessageService.sendMessage(getChatId(update), String.format(STAT_MESSAGE, activeUserCount));
+        checkUserInDb(telegramUserService, update);
     }
 }

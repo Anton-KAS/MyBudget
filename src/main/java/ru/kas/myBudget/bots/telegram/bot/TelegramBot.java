@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.commands.CommandContainer;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageServiceImpl;
+import ru.kas.myBudget.services.AccountService;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandName.NO;
@@ -23,10 +25,12 @@ public class TelegramBot extends TelegramLongPollingBot {
     private String token;
 
     private final CommandContainer commandContainer;
+    private final CallbackContainer callbackContainer;
 
     @Autowired
-    public TelegramBot(TelegramUserService telegramUserService) {
+    public TelegramBot(TelegramUserService telegramUserService, AccountService accountService) {
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), telegramUserService);
+        this.callbackContainer = new CallbackContainer(new SendBotMessageServiceImpl(this), telegramUserService, accountService);
     }
 
     @Override
@@ -52,6 +56,17 @@ public class TelegramBot extends TelegramLongPollingBot {
             } else {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
             }
+        } else if (update.hasCallbackQuery()) {
+            String call_data = update.getCallbackQuery().getData();
+            long message_id = update.getCallbackQuery().getMessage().getMessageId();
+            long chat_id = update.getCallbackQuery().getMessage().getChatId();
+
+            System.out.println("Call data: " + call_data);
+            System.out.println("Message id: " + message_id);
+            System.out.println("Chat id: " + chat_id);
+
+            String callbackIdentifier = call_data.split("_")[1].toLowerCase();
+            callbackContainer.retrieveCommand(callbackIdentifier).execute(update);
         }
     }
 }
