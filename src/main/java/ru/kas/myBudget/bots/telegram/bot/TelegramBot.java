@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.commands.CommandContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogContainer;
+import ru.kas.myBudget.bots.telegram.dialogs.DialogName;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageServiceImpl;
 import ru.kas.myBudget.services.AccountService;
@@ -64,7 +65,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 String commandIdentifier = message_text.split(" ")[0].toLowerCase();
                 commandContainer.retrieveCommand(commandIdentifier).execute(update);
             } else if (dialogsMap.containsKey(chatId)) {
-                String dialogIdentifier = dialogsMap.get(chatId).get("currentStep");
+                String dialogIdentifier = dialogsMap.get(chatId).get(DialogName.CURRENT_DIALOG_STEP.getDialogName());
                 dialogContainer.retrieveDialog(dialogIdentifier).execute(update);
             } else {
                 commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
