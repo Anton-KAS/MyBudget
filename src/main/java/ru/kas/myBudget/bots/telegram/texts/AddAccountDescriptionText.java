@@ -21,7 +21,7 @@ public class AddAccountDescriptionText implements MessageText {
         String title = Objects.requireNonNull(DialogsMap.getDialogMap(userId)).get(DialogName.ADD_ACCOUNT_TITLE.getDialogName());
         return "<b>Добавление счета\n</b>" +
                 "1. название: " + title + "\n" +
-                "2. Введите описание:" +
+                "2. Введите описание:\n" +
                 "<i>(для отмены введите /back)</i>";
     }
 }
