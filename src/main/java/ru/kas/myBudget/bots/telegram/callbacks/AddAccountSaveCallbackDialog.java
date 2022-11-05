@@ -1,6 +1,7 @@
 package ru.kas.myBudget.bots.telegram.callbacks;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.kas.myBudget.bots.telegram.commands.AccountsCommand;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.SaveDialogText;
@@ -57,6 +58,6 @@ public class AddAccountSaveCallbackDialog implements Callback {
 
         accountService.save(account);
 
-        new AccountsCallback(sendBotMessageService, telegramUserService, accountService).execute(update);
+        new AccountsCommand(sendBotMessageService, telegramUserService).execute(update);
     }
 }
