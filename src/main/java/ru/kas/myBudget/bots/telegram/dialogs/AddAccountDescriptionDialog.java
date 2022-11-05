@@ -4,16 +4,15 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.commands.Command;
 import ru.kas.myBudget.bots.telegram.keyboards.CurrenciesKeyboard;
-import ru.kas.myBudget.bots.telegram.keyboards.MenuKeyboard;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.AddAccountCurrencyText;
-import ru.kas.myBudget.bots.telegram.texts.AddAccountDescriptionText;
 import ru.kas.myBudget.services.CurrencyService;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogName.*;
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackName.*;
 
 public class AddAccountDescriptionDialog implements Command {
 
@@ -35,7 +34,7 @@ public class AddAccountDescriptionDialog implements Command {
 
         Map<String, String> dialogSteps = dialogsMap.get(chatId);
         dialogSteps.put(dialogSteps.get(CURRENT_DIALOG_STEP.getDialogName()), getMessageText(update));
-        dialogSteps.replace(CURRENT_DIALOG_STEP.getDialogName(), ADD_ACCOUNT_CURRENCY.getDialogName());
+        dialogSteps.replace(CURRENT_DIALOG_STEP.getDialogName(), ADD_ACCOUNT_CURRENCY.getCallbackName());
 
         String text = new AddAccountCurrencyText(getUserId(update)).getText();
         InlineKeyboardMarkup inlineKeyboardMarkup = new CurrenciesKeyboard(currencyService).getKeyboard();

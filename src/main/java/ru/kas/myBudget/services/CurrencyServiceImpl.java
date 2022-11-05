@@ -7,6 +7,7 @@ import ru.kas.myBudget.models.Currency;
 import ru.kas.myBudget.repositories.CurrencyRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,5 +23,10 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public List<Currency> findAll() {
         return currencyRepository.findAll();
+    }
+
+    @Override
+    public Optional<Currency> findById(int currencyId) {
+        return currencyRepository.findById(currencyId);
     }
 }

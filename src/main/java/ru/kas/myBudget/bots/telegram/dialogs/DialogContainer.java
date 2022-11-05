@@ -13,11 +13,14 @@ public class DialogContainer {
     private final ImmutableMap<String, Command> dialogMap;
     private final Command unknownCommand;
 
-    public DialogContainer(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService, CurrencyService currencyService) {
+    public DialogContainer(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService,
+                           CurrencyService currencyService) {
         dialogMap = ImmutableMap.<String, Command>builder()
-                .put(ADD_ACCOUNT_TITLE.getDialogName(), new AddAccountTitleDialog(sendBotMessageService, telegramUserService))
-                .put(ADD_ACCOUNT_DESCRIPTION.getDialogName(), new AddAccountDescriptionDialog(sendBotMessageService, telegramUserService, currencyService))
-                .put(ADD_ACCOUNT_CURRENCY.getDialogName(), new AddAccountDescriptionDialog(sendBotMessageService, telegramUserService, currencyService))
+                .put(ADD_ACCOUNT_TITLE.getDialogName(),
+                        new AddAccountTitleDialog(sendBotMessageService, telegramUserService))
+                .put(ADD_ACCOUNT_DESCRIPTION.getDialogName(),
+                        new AddAccountDescriptionDialog(sendBotMessageService, telegramUserService, currencyService))
+
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService);
