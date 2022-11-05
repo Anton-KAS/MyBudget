@@ -11,10 +11,7 @@ import ru.kas.myBudget.bots.telegram.dialogs.DialogContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogName;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageServiceImpl;
-import ru.kas.myBudget.services.AccountService;
-import ru.kas.myBudget.services.AccountTypeService;
-import ru.kas.myBudget.services.CurrencyService;
-import ru.kas.myBudget.services.TelegramUserService;
+import ru.kas.myBudget.services.*;
 
 import java.util.Map;
 
@@ -38,12 +35,13 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Autowired
     public TelegramBot(TelegramUserService telegramUserService, AccountService accountService,
-                       CurrencyService currencyService, AccountTypeService accountTypeService) {
+                       CurrencyService currencyService, AccountTypeService accountTypeService,
+                       BankService bankService) {
         this.commandContainer = new CommandContainer(
                 new SendBotMessageServiceImpl(this), telegramUserService);
         this.callbackContainer = new CallbackContainer(
                 new SendBotMessageServiceImpl(this),
-                telegramUserService, accountService, currencyService, accountTypeService);
+                telegramUserService, accountService, currencyService, accountTypeService, bankService);
         this.dialogContainer = new DialogContainer(
                 new SendBotMessageServiceImpl(this), telegramUserService, currencyService);
         this.dialogsMap = DialogsMap.getDialogsMap();

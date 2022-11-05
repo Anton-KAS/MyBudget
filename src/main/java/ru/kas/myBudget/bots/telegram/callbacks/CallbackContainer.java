@@ -2,10 +2,7 @@ package ru.kas.myBudget.bots.telegram.callbacks;
 
 import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.services.SendBotMessageService;
-import ru.kas.myBudget.services.AccountService;
-import ru.kas.myBudget.services.AccountTypeService;
-import ru.kas.myBudget.services.CurrencyService;
-import ru.kas.myBudget.services.TelegramUserService;
+import ru.kas.myBudget.services.*;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackName.*;
 
@@ -16,7 +13,7 @@ public class CallbackContainer {
 
     public CallbackContainer(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService,
                              AccountService accountService, CurrencyService currencyService,
-                             AccountTypeService accountTypeService) {
+                             AccountTypeService accountTypeService, BankService bankService) {
         callbackMap = ImmutableMap.<String, Callback>builder()
                 .put(ACCOUNTS.getCallbackName(),
                         new AccountsCallback(sendBotMessageService, telegramUserService, accountService))
@@ -28,6 +25,9 @@ public class CallbackContainer {
                 .put(ADD_ACCOUNT_CURRENCY.getCallbackName(),
                         new AddAccountCurrencyCallbackDialog(sendBotMessageService, telegramUserService,
                                 currencyService, accountTypeService))
+                .put(ADD_ACCOUNT_TYPE.getCallbackName(),
+                        new AddAccountTypeCallbackDialog(sendBotMessageService, telegramUserService,
+                                currencyService, accountTypeService, bankService))
                 .build();
 
         unknownCommand = new UnknownCallback(sendBotMessageService);

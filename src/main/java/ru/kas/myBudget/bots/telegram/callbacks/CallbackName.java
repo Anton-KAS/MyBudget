@@ -6,6 +6,7 @@ public enum CallbackName {
     ADD_ACCOUNT("addAccount"),
     ADD_ACCOUNT_CURRENCY("addAccCurrency"),
     ADD_ACCOUNT_TYPE("addAccType"),
+    ADD_ACCOUNT_BANK("addAccBank"),
     CLOSE("close"),
     NO("");
 
