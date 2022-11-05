@@ -8,13 +8,10 @@ public class AddAccountTitleText implements MessageText {
 
     @Override
     public String getText() {
-        return "<b>Добавление счета\n</b>" +
-                "1. Введите название счета:\n" +
-                "<i>(для отмены введите /back)</i>";
-    }
+        return """
+                <b>Добавление счета</b>
 
-    @Override
-    public String getText(TelegramUserService telegramUserService, long userId) {
-        return null;
+                <b>1. Введите название счета:</b>
+                <i>(для отмены введите /back)</i>""";
     }
 }

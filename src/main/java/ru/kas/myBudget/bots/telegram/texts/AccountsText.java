@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Optional;
 
 public class AccountsText implements MessageText {
-    public AccountsText() {
+    private final TelegramUserService telegramUserService;
+    private final Long userId;
+
+    public AccountsText(TelegramUserService telegramUserService, Long userId) {
+        this.telegramUserService = telegramUserService;
+        this.userId = userId;
     }
 
     @Override
     public String getText() {
-        return null;
-    }
-
-    @Override
-    public String getText(TelegramUserService telegramUserService, long userId) {
         Optional<TelegramUser> telegramUser = telegramUserService.findById(userId);
         StringBuilder accountTextBuilder = new StringBuilder();
         if (telegramUser.isPresent()) {

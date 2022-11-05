@@ -19,7 +19,7 @@ public class MenuCommand implements Command {
 
     @Override
     public void execute(Update update) {
-        String text = new MenuText().getText(telegramUserService, getUserId(update));
+        String text = new MenuText(telegramUserService, getUserId(update)).getText();
         InlineKeyboardMarkup markupInline = new MenuKeyboard().getKeyboard();
 
         sendBotMessageService.sendMessageWithInlineKeyboard(getChatId(update), text, markupInline);

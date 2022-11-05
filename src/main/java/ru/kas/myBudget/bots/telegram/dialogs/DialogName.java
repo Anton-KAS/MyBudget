@@ -4,6 +4,7 @@ public enum DialogName {
     CURRENT_DIALOG_STEP("currentStep"),
     ADD_ACCOUNT_TITLE("addAccountTitle"),
     ADD_ACCOUNT_DESCRIPTION("addAccountDescription"),
+    ADD_ACCOUNT_CURRENCY("addAccountCurrency"),
     NO("");
 
     private final String dialogName;
