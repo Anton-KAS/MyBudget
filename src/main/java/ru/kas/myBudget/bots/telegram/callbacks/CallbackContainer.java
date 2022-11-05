@@ -28,6 +28,14 @@ public class CallbackContainer {
                 .put(ADD_ACCOUNT_TYPE.getCallbackName(),
                         new AddAccountTypeCallbackDialog(sendBotMessageService, telegramUserService,
                                 currencyService, accountTypeService, bankService))
+                .put(ADD_ACCOUNT_BANK.getCallbackName(),
+                        new AddAccountBankCallbackDialog(sendBotMessageService, telegramUserService,
+                                currencyService, accountTypeService, bankService))
+                .put(ADD_ACCOUNT_SAVE.getCallbackName(),
+                        new AddAccountSaveCallbackDialog(sendBotMessageService, telegramUserService,
+                                currencyService, accountTypeService, bankService, accountService))
+                .put(CANCEL_DIALOG.getCallbackName(),
+                        new CancelCallbackDialog(sendBotMessageService, telegramUserService))
                 .build();
 
         unknownCommand = new UnknownCallback(sendBotMessageService);

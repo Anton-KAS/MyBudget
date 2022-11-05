@@ -4,22 +4,27 @@ import ru.kas.myBudget.bots.telegram.callbacks.CallbackName;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogName;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.models.AccountType;
+import ru.kas.myBudget.models.Bank;
 import ru.kas.myBudget.models.Currency;
 import ru.kas.myBudget.services.AccountTypeService;
+import ru.kas.myBudget.services.BankService;
 import ru.kas.myBudget.services.CurrencyService;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-public class AddAccountBankText implements MessageText {
+public class AddAccountEndText implements MessageText {
     private final CurrencyService currencyService;
     private final AccountTypeService accountTypeService;
+    private final BankService bankService;
     private final Long userId;
 
-    public AddAccountBankText(CurrencyService currencyService, AccountTypeService accountTypeService, Long userId) {
+    public AddAccountEndText(CurrencyService currencyService, AccountTypeService accountTypeService,
+                             BankService bankService, Long userId) {
         this.currencyService = currencyService;
         this.accountTypeService = accountTypeService;
+        this.bankService = bankService;
         this.userId = userId;
     }
 
@@ -37,12 +42,16 @@ public class AddAccountBankText implements MessageText {
         Optional<AccountType> accountType = accountTypeService.findById(accountTypeId);
         assert accountType.isPresent();
 
+        int bankId = Integer.parseInt(dialogMap.get(CallbackName.ADD_ACCOUNT_BANK.getCallbackName()));
+        Optional<Bank> bank = bankService.findById(bankId);
+        assert bank.isPresent();
+
         return "<b>Добавление счета</b>\n\n" +
                 "1. Название: " + title + "\n" +
                 "2. Описание: " + description + "\n" +
                 "3. Валюта: " + currency.get().getSymbol() + " - " + currency.get().getCurrencyRu() + "\n" +
                 "4. Tип счета: " + accountType.get().getTitleRu() + "\n" +
-                "5. <b>Выберете банк:</b>\n" +
-                "<i>(для отмены введите /back)</i>";
+                "5. Банк: " + bank.get().getTitleRu() + " (" + bank.get().getCountry().getTitleRu() + ")\n" +
+                "\n<b>Всё готово! Сохранить?</b>";
     }
 }
