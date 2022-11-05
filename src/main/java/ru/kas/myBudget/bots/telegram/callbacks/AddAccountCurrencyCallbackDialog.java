@@ -22,6 +22,7 @@ public class AddAccountCurrencyCallbackDialog implements Callback {
     private final CurrencyService currencyService;
     private final AccountTypeService accountTypeService;
     private final Map<Long, Map<String, String>> dialogsMap;
+    private final static int CURRENCY_ID_INDEX = 2;
 
     public AddAccountCurrencyCallbackDialog(SendBotMessageService sendBotMessageService,
                                             TelegramUserService telegramUserService, CurrencyService currencyService,
@@ -38,7 +39,7 @@ public class AddAccountCurrencyCallbackDialog implements Callback {
         long chatId = getChatId(update);
 
         Map<String, String> dialogSteps = dialogsMap.get(chatId);
-        dialogSteps.put(dialogSteps.get(CURRENT_DIALOG_STEP.getDialogName()), getCallbackData(update)[3]);
+        dialogSteps.put(dialogSteps.get(CURRENT_DIALOG_STEP.getDialogName()), getCallbackData(update)[CURRENCY_ID_INDEX]);
         dialogSteps.replace(CURRENT_DIALOG_STEP.getDialogName(), ADD_ACCOUNT_TYPE.getCallbackName());
 
         String text = new AddAccountTypeText(currencyService, getUserId(update)).getText();
