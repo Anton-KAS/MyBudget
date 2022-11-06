@@ -18,6 +18,10 @@ public interface Callback {
         return update.getCallbackQuery().getMessage().getMessageId();
     }
 
+    default String[] getCallbackData(Update update) {
+        return update.getCallbackQuery().getData().split("_");
+    }
+
     default void updateUserLastActiveInDb(TelegramUserService telegramUserService, Update update) {
         telegramUserService.findById(getUserId(update)).ifPresentOrElse(
                 telegramUserService::save,

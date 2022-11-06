@@ -8,11 +8,23 @@ public interface Command {
     void execute(Update update);
 
     default long getUserId(Update update) {
-        return update.getMessage().getFrom().getId();
+        if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getFrom().getId();
+        } else {
+            return update.getMessage().getFrom().getId();
+        }
     }
 
     default long getChatId(Update update) {
-        return update.getMessage().getChatId();
+        if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getMessage().getChatId();
+        } else {
+            return update.getMessage().getChatId();
+        }
+    }
+
+    default String getMessageText(Update update) {
+        return update.getMessage().getText().trim();
     }
 
     default void checkUserInDb(TelegramUserService telegramUserService, Update update) {

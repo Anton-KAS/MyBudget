@@ -23,7 +23,7 @@ public class AccountsCallback implements Callback {
     @Override
     public void execute(Update update) {
         InlineKeyboardMarkup markupInline = new AccountsKeyboard().getKeyboard();
-        String text = new AccountsText().getText(telegramUserService, getUserId(update));
+        String text = new AccountsText(telegramUserService, getUserId(update)).getText();
 
         sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), text, markupInline);
         updateUserLastActiveInDb(telegramUserService, update);

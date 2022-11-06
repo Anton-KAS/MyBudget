@@ -19,7 +19,7 @@ public class MenuCallback implements Callback {
 
     @Override
     public void execute(Update update) {
-        String text = new MenuText().getText(telegramUserService, getUserId(update));
+        String text = new MenuText(telegramUserService, getUserId(update)).getText();
         InlineKeyboardMarkup markupInline = new MenuKeyboard().getKeyboard();
 
         sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), text, markupInline);

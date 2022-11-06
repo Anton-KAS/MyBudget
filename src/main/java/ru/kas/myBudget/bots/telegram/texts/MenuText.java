@@ -6,11 +6,16 @@ import ru.kas.myBudget.services.TelegramUserService;
 import java.util.Optional;
 
 public class MenuText implements MessageText {
-    public MenuText() {
+    private final TelegramUserService telegramUserService;
+    private final Long userId;
+
+    public MenuText(TelegramUserService telegramUserService, Long userId) {
+        this.telegramUserService = telegramUserService;
+        this.userId = userId;
     }
 
     @Override
-    public String getText(TelegramUserService telegramUserService, long userId) {
+    public String getText() {
         Optional<TelegramUser> telegramUser = telegramUserService.findById(userId);
         int accountCount = 0;
         if (telegramUser.isPresent()) {
