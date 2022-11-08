@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
 
-public class AddAccountDescriptionDialog implements Dialog, Command {
+public class DescriptionDialog implements Dialog, Command {
 
     private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
@@ -21,7 +21,7 @@ public class AddAccountDescriptionDialog implements Dialog, Command {
     private final static String ASK_TEXT = "Введите описание счета:";
     private final static String VERIFY_EXCEPTION_TEXT = "Описание должно быть до %s символов";
 
-    public AddAccountDescriptionDialog(BotMessageService botMessageService, TelegramUserService telegramUserService) {
+    public DescriptionDialog(BotMessageService botMessageService, TelegramUserService telegramUserService) {
         this.botMessageService = botMessageService;
         this.telegramUserService = telegramUserService;
         this.dialogsMap = DialogsMap.getDialogsMap();

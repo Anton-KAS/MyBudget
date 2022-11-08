@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
 
-public class AddAccountTitleDialog implements Dialog, Command {
+public class TitleDialog implements Dialog, Command {
 
     private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
@@ -23,7 +23,7 @@ public class AddAccountTitleDialog implements Dialog, Command {
     private final static String ASK_TEXT = "Введите название счета:";
     private final static String VERIFY_EXCEPTION_TEXT = "Название должно быть от %s и до %s символов";
 
-    public AddAccountTitleDialog(BotMessageService botMessageService, TelegramUserService telegramUserService) {
+    public TitleDialog(BotMessageService botMessageService, TelegramUserService telegramUserService) {
         this.botMessageService = botMessageService;
         this.telegramUserService = telegramUserService;
         this.dialogsMap = DialogsMap.getDialogsMap();

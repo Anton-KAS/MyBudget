@@ -20,19 +20,19 @@ public class AddAccountContainer {
         dialogMap = ImmutableMap.<String, Dialog>builder()
                 .put(START.getDialogId(), new StartDialog())
                 .put(TYPE.getDialogId(),
-                        new AddAccountTypeDialog(botMessageService, telegramUserService, accountTypeService))
+                        new TypeDialog(botMessageService, telegramUserService, accountTypeService))
                 .put(TITLE.getDialogId(),
-                        new AddAccountTitleDialog(botMessageService, telegramUserService))
+                        new TitleDialog(botMessageService, telegramUserService))
                 .put(DESCRIPTION.getDialogId(),
-                        new AddAccountDescriptionDialog(botMessageService, telegramUserService))
+                        new DescriptionDialog(botMessageService, telegramUserService))
                 .put(CURRENCY.getDialogId(),
-                        new AddAccountCurrencyDialog(botMessageService, telegramUserService, currencyService))
+                        new CurrencyDialog(botMessageService, telegramUserService, currencyService))
                 .put(BANK.getDialogId(),
-                        new AddAccountBankDialog(botMessageService, telegramUserService, bankService))
+                        new BankDialog(botMessageService, telegramUserService, bankService))
                 .put(CONFIRM.getDialogId(),
-                        new AddAccountConfirmDialog(botMessageService, telegramUserService))
+                        new ConfirmDialog(botMessageService, telegramUserService))
                 .put(SAVE.getDialogId(),
-                        new AddAccountSaveDialog(botMessageService, telegramUserService, callbackContainer,
+                        new SaveDialog(botMessageService, telegramUserService, callbackContainer,
                                 accountTypeService, currencyService, bankService, accountService))
                 .build();
 

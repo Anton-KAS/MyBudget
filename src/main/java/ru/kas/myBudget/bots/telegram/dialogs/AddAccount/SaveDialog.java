@@ -16,7 +16,7 @@ import java.util.Map;
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_ID;
 
-public class AddAccountSaveDialog implements Dialog, Callback {
+public class SaveDialog implements Dialog, Callback {
     private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
     private final CallbackContainer callbackContainer;
@@ -28,9 +28,9 @@ public class AddAccountSaveDialog implements Dialog, Callback {
     private final static String CONFIRM_TEXT = "всё сохранил";
     private final static String EXCEPTION_TEXT = "что-то пошло не так =(";
 
-    public AddAccountSaveDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                                CallbackContainer callbackContainer, AccountTypeService accountTypeService,
-                                CurrencyService currencyService, BankService bankService, AccountService accountService) {
+    public SaveDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                      CallbackContainer callbackContainer, AccountTypeService accountTypeService,
+                      CurrencyService currencyService, BankService bankService, AccountService accountService) {
         this.botMessageService = botMessageService;
         this.telegramUserService = telegramUserService;
         this.callbackContainer = callbackContainer;

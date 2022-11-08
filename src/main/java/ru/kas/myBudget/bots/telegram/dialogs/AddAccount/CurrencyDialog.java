@@ -18,15 +18,15 @@ import java.util.Optional;
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.CALLBACK_OPERATION_DATA_INDEX;
 
-public class AddAccountCurrencyDialog implements Dialog, Callback {
+public class CurrencyDialog implements Dialog, Callback {
     private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
     private final CurrencyService currencyService;
     private final Map<Long, Map<String, String>> dialogsMap;
     private final static String ASK_TEXT = "Выберете валюту счета:";
 
-    public AddAccountCurrencyDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                                    CurrencyService currencyService) {
+    public CurrencyDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                          CurrencyService currencyService) {
         this.botMessageService = botMessageService;
         this.telegramUserService = telegramUserService;
         this.currencyService = currencyService;
