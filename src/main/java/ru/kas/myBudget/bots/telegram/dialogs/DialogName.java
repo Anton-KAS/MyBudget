@@ -1,10 +1,7 @@
 package ru.kas.myBudget.bots.telegram.dialogs;
 
 public enum DialogName {
-    CURRENT_DIALOG_STEP("currentStep"),
-    ADD_ACCOUNT_TITLE("addAccTitle"),
-    ADD_ACCOUNT_DESCRIPTION("addAccDescription"),
-
+    ADD_ACCOUNT("addAcc"),
 
     NO("");
 

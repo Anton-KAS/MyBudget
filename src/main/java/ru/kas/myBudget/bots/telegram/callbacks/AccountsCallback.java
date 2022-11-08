@@ -3,29 +3,39 @@ package ru.kas.myBudget.bots.telegram.callbacks;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.keyboards.AccountsKeyboard;
-import ru.kas.myBudget.bots.telegram.services.SendBotMessageService;
+import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.AccountsText;
-import ru.kas.myBudget.services.AccountService;
+import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
 public class AccountsCallback implements Callback {
 
-    private final SendBotMessageService sendBotMessageService;
+    private final ExecuteMode defaultExecuteMode;
+    private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
-    private final AccountService accountService;
 
-    public AccountsCallback(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService, AccountService accountService) {
-        this.sendBotMessageService = sendBotMessageService;
+    public AccountsCallback(ExecuteMode defaultExecuteMode, BotMessageService BotMessageService,
+                            TelegramUserService telegramUserService) {
+        this.defaultExecuteMode = defaultExecuteMode;
+        this.botMessageService = BotMessageService;
         this.telegramUserService = telegramUserService;
-        this.accountService = accountService;
     }
 
     @Override
     public void execute(Update update) {
-        InlineKeyboardMarkup markupInline = new AccountsKeyboard().getKeyboard();
+        executeMessageService(update, defaultExecuteMode);
+    }
+
+    @Override
+    public void execute(Update update, ExecuteMode executeMode) {
+        executeMessageService(update, executeMode);
+    }
+
+    private void executeMessageService(Update update, ExecuteMode executeMode) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new AccountsKeyboard().getKeyboard();
         String text = new AccountsText(telegramUserService, getUserId(update)).getText();
 
-        sendBotMessageService.editMessageWithInlineKeyboard(getChatId(update), getMessageId(update), text, markupInline);
-        updateUserLastActiveInDb(telegramUserService, update);
+        botMessageService.executeMessage(executeMode, getChatId(update), getMessageId(update), text, inlineKeyboardMarkup);
+        checkUserInDb(telegramUserService, update);
     }
 }

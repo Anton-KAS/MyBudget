@@ -8,18 +8,20 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.commands.CommandContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogContainer;
-import ru.kas.myBudget.bots.telegram.dialogs.DialogName;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
-import ru.kas.myBudget.bots.telegram.services.SendBotMessageServiceImpl;
+import ru.kas.myBudget.bots.telegram.services.BotMessageServiceImpl;
 import ru.kas.myBudget.services.*;
 
+import java.util.Arrays;
 import java.util.Map;
 
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.*;
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.*;
 import static ru.kas.myBudget.bots.telegram.commands.CommandName.NO;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.DIALOG_ID;
 
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
-
     public static String COMMAND_PREFIX = "/";
 
     @Value("${telegram.bot.username}")
@@ -38,12 +40,12 @@ public class TelegramBot extends TelegramLongPollingBot {
                        CurrencyService currencyService, AccountTypeService accountTypeService,
                        BankService bankService) {
         this.commandContainer = new CommandContainer(
-                new SendBotMessageServiceImpl(this), telegramUserService);
+                new BotMessageServiceImpl(this), telegramUserService);
         this.callbackContainer = new CallbackContainer(
-                new SendBotMessageServiceImpl(this),
-                telegramUserService, accountService, currencyService, accountTypeService, bankService);
+                new BotMessageServiceImpl(this), telegramUserService);
         this.dialogContainer = new DialogContainer(
-                new SendBotMessageServiceImpl(this), telegramUserService, currencyService);
+                new BotMessageServiceImpl(this), telegramUserService, callbackContainer,
+                accountTypeService, currencyService, bankService, accountService);
         this.dialogsMap = DialogsMap.getDialogsMap();
     }
 
@@ -60,32 +62,45 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            System.out.println(update);
+            System.out.println(update); //TODO Add project Logger
 
             String message_text = update.getMessage().getText().trim();
             Long chatId = update.getMessage().getChatId();
 
             if (message_text.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message_text.split(" ")[0].toLowerCase();
-                commandContainer.retrieveCommand(commandIdentifier).execute(update);
+                onCommandReceived(update, commandIdentifier);
             } else if (dialogsMap.containsKey(chatId)) {
-                String dialogIdentifier = dialogsMap.get(chatId).get(DialogName.CURRENT_DIALOG_STEP.getDialogName());
-                dialogContainer.retrieveDialog(dialogIdentifier).execute(update);
+                String dialogIdentifier = dialogsMap.get(chatId).get(DIALOG_ID.getId());
+                dialogContainer.retrieve(dialogIdentifier).execute(update);
             } else {
-                commandContainer.retrieveCommand(NO.getCommandName()).execute(update);
+                commandContainer.retrieve(NO.getCommandName()).execute(update);
             }
         } else if (update.hasCallbackQuery()) {
-            String call_data = update.getCallbackQuery().getData();
-            long message_id = update.getCallbackQuery().getMessage().getMessageId();
-            long chat_id = update.getCallbackQuery().getMessage().getChatId();
-
-            System.out.println("Call data: " + call_data);
-            System.out.println("Message id: " + message_id);
-            System.out.println("Chat id: " + chat_id);
-
-            String callbackIdentifier = call_data.split("_")[1];
-            callbackContainer.retrieveCommand(callbackIdentifier).execute(update);
+            String[] callbackData = update.getCallbackQuery().getData().split("_");
+            onCallbackReceived(update, callbackData);
         }
+    }
 
+    public void onCommandReceived(Update update, String commandIdentifier) {
+        commandContainer.retrieve(commandIdentifier).execute(update);
+    }
+
+    public void onCallbackReceived(Update update, String[] callbackData) {
+        long message_id = update.getCallbackQuery().getMessage().getMessageId();
+        long chat_id = update.getCallbackQuery().getMessage().getChatId();
+
+        System.out.println("Call data: " + Arrays.toString(callbackData)); //TODO Add project Logger
+        System.out.println("Message id: " + message_id); //TODO Add project Logger
+        System.out.println("Chat id: " + chat_id); //TODO Add project Logger
+
+        String callbackType = callbackData[TYPE.getIndex()];
+        if (callbackType.equals(NORMAL.getId())) {
+            callbackContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
+        } else if (callbackType.equals(DIALOG.getId())) {
+            dialogContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
+        } else {
+            callbackContainer.retrieve(NO.getCommandName()).execute(update);
+        }
     }
 }

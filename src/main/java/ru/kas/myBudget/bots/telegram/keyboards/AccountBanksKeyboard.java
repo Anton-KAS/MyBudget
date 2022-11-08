@@ -6,13 +6,15 @@ import ru.kas.myBudget.services.BankService;
 
 import java.util.List;
 
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackName.*;
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.BANK;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogName.ADD_ACCOUNT;
 
 public class AccountBanksKeyboard implements Keyboard {
     private final BankService bankService;
     private final static String TEXT_BUTTON_PATTERN = "%s (%s)";
-    private final static String CALLBACK_BUTTON_PATTERN =
-            ADD_ACCOUNT_TYPE.getCallbackName() + "_" + ADD_ACCOUNT_BANK.getCallbackName() + "_%s";
+    public final String CALLBACK_BUTTON_PATTERN = String.format("%s_%s_%s_%s_%s",
+            DIALOG.getId(), ADD_ACCOUNT.getDialogName(), ADD_ACCOUNT.getDialogName(), BANK.getDialogId(), "%s");
 
     public AccountBanksKeyboard(BankService bankService) {
         this.bankService = bankService;
