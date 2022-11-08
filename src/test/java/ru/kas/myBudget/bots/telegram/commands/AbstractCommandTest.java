@@ -8,14 +8,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
-import ru.kas.myBudget.bots.telegram.services.SendBotMessageService;
-import ru.kas.myBudget.bots.telegram.services.SendBotMessageServiceImpl;
+import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.services.BotMessageServiceImpl;
 import ru.kas.myBudget.services.TelegramUserService;
 
 abstract class AbstractCommandTest {
 
     protected TelegramBot telegramBot = Mockito.mock(TelegramBot.class);
-    protected SendBotMessageService sendBotMessageService = new SendBotMessageServiceImpl(telegramBot);
+    protected BotMessageService sendBotMessageService = new BotMessageServiceImpl(telegramBot);
     protected TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
 
     abstract String getCommandName();

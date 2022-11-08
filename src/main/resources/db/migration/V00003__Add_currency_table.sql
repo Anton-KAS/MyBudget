@@ -44,7 +44,7 @@ INSERT into currency(currency_en, currency_ru, symbol, iso_code, number_to_basic
 VALUES ('turkmenistan manat', 'туркменский манат', 'm', 'TMT', 100);
 -- 12
 INSERT into currency(currency_en, currency_ru, symbol, iso_code, number_to_basic)
-VALUES ('kazakhstani tenge', 'теге', '₸', 'KZT', 100);
+VALUES ('kazakhstani tenge', 'тенге', '₸', 'KZT', 100);
 -- 13
 INSERT into currency(currency_en, currency_ru, symbol, iso_code, number_to_basic)
 VALUES ('uzbekistan sum', 'узбекский сум', 'so’m', 'UZS', 100);

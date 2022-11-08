@@ -6,14 +6,15 @@ import ru.kas.myBudget.services.CurrencyService;
 
 import java.util.List;
 
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackName.ADD_ACCOUNT_CURRENCY;
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.CURRENCY;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogName.*;
 
 public class CurrenciesKeyboard implements Keyboard {
     private final CurrencyService currencyService;
     private final static String TEXT_BUTTON_PATTERN = "%s - %s";
-    private final static String CALLBACK_BUTTON_PATTERN =
-            ADD_ACCOUNT_DESCRIPTION.getDialogName() + "_" + ADD_ACCOUNT_CURRENCY.getCallbackName() + "_%s";
+    public final String CALLBACK_BUTTON_PATTERN = String.format("%s_%s_%s_%s_%s",
+            DIALOG.getId(), ADD_ACCOUNT.getDialogName(), ADD_ACCOUNT.getDialogName(), CURRENCY.getDialogId(), "%s");
 
     public CurrenciesKeyboard(CurrencyService currencyService) {
         this.currencyService = currencyService;

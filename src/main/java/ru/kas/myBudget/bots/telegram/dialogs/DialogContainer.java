@@ -1,32 +1,34 @@
 package ru.kas.myBudget.bots.telegram.dialogs;
 
 import com.google.common.collect.ImmutableMap;
-import ru.kas.myBudget.bots.telegram.commands.*;
-import ru.kas.myBudget.bots.telegram.services.SendBotMessageService;
-import ru.kas.myBudget.services.CurrencyService;
-import ru.kas.myBudget.services.TelegramUserService;
+import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
+import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountDialog;
+import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.util.Container;
+import ru.kas.myBudget.bots.telegram.util.UpdateExtraction;
+import ru.kas.myBudget.services.*;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogName.*;
 
-public class DialogContainer {
+public class DialogContainer implements Container {
 
-    private final ImmutableMap<String, Command> dialogMap;
-    private final Command unknownCommand;
+    private final ImmutableMap<String, Dialog> dialogMap;
+    private final Dialog unknownDialog;
 
-    public DialogContainer(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService,
-                           CurrencyService currencyService) {
-        dialogMap = ImmutableMap.<String, Command>builder()
-                .put(ADD_ACCOUNT_TITLE.getDialogName(),
-                        new AddAccountTitleDialog(sendBotMessageService, telegramUserService))
-                .put(ADD_ACCOUNT_DESCRIPTION.getDialogName(),
-                        new AddAccountDescriptionDialog(sendBotMessageService, telegramUserService, currencyService))
-
+    public DialogContainer(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                           CallbackContainer callbackContainer,
+                           AccountTypeService accountTypeService, CurrencyService currencyService,
+                           BankService bankService, AccountService accountService) {
+        dialogMap = ImmutableMap.<String, Dialog>builder()
+                .put(ADD_ACCOUNT.getDialogName(),
+                        new AddAccountDialog(botMessageService, telegramUserService, callbackContainer,
+                                accountTypeService, currencyService, bankService, accountService))
                 .build();
 
-        unknownCommand = new UnknownCommand(sendBotMessageService);
+        unknownDialog = new UnknownDialog(botMessageService);
     }
 
-    public Command retrieveDialog(String dialogIdentifier) {
-        return dialogMap.getOrDefault(dialogIdentifier, unknownCommand);
+    public UpdateExtraction retrieve(String identifier) {
+        return dialogMap.getOrDefault(identifier, unknownDialog);
     }
 }
