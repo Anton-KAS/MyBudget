@@ -1,6 +1,7 @@
 package ru.kas.myBudget.bots.telegram.dialogs;
 
 public enum DialogMapDefaultName {
+    DIALOG_ID("dialogId"),
     START_FROM_ID("startFrom"),
     CASH_ID("1");
 

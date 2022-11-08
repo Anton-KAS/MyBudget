@@ -1,7 +1,6 @@
 package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 import ru.kas.myBudget.bots.telegram.callbacks.Callback;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogName;
@@ -10,7 +9,9 @@ import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.FROM;
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.CURRENT_DIALOG_STEP;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.DIALOG_ID;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_ID;
 
 public class StartDialog implements Dialog, Callback {
@@ -29,8 +30,8 @@ public class StartDialog implements Dialog, Callback {
     public boolean commit(Update update) {
         dialogsMap.remove(getChatId(update));
         Map<String, String>  dialogSteps = new HashMap<>();
-        dialogSteps.put(TelegramBot.DIALOG_ID, DialogName.ADD_ACCOUNT.getDialogName());
-        dialogSteps.put(START_FROM_ID.getId(), getCallbackData(update)[TelegramBot.CALLBACK_FROM_INDEX]);
+        dialogSteps.put(DIALOG_ID.getId(), DialogName.ADD_ACCOUNT.getDialogName());
+        dialogSteps.put(START_FROM_ID.getId(), getCallbackData(update)[FROM.getIndex()]);
         dialogSteps.put(CURRENT_DIALOG_STEP.getDialogId(), String.valueOf(FIRST_STEP_INDEX));
         dialogsMap.put(getChatId(update), dialogSteps);
         return true;

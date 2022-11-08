@@ -15,12 +15,13 @@ import ru.kas.myBudget.services.*;
 import java.util.Arrays;
 import java.util.Map;
 
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.*;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.*;
 import static ru.kas.myBudget.bots.telegram.commands.CommandName.NO;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.DIALOG_ID;
 
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
-
     public static String COMMAND_PREFIX = "/";
 
     @Value("${telegram.bot.username}")
@@ -28,11 +29,6 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Value("${telegram.bot.token}")
     private String token;
-
-    private final static int CALLBACK_TYPE_INDEX = 0;
-    public final static int CALLBACK_FROM_INDEX = 1;
-    public final static String DIALOG_ID = "dialogId";
-    private final static int CALLBACK_TO_INDEX = 2;
 
     private final CommandContainer commandContainer;
     private final CallbackContainer callbackContainer;
@@ -75,7 +71,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 String commandIdentifier = message_text.split(" ")[0].toLowerCase();
                 onCommandReceived(update, commandIdentifier);
             } else if (dialogsMap.containsKey(chatId)) {
-                String dialogIdentifier = dialogsMap.get(chatId).get(DIALOG_ID);
+                String dialogIdentifier = dialogsMap.get(chatId).get(DIALOG_ID.getId());
                 dialogContainer.retrieve(dialogIdentifier).execute(update);
             } else {
                 commandContainer.retrieve(NO.getCommandName()).execute(update);
@@ -98,11 +94,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         System.out.println("Message id: " + message_id); //TODO Add project Logger
         System.out.println("Chat id: " + chat_id); //TODO Add project Logger
 
-        String callbackType = callbackData[CALLBACK_TYPE_INDEX];
+        String callbackType = callbackData[TYPE.getIndex()];
         if (callbackType.equals(NORMAL.getId())) {
-            callbackContainer.retrieve(callbackData[CALLBACK_TO_INDEX]).execute(update);
+            callbackContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
         } else if (callbackType.equals(DIALOG.getId())) {
-            dialogContainer.retrieve(callbackData[CALLBACK_TO_INDEX]).execute(update);
+            dialogContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
         } else {
             callbackContainer.retrieve(NO.getCommandName()).execute(update);
         }
