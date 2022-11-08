@@ -34,6 +34,7 @@ public class AddAccountContainer {
                 .put(SAVE.getDialogId(),
                         new SaveDialog(botMessageService, telegramUserService, callbackContainer,
                                 accountTypeService, currencyService, bankService, accountService))
+
                 .build();
 
         unknownDialog = new UnknownDialog(botMessageService);

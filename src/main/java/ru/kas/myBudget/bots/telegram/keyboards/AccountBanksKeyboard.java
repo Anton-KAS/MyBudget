@@ -30,6 +30,7 @@ public class AccountBanksKeyboard implements Keyboard {
                     .addButton(String.format(TEXT_BUTTON_PATTERN, bank.getTitleRu(), bank.getCountry().getTitleRu()),
                             String.format(CALLBACK_BUTTON_PATTERN, bank.getId()));
         }
+        inlineKeyboardBuilder.addRow().addButton(getNextButton(ADD_ACCOUNT.getDialogName(), BANK.getDialogId()));
         return inlineKeyboardBuilder.build();
     }
 }

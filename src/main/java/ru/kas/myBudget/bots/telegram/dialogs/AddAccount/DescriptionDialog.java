@@ -1,9 +1,11 @@
 package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.commands.Command;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
+import ru.kas.myBudget.bots.telegram.keyboards.AddDescriptionKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.AddAccountText;
 import ru.kas.myBudget.services.TelegramUserService;
@@ -32,9 +34,10 @@ public class DescriptionDialog implements Dialog, Command {
         int dialogStep = Integer.parseInt(dialogsMap.get(getUserId(update)).get(CURRENT_DIALOG_STEP.getDialogId()));
 
         String text = new AddAccountText(getUserId(update)).getText();
+        InlineKeyboardMarkup inlineKeyboardMarkup = new AddDescriptionKeyboard().getKeyboard();
 
         botMessageService.executeMessage(getExecuteMode(update, dialogStep), getChatId(update), getMessageId(update),
-                String.format(text, ASK_TEXT), null);
+                String.format(text, ASK_TEXT), inlineKeyboardMarkup);
         checkUserInDb(telegramUserService, update);
     }
 

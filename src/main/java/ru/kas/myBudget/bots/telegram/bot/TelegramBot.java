@@ -69,7 +69,16 @@ public class TelegramBot extends TelegramLongPollingBot {
 
             if (message_text.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message_text.split(" ")[0].toLowerCase();
-                onCommandReceived(update, commandIdentifier);
+                System.out.println("COMMAND ID: " + commandIdentifier);
+                System.out.println("MATCH digits: " + commandIdentifier.matches("/[0-9]+"));
+
+                if (commandIdentifier.matches("/[0-9]+") && dialogsMap.containsKey(chatId)) {
+                    String dialogIdentifier = dialogsMap.get(chatId).get(DIALOG_ID.getId());
+                    dialogContainer.retrieve(dialogIdentifier).execute(update);
+                } else {
+                    onCommandReceived(update, commandIdentifier);
+                }
+
             } else if (dialogsMap.containsKey(chatId)) {
                 String dialogIdentifier = dialogsMap.get(chatId).get(DIALOG_ID.getId());
                 dialogContainer.retrieve(dialogIdentifier).execute(update);
