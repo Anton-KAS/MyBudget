@@ -9,6 +9,7 @@ import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.NORMAL;
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.DESCRIPTION;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.NEXT;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.PAGE;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogName.ADD_ACCOUNT;
 
 public interface Keyboard {
@@ -38,5 +39,17 @@ public interface Keyboard {
     default InlineKeyboardButton getCancelDialogButton(String from) {
         return getButton("X Отменить",
                 String.format("%s_%s_%s", NORMAL.getId(), from, CANCEL_DIALOG.getCallbackName()));
+    }
+
+    default InlineKeyboardButton getPreviousPageButton(String fromDialog, String fromStep, int toPage) {
+        return getButton("<-",
+        String.format("%s_%s_%s_%s_%s_%s",
+                DIALOG.getId(), fromDialog, fromDialog, fromStep, PAGE.getId(), toPage));
+    }
+
+    default InlineKeyboardButton getNextPageButton(String fromDialog, String fromStep, int toPage) {
+        return getButton("->",
+                String.format("%s_%s_%s_%s_%s_%s",
+                        DIALOG.getId(), fromDialog, fromDialog, fromStep, PAGE.getId(), toPage));
     }
 }
