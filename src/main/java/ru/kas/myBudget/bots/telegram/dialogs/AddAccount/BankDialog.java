@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import ru.kas.myBudget.bots.telegram.callbacks.Callback;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
-import ru.kas.myBudget.bots.telegram.keyboards.AccountBanksKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.AddAccount.BanksKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.AddAccountText;
 import ru.kas.myBudget.models.Bank;
@@ -38,7 +38,7 @@ public class BankDialog implements Dialog, Callback {
         int dialogStep = Integer.parseInt(dialogsMap.get(getUserId(update)).get(CURRENT_DIALOG_STEP.getDialogId()));
 
         String text = new AddAccountText(getUserId(update)).getText();
-        InlineKeyboardMarkup inlineKeyboardMarkup = new AccountBanksKeyboard(bankService).getKeyboard();
+        InlineKeyboardMarkup inlineKeyboardMarkup = new BanksKeyboard(bankService).getKeyboard();
 
         botMessageService.executeMessage(getExecuteMode(update, dialogStep), getChatId(update), getMessageId(update),
                 String.format(text, ASK_TEXT), inlineKeyboardMarkup);

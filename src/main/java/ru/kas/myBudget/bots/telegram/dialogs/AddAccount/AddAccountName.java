@@ -10,8 +10,7 @@ public enum AddAccountName {
     CURRENCY("addCurrency", "%s - Валюта: %s"),
     BANK("addBank", "%s - Банк: %s"),
     CONFIRM("confirm", null),
-    SAVE("accSave", null),
-    EDIT("edit", null);
+    SAVE("accSave", null);
 
     private final String dialogId;
     private final String dialogTextPattern;

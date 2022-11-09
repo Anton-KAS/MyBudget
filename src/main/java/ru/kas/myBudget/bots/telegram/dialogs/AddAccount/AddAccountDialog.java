@@ -5,6 +5,7 @@ import ru.kas.myBudget.bots.telegram.callbacks.Callback;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.commands.Command;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.DialogPattern;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.services.*;
@@ -15,6 +16,7 @@ import static ru.kas.myBudget.bots.telegram.bot.TelegramBot.COMMAND_PREFIX;
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.EDIT_NUM;
 
 public class AddAccountDialog implements Dialog, Callback, Command {
     private final AddAccountContainer addAccountContainer;
@@ -35,8 +37,8 @@ public class AddAccountDialog implements Dialog, Callback, Command {
         Map<String, String> dialogSteps = dialogsMap.get(chatId);
         Integer currentStep;
         int lastStep;
-        if (dialogSteps == null || dialogSteps.isEmpty() ||
-                (update.hasCallbackQuery() &&
+
+        if (dialogSteps == null || dialogSteps.isEmpty() || (update.hasCallbackQuery() &&
                         getCallbackData(update)[CALLBACK_STEP_INDEX.getIndex()].equals(START.getDialogId()))) {
             currentStep = FIRST_STEP_INDEX.getIndex();
             lastStep = FIRST_STEP_INDEX.getIndex();
@@ -47,7 +49,7 @@ public class AddAccountDialog implements Dialog, Callback, Command {
 
         if (!update.hasCallbackQuery() && getMessageText(update).startsWith(COMMAND_PREFIX)) {
             String commandIdentifier = getMessageText(update).split(" ")[0].toLowerCase();
-            if (commandIdentifier.matches("/\\d+")) {
+            if (commandIdentifier.matches(EDIT_NUM.getRegex())) {
                 currentStep = null;
                 assert dialogSteps != null;
                 dialogSteps.replace(LAST_STEP.getId(), String.valueOf(lastStep - 1));
@@ -85,6 +87,6 @@ public class AddAccountDialog implements Dialog, Callback, Command {
     }
 
     private int getNextStepNum(int lastStep) {
-        return lastStep + 1 < AddAccountName.values().length - 1 ? lastStep + 1 : lastStep;
+        return lastStep + 1 < AddAccountName.values().length ? lastStep + 1 : lastStep;
     }
 }

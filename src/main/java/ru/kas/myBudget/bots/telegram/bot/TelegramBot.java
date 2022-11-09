@@ -19,6 +19,7 @@ import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.*;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.*;
 import static ru.kas.myBudget.bots.telegram.commands.CommandName.NO;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.DIALOG_ID;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.EDIT_NUM;
 
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
@@ -69,10 +70,9 @@ public class TelegramBot extends TelegramLongPollingBot {
 
             if (message_text.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message_text.split(" ")[0].toLowerCase();
-                System.out.println("COMMAND ID: " + commandIdentifier);
-                System.out.println("MATCH digits: " + commandIdentifier.matches("/[0-9]+"));
+                System.out.println("COMMAND ID: " + commandIdentifier); //TODO Add project Logger
 
-                if (commandIdentifier.matches("/[0-9]+") && dialogsMap.containsKey(chatId)) {
+                if (commandIdentifier.matches(EDIT_NUM.getRegex()) && dialogsMap.containsKey(chatId)) {
                     String dialogIdentifier = dialogsMap.get(chatId).get(DIALOG_ID.getId());
                     dialogContainer.retrieve(dialogIdentifier).execute(update);
                 } else {
