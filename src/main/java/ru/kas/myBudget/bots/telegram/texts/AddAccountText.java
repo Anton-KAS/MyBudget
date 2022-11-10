@@ -30,7 +30,7 @@ public class AddAccountText implements MessageText {
                     && addAccountName.equals(BANK)) continue;
 
             int currentStepId = Integer.parseInt(dialogMap.get(CURRENT_DIALOG_STEP.getDialogId()));
-            if (currentStepId > count) stringBuilder.append("/");
+            if (count != 1 && currentStepId > count) stringBuilder.append("/");
             if (currentStepId == count) stringBuilder.append("<b>");
 
             String textPattern = dialogMap.get(addAccountName.getDialogIdText());

@@ -66,6 +66,7 @@ public class SaveDialog implements Dialog, Callback {
             );
 
             accountService.save(account);
+            removeInlineKeyboard(telegramUserService, botMessageService, update, ExecuteMode.SEND);
             botMessageService.executeSendMessage(chatId, CONFIRM_TEXT);
         } catch (Exception ignore) {
             //TODO Add project Logger

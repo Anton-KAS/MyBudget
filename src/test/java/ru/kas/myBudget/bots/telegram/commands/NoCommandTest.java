@@ -19,6 +19,6 @@ public class NoCommandTest extends AbstractCommandTest {
 
     @Override
     Command getCommand() {
-        return new NoCommand(sendBotMessageService);
+        return new NoCommand(sendBotMessageService, telegramUserService);
     }
 }

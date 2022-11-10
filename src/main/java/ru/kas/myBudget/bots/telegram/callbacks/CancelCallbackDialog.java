@@ -26,6 +26,7 @@ public class CancelCallbackDialog implements Callback {
         String text = new CancelDialogText().getText();
         long chatId = getChatId(update);
 
+        botMessageService.executeRemoveInlineKeyboard(update);
         botMessageService.executeSendMessage(chatId, text);
 
         checkUserInDb(telegramUserService, update);

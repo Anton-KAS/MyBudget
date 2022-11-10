@@ -8,7 +8,9 @@ import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.keyboards.AddAccount.CurrenciesKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.AddAccountText;
+import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.models.Currency;
+import ru.kas.myBudget.models.TelegramUser;
 import ru.kas.myBudget.services.CurrencyService;
 import ru.kas.myBudget.services.TelegramUserService;
 
@@ -38,6 +40,7 @@ public class CurrencyDialog implements Dialog, Callback {
     @Override
     public void execute(Update update) {
         int dialogStep = Integer.parseInt(dialogsMap.get(getUserId(update)).get(CURRENT_DIALOG_STEP.getDialogId()));
+        long userId = getUserId(update);
 
         int page;
         if (update.hasCallbackQuery() && getCallbackData(update).length > PAGE_INDEX
@@ -47,14 +50,13 @@ public class CurrencyDialog implements Dialog, Callback {
             page = 1;
         }
 
-        String text = new AddAccountText(getUserId(update)).getText();
+        ExecuteMode executeMode = getExecuteMode(update, dialogStep);
+        String text = new AddAccountText(userId).getText();
         InlineKeyboardMarkup inlineKeyboardMarkup = new CurrenciesKeyboard(currencyService, telegramUserService,
                 getUserId(update), page).getKeyboard();
 
-        botMessageService.executeMessage(getExecuteMode(update, dialogStep), getChatId(update), getMessageId(update),
-                String.format(text, ASK_TEXT), inlineKeyboardMarkup);
-
-        checkUserInDb(telegramUserService, update);
+        sendAndUpdateUser(telegramUserService, botMessageService, update, executeMode, String.format(text, ASK_TEXT),
+                inlineKeyboardMarkup);
     }
 
     @Override

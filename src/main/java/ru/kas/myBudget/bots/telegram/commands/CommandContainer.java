@@ -21,7 +21,7 @@ public class CommandContainer implements Container {
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, telegramUserService))
                 .put(STOP.getCommandName(), new StopCommand(sendBotMessageService, telegramUserService))
                 .put(HELP.getCommandName(), new HelpCommand(sendBotMessageService, telegramUserService))
-                .put(NO.getCommandName(), new NoCommand(sendBotMessageService))
+                .put(NO.getCommandName(), new NoCommand(sendBotMessageService, telegramUserService))
                 .put(STAT.getCommandName(), new StatCommand(sendBotMessageService, telegramUserService))
                 .put(MENU.getCommandName(), new MenuCommand(defaultExecuteMode, sendBotMessageService, telegramUserService))
                 .put(ACCOUNTS.getCommandName(), new AccountsCallback(defaultExecuteMode, sendBotMessageService,
