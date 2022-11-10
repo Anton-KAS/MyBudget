@@ -29,6 +29,8 @@ public class AddAccountContainer {
                         new CurrencyDialog(botMessageService, telegramUserService, currencyService))
                 .put(BANK.getDialogId(),
                         new BankDialog(botMessageService, telegramUserService, bankService))
+                .put(START_BALANCE.getDialogId(),
+                        new StartBalanceDialog(botMessageService, telegramUserService, currencyService))
                 .put(CONFIRM.getDialogId(),
                         new ConfirmDialog(botMessageService, telegramUserService))
                 .put(SAVE.getDialogId(),

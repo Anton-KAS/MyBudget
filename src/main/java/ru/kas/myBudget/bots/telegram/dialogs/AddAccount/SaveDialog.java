@@ -9,9 +9,13 @@ import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.models.Account;
 import ru.kas.myBudget.models.Bank;
+import ru.kas.myBudget.models.Currency;
 import ru.kas.myBudget.services.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Map;
+import java.util.Optional;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_ID;
@@ -56,9 +60,20 @@ public class SaveDialog implements Dialog, Callback {
                 bank = null;
             }
 
+            Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getDialogId())));
+            int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
+
+            String startBalanceString = dialogMap.get(START_BALANCE.getDialogId());
+            BigDecimal startBalance;
+            if (startBalanceString == null) startBalance = new BigDecimal(0);
+            else startBalance = new BigDecimal(startBalanceString).multiply(new BigDecimal(numberToBAsic))
+                    .setScale(String.valueOf(numberToBAsic).length() - 1, RoundingMode.HALF_UP);
+
             Account account = new Account(
                     dialogMap.get(TITLE.getDialogId()),
                     dialogMap.get(DESCRIPTION.getDialogId()),
+                    startBalance,
+                    startBalance,
                     telegramUserService.findById(userId).get(),
                     currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getDialogId()))).get(),
                     accountTypeService.findById(Integer.parseInt(dialogMap.get(TYPE.getDialogId()))).get(),
