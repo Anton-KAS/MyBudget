@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS currency;
+DROP TABLE IF EXISTS currency CASCADE;
 
 CREATE TABLE currency
 (
@@ -6,8 +6,8 @@ CREATE TABLE currency
     currency_en     varchar(50) NOT NULL,
     currency_ru     varchar(50) NOT NULL,
     symbol          varchar(5)  NOT NULL,
-    iso_code        varchar(5),
-    number_to_basic int
+    iso_code        varchar(5) NOT NULL,
+    number_to_basic int NOT NULL
 );
 -- 1
 INSERT into currency(currency_en, currency_ru, symbol, iso_code, number_to_basic)
@@ -44,13 +44,13 @@ INSERT into currency(currency_en, currency_ru, symbol, iso_code, number_to_basic
 VALUES ('turkmenistan manat', 'туркменский манат', 'm', 'TMT', 100);
 -- 12
 INSERT into currency(currency_en, currency_ru, symbol, iso_code, number_to_basic)
-VALUES ('kazakhstani tenge', 'теге', '₸', 'KZT', 100);
+VALUES ('kazakhstani tenge', 'тенге', '₸', 'KZT', 100);
 -- 13
 INSERT into currency(currency_en, currency_ru, symbol, iso_code, number_to_basic)
 VALUES ('uzbekistan sum', 'узбекский сум', 'so’m', 'UZS', 100);
 -- 14
 INSERT into currency(currency_en, currency_ru, symbol, iso_code, number_to_basic)
-VALUES ('somoni', 'cомони', 'с.', 'TJS', 100);
+VALUES ('somoni', 'сомони', 'с.', 'TJS', 100);
 -- 15
 INSERT into currency(currency_en, currency_ru, symbol, iso_code, number_to_basic)
 VALUES ('tugrik', 'тугрик', '₮', 'MNT', 100);

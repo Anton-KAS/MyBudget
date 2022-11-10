@@ -42,17 +42,29 @@ public class TelegramUser {
     @Column(name = "active")
     private boolean active;
 
+    @OneToMany(mappedBy = "telegramUser")
+    private List<Account> accounts;
+
+    @Column(name = "last_message_id")
+    private Long lastMessageId;
+
+    @Column(name = "last_message_text")
+    private String lastMessageText;
+
+    @Column(name = "last_message_timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastMessageTimestamp;
+
     @ManyToOne
     @JoinColumn(name = "web_user_id", referencedColumnName = "id")
     private WebUser webUser;
 
-    @OneToMany(mappedBy = "telegramUser")
-    private List<Account> accounts;
-
     public TelegramUser() {
     }
 
-    public TelegramUser(long id, long chat_id, String username, String firstName, String lastName, String languageCode, boolean isPremium, Date createdAt, Date lastActive, boolean active, WebUser webUser) {
+    public TelegramUser(long id, long chat_id, String username, String firstName, String lastName, String languageCode,
+                        Boolean isPremium, Date createdAt, Date lastActive, boolean active, WebUser webUser,
+                        List<Account> accounts, Long lastMessageId, String lastMessageText, Date lastMessageTimestamp) {
         this.id = id;
         this.chat_id = chat_id;
         this.username = username;
@@ -64,6 +76,10 @@ public class TelegramUser {
         this.lastActive = lastActive;
         this.active = active;
         this.webUser = webUser;
+        this.lastMessageId = lastMessageId;
+        this.lastMessageText = lastMessageText;
+        this.lastMessageTimestamp = lastMessageTimestamp;
+        this.accounts = accounts;
     }
 
     public TelegramUser(Update update) {
@@ -85,6 +101,11 @@ public class TelegramUser {
         this.lastActive = null;
         this.active = true;
         this.webUser = null;
+        if (update.hasCallbackQuery()) {
+            this.lastMessageId = Long.valueOf(update.getCallbackQuery().getMessage().getMessageId());
+            this.lastMessageText = update.getCallbackQuery().getMessage().getText();
+            this.lastMessageTimestamp = new Date();
+        }
     }
 
     public long getId() {
@@ -183,6 +204,44 @@ public class TelegramUser {
         this.accounts = accounts;
     }
 
+    public Boolean getPremium() {
+        return isPremium;
+    }
+
+    public void setPremium(Boolean premium) {
+        isPremium = premium;
+    }
+
+    public Long getLastMessageId() {
+        return lastMessageId;
+    }
+
+    public void setLastMessageId(Long lastMessageId) {
+        this.lastMessageId = lastMessageId;
+    }
+
+    public String getLastMessageText() {
+        return lastMessageText;
+    }
+
+    public void setLastMessageText(String lastMessageText) {
+        this.lastMessageText = lastMessageText;
+    }
+
+    public Date getLastMessageTimestamp() {
+        return lastMessageTimestamp;
+    }
+
+    public void setLastMessageTimestamp(Date lastMessageTimestamp) {
+        this.lastMessageTimestamp = lastMessageTimestamp;
+    }
+
+    public void removeLastMessage() {
+        this.lastMessageId = null;
+        this.lastMessageText = null;
+        this.lastMessageTimestamp = null;
+    }
+
     @Override
     public String toString() {
         return "TelegramUser{" +
@@ -196,6 +255,9 @@ public class TelegramUser {
                 ", createdAt=" + createdAt +
                 ", lastActive=" + lastActive +
                 ", active=" + active +
+                ", lastMessageId=" + lastMessageId +
+                ", lastMessageText='" + lastMessageText + '\'' +
+                ", lastMessageTimestamp=" + lastMessageTimestamp +
                 '}';
     }
 }
