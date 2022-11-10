@@ -32,7 +32,7 @@ public class SendBotMessageServiceTest {
         sendMessage.enableHtml(true);
 
         //when
-        sendBotMessageService.sendMessage(chatId, message);
+        sendBotMessageService.executeSendMessage(chatId, message);
 
         //then
         Mockito.verify(telegramBot).execute(sendMessage);

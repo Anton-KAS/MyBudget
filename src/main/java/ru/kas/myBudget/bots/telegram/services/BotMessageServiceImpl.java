@@ -85,7 +85,7 @@ public class BotMessageServiceImpl implements BotMessageService {
     public Long execute(TelegramBot telegramBot, BotApiMethod botApiMethod) {
         try {
             Serializable sendMessage = telegramBot.execute(botApiMethod);
-            return getSendMessageId(sendMessage);
+            if (sendMessage != null) return getSendMessageId(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace(); // TODO: Add logging to the project
         }
