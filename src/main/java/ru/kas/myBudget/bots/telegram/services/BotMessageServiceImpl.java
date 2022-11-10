@@ -6,7 +6,6 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -14,7 +13,6 @@ import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
 
 import static java.lang.Math.toIntExact;
 
@@ -99,10 +97,10 @@ public class BotMessageServiceImpl implements BotMessageService {
         editMessage.setChatId(chatId);
         editMessage.setMessageId(toIntExact(messageId));
         editMessage.enableHtml(true);
-        editMessage.setText(message);
         if (inlineKeyboardMarkup != null) {
             editMessage.setReplyMarkup(inlineKeyboardMarkup);
         }
+        editMessage.setText(message);
         return execute(telegramBot, editMessage);
     }
 

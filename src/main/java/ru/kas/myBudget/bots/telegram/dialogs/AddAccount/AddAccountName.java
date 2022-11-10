@@ -9,6 +9,7 @@ public enum AddAccountName {
     DESCRIPTION("addDescription", "%s - Описание: %s"),
     CURRENCY("addCurrency", "%s - Валюта: %s"),
     BANK("addBank", "%s - Банк: %s"),
+    START_BALANCE("addStartBalance", "%s - Начальный баланс: %s"),
     CONFIRM("confirm", null),
     SAVE("accSave", null);
 

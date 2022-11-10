@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kas.myBudget.models.Account;
 import ru.kas.myBudget.repositories.AccountRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public void save(Account account) {
+        if (account.getCreatedAt() == null) account.setCreatedAt(new Date());
+        account.setUpdatedAt(new Date());
         accountRepository.save(account);
     }
 
