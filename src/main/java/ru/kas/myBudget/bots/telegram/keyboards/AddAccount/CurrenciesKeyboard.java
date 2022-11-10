@@ -45,22 +45,12 @@ public class CurrenciesKeyboard implements Keyboard {
                     .addButton(String.format(TEXT_BUTTON_PATTERN, currency.getSymbol(), currency.getCurrencyRu()),
                             String.format(CALLBACK_BUTTON_PATTERN, currency.getId()));
         }
-        if (page > 1 || currencies.size() > NUM_IN_PAGE * page) {
-            inlineKeyboardBuilder.addRow();
-        }
-        if (page > 1) {
-            inlineKeyboardBuilder.addButton(getPreviousPageButton(
-                    ADD_ACCOUNT.getDialogName(), CURRENCY.getDialogId(), page - 1));
-        }
-        if (currencies.size() > NUM_IN_PAGE * page) {
-            inlineKeyboardBuilder.addButton(getNextPageButton(
-                    ADD_ACCOUNT.getDialogName(), CURRENCY.getDialogId(), page + 1));
-        }
-//        for (Currency currency : currencies) {
-//            inlineKeyboardBuilder.addRow()
-//                    .addButton(String.format(TEXT_BUTTON_PATTERN, currency.getSymbol(), currency.getCurrencyRu()),
-//                            String.format(CALLBACK_BUTTON_PATTERN, currency.getId()));
-//        }
+        if (page > 1 || currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addRow();
+        if (page > 1) inlineKeyboardBuilder.addButton(getPreviousPageButton(
+                ADD_ACCOUNT.getDialogName(), CURRENCY.getDialogId(), page - 1));
+        if (currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addButton(getNextPageButton(
+                ADD_ACCOUNT.getDialogName(), CURRENCY.getDialogId(), page + 1));
+
         return inlineKeyboardBuilder.build();
     }
 
@@ -78,39 +68,35 @@ public class CurrenciesKeyboard implements Keyboard {
         Optional<TelegramUser> optionalTelegramUser = telegramUserService.findById(userId);
         TelegramUser telegramUser = null;
         List<Account> accounts = null;
-        if (optionalTelegramUser.isPresent()) {
-            telegramUser = optionalTelegramUser.get();
-        }
-        if (telegramUser != null) {
-            accounts = telegramUser.getAccounts();
-        }
+        if (optionalTelegramUser.isPresent()) telegramUser = optionalTelegramUser.get();
+
+        if (telegramUser != null) accounts = telegramUser.getAccounts();
         if (accounts != null) {
             for (Account account : accounts) {
                 Currency usedCurrency = account.getCurrency();
                 if (currencies.contains(usedCurrency)) continue;
                 currencies.add(usedCurrency);
-                if (currencies.size() >= page * NUM_IN_PAGE + 1) break;
+                if (currencies.size() > page * NUM_IN_PAGE) break;
             }
             Collections.sort(currencies);
-            if (currencies.size() >= page * NUM_IN_PAGE + 1) return currencies;
+            if (currencies.size() > page * NUM_IN_PAGE) return currencies;
         }
         // 2 TODO: ADD national currency
         // 3
         List<Currency> reserveCurrencies = currencyService.getReserveCurrencies();
-        Collections.sort(reserveCurrencies);
-        for (Currency reserveCurrency : reserveCurrencies) {
-            if (currencies.contains(reserveCurrency)) continue;
-            currencies.add(reserveCurrency);
-            if (currencies.size() >= page * NUM_IN_PAGE + 1) return currencies;
-        }
+        addCurrenciesToList(currencies, reserveCurrencies);
         // 4
         List<Currency> otherCurrencies = currencyService.findAll();
-        Collections.sort(otherCurrencies);
-        for (Currency otherCurrency : otherCurrencies) {
-            if (currencies.contains(otherCurrency)) continue;
-            currencies.add(otherCurrency);
-            if (currencies.size() >= page * NUM_IN_PAGE + 1) return currencies;
-        }
+        addCurrenciesToList(currencies, otherCurrencies);
         return currencies;
+    }
+
+    private void addCurrenciesToList(List<Currency> currencies, List<Currency> addCurrencies) {
+        Collections.sort(addCurrencies);
+        for (Currency addCurrency : addCurrencies) {
+            if (currencies.contains(addCurrency)) continue;
+            currencies.add(addCurrency);
+            if (currencies.size() > page * NUM_IN_PAGE) return;
+        }
     }
 }
