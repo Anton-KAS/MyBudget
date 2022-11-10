@@ -9,7 +9,7 @@ import static ru.kas.myBudget.bots.telegram.commands.CommandName.*;
 
 public class HelpCommand implements Command {
 
-    private final BotMessageService sendBotMessageService;
+    private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
 
     public final static String HELP_MESSAGE = String.format("""
@@ -26,14 +26,14 @@ public class HelpCommand implements Command {
             STAT.getCommandName());
 
     public HelpCommand(BotMessageService sendBotMessageService, TelegramUserService telegramUserService) {
-        this.sendBotMessageService = sendBotMessageService;
+        this.botMessageService = sendBotMessageService;
         this.telegramUserService = telegramUserService;
     }
 
     @Override
     public void execute(Update update) {
-        sendBotMessageService.executeSendMessage(getChatId(update), HELP_MESSAGE);
-        checkUserInDb(telegramUserService, update);
+        sendAndUpdateUser(telegramUserService, botMessageService, update, ExecuteMode.SEND, HELP_MESSAGE,
+                null);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class AccountsCallback implements Callback {
         InlineKeyboardMarkup inlineKeyboardMarkup = new AccountsKeyboard().getKeyboard();
         String text = new AccountsText(telegramUserService, getUserId(update)).getText();
 
-        botMessageService.executeMessage(executeMode, getChatId(update), getMessageId(update), text, inlineKeyboardMarkup);
-        checkUserInDb(telegramUserService, update);
+        sendAndUpdateUser(telegramUserService, botMessageService, update, executeMode, text,
+                inlineKeyboardMarkup);
     }
 }

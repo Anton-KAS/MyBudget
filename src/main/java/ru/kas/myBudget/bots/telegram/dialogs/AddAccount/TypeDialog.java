@@ -8,7 +8,9 @@ import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.keyboards.AddAccount.TypeKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.AddAccountText;
+import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.models.AccountType;
+import ru.kas.myBudget.models.TelegramUser;
 import ru.kas.myBudget.services.AccountTypeService;
 import ru.kas.myBudget.services.TelegramUserService;
 
@@ -38,14 +40,14 @@ public class TypeDialog implements Dialog, Callback {
     @Override
     public void execute(Update update) {
         int dialogStep = Integer.parseInt(dialogsMap.get(getUserId(update)).get(CURRENT_DIALOG_STEP.getDialogId()));
+        long userId = getUserId(update);
 
-        String text = new AddAccountText(getUserId(update)).getText();
+        ExecuteMode executeMode = getExecuteMode(update, dialogStep);
+        String text = new AddAccountText(userId).getText();
         InlineKeyboardMarkup inlineKeyboardMarkup = new TypeKeyboard(accountTypeService).getKeyboard();
 
-        botMessageService.executeMessage(getExecuteMode(update, dialogStep), getChatId(update), getMessageId(update),
-                String.format(text, ASK_TEXT), inlineKeyboardMarkup);
-
-        checkUserInDb(telegramUserService, update);
+        sendAndUpdateUser(telegramUserService, botMessageService, update, executeMode, String.format(text, ASK_TEXT),
+                inlineKeyboardMarkup);
     }
 
     @Override

@@ -10,6 +10,8 @@ public interface TelegramUserService {
 
     void setLastActive(TelegramUser telegramUser);
 
+    void setLastMessage(TelegramUser telegramUser, Long messageId, String messageText);
+
     List<TelegramUser> retrieveAllActiveUsers();
 
     Optional<TelegramUser> findById(long id);

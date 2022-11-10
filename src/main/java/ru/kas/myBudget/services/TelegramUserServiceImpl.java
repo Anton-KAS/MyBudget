@@ -30,8 +30,19 @@ public class TelegramUserServiceImpl implements TelegramUserService {
     }
 
     @Override
+    @Transactional
     public void setLastActive(TelegramUser telegramUser) {
         telegramUser.setLastActive(new Date());
+        telegramUserRepository.save(telegramUser);
+    }
+
+    @Override
+    @Transactional
+    public void setLastMessage(TelegramUser telegramUser, Long messageId, String messageText) {
+        if (telegramUser == null || messageId == null) return;
+        telegramUser.setLastMessageId(messageId);
+        telegramUser.setLastMessageText(messageText);
+        telegramUser.setLastMessageTimestamp(new Date());
         telegramUserRepository.save(telegramUser);
     }
 

@@ -32,9 +32,9 @@ public class MenuCommand implements Command {
 
     private void executeMessageService(Update update, ExecuteMode executeMode) {
         String text = new MenuText(telegramUserService, getUserId(update)).getText();
-        InlineKeyboardMarkup markupInline = new MenuKeyboard().getKeyboard();
+        InlineKeyboardMarkup inlineKeyboardMarkup = new MenuKeyboard().getKeyboard();
 
-        botMessageService.executeMessage(executeMode, getChatId(update), getMessageId(update), text, markupInline);
-        checkUserInDb(telegramUserService, update);
+        sendAndUpdateUser(telegramUserService, botMessageService, update, executeMode, text,
+                inlineKeyboardMarkup);
     }
 }
