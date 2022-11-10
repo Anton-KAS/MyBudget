@@ -20,7 +20,6 @@ public class NoCommand implements Command {
 
     @Override
     public void execute(Update update) {
-        botMessageService.executeSendMessage(getChatId(update), NO_MESSAGE);
         sendAndUpdateUser(telegramUserService, botMessageService, update, ExecuteMode.SEND, NO_MESSAGE,
                 null);
     }
