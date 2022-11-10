@@ -4,11 +4,11 @@ public enum AddAccountName {
     // Order is important!
     CURRENT_DIALOG_STEP("currentStep", null),
     START("start", "<b>Добавление нового счета</b>\n"),
-    TYPE("addType", "%s. Тип: %s"),
-    TITLE("addTitle", "%s. Название: %s"),
-    DESCRIPTION("addDescription", "%s. Описание: %s"),
-    CURRENCY("addCurrency", "%s. Валюта: %s"),
-    BANK("addBank", "%s. Банк: %s"),
+    TYPE("addType", "%s - Тип: %s"),
+    TITLE("addTitle", "%s - Название: %s"),
+    DESCRIPTION("addDescription", "%s - Описание: %s"),
+    CURRENCY("addCurrency", "%s - Валюта: %s"),
+    BANK("addBank", "%s - Банк: %s"),
     CONFIRM("confirm", null),
     SAVE("accSave", null);
 

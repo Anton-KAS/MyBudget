@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import ru.kas.myBudget.bots.telegram.callbacks.Callback;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
-import ru.kas.myBudget.bots.telegram.keyboards.AddAccountConfirmKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.AddAccount.ConfirmKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.AddAccountText;
 import ru.kas.myBudget.services.TelegramUserService;
@@ -31,7 +31,7 @@ public class ConfirmDialog implements Dialog, Callback {
         int dialogStep = Integer.parseInt(dialogsMap.get(getUserId(update)).get(CURRENT_DIALOG_STEP.getDialogId()));
 
         String text = new AddAccountText(getUserId(update)).getText();
-        InlineKeyboardMarkup inlineKeyboardMarkup = new AddAccountConfirmKeyboard().getKeyboard();
+        InlineKeyboardMarkup inlineKeyboardMarkup = new ConfirmKeyboard().getKeyboard();
 
         botMessageService.executeMessage(getExecuteMode(update, dialogStep), getChatId(update), getMessageId(update),
                 String.format(text, ASK_TEXT), inlineKeyboardMarkup);

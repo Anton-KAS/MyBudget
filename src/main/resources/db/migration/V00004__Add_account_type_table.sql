@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS account_type;
+DROP TABLE IF EXISTS account_type CASCADE;
 
 CREATE TABLE account_type
 (

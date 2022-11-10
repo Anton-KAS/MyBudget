@@ -4,10 +4,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "currency")
-public class Currency {
+public class Currency implements Comparable<Currency>{
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,6 +118,21 @@ public class Currency {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Currency currency = (Currency) o;
+        return id == currency.id && numberToBasic == currency.numberToBasic && currencyEn.equals(currency.currencyEn)
+                && currencyRu.equals(currency.currencyRu) && symbol.equals(currency.symbol)
+                && isoCode.equals(currency.isoCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, currencyEn, currencyRu, symbol, isoCode, numberToBasic);
+    }
+
+    @Override
     public String toString() {
         return "Currency{" +
                 "id=" + id +
@@ -126,5 +142,10 @@ public class Currency {
                 ", isoCode='" + isoCode + '\'' +
                 ", numberToBasic=" + numberToBasic +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Currency o) {
+        return currencyRu.compareTo(o.currencyRu);
     }
 }

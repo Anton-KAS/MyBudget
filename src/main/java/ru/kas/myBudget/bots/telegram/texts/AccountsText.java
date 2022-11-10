@@ -30,7 +30,7 @@ public class AccountsText implements MessageText {
                 for (Account account : accounts) {
                     accountTextBuilder.append("\n")
                             .append(n).append(" - ").append(account.getTitle())
-                            .append(" - ").append(account.getDescription());
+                            .append(" - ").append(account.getDescription() == null ? "" : account.getDescription());
                     n++;
                 }
             }
