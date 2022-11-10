@@ -6,6 +6,7 @@ ___
 - Spring Framework (Web MVC, Validator, Hibernate, Data JPA, Boot, Security)
 - PostgreSQL
 - Telegram API
+
 ___
 ### Release notes:
 - 10.11.2022 - release 0.3 Add main menu, accounts menu and add new account to Telegram bot
