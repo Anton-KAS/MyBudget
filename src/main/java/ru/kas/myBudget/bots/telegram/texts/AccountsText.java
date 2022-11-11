@@ -9,15 +9,22 @@ import java.util.Optional;
 
 public class AccountsText implements MessageText {
     private final TelegramUserService telegramUserService;
-    private final Long userId;
+    private Long userId;
 
-    public AccountsText(TelegramUserService telegramUserService, Long userId) {
+    public AccountsText(TelegramUserService telegramUserService) {
         this.telegramUserService = telegramUserService;
+    }
+
+    @Override
+    public MessageText setUserId(Long userId) {
         this.userId = userId;
+        return this;
     }
 
     @Override
     public String getText() {
+        checkUserIdSet(userId);
+
         Optional<TelegramUser> telegramUser = telegramUserService.findById(userId);
         StringBuilder accountTextBuilder = new StringBuilder();
         if (telegramUser.isPresent()) {

@@ -9,15 +9,23 @@ import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CASH_ID;
 
 public class AddAccountText implements MessageText {
-    private final Map<String, String> dialogMap;
+    private Long userId;
 
+    public AddAccountText() {
+    }
 
-    public AddAccountText(Long userId) {
-        this.dialogMap = DialogsMap.getDialogMap(userId);
+    @Override
+    public MessageText setUserId(Long userId) {
+        this.userId = userId;
+        return this;
     }
 
     @Override
     public String getText() {
+        checkUserIdSet(userId);
+
+        Map<String, String> dialogMap = DialogsMap.getDialogMap(userId);
+
         StringBuilder stringBuilder = new StringBuilder();
 
         AddAccountName[] addAccountNames = AddAccountName.values();

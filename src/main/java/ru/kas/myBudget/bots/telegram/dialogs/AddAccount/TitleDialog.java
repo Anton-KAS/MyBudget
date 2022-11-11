@@ -37,7 +37,7 @@ public class TitleDialog implements Dialog, Command {
         long userId = getUserId(update);
 
         ExecuteMode executeMode = getExecuteMode(update, dialogStep);
-        String text = new AddAccountText(userId).getText();
+        String text = new AddAccountText().setUserId(userId).getText();
 
         sendAndUpdateUser(telegramUserService, botMessageService, update, executeMode, String.format(text, ASK_TEXT),
                 null);

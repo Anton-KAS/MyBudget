@@ -33,7 +33,7 @@ public class AccountsCallback implements Callback {
 
     private void executeMessageService(Update update, ExecuteMode executeMode) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new AccountsKeyboard().getKeyboard();
-        String text = new AccountsText(telegramUserService, getUserId(update)).getText();
+        String text = new AccountsText(telegramUserService).setUserId(getUserId(update)).getText();
 
         sendAndUpdateUser(telegramUserService, botMessageService, update, executeMode, text,
                 inlineKeyboardMarkup);

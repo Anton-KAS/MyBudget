@@ -51,7 +51,7 @@ public class CurrencyDialog implements Dialog, Callback {
         }
 
         ExecuteMode executeMode = getExecuteMode(update, dialogStep);
-        String text = new AddAccountText(userId).getText();
+        String text = new AddAccountText().setUserId(userId).getText();
         InlineKeyboardMarkup inlineKeyboardMarkup = new CurrenciesKeyboard(currencyService, telegramUserService,
                 getUserId(update), page).getKeyboard();
 

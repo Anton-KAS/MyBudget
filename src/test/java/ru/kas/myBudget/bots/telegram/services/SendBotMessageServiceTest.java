@@ -12,12 +12,12 @@ import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 public class SendBotMessageServiceTest {
 
     private TelegramBot telegramBot;
-    private BotMessageService sendBotMessageService;
+    private BotMessageService botMessageService;
 
     @BeforeEach
     public void init() {
         telegramBot = Mockito.mock(TelegramBot.class);
-        sendBotMessageService = new BotMessageServiceImpl(telegramBot);
+        botMessageService = new BotMessageServiceImpl(telegramBot);
     }
 
     @Test
@@ -32,7 +32,7 @@ public class SendBotMessageServiceTest {
         sendMessage.enableHtml(true);
 
         //when
-        sendBotMessageService.executeSendMessage(chatId, message);
+        botMessageService.executeSendMessage(chatId, message);
 
         //then
         Mockito.verify(telegramBot).execute(sendMessage);
