@@ -5,10 +5,9 @@ import org.mockito.Mockito;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import static org.springframework.test.util.AssertionErrors.assertEquals;
-import static org.springframework.test.util.AssertionErrors.fail;
 
 public class AccountsTextTest {
-    private TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
+    private final TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
 
     @Test
     public void ShouldGetError() {
