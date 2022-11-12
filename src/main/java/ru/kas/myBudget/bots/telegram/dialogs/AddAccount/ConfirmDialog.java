@@ -45,4 +45,9 @@ public class ConfirmDialog implements Dialog, CommandController {
     public boolean commit(Update update) {
         return true;
     }
+
+    @Override
+    public void skip(Update update) {
+
+    }
 }

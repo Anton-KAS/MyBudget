@@ -40,4 +40,9 @@ public class StartDialog implements Dialog, CommandController {
         dialogsMap.put(UpdateParameter.getChatId(update), dialogSteps);
         return true;
     }
+
+    @Override
+    public void skip(Update update) {
+
+    }
 }

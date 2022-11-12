@@ -21,6 +21,7 @@ import java.util.Optional;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.CURRENCY_AMOUNT;
+import static ru.kas.myBudget.bots.telegram.util.UpdateParameter.getUserId;
 
 public class StartBalanceDialog implements Dialog, CommandController {
     private final BotMessageService botMessageService;
@@ -29,6 +30,7 @@ public class StartBalanceDialog implements Dialog, CommandController {
     private final Map<Long, Map<String, String>> dialogsMap;
     private final static String ASK_TEXT = "Введите текущий баланс счета:";
     private final static String VERIFY_EXCEPTION_TEXT = "Введите только одно число";
+    private final static String DEFAULT_BALANCE_TEXT = "0.0";
 
     public StartBalanceDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
                               CurrencyService currencyService) {
@@ -40,7 +42,7 @@ public class StartBalanceDialog implements Dialog, CommandController {
 
     @Override
     public void execute(Update update) {
-        long userId = UpdateParameter.getUserId(update);
+        long userId = getUserId(update);
         int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getDialogId()));
 
         ExecuteMode executeMode = getExecuteMode(update, dialogStep);
@@ -59,9 +61,23 @@ public class StartBalanceDialog implements Dialog, CommandController {
             botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
                     VERIFY_EXCEPTION_TEXT, null);
             return false;
-        } else if (text == null) return false;
+        } else if (text == null) {
+            return false;
+        }
 
-        Map<String, String> dialogSteps = dialogsMap.get(UpdateParameter.getChatId(update));
+        addStartBalance(text, getUserId(update));
+
+        telegramUserService.checkUser(telegramUserService, update);
+        return true;
+    }
+
+    @Override
+    public void skip(Update update) {
+        addStartBalance(DEFAULT_BALANCE_TEXT, getUserId(update));
+    }
+
+    private void addStartBalance(String text, long userId) {
+        Map<String, String> dialogSteps = dialogsMap.get(userId);
 
         Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogSteps.get(CURRENCY.getDialogId())));
         int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
@@ -74,8 +90,5 @@ public class StartBalanceDialog implements Dialog, CommandController {
 
         dialogSteps.put(START_BALANCE.getDialogIdText(),
                 String.format(START_BALANCE.getDialogTextPattern(), "%s", startBalance));
-
-        telegramUserService.checkUser(telegramUserService, update);
-        return true;
     }
 }

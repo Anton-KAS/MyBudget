@@ -7,12 +7,15 @@ import ru.kas.myBudget.bots.telegram.util.CommandController;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.FIRST_STEP_INDEX;
 
 public interface Dialog extends CommandController {
-    boolean commit(Update update);
 
     @Override
     default void execute(Update update, ExecuteMode executeMode) {
         execute(update);
     }
+
+    boolean commit(Update update);
+
+    void skip(Update update);
 
     default ExecuteMode getExecuteMode(Update update, Integer dialogStep) {
         if (update.hasCallbackQuery() && dialogStep == null) {

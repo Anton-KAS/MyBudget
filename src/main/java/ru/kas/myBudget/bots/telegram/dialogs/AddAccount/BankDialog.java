@@ -68,4 +68,9 @@ public class BankDialog implements Dialog, CommandController {
         telegramUserService.checkUser(telegramUserService, update);
         return true;
     }
+
+    @Override
+    public void skip(Update update) {
+
+    }
 }

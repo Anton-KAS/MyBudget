@@ -63,6 +63,7 @@ public class AddAccountDialog implements Dialog, CommandController {
             if (update.hasCallbackQuery() && callbackData != null &&
                     callbackData.length > CALLBACK_OPERATION_DATA_INDEX.getIndex() &&
                     callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()].equals(NEXT.getId())) {
+                addAccountContainer.retrieve(AddAccountName.getDialogNameByOrder(currentStep)).skip(update);
                 lastStep = getNextStepNum(lastStep);
             } else if (addAccountContainer.retrieve(AddAccountName.getDialogNameByOrder(currentStep)).commit(update)) {
                 dialogSteps = dialogsMap.get(chatId);
@@ -87,6 +88,11 @@ public class AddAccountDialog implements Dialog, CommandController {
     @Override
     public boolean commit(Update update) {
         return true;
+    }
+
+    @Override
+    public void skip(Update update) {
+
     }
 
     private int getNextStepNum(int lastStep) {
