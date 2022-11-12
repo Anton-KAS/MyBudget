@@ -4,14 +4,11 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
-import ru.kas.myBudget.bots.telegram.texts.HelpText;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
-
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.*;
 
 public class HelpCommand implements CommandController {
     private final BotMessageService botMessageService;

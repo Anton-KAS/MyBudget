@@ -5,7 +5,7 @@ import ru.kas.myBudget.bots.telegram.util.CommandController;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandName.STAT;
 
-@DisplayName("Unit-level testing for StartCommand")
+@DisplayName("Unit-level testing for StatCommand")
 public class StatCommandTest extends AbstractCommandTest {
     @Override
     String getCommandName() {
@@ -14,6 +14,6 @@ public class StatCommandTest extends AbstractCommandTest {
 
     @Override
     CommandController getCommand() {
-        return new StatCommand(botMessageService, telegramUserService);
+        return new StatCommand(botMessageService, telegramUserService, messageText, keyboard);
     }
 }

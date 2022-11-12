@@ -12,6 +12,6 @@ public class UnknownCommandTest extends AbstractCommandTest {
 
     @Override
     CommandController getCommand() {
-        return new UnknownCommand(botMessageService, telegramUserService);
+        return new UnknownCommand(botMessageService, telegramUserService, messageText, keyboard);
     }
 }
