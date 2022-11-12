@@ -14,11 +14,6 @@ public class MenuCommandTest extends AbstractCommandTest {
     }
 
     @Override
-    String getCommandMessage() {
-        return messageText.getText();
-    }
-
-    @Override
     CommandController getCommand() {
         return new MenuCommand(botMessageService, telegramUserService, ExecuteMode.SEND, keyboard, messageText);
     }
