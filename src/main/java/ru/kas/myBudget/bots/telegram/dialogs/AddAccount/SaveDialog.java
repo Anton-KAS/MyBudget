@@ -48,7 +48,6 @@ public class SaveDialog implements Dialog, CommandController {
 
     @Override
     public void execute(Update update) {
-        long chatId = UpdateParameter.getChatId(update);
         long userId = UpdateParameter.getUserId(update);
 
         Map<String, String> dialogMap = dialogsMap.get(userId);

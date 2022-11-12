@@ -47,7 +47,7 @@ public class DescriptionDialog implements Dialog, CommandController {
     public boolean commit(Update update) {
         String text = UpdateParameter.getMessageText(update);
 
-        if (text != null && text.length() > MAX_DESCRIPTION_LENGTH) {
+        if (text.length() > MAX_DESCRIPTION_LENGTH) {
             botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
                     String.format(VERIFY_EXCEPTION_TEXT, MAX_DESCRIPTION_LENGTH), null);
             return false;

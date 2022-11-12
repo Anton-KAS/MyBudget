@@ -19,7 +19,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static java.lang.Math.toIntExact;
 import static ru.kas.myBudget.bots.telegram.util.UpdateParameter.getUserId;
 
 @Service
@@ -32,7 +31,7 @@ public class BotMessageServiceImpl implements BotMessageService {
     }
 
     @Override
-    public Long executeMessage(ExecuteMode executeMode, long chatId, Long messageId, String message,
+    public Integer executeMessage(ExecuteMode executeMode, long chatId, Integer messageId, String message,
                                InlineKeyboardMarkup inlineKeyboardMarkup) {
         switch (executeMode) {
             case SEND -> {
@@ -49,7 +48,7 @@ public class BotMessageServiceImpl implements BotMessageService {
     }
 
     @Override
-    public Long sendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup) {
+    public Integer sendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableHtml(true);
@@ -61,10 +60,10 @@ public class BotMessageServiceImpl implements BotMessageService {
     }
 
     @Override
-    public Long editMessage(long chatId, long messageId, String message, InlineKeyboardMarkup inlineKeyboardMarkup) {
+    public Integer editMessage(long chatId, int messageId, String message, InlineKeyboardMarkup inlineKeyboardMarkup) {
         EditMessageText editMessage = new EditMessageText();
         editMessage.setChatId(chatId);
-        editMessage.setMessageId(toIntExact(messageId));
+        editMessage.setMessageId(messageId);
         editMessage.enableHtml(true);
         if (inlineKeyboardMarkup != null) {
             editMessage.setReplyMarkup(inlineKeyboardMarkup);
@@ -74,10 +73,10 @@ public class BotMessageServiceImpl implements BotMessageService {
     }
 
     @Override
-    public Long deleteMessage(long chatId, long messageId) {
+    public Integer deleteMessage(long chatId, int messageId) {
         DeleteMessage deleteMessage = new DeleteMessage();
         deleteMessage.setChatId(chatId);
-        deleteMessage.setMessageId(toIntExact(messageId));
+        deleteMessage.setMessageId(messageId);
 
         return execute(telegramBot, deleteMessage);
     }
@@ -88,7 +87,7 @@ public class BotMessageServiceImpl implements BotMessageService {
         removeInlineKeyboard(telegramUserService, update, executeMode);
 
         if (executeMode != null && text != null) {
-            Long sendMessageId = executeMessage(executeMode, UpdateParameter.getChatId(update),
+            Integer sendMessageId = executeMessage(executeMode, UpdateParameter.getChatId(update),
                     UpdateParameter.getMessageId(update), text, inlineKeyboardMarkup);
             if (inlineKeyboardMarkup != null ||
                     Arrays.stream(text.split("\n")).anyMatch(n -> n.matches(".*/(\\d+) .*"))) {
@@ -115,16 +114,16 @@ public class BotMessageServiceImpl implements BotMessageService {
             Optional<TelegramUser> telegramUserOpt = telegramUserService.findById(userId);
             if (telegramUserOpt.isPresent()) {
                 TelegramUser telegramUser = telegramUserOpt.get();
-                Long messageIdToRemove = telegramUser.getLastMessageId();
+                int messageIdToRemove = telegramUser.getLastMessageId();
                 String messageTextToRemove;
-                if (messageIdToRemove != null && messageIdToRemove == UpdateParameter.getMessageId(update)) {
+                if (messageIdToRemove == UpdateParameter.getMessageId(update)) {
                     if (update.hasCallbackQuery())
                         messageTextToRemove = update.getCallbackQuery().getMessage().getText();
                     else messageTextToRemove = UpdateParameter.getMessageText(update);
                 } else {
                     messageTextToRemove = telegramUser.getLastMessageText();
                 }
-                if (messageIdToRemove != null && messageTextToRemove != null) {
+                if (messageTextToRemove != null) {
                     executeRemoveInlineKeyboard(userId, messageIdToRemove, messageTextToRemove);
                     telegramUser.removeLastMessage();
                     telegramUserService.save(telegramUser);
@@ -136,14 +135,14 @@ public class BotMessageServiceImpl implements BotMessageService {
     private void executeRemoveInlineKeyboard(Update update) {
         if (update.hasCallbackQuery()) {
             long chatId = UpdateParameter.getChatId(update);
-            long messageId = UpdateParameter.getMessageId(update);
+            int messageId = UpdateParameter.getMessageId(update);
 
             String text = update.getCallbackQuery().getMessage().getText();
             executeMessage(ExecuteMode.EDIT, chatId, messageId, cleanTextTags(text), null);
         }
     }
 
-    private void executeRemoveInlineKeyboard(long chatId, long messageId, String messageText) {
+    private void executeRemoveInlineKeyboard(long chatId, int messageId, String messageText) {
         executeMessage(ExecuteMode.EDIT, chatId, messageId, cleanTextTags(messageText), null);
     }
 
@@ -152,7 +151,7 @@ public class BotMessageServiceImpl implements BotMessageService {
     }
 
     @Override
-    public Long execute(TelegramBot telegramBot, BotApiMethod botApiMethod) {
+    public Integer execute(TelegramBot telegramBot, BotApiMethod botApiMethod) {
         try {
             Serializable sendMessage = telegramBot.execute(botApiMethod);
             if (sendMessage != null) return getSendMessageId(sendMessage);
@@ -162,7 +161,7 @@ public class BotMessageServiceImpl implements BotMessageService {
         return null;
     }
 
-    private Long getSendMessageId(Serializable sendMessage) {
+    private Integer getSendMessageId(Serializable sendMessage) {
         String sendMessageString = sendMessage.toString();
 
         String PARAMETER = "messageId=";
@@ -176,7 +175,7 @@ public class BotMessageServiceImpl implements BotMessageService {
 
         String sendMessageIdString = sendMessageString.substring(startIndex, endIndex);
         try {
-            return Long.valueOf(sendMessageIdString);
+            return Integer.valueOf(sendMessageIdString);
         } catch (NumberFormatException ignore) {
             // TODO: Add project Logger
         }

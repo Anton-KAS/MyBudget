@@ -49,7 +49,7 @@ public class AddAccountDialog implements Dialog, CommandController {
             lastStep = Integer.parseInt(dialogSteps.get(LAST_STEP.getId()));
         }
 
-        if (!update.hasCallbackQuery() && messageText != null && messageText.startsWith(COMMAND_PREFIX)) {
+        if (!update.hasCallbackQuery() && messageText.startsWith(COMMAND_PREFIX)) {
             String commandIdentifier = messageText.split(" ")[COMMAND.getIndex()].toLowerCase();
             if (commandIdentifier.matches(EDIT_NUM.getRegex())) {
                 currentStep = null;

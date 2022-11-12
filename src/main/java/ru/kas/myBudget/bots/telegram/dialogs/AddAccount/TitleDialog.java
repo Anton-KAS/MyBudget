@@ -44,7 +44,6 @@ public class TitleDialog implements Dialog, CommandController {
     @Override
     public boolean commit(Update update) {
         String text = UpdateParameter.getMessageText(update);
-        if (text == null) return false;
 
         if (text.length() < MIN_TITLE_LENGTH || text.length() > MAX_TITLE_LENGTH) {
             botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,

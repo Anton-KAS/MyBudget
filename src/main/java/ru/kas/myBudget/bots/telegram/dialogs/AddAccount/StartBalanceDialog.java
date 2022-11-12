@@ -57,11 +57,9 @@ public class StartBalanceDialog implements Dialog, CommandController {
     public boolean commit(Update update) {
         String text = UpdateParameter.getMessageText(update);
 
-        if (text != null && !text.matches(CURRENCY_AMOUNT.getRegex())) {
+        if (!text.matches(CURRENCY_AMOUNT.getRegex())) {
             botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
                     VERIFY_EXCEPTION_TEXT, null);
-            return false;
-        } else if (text == null) {
             return false;
         }
 

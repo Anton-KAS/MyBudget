@@ -4,31 +4,22 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class UpdateParameter {
     public static long getUserId(Update update) {
-        if (update.hasCallbackQuery()) {
-            return update.getCallbackQuery().getFrom().getId();
-        } else {
-            return update.getMessage().getFrom().getId();
-        }
+        if (update.hasCallbackQuery()) return update.getCallbackQuery().getFrom().getId();
+        else return update.getMessage().getFrom().getId();
     }
 
     public static long getChatId(Update update) {
-        if (update.hasCallbackQuery()) {
-            return update.getCallbackQuery().getMessage().getChatId();
-        } else {
-            return update.getMessage().getChatId();
-        }
+        if (update.hasCallbackQuery()) return update.getCallbackQuery().getMessage().getChatId();
+        else return update.getMessage().getChatId();
     }
 
-    public static long getMessageId(Update update) {
-        if (update.hasCallbackQuery()) {
-            return update.getCallbackQuery().getMessage().getMessageId();
-        } else {
-            return update.getMessage().getMessageId();
-        }
+    public static int getMessageId(Update update) {
+        if (update.hasCallbackQuery()) return update.getCallbackQuery().getMessage().getMessageId();
+        else return update.getMessage().getMessageId();
     }
 
     public static String getMessageText(Update update) {
-        if (update.hasCallbackQuery()) return null;
+        if (update.hasCallbackQuery()) return update.getCallbackQuery().getMessage().getText().trim();
         return update.getMessage().getText().trim();
     }
 

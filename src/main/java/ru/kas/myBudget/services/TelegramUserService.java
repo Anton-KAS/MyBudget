@@ -11,7 +11,7 @@ public interface TelegramUserService {
 
     void setLastActive(TelegramUser telegramUser);
 
-    void setLastMessage(TelegramUser telegramUser, Long messageId, String messageText);
+    void setLastMessage(TelegramUser telegramUser, Integer messageId, String messageText);
 
     void checkUser(TelegramUserService telegramUserService, Update update);
 

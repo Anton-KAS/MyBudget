@@ -40,7 +40,7 @@ public class TelegramUserServiceImpl implements TelegramUserService {
 
     @Override
     @Transactional
-    public void setLastMessage(TelegramUser telegramUser, Long messageId, String messageText) {
+    public void setLastMessage(TelegramUser telegramUser, Integer messageId, String messageText) {
         if (telegramUser == null || messageId == null) return;
         telegramUser.setLastMessageId(messageId);
         telegramUser.setLastMessageText(messageText);

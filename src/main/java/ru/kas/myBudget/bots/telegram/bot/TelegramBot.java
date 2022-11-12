@@ -69,7 +69,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             String messageText = UpdateParameter.getMessageText(update);
             long chatId = UpdateParameter.getChatId(update);
 
-            if (messageText != null && messageText.startsWith(COMMAND_PREFIX)) {
+            if (messageText.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = messageText.split(" ")[0].toLowerCase();
 
                 System.out.println("COMMAND ID: " + commandIdentifier); //TODO Add project Logger

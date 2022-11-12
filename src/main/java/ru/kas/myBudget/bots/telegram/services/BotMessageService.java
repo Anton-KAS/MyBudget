@@ -9,19 +9,19 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 public interface BotMessageService {
 
-    Long executeMessage(ExecuteMode executeMode, long chatId, Long messageId, String message,
+    Integer executeMessage(ExecuteMode executeMode, long chatId, Integer messageId, String message,
                         InlineKeyboardMarkup inlineKeyboardMarkup);
 
-    Long sendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
+    Integer sendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
-    Long editMessage(long chatId, long messageId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
+    Integer editMessage(long chatId, int messageId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
-    Long deleteMessage(long chatId, long messageId);
+    Integer deleteMessage(long chatId, int messageId);
 
     void executeAndUpdateUser(TelegramUserService telegramUserService,
                               Update update, ExecuteMode executeMode, String text,
                               InlineKeyboardMarkup inlineKeyboardMarkup);
     void updateUser(TelegramUserService telegramUserService, Update update);
 
-    Long execute(TelegramBot telegramBot, BotApiMethod message);
+    Integer execute(TelegramBot telegramBot, BotApiMethod message);
 }
