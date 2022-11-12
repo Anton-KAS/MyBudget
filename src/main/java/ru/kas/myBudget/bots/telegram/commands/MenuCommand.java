@@ -14,16 +14,16 @@ public class MenuCommand implements CommandController {
     private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
     private final ExecuteMode defaultExecuteMode;
-    private final Keyboard keyboard;
     private final MessageText messageText;
+    private final Keyboard keyboard;
 
     public MenuCommand(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                       ExecuteMode defaultExecuteMode, Keyboard keyboard, MessageText messageText) {
+                       ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
         this.botMessageService = botMessageService;
         this.telegramUserService = telegramUserService;
         this.defaultExecuteMode = defaultExecuteMode;
-        this.keyboard = keyboard;
         this.messageText = messageText;
+        this.keyboard = keyboard;
     }
 
     @Override

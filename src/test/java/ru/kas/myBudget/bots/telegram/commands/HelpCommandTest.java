@@ -15,6 +15,6 @@ public class HelpCommandTest extends AbstractCommandTest{
 
     @Override
     CommandController getCommand() {
-        return new HelpCommand(botMessageService, telegramUserService, ExecuteMode.SEND);
+        return new HelpCommand(botMessageService, telegramUserService, DEFAULT_EXECUTE_MODE, messageText, keyboard);
     }
 }

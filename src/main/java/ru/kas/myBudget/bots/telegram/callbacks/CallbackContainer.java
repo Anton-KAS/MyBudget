@@ -23,7 +23,7 @@ public class CallbackContainer implements Container {
                         new AccountsCallback(botMessageService, telegramUserService, defaultExecuteMode))
                 .put(MENU.getCallbackName(),
                         new MenuCommand(botMessageService, telegramUserService, defaultExecuteMode,
-                                new MenuKeyboard(), new MenuText(telegramUserService)))
+                                new MenuText(telegramUserService), new MenuKeyboard()))
                 .put(CLOSE.getCallbackName(),
                         new CloseCallback(botMessageService, telegramUserService))
                 .put(NO.getCallbackName(),

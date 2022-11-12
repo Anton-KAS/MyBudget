@@ -2,8 +2,10 @@ package ru.kas.myBudget.bots.telegram.commands;
 
 import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.callbacks.AccountsCallback;
+import ru.kas.myBudget.bots.telegram.keyboards.HelpKeyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.MenuKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.texts.HelpText;
 import ru.kas.myBudget.bots.telegram.texts.MenuText;
 import ru.kas.myBudget.bots.telegram.util.Container;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
@@ -22,11 +24,11 @@ public class CommandContainer implements Container {
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, telegramUserService))
                 .put(STOP.getCommandName(), new StopCommand(sendBotMessageService, telegramUserService))
                 .put(HELP.getCommandName(), new HelpCommand(sendBotMessageService, telegramUserService,
-                        defaultExecuteMode))
+                        defaultExecuteMode, new HelpText(), new HelpKeyboard()))
                 .put(NO.getCommandName(), new NoCommand(sendBotMessageService, telegramUserService))
                 .put(STAT.getCommandName(), new StatCommand(sendBotMessageService, telegramUserService))
                 .put(MENU.getCommandName(), new MenuCommand(sendBotMessageService, telegramUserService,
-                        defaultExecuteMode, new MenuKeyboard(), new MenuText(telegramUserService)))
+                        defaultExecuteMode, new MenuText(telegramUserService), new MenuKeyboard()))
                 .put(ACCOUNTS.getCommandName(), new AccountsCallback(sendBotMessageService, telegramUserService,
                         defaultExecuteMode))
                 .build();
