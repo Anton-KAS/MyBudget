@@ -2,11 +2,11 @@ package ru.kas.myBudget.bots.telegram.commands;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
-public class StatCommand implements Command {
-
+public class StatCommand implements CommandController {
     private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
 
@@ -21,7 +21,7 @@ public class StatCommand implements Command {
     public void execute(Update update) {
         int activeUserCount = telegramUserService.retrieveAllActiveUsers().size();
 
-        sendAndUpdateUser(telegramUserService, botMessageService, update, ExecuteMode.SEND,
+        botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
                 String.format(STAT_MESSAGE, activeUserCount), null);
     }
 

@@ -1,6 +1,7 @@
 package ru.kas.myBudget.bots.telegram.commands;
 
 import org.junit.jupiter.api.DisplayName;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandName.MENU;
@@ -18,7 +19,7 @@ public class MenuCommandTest extends AbstractCommandTest {
     }
 
     @Override
-    Command getCommand() {
-        return new MenuCommand(ExecuteMode.SEND, botMessageService, telegramUserService, keyboard, messageText);
+    CommandController getCommand() {
+        return new MenuCommand(botMessageService, telegramUserService, ExecuteMode.SEND, keyboard, messageText);
     }
 }

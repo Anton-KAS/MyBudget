@@ -5,20 +5,21 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import ru.kas.myBudget.bots.telegram.keyboards.AccountsKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.AccountsText;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
-public class AccountsCallback implements Callback {
-
-    private final ExecuteMode defaultExecuteMode;
+public class AccountsCallback implements CommandController {
     private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
+    private final ExecuteMode defaultExecuteMode;
 
-    public AccountsCallback(ExecuteMode defaultExecuteMode, BotMessageService BotMessageService,
-                            TelegramUserService telegramUserService) {
-        this.defaultExecuteMode = defaultExecuteMode;
+    public AccountsCallback(BotMessageService BotMessageService, TelegramUserService telegramUserService,
+                            ExecuteMode defaultExecuteMode) {
         this.botMessageService = BotMessageService;
         this.telegramUserService = telegramUserService;
+        this.defaultExecuteMode = defaultExecuteMode;
     }
 
     @Override
@@ -33,9 +34,8 @@ public class AccountsCallback implements Callback {
 
     private void executeMessageService(Update update, ExecuteMode executeMode) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new AccountsKeyboard().getKeyboard();
-        String text = new AccountsText(telegramUserService).setUserId(getUserId(update)).getText();
+        String text = new AccountsText(telegramUserService).setUserId(UpdateParameter.getUserId(update)).getText();
 
-        sendAndUpdateUser(telegramUserService, botMessageService, update, executeMode, text,
-                inlineKeyboardMarkup);
+        botMessageService.executeAndUpdateUser(telegramUserService, update, executeMode, text, inlineKeyboardMarkup);
     }
 }

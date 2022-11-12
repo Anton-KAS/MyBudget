@@ -1,6 +1,7 @@
 package ru.kas.myBudget.bots.telegram.commands;
 
 import org.junit.jupiter.api.DisplayName;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandName.STAT;
 import static ru.kas.myBudget.bots.telegram.commands.StatCommand.STAT_MESSAGE;
@@ -18,7 +19,7 @@ public class StatCommandTest extends AbstractCommandTest {
     }
 
     @Override
-    Command getCommand() {
+    CommandController getCommand() {
         return new StatCommand(botMessageService, telegramUserService);
     }
 }

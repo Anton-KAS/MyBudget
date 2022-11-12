@@ -2,15 +2,15 @@ package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.kas.myBudget.bots.telegram.callbacks.Callback;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.keyboards.AddAccount.CurrenciesKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.AddAccountText;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.models.Currency;
-import ru.kas.myBudget.models.TelegramUser;
 import ru.kas.myBudget.services.CurrencyService;
 import ru.kas.myBudget.services.TelegramUserService;
 
@@ -21,7 +21,7 @@ import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.CALLBACK_OPERATION_DATA_INDEX;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.PAGE;
 
-public class CurrencyDialog implements Dialog, Callback {
+public class CurrencyDialog implements Dialog, CommandController {
     private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
     private final CurrencyService currencyService;
@@ -39,13 +39,14 @@ public class CurrencyDialog implements Dialog, Callback {
 
     @Override
     public void execute(Update update) {
-        int dialogStep = Integer.parseInt(dialogsMap.get(getUserId(update)).get(CURRENT_DIALOG_STEP.getDialogId()));
-        long userId = getUserId(update);
+        long userId = UpdateParameter.getUserId(update);
+        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getDialogId()));
+        String[] callbackData = UpdateParameter.getCallbackData(update);
 
         int page;
-        if (update.hasCallbackQuery() && getCallbackData(update).length > PAGE_INDEX
-                && getCallbackData(update)[PAGE_INDEX-1].equals(PAGE.getId())) {
-            page = Integer.parseInt(getCallbackData(update)[PAGE_INDEX]);
+        if (update.hasCallbackQuery() && callbackData != null && callbackData.length > PAGE_INDEX
+                && callbackData[PAGE_INDEX - 1].equals(PAGE.getId())) {
+            page = Integer.parseInt(callbackData[PAGE_INDEX]);
         } else {
             page = 1;
         }
@@ -53,22 +54,23 @@ public class CurrencyDialog implements Dialog, Callback {
         ExecuteMode executeMode = getExecuteMode(update, dialogStep);
         String text = new AddAccountText().setUserId(userId).getText();
         InlineKeyboardMarkup inlineKeyboardMarkup = new CurrenciesKeyboard(currencyService, telegramUserService,
-                getUserId(update), page).getKeyboard();
+                userId, page).getKeyboard();
 
-        sendAndUpdateUser(telegramUserService, botMessageService, update, executeMode, String.format(text, ASK_TEXT),
-                inlineKeyboardMarkup);
+        botMessageService.executeAndUpdateUser(telegramUserService, update, executeMode,
+                String.format(text, ASK_TEXT), inlineKeyboardMarkup);
     }
 
     @Override
     public boolean commit(Update update) {
-        if (update.hasCallbackQuery() && getCallbackData(update).length > PAGE_INDEX
-                && getCallbackData(update)[PAGE_INDEX-1].equals(PAGE.getId())) {
-            return false;
-        }
+        String[] callbackData = UpdateParameter.getCallbackData(update);
+        if (callbackData == null) return false;
 
-        int currencyId = Integer.parseInt(getCallbackData(update)[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
+        if (update.hasCallbackQuery() && callbackData.length > PAGE_INDEX
+                && callbackData[PAGE_INDEX - 1].equals(PAGE.getId())) return false;
 
-        Map<String, String> dialogSteps = dialogsMap.get(getChatId(update));
+        int currencyId = Integer.parseInt(callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
+
+        Map<String, String> dialogSteps = dialogsMap.get(UpdateParameter.getChatId(update));
         dialogSteps.put(CURRENCY.getDialogId(), String.valueOf(currencyId));
 
         Optional<Currency> currency = currencyService.findById(currencyId);
@@ -77,7 +79,7 @@ public class CurrencyDialog implements Dialog, Callback {
         dialogSteps.put(CURRENCY.getDialogIdText(), String.format(CURRENCY.getDialogTextPattern(), "%s",
                 currency.get().getSymbol() + " - " + currency.get().getCurrencyRu()));
 
-        checkUserInDb(telegramUserService, update);
+        telegramUserService.checkUser(telegramUserService, update);
         return true;
     }
 }

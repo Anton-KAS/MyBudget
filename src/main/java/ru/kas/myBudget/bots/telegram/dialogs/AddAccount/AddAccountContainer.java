@@ -38,7 +38,7 @@ public class AddAccountContainer {
                                 accountTypeService, currencyService, bankService, accountService))
                 .build();
 
-        unknownDialog = new UnknownDialog(botMessageService);
+        unknownDialog = new UnknownDialog(botMessageService, telegramUserService);
     }
 
     public Dialog retrieve(String identifier) {

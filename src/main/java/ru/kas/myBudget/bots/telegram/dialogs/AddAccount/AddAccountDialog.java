@@ -1,24 +1,24 @@
 package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.callbacks.Callback;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
-import ru.kas.myBudget.bots.telegram.commands.Command;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
-import ru.kas.myBudget.bots.telegram.dialogs.DialogPattern;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
+import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.*;
 
 import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.bot.TelegramBot.COMMAND_PREFIX;
+import static ru.kas.myBudget.bots.telegram.commands.CommandIndex.COMMAND;
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.EDIT_NUM;
 
-public class AddAccountDialog implements Dialog, Callback, Command {
+public class AddAccountDialog implements Dialog, CommandController {
     private final AddAccountContainer addAccountContainer;
     private final Map<Long, Map<String, String>> dialogsMap;
 
@@ -33,13 +33,15 @@ public class AddAccountDialog implements Dialog, Callback, Command {
 
     @Override
     public void execute(Update update) {
-        long chatId = getChatId(update);
+        long chatId = UpdateParameter.getChatId(update);
         Map<String, String> dialogSteps = dialogsMap.get(chatId);
         Integer currentStep;
         int lastStep;
+        String[] callbackData = UpdateParameter.getCallbackData(update);
+        String messageText = UpdateParameter.getMessageText(update);
 
-        if (dialogSteps == null || dialogSteps.isEmpty() || (update.hasCallbackQuery() &&
-                        getCallbackData(update)[CALLBACK_STEP_INDEX.getIndex()].equals(START.getDialogId()))) {
+        if (dialogSteps == null || dialogSteps.isEmpty() || (callbackData != null &&
+                callbackData[CALLBACK_STEP_INDEX.getIndex()].equals(START.getDialogId()))) {
             currentStep = FIRST_STEP_INDEX.getIndex();
             lastStep = FIRST_STEP_INDEX.getIndex();
         } else {
@@ -47,8 +49,8 @@ public class AddAccountDialog implements Dialog, Callback, Command {
             lastStep = Integer.parseInt(dialogSteps.get(LAST_STEP.getId()));
         }
 
-        if (!update.hasCallbackQuery() && getMessageText(update).startsWith(COMMAND_PREFIX)) {
-            String commandIdentifier = getMessageText(update).split(" ")[0].toLowerCase();
+        if (!update.hasCallbackQuery() && messageText != null && messageText.startsWith(COMMAND_PREFIX)) {
+            String commandIdentifier = messageText.split(" ")[COMMAND.getIndex()].toLowerCase();
             if (commandIdentifier.matches(EDIT_NUM.getRegex())) {
                 currentStep = null;
                 assert dialogSteps != null;
@@ -58,8 +60,9 @@ public class AddAccountDialog implements Dialog, Callback, Command {
         }
 
         if (currentStep != null) {
-            if (update.hasCallbackQuery() && getCallbackData(update).length > CALLBACK_OPERATION_DATA_INDEX.getIndex() &&
-                    getCallbackData(update)[CALLBACK_OPERATION_DATA_INDEX.getIndex()].equals(NEXT.getId())) {
+            if (update.hasCallbackQuery() && callbackData != null &&
+                    callbackData.length > CALLBACK_OPERATION_DATA_INDEX.getIndex() &&
+                    callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()].equals(NEXT.getId())) {
                 lastStep = getNextStepNum(lastStep);
             } else if (addAccountContainer.retrieve(AddAccountName.getDialogNameByOrder(currentStep)).commit(update)) {
                 dialogSteps = dialogsMap.get(chatId);

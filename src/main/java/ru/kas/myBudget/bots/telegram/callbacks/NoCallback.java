@@ -2,23 +2,27 @@ package ru.kas.myBudget.bots.telegram.callbacks;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.services.TelegramUserService;
 
-public class NoCallback implements Callback {
-
-    private final ExecuteMode executeMode;
+public class NoCallback implements CommandController {
     private final BotMessageService botMessageService;
+    private final TelegramUserService telegramUserService;
+    private final ExecuteMode executeMode;
 
     public final static String NO_MESSAGE = "Что-то пошло не так =(";
 
-    public NoCallback(ExecuteMode executeMode, BotMessageService sendBotMessageService) {
-        this.executeMode = executeMode;
+    public NoCallback(BotMessageService sendBotMessageService, TelegramUserService telegramUserService,
+                      ExecuteMode executeMode) {
         this.botMessageService = sendBotMessageService;
+        this.telegramUserService = telegramUserService;
+        this.executeMode = executeMode;
     }
 
     @Override
     public void execute(Update update) {
-        botMessageService.executeMessage(executeMode, getChatId(update), getMessageId(update), NO_MESSAGE, null);
+        botMessageService.executeAndUpdateUser(telegramUserService, update, executeMode, NO_MESSAGE, null);
     }
 
     @Override

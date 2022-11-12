@@ -1,22 +1,25 @@
 package ru.kas.myBudget.bots.telegram.dialogs;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.callbacks.Callback;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
+import ru.kas.myBudget.services.TelegramUserService;
 
-public class UnknownDialog implements Dialog, Callback {
+public class UnknownDialog implements Dialog, CommandController {
     private final BotMessageService botMessageService;
+    private final TelegramUserService telegramUserService;
 
     public final static String NO_MESSAGE = "Что-то пошло не так =(";
 
-    public UnknownDialog(BotMessageService botMessageService) {
+    public UnknownDialog(BotMessageService botMessageService, TelegramUserService telegramUserService) {
         this.botMessageService = botMessageService;
+        this.telegramUserService = telegramUserService;
     }
 
     @Override
     public void execute(Update update) {
-        botMessageService.executeMessage(getExecuteMode(update, null),
-                getChatId(update), getMessageId(update), NO_MESSAGE, null);
+        botMessageService.executeAndUpdateUser(telegramUserService, update, getExecuteMode(update, null),
+                NO_MESSAGE, null);
     }
 
     @Override

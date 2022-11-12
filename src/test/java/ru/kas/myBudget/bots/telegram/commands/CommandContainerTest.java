@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
-import ru.kas.myBudget.bots.telegram.util.UpdateExtraction;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Arrays;
@@ -27,7 +27,7 @@ public class CommandContainerTest {
     public void shouldGetAllTheExistingCommands() {
         //when-then
         Arrays.stream(CommandName.values()).forEach(commandName -> {
-            UpdateExtraction command = commandContainer.retrieve(commandName.getCommandName());
+            CommandController command = commandContainer.retrieve(commandName.getCommandName());
             Assertions.assertNotEquals(UnknownCommand.class, command.getClass());
         });
     }
@@ -38,7 +38,7 @@ public class CommandContainerTest {
         String unknownCommand = "/testUnknownCommand";
 
         //when
-        UpdateExtraction command = commandContainer.retrieve(unknownCommand);
+        CommandController command = commandContainer.retrieve(unknownCommand);
 
         //then
         Assertions.assertEquals(UnknownCommand.class, command.getClass());

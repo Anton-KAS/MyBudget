@@ -10,6 +10,7 @@ import ru.kas.myBudget.bots.telegram.commands.CommandContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.services.BotMessageServiceImpl;
+import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.*;
 
 import java.util.Arrays;
@@ -65,11 +66,12 @@ public class TelegramBot extends TelegramLongPollingBot {
         System.out.println(update); //TODO Add project Logger
         if (update.hasMessage() && update.getMessage().hasText()) {
 
-            String message_text = update.getMessage().getText().trim();
-            Long chatId = update.getMessage().getChatId();
+            String messageText = UpdateParameter.getMessageText(update);
+            long chatId = UpdateParameter.getChatId(update);
 
-            if (message_text.startsWith(COMMAND_PREFIX)) {
-                String commandIdentifier = message_text.split(" ")[0].toLowerCase();
+            if (messageText != null && messageText.startsWith(COMMAND_PREFIX)) {
+                String commandIdentifier = messageText.split(" ")[0].toLowerCase();
+
                 System.out.println("COMMAND ID: " + commandIdentifier); //TODO Add project Logger
 
                 if (commandIdentifier.matches(EDIT_NUM.getRegex()) && dialogsMap.containsKey(chatId)) {
@@ -86,7 +88,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 commandContainer.retrieve(NO.getCommandName()).execute(update);
             }
         } else if (update.hasCallbackQuery()) {
-            String[] callbackData = update.getCallbackQuery().getData().split("_");
+            String[] callbackData = UpdateParameter.getCallbackData(update);
             onCallbackReceived(update, callbackData);
         }
     }
@@ -96,20 +98,18 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     public void onCallbackReceived(Update update, String[] callbackData) {
-        long message_id = update.getCallbackQuery().getMessage().getMessageId();
-        long chat_id = update.getCallbackQuery().getMessage().getChatId();
+        long messageId = UpdateParameter.getMessageId(update);
+        long chatId = UpdateParameter.getChatId(update);
 
         System.out.println("Call data: " + Arrays.toString(callbackData)); //TODO Add project Logger
-        System.out.println("Message id: " + message_id); //TODO Add project Logger
-        System.out.println("Chat id: " + chat_id); //TODO Add project Logger
+        System.out.println("Message id: " + messageId); //TODO Add project Logger
+        System.out.println("Chat id: " + chatId); //TODO Add project Logger
 
         String callbackType = callbackData[TYPE.getIndex()];
-        if (callbackType.equals(NORMAL.getId())) {
+        if (callbackType.equals(NORMAL.getId()))
             callbackContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
-        } else if (callbackType.equals(DIALOG.getId())) {
+        else if (callbackType.equals(DIALOG.getId()))
             dialogContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
-        } else {
-            callbackContainer.retrieve(NO.getCommandName()).execute(update);
-        }
+        else callbackContainer.retrieve(NO.getCommandName()).execute(update);
     }
 }

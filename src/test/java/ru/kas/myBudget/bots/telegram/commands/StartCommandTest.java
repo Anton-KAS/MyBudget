@@ -1,6 +1,7 @@
 package ru.kas.myBudget.bots.telegram.commands;
 
 import org.junit.jupiter.api.DisplayName;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandName.START;
 import static ru.kas.myBudget.bots.telegram.commands.StartCommand.START_MESSAGE;
@@ -18,7 +19,7 @@ public class StartCommandTest extends AbstractCommandTest {
     }
 
     @Override
-    Command getCommand() {
+    CommandController getCommand() {
         return new StartCommand(botMessageService, telegramUserService);
     }
 }

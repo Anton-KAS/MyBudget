@@ -5,13 +5,12 @@ import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountDialog;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.util.Container;
-import ru.kas.myBudget.bots.telegram.util.UpdateExtraction;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.services.*;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogName.*;
 
 public class DialogContainer implements Container {
-
     private final ImmutableMap<String, Dialog> dialogMap;
     private final Dialog unknownDialog;
 
@@ -25,10 +24,10 @@ public class DialogContainer implements Container {
                                 accountTypeService, currencyService, bankService, accountService))
                 .build();
 
-        unknownDialog = new UnknownDialog(botMessageService);
+        unknownDialog = new UnknownDialog(botMessageService, telegramUserService);
     }
 
-    public UpdateExtraction retrieve(String identifier) {
+    public CommandController retrieve(String identifier) {
         return dialogMap.getOrDefault(identifier, unknownDialog);
     }
 }

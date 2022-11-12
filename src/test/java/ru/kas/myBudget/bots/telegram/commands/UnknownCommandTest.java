@@ -1,6 +1,7 @@
 package ru.kas.myBudget.bots.telegram.commands;
 
 import org.junit.jupiter.api.DisplayName;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 
 import static ru.kas.myBudget.bots.telegram.commands.UnknownCommand.UNKNOWN_MESSAGE;
 
@@ -17,7 +18,7 @@ public class UnknownCommandTest extends AbstractCommandTest {
     }
 
     @Override
-    Command getCommand() {
-        return new UnknownCommand(botMessageService);
+    CommandController getCommand() {
+        return new UnknownCommand(botMessageService, telegramUserService);
     }
 }

@@ -2,11 +2,11 @@ package ru.kas.myBudget.bots.telegram.commands;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
-public class NoCommand implements Command {
-
+public class NoCommand implements CommandController {
     private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
 
@@ -20,8 +20,7 @@ public class NoCommand implements Command {
 
     @Override
     public void execute(Update update) {
-        sendAndUpdateUser(telegramUserService, botMessageService, update, ExecuteMode.SEND, NO_MESSAGE,
-                null);
+        botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND, NO_MESSAGE, null);
     }
 
     @Override

@@ -17,7 +17,9 @@ import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.services.BotMessageServiceImpl;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.stream.Stream;
@@ -38,7 +40,7 @@ abstract class AbstractCommandTest {
 
     abstract String getCommandMessage();
 
-    abstract Command getCommand();
+    abstract CommandController getCommand();
 
     @BeforeEach
     public void beforeEach() {
@@ -80,7 +82,7 @@ abstract class AbstractCommandTest {
     @MethodSource("source")
     public void ShouldPropertyExtractMessageText(Update update, String expectedText) {
         //when
-        String textResult = getCommand().getMessageText(update);
+        String textResult = UpdateParameter.getMessageText(update);
 
         //then
         assertEquals(expectedText, textResult);

@@ -1,12 +1,13 @@
 package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.callbacks.Callback;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.models.Account;
 import ru.kas.myBudget.models.Bank;
 import ru.kas.myBudget.models.Currency;
@@ -20,7 +21,7 @@ import java.util.Optional;
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_ID;
 
-public class SaveDialog implements Dialog, Callback {
+public class SaveDialog implements Dialog, CommandController {
     private final BotMessageService botMessageService;
     private final TelegramUserService telegramUserService;
     private final CallbackContainer callbackContainer;
@@ -47,8 +48,8 @@ public class SaveDialog implements Dialog, Callback {
 
     @Override
     public void execute(Update update) {
-        long chatId = getChatId(update);
-        long userId = getUserId(update);
+        long chatId = UpdateParameter.getChatId(update);
+        long userId = UpdateParameter.getUserId(update);
 
         Map<String, String> dialogMap = dialogsMap.get(userId);
         try {
@@ -81,11 +82,13 @@ public class SaveDialog implements Dialog, Callback {
             );
 
             accountService.save(account);
-            removeInlineKeyboard(telegramUserService, botMessageService, update, ExecuteMode.SEND);
-            botMessageService.executeSendMessage(chatId, CONFIRM_TEXT);
+
+            botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
+                    CONFIRM_TEXT, null);
         } catch (Exception ignore) {
             //TODO Add project Logger
-            botMessageService.executeSendMessage(chatId, EXCEPTION_TEXT);
+            botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
+                    EXCEPTION_TEXT, null);
         }
         String fromStartId = dialogMap.get(START_FROM_ID.getId());
         if (fromStartId != null) {

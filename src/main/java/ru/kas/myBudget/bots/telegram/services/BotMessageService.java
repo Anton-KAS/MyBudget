@@ -5,18 +5,23 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.services.TelegramUserService;
 
 public interface BotMessageService {
 
     Long executeMessage(ExecuteMode executeMode, long chatId, Long messageId, String message,
                         InlineKeyboardMarkup inlineKeyboardMarkup);
 
-    Long executeSendMessage(long chatId, String message);
+    Long sendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
-    Long executeDeleteMessage(long chatId, long messageId);
+    Long editMessage(long chatId, long messageId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
-    Long executeRemoveInlineKeyboard(Update update);
-    Long executeRemoveInlineKeyboard(long chatId, long messageId, String messageText);
+    Long deleteMessage(long chatId, long messageId);
+
+    void executeAndUpdateUser(TelegramUserService telegramUserService,
+                              Update update, ExecuteMode executeMode, String text,
+                              InlineKeyboardMarkup inlineKeyboardMarkup);
+    void updateUser(TelegramUserService telegramUserService, Update update);
 
     Long execute(TelegramBot telegramBot, BotApiMethod message);
 }

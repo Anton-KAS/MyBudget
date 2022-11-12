@@ -2,23 +2,27 @@ package ru.kas.myBudget.bots.telegram.commands;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.services.TelegramUserService;
 
-public class UnknownCommand implements Command {
-
-    private final BotMessageService sendBotMessageService;
+public class UnknownCommand implements CommandController {
+    private final BotMessageService botMessageService;
+    private final TelegramUserService telegramUserService;
 
     public final static String UNKNOWN_MESSAGE = "" +
             "Не понимаю вас =(\n" +
             "Напишите /help чтобы узнать что я понимаю.";
 
-    public UnknownCommand(BotMessageService sendBotMessageService) {
-        this.sendBotMessageService = sendBotMessageService;
+    public UnknownCommand(BotMessageService botMessageService, TelegramUserService telegramUserService) {
+        this.botMessageService = botMessageService;
+        this.telegramUserService = telegramUserService;
     }
 
     @Override
     public void execute(Update update) {
-        sendBotMessageService.executeSendMessage(getUserId(update), UNKNOWN_MESSAGE);
+        botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
+                UNKNOWN_MESSAGE, null);
     }
 
     @Override

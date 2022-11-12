@@ -7,9 +7,10 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
+import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
 @DisplayName("Unit-level testing for SendBotMessageService")
-public class SendBotMessageServiceTest {
+public class BotMessageServiceTest {
 
     private TelegramBot telegramBot;
     private BotMessageService botMessageService;
@@ -32,7 +33,7 @@ public class SendBotMessageServiceTest {
         sendMessage.enableHtml(true);
 
         //when
-        botMessageService.executeSendMessage(chatId, message);
+        botMessageService.executeMessage(ExecuteMode.SEND, chatId, null, message, null);
 
         //then
         Mockito.verify(telegramBot).execute(sendMessage);
