@@ -20,23 +20,23 @@ public class CommandContainer implements Container {
     public CommandContainer(BotMessageService sendBotMessageService, TelegramUserService telegramUserService) {
         commandMap = ImmutableMap.<String, CommandController>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, telegramUserService,
-                        new StartText(), new StartKeyboard()))
+                        defaultExecuteMode, new StartText(), new StartKeyboard()))
                 .put(STOP.getCommandName(), new StopCommand(sendBotMessageService, telegramUserService,
-                        new StopText(), new StopKeyboard()))
+                        defaultExecuteMode, new StopText(), new StopKeyboard()))
                 .put(HELP.getCommandName(), new HelpCommand(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new HelpText(), new HelpKeyboard()))
                 .put(NO.getCommandName(), new NoCommand(sendBotMessageService, telegramUserService,
-                        new NoText(), new NoKeyboard()))
+                        defaultExecuteMode, new NoText(), new NoKeyboard()))
                 .put(STAT.getCommandName(), new StatCommand(sendBotMessageService, telegramUserService,
-                        new StatText(), new StatKeyboard()))
+                        defaultExecuteMode, new StatText(), new StatKeyboard()))
                 .put(MENU.getCommandName(), new MenuCommand(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new MenuText(telegramUserService), new MenuKeyboard()))
                 .put(ACCOUNTS.getCommandName(), new AccountsCallback(sendBotMessageService, telegramUserService,
-                        defaultExecuteMode))
+                        defaultExecuteMode, new AccountsText(telegramUserService), new AccountsKeyboard()))
                 .build();
 
         unknownCommand = new UnknownCommand(sendBotMessageService, telegramUserService,
-                new UnknownText(), new UnknownKeyboard());
+                defaultExecuteMode, new UnknownText(), new UnknownKeyboard());
     }
 
     @Override

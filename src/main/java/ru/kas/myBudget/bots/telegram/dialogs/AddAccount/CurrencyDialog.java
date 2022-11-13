@@ -4,7 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
-import ru.kas.myBudget.bots.telegram.keyboards.AddAccount.CurrenciesKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.addAccount.CurrenciesKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.AddAccountText;
 import ru.kas.myBudget.bots.telegram.util.CommandController;

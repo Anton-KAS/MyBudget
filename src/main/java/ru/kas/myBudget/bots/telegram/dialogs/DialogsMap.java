@@ -25,6 +25,21 @@ public class DialogsMap {
         return instance.dialogsMap.get(chatId);
     }
 
+    public static DialogsMap getDialogsMapClass() {
+        if (instance == null) {
+            instance = new DialogsMap();
+        }
+        return instance;
+    }
+
+    public DialogsMap remove(long chatId) {
+        if (instance == null) {
+            return null;
+        }
+        instance.dialogsMap.remove(chatId);
+        return instance;
+    }
+
     @Override
     public String toString() {
         return "DialogsMap{" +

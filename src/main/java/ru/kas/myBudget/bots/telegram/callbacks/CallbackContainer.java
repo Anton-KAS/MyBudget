@@ -2,9 +2,16 @@ package ru.kas.myBudget.bots.telegram.callbacks;
 
 import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.commands.MenuCommand;
+import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
+import ru.kas.myBudget.bots.telegram.keyboards.AccountsKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.CancelDialogKeyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.MenuKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.callback.NoKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.texts.AccountsText;
+import ru.kas.myBudget.bots.telegram.texts.CancelDialogText;
 import ru.kas.myBudget.bots.telegram.texts.MenuText;
+import ru.kas.myBudget.bots.telegram.texts.callback.NoText;
 import ru.kas.myBudget.bots.telegram.util.Container;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
@@ -20,19 +27,24 @@ public class CallbackContainer implements Container {
     public CallbackContainer(BotMessageService botMessageService, TelegramUserService telegramUserService) {
         callbackMap = ImmutableMap.<String, CommandController>builder()
                 .put(ACCOUNTS.getCallbackName(),
-                        new AccountsCallback(botMessageService, telegramUserService, defaultExecuteMode))
+                        new AccountsCallback(botMessageService, telegramUserService, defaultExecuteMode,
+                                new AccountsText(telegramUserService), new AccountsKeyboard()))
                 .put(MENU.getCallbackName(),
                         new MenuCommand(botMessageService, telegramUserService, defaultExecuteMode,
                                 new MenuText(telegramUserService), new MenuKeyboard()))
                 .put(CLOSE.getCallbackName(),
-                        new CloseCallback(botMessageService, telegramUserService))
+                        new CloseCallback(botMessageService, telegramUserService, defaultExecuteMode,
+                                null, null))
                 .put(NO.getCallbackName(),
-                        new NoCallback(botMessageService, telegramUserService, defaultExecuteMode))
+                        new NoCallback(botMessageService, telegramUserService, defaultExecuteMode,
+                                new NoText(), new NoKeyboard()))
                 .put(CANCEL_DIALOG.getCallbackName(),
-                        new CancelCallbackDialog(botMessageService, telegramUserService))
+                        new CancelDialogCallback(botMessageService, telegramUserService, defaultExecuteMode,
+                                new CancelDialogText(), new CancelDialogKeyboard(), DialogsMap.getDialogsMapClass()))
                 .build();
 
-        unknownCommand = new UnknownCallback(botMessageService, telegramUserService, defaultExecuteMode);
+        unknownCommand = new UnknownCallback(botMessageService, telegramUserService, defaultExecuteMode,
+                new NoText(), new NoKeyboard());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.keyboards.AddAccount;
+package ru.kas.myBudget.bots.telegram.keyboards.addAccount;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName;
