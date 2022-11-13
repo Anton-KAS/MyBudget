@@ -1,8 +1,8 @@
 package ru.kas.myBudget.bots.telegram.keyboards.addAccount;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName;
-import ru.kas.myBudget.bots.telegram.dialogs.DialogName;
+import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames;
+import ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl;
 import ru.kas.myBudget.bots.telegram.keyboards.InlineKeyboardBuilder;
 import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.models.AccountType;
@@ -15,9 +15,9 @@ public class TypeKeyboard implements Keyboard {
     private final static String TEXT_BUTTON_PATTERN = "%s";
     private final static String CALLBACK_BUTTON_PATTERN = String.format("%s_%s_%s_%s_%s",
             DIALOG.getId(),
-            DialogName.ADD_ACCOUNT.getDialogName(),
-            DialogName.ADD_ACCOUNT.getDialogName(),
-            AddAccountName.TYPE.getDialogId(),
+            DialogNamesImpl.ADD_ACCOUNT.getName(),
+            DialogNamesImpl.ADD_ACCOUNT.getName(),
+            AddAccountNames.TYPE.getName(),
             "%s");
 
     public TypeKeyboard(AccountTypeService accountTypeService) {

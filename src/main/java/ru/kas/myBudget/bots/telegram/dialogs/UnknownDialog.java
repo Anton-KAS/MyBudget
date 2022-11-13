@@ -1,25 +1,18 @@
 package ru.kas.myBudget.bots.telegram.dialogs;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
-import ru.kas.myBudget.bots.telegram.util.CommandController;
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
+import ru.kas.myBudget.bots.telegram.util.CommandControllerImpl;
+import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
-public class UnknownDialog implements Dialog, CommandController {
-    private final BotMessageService botMessageService;
-    private final TelegramUserService telegramUserService;
+public class UnknownDialog extends CommandControllerImpl implements Dialog {
 
-    public final static String NO_MESSAGE = "Что-то пошло не так =(";
-
-    public UnknownDialog(BotMessageService botMessageService, TelegramUserService telegramUserService) {
-        this.botMessageService = botMessageService;
-        this.telegramUserService = telegramUserService;
-    }
-
-    @Override
-    public void execute(Update update) {
-        botMessageService.executeAndUpdateUser(telegramUserService, update, getExecuteMode(update, null),
-                NO_MESSAGE, null);
+    public UnknownDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                         ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
+        super(botMessageService, telegramUserService, defaultExecuteMode, messageText, keyboard);
     }
 
     @Override
@@ -29,6 +22,5 @@ public class UnknownDialog implements Dialog, CommandController {
 
     @Override
     public void skip(Update update) {
-
     }
 }

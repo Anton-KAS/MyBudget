@@ -17,7 +17,7 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.services.*;
 
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackName.*;
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.*;
 
 public class CallbackContainer implements Container {
     private final ImmutableMap<String, CommandController> callbackMap;
@@ -26,19 +26,19 @@ public class CallbackContainer implements Container {
 
     public CallbackContainer(BotMessageService botMessageService, TelegramUserService telegramUserService) {
         callbackMap = ImmutableMap.<String, CommandController>builder()
-                .put(ACCOUNTS.getCallbackName(),
+                .put(ACCOUNTS.getName(),
                         new AccountsCallback(botMessageService, telegramUserService, defaultExecuteMode,
                                 new AccountsText(telegramUserService), new AccountsKeyboard()))
-                .put(MENU.getCallbackName(),
+                .put(MENU.getName(),
                         new MenuCommand(botMessageService, telegramUserService, defaultExecuteMode,
                                 new MenuText(telegramUserService), new MenuKeyboard()))
-                .put(CLOSE.getCallbackName(),
+                .put(CLOSE.getName(),
                         new CloseCallback(botMessageService, telegramUserService, defaultExecuteMode,
                                 null, null))
-                .put(NO.getCallbackName(),
+                .put(NO.getName(),
                         new NoCallback(botMessageService, telegramUserService, defaultExecuteMode,
                                 new NoText(), new NoKeyboard()))
-                .put(CANCEL_DIALOG.getCallbackName(),
+                .put(CANCEL_DIALOG.getName(),
                         new CancelDialogCallback(botMessageService, telegramUserService, defaultExecuteMode,
                                 new CancelDialogText(), new CancelDialogKeyboard(), DialogsMap.getDialogsMapClass()))
                 .build();

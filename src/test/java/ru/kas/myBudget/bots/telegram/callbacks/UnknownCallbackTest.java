@@ -11,7 +11,7 @@ import ru.kas.myBudget.bots.telegram.util.CommandController;
 public class UnknownCallbackTest extends AbstractCommandControllerTest {
     @Override
     public String getCommandName() {
-        return CallbackName.NO.getCallbackName();
+        return CallbackNamesImpl.NO.getName();
     }
 
     @Override

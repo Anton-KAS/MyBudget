@@ -1,12 +1,13 @@
 package ru.kas.myBudget.bots.telegram.texts;
 
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName;
+import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 
 import java.util.Map;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CASH_ID;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 
 public class AddAccountText implements MessageText {
     private Long userId;
@@ -28,16 +29,16 @@ public class AddAccountText implements MessageText {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        AddAccountName[] addAccountNames = AddAccountName.values();
+        AddAccountNames[] addAccountNames = AddAccountNames.values();
         int n = 0;
         for (int count = 0; count < addAccountNames.length; count++) {
-            AddAccountName addAccountName = addAccountNames[count];
+            AddAccountNames addAccountName = addAccountNames[count];
             if (addAccountName.getDialogTextPattern() == null) continue;
 
-            if ((dialogMap.get(TYPE.getDialogId()) == null || dialogMap.get(TYPE.getDialogId()).equals(CASH_ID.getId()))
+            if ((dialogMap.get(TYPE.getName()) == null || dialogMap.get(TYPE.getName()).equals(CASH_ID.getId()))
                     && addAccountName.equals(BANK)) continue;
 
-            int currentStepId = Integer.parseInt(dialogMap.get(CURRENT_DIALOG_STEP.getDialogId()));
+            int currentStepId = Integer.parseInt(dialogMap.get(CURRENT_DIALOG_STEP.getId()));
             if (count != 1 && currentStepId > count) stringBuilder.append("/");
             if (currentStepId == count) stringBuilder.append("<b>");
 

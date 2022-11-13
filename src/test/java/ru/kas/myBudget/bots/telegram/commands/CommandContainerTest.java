@@ -1,46 +1,25 @@
 package ru.kas.myBudget.bots.telegram.commands;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import ru.kas.myBudget.bots.telegram.services.BotMessageService;
-import ru.kas.myBudget.bots.telegram.util.CommandController;
-import ru.kas.myBudget.services.TelegramUserService;
+import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
+import ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl;
+import ru.kas.myBudget.bots.telegram.callbacks.UnknownCallback;
+import ru.kas.myBudget.bots.telegram.util.AbstractContainerTest;
+import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
-import java.util.Arrays;
-
-@DisplayName("Unit-level testing for CommandContainer")
-public class CommandContainerTest {
-
-    private CommandContainer commandContainer;
-
-    @BeforeEach
-    public void init() {
-        BotMessageService sendBotMessageService = Mockito.mock(BotMessageService.class);
-        TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
-        commandContainer = new CommandContainer(sendBotMessageService, telegramUserService);
+public class CommandContainerTest extends AbstractContainerTest {
+    @Override
+    protected void setContainer() {
+        container = new CommandContainer(botMessageServiceMock, telegramUserServiceMock);
     }
 
-    @Test
-    public void shouldGetAllTheExistingCommands() {
-        //when-then
-        Arrays.stream(CommandName.values()).forEach(commandName -> {
-            CommandController command = commandContainer.retrieve(commandName.getCommandName());
-            Assertions.assertNotEquals(UnknownCommand.class, command.getClass());
-        });
+    @Override
+    protected void setNames() {
+        commandNames = CommandNamesImpl.values();
     }
 
-    @Test
-    public void shouldReturnUnknownCommand() {
-        //given
-        String unknownCommand = "/testUnknownCommand";
-
-        //when
-        CommandController command = commandContainer.retrieve(unknownCommand);
-
-        //then
-        Assertions.assertEquals(UnknownCommand.class, command.getClass());
+    @Override
+    protected void setUnknownCommand() {
+        unknownCommand = new UnknownCommand(botMessageServiceMock, telegramUserServiceMock, ExecuteMode.SEND,
+                messageTextMock, keyboardMock);
     }
 }

@@ -12,8 +12,8 @@ import ru.kas.myBudget.services.TelegramUserService;
 import java.util.*;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.CURRENCY;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.CURRENCY;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.*;
 
 public class CurrenciesKeyboard implements Keyboard {
     private final CurrencyService currencyService;
@@ -23,7 +23,7 @@ public class CurrenciesKeyboard implements Keyboard {
     private final static int NUM_IN_PAGE = 5;
     private final static String TEXT_BUTTON_PATTERN = "%s - %s";
     public final String CALLBACK_BUTTON_PATTERN = String.format("%s_%s_%s_%s_%s",
-            DIALOG.getId(), ADD_ACCOUNT.getDialogName(), ADD_ACCOUNT.getDialogName(), CURRENCY.getDialogId(), "%s");
+            DIALOG.getId(), ADD_ACCOUNT.getName(), ADD_ACCOUNT.getName(), CURRENCY.getName(), "%s");
 
     public CurrenciesKeyboard(CurrencyService currencyService, TelegramUserService telegramUserService,
                               long userId, int page) {
@@ -47,9 +47,9 @@ public class CurrenciesKeyboard implements Keyboard {
         }
         if (page > 1 || currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addRow();
         if (page > 1) inlineKeyboardBuilder.addButton(getPreviousPageButton(
-                ADD_ACCOUNT.getDialogName(), CURRENCY.getDialogId(), page - 1));
+                ADD_ACCOUNT.getName(), CURRENCY.getName(), page - 1));
         if (currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addButton(getNextPageButton(
-                ADD_ACCOUNT.getDialogName(), CURRENCY.getDialogId(), page + 1));
+                ADD_ACCOUNT.getName(), CURRENCY.getName(), page + 1));
 
         return inlineKeyboardBuilder.build();
     }

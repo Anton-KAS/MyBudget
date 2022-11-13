@@ -12,13 +12,13 @@ import ru.kas.myBudget.models.TelegramUser;
 
 import java.util.Optional;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.STOP;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.STOP;
 
 @DisplayName("Unit-level testing for StopCommand")
 public class StopCommandTest extends AbstractCommandControllerTest {
     @Override
     protected String getCommandName() {
-        return STOP.getCommandName();
+        return STOP.getName();
     }
 
     @Override

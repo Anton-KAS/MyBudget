@@ -58,7 +58,7 @@ public class CloseCallbackTest {
         User from = Mockito.mock(User.class);
 
         Mockito.when(message.getChatId()).thenReturn(chatId);
-        Mockito.when(message.getText()).thenReturn(CallbackName.CLOSE.getCallbackName());
+        Mockito.when(message.getText()).thenReturn(CallbackNamesImpl.CLOSE.getName());
         Mockito.when(message.getMessageId()).thenReturn(TEST_MESSAGE_ID);
         Mockito.when(message.getFrom()).thenReturn(from);
         Mockito.when(from.getId()).thenReturn(userId);

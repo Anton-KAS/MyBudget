@@ -10,13 +10,13 @@ import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.STAT;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.STAT;
 
 @DisplayName("Unit-level testing for StatCommand")
 public class StatCommandTest extends AbstractCommandControllerTest {
     @Override
     protected String getCommandName() {
-        return STAT.getCommandName();
+        return STAT.getName();
     }
 
     @Override

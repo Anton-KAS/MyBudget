@@ -7,13 +7,13 @@ import ru.kas.myBudget.bots.telegram.texts.AccountsText;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.ACCOUNTS;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.ACCOUNTS;
 
 @DisplayName("Unit-level testing for AccountsCallback")
 public class AccountsCallbackTest extends AbstractCommandControllerTest {
     @Override
     protected String getCommandName() {
-        return ACCOUNTS.getCommandName();
+        return ACCOUNTS.getName();
     }
 
     @Override

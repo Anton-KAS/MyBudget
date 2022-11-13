@@ -9,14 +9,14 @@ import ru.kas.myBudget.services.BankService;
 import java.util.List;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.BANK;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogName.ADD_ACCOUNT;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.BANK;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 public class BanksKeyboard implements Keyboard {
     private final BankService bankService;
     private final static String TEXT_BUTTON_PATTERN = "%s (%s)";
     public final String CALLBACK_BUTTON_PATTERN = String.format("%s_%s_%s_%s_%s",
-            DIALOG.getId(), ADD_ACCOUNT.getDialogName(), ADD_ACCOUNT.getDialogName(), BANK.getDialogId(), "%s");
+            DIALOG.getId(), ADD_ACCOUNT.getName(), ADD_ACCOUNT.getName(), BANK.getName(), "%s");
 
     public BanksKeyboard(BankService bankService) {
         this.bankService = bankService;
@@ -32,7 +32,7 @@ public class BanksKeyboard implements Keyboard {
                     .addButton(String.format(TEXT_BUTTON_PATTERN, bank.getTitleRu(), bank.getCountry().getTitleRu()),
                             String.format(CALLBACK_BUTTON_PATTERN, bank.getId()));
         }
-        inlineKeyboardBuilder.addRow().addButton(getNextButton(ADD_ACCOUNT.getDialogName(), BANK.getDialogId()));
+        inlineKeyboardBuilder.addRow().addButton(getNextButton(ADD_ACCOUNT.getName(), BANK.getName()));
         return inlineKeyboardBuilder.build();
     }
 }

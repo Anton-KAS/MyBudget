@@ -10,7 +10,7 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.*;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.*;
 
 public class CommandContainer implements Container {
     private final static ExecuteMode defaultExecuteMode = ExecuteMode.SEND;
@@ -19,19 +19,19 @@ public class CommandContainer implements Container {
 
     public CommandContainer(BotMessageService sendBotMessageService, TelegramUserService telegramUserService) {
         commandMap = ImmutableMap.<String, CommandController>builder()
-                .put(START.getCommandName(), new StartCommand(sendBotMessageService, telegramUserService,
+                .put(START.getName(), new StartCommand(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new StartText(), new StartKeyboard()))
-                .put(STOP.getCommandName(), new StopCommand(sendBotMessageService, telegramUserService,
+                .put(STOP.getName(), new StopCommand(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new StopText(), new StopKeyboard()))
-                .put(HELP.getCommandName(), new HelpCommand(sendBotMessageService, telegramUserService,
+                .put(HELP.getName(), new HelpCommand(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new HelpText(), new HelpKeyboard()))
-                .put(NO.getCommandName(), new NoCommand(sendBotMessageService, telegramUserService,
+                .put(NO.getName(), new NoCommand(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new NoText(), new NoKeyboard()))
-                .put(STAT.getCommandName(), new StatCommand(sendBotMessageService, telegramUserService,
+                .put(STAT.getName(), new StatCommand(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new StatText(), new StatKeyboard()))
-                .put(MENU.getCommandName(), new MenuCommand(sendBotMessageService, telegramUserService,
+                .put(MENU.getName(), new MenuCommand(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new MenuText(telegramUserService), new MenuKeyboard()))
-                .put(ACCOUNTS.getCommandName(), new AccountsCallback(sendBotMessageService, telegramUserService,
+                .put(ACCOUNTS.getName(), new AccountsCallback(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new AccountsText(telegramUserService), new AccountsKeyboard()))
                 .build();
 

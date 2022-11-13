@@ -19,7 +19,8 @@ import java.math.RoundingMode;
 import java.util.Map;
 import java.util.Optional;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.CURRENCY_AMOUNT;
 import static ru.kas.myBudget.bots.telegram.util.UpdateParameter.getUserId;
 
@@ -43,7 +44,7 @@ public class StartBalanceDialog implements Dialog, CommandController {
     @Override
     public void execute(Update update) {
         long userId = getUserId(update);
-        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getDialogId()));
+        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getId()));
 
         ExecuteMode executeMode = getExecuteMode(update, dialogStep);
         String text = new AddAccountText().setUserId(userId).getText();
@@ -77,14 +78,14 @@ public class StartBalanceDialog implements Dialog, CommandController {
     private void addStartBalance(String text, long userId) {
         Map<String, String> dialogSteps = dialogsMap.get(userId);
 
-        Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogSteps.get(CURRENCY.getDialogId())));
+        Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogSteps.get(CURRENCY.getName())));
         int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
 
         text = text.replace(",", ".");
         BigDecimal startBalance = new BigDecimal(text);
         startBalance = startBalance.setScale(String.valueOf(numberToBAsic).length() - 1, RoundingMode.HALF_UP);
 
-        dialogSteps.put(START_BALANCE.getDialogId(), startBalance.toString());
+        dialogSteps.put(START_BALANCE.getName(), startBalance.toString());
 
         dialogSteps.put(START_BALANCE.getDialogIdText(),
                 String.format(START_BALANCE.getDialogTextPattern(), "%s", startBalance));

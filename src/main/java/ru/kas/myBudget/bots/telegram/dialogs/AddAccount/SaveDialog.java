@@ -18,7 +18,7 @@ import java.math.RoundingMode;
 import java.util.Map;
 import java.util.Optional;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_ID;
 
 public class SaveDialog implements Dialog, CommandController {
@@ -53,30 +53,30 @@ public class SaveDialog implements Dialog, CommandController {
         Map<String, String> dialogMap = dialogsMap.get(userId);
         try {
             Bank bank;
-            if (dialogMap.get(BANK.getDialogId()) != null &&
-                    bankService.findById(Integer.parseInt(dialogMap.get(BANK.getDialogId()))).isPresent()) {
-                bank = bankService.findById(Integer.parseInt(dialogMap.get(BANK.getDialogId()))).get();
+            if (dialogMap.get(BANK.getName()) != null &&
+                    bankService.findById(Integer.parseInt(dialogMap.get(BANK.getName()))).isPresent()) {
+                bank = bankService.findById(Integer.parseInt(dialogMap.get(BANK.getName()))).get();
             } else {
                 bank = null;
             }
 
-            Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getDialogId())));
+            Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
             int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
 
-            String startBalanceString = dialogMap.get(START_BALANCE.getDialogId());
+            String startBalanceString = dialogMap.get(START_BALANCE.getName());
             BigDecimal startBalance;
             if (startBalanceString == null) startBalance = new BigDecimal(0);
             else startBalance = new BigDecimal(startBalanceString).multiply(new BigDecimal(numberToBAsic))
                     .setScale(String.valueOf(numberToBAsic).length() - 1, RoundingMode.HALF_UP);
 
             Account account = new Account(
-                    dialogMap.get(TITLE.getDialogId()),
-                    dialogMap.get(DESCRIPTION.getDialogId()),
+                    dialogMap.get(TITLE.getName()),
+                    dialogMap.get(DESCRIPTION.getName()),
                     startBalance,
                     startBalance,
                     telegramUserService.findById(userId).get(),
-                    currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getDialogId()))).get(),
-                    accountTypeService.findById(Integer.parseInt(dialogMap.get(TYPE.getDialogId()))).get(),
+                    currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName()))).get(),
+                    accountTypeService.findById(Integer.parseInt(dialogMap.get(TYPE.getName()))).get(),
                     bank
             );
 

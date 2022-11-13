@@ -1,8 +1,9 @@
 package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
 
-public enum AddAccountName {
+import ru.kas.myBudget.bots.telegram.util.CommandNames;
+
+public enum AddAccountNames implements CommandNames {
     // Order is important!
-    CURRENT_DIALOG_STEP("currentStep", null),
     START("start", "<b>Добавление нового счета</b>\n"),
     TYPE("addType", "%s - Тип: %s"),
     TITLE("addTitle", "%s - Название: %s"),
@@ -13,16 +14,17 @@ public enum AddAccountName {
     CONFIRM("confirm", null),
     SAVE("accSave", null);
 
-    private final String dialogId;
+    private final String name;
     private final String dialogTextPattern;
 
-    AddAccountName(String dialogId, String dialogTextPattern) {
-        this.dialogId = dialogId;
+    AddAccountNames(String name, String dialogTextPattern) {
+        this.name = name;
         this.dialogTextPattern = dialogTextPattern;
     }
 
-    public String getDialogId() {
-        return dialogId;
+    @Override
+    public String getName() {
+        return name;
     }
 
     public String getDialogTextPattern() {
@@ -30,11 +32,11 @@ public enum AddAccountName {
     }
 
     public String getDialogIdText() {
-        return dialogId + "Text";
+        return name + "Text";
     }
 
     public static String getDialogNameByOrder(int order) {
-        return AddAccountName.values()[order].getDialogId();
+        return AddAccountNames.values()[order].getName();
     }
 
 }

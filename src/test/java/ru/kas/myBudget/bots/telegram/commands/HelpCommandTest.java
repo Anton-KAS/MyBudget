@@ -7,13 +7,13 @@ import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.HELP;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.HELP;
 
 @DisplayName("Unit-level testing for HelpCommand")
 public class HelpCommandTest extends AbstractCommandControllerTest {
     @Override
     protected String getCommandName() {
-        return HELP.getCommandName();
+        return HELP.getName();
     }
 
     @Override

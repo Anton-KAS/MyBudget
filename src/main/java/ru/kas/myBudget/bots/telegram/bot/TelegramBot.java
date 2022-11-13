@@ -18,7 +18,7 @@ import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.*;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.*;
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.NO;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.NO;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.DIALOG_ID;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.EDIT_NUM;
 
@@ -85,7 +85,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 String dialogIdentifier = dialogsMap.get(chatId).get(DIALOG_ID.getId());
                 dialogContainer.retrieve(dialogIdentifier).execute(update);
             } else {
-                commandContainer.retrieve(NO.getCommandName()).execute(update);
+                commandContainer.retrieve(NO.getName()).execute(update);
             }
         } else if (update.hasCallbackQuery()) {
             String[] callbackData = UpdateParameter.getCallbackData(update);
@@ -110,6 +110,6 @@ public class TelegramBot extends TelegramLongPollingBot {
             callbackContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
         else if (callbackType.equals(DIALOG.getId()))
             dialogContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
-        else callbackContainer.retrieve(NO.getCommandName()).execute(update);
+        else callbackContainer.retrieve(NO.getName()).execute(update);
     }
 }

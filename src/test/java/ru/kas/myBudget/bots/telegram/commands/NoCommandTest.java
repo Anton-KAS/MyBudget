@@ -7,13 +7,13 @@ import ru.kas.myBudget.bots.telegram.texts.NoText;
 import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.NO;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.NO;
 
 @DisplayName("Unit-level testing for NoCommand")
 public class NoCommandTest extends AbstractCommandControllerTest {
     @Override
     protected String getCommandName() {
-        return NO.getCommandName();
+        return NO.getName();
     }
 
     @Override

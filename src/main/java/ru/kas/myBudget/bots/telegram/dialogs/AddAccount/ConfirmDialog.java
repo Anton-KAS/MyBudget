@@ -14,7 +14,7 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Map;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.CURRENT_DIALOG_STEP;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 
 public class ConfirmDialog implements Dialog, CommandController {
     private final BotMessageService botMessageService;
@@ -31,7 +31,7 @@ public class ConfirmDialog implements Dialog, CommandController {
     @Override
     public void execute(Update update) {
         long userId = UpdateParameter.getUserId(update);
-        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getDialogId()));
+        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getId()));
 
         ExecuteMode executeMode = getExecuteMode(update, dialogStep);
         String text = new AddAccountText().setUserId(userId).getText();

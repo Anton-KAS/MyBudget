@@ -4,12 +4,16 @@ import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 import ru.kas.myBudget.bots.telegram.dialogs.UnknownDialog;
+import ru.kas.myBudget.bots.telegram.keyboards.callback.NoKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.texts.callback.NoText;
+import ru.kas.myBudget.bots.telegram.util.Container;
+import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.*;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
 
-public class AddAccountContainer {
+public class AddAccountContainer implements Container {
     private final ImmutableMap<String, Dialog> dialogMap;
     private final Dialog unknownDialog;
 
@@ -18,27 +22,28 @@ public class AddAccountContainer {
                                AccountTypeService accountTypeService, CurrencyService currencyService,
                                BankService bankService, AccountService accountService) {
         dialogMap = ImmutableMap.<String, Dialog>builder()
-                .put(START.getDialogId(), new StartDialog())
-                .put(TYPE.getDialogId(),
+                .put(START.getName(), new StartDialog())
+                .put(TYPE.getName(),
                         new TypeDialog(botMessageService, telegramUserService, accountTypeService))
-                .put(TITLE.getDialogId(),
+                .put(TITLE.getName(),
                         new TitleDialog(botMessageService, telegramUserService))
-                .put(DESCRIPTION.getDialogId(),
+                .put(DESCRIPTION.getName(),
                         new DescriptionDialog(botMessageService, telegramUserService))
-                .put(CURRENCY.getDialogId(),
+                .put(CURRENCY.getName(),
                         new CurrencyDialog(botMessageService, telegramUserService, currencyService))
-                .put(BANK.getDialogId(),
+                .put(BANK.getName(),
                         new BankDialog(botMessageService, telegramUserService, bankService))
-                .put(START_BALANCE.getDialogId(),
+                .put(START_BALANCE.getName(),
                         new StartBalanceDialog(botMessageService, telegramUserService, currencyService))
-                .put(CONFIRM.getDialogId(),
+                .put(CONFIRM.getName(),
                         new ConfirmDialog(botMessageService, telegramUserService))
-                .put(SAVE.getDialogId(),
+                .put(SAVE.getName(),
                         new SaveDialog(botMessageService, telegramUserService, callbackContainer,
                                 accountTypeService, currencyService, bankService, accountService))
                 .build();
 
-        unknownDialog = new UnknownDialog(botMessageService, telegramUserService);
+        unknownDialog = new UnknownDialog(botMessageService, telegramUserService, ExecuteMode.SEND,
+                new NoText(), new NoKeyboard());
     }
 
     public Dialog retrieve(String identifier) {

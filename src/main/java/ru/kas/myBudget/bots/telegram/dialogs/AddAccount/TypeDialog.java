@@ -17,9 +17,9 @@ import ru.kas.myBudget.services.TelegramUserService;
 import java.util.Map;
 import java.util.Optional;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.CURRENT_DIALOG_STEP;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.TYPE;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.TYPE;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.CALLBACK_OPERATION_DATA_INDEX;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 
 public class TypeDialog implements Dialog, CommandController {
     private final BotMessageService botMessageService;
@@ -39,7 +39,7 @@ public class TypeDialog implements Dialog, CommandController {
     @Override
     public void execute(Update update) {
         long userId = UpdateParameter.getUserId(update);
-        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getDialogId()));
+        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getId()));
 
         ExecuteMode executeMode = getExecuteMode(update, dialogStep);
         String text = new AddAccountText().setUserId(userId).getText();
@@ -57,7 +57,7 @@ public class TypeDialog implements Dialog, CommandController {
         int accountTypeId = Integer.parseInt(callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
 
         Map<String, String> dialogSteps = dialogsMap.get(UpdateParameter.getChatId(update));
-        dialogSteps.put(TYPE.getDialogId(), String.valueOf(accountTypeId));
+        dialogSteps.put(TYPE.getName(), String.valueOf(accountTypeId));
 
         Optional<AccountType> accountType = accountTypeService.findById(accountTypeId);
         assert accountType.isPresent();

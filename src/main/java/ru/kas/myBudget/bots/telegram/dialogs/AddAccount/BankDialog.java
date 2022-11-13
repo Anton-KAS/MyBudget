@@ -17,8 +17,9 @@ import ru.kas.myBudget.services.TelegramUserService;
 import java.util.Map;
 import java.util.Optional;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.CALLBACK_OPERATION_DATA_INDEX;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 
 public class BankDialog implements Dialog, CommandController {
     private final BotMessageService botMessageService;
@@ -38,7 +39,7 @@ public class BankDialog implements Dialog, CommandController {
     @Override
     public void execute(Update update) {
         long userId = UpdateParameter.getUserId(update);
-        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getDialogId()));
+        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getId()));
 
         ExecuteMode executeMode = getExecuteMode(update, dialogStep);
         String text = new AddAccountText().setUserId(userId).getText();
@@ -57,7 +58,7 @@ public class BankDialog implements Dialog, CommandController {
         else return false;
 
         Map<String, String> dialogSteps = dialogsMap.get(UpdateParameter.getChatId(update));
-        dialogSteps.put(BANK.getDialogId(), String.valueOf(bankId));
+        dialogSteps.put(BANK.getName(), String.valueOf(bankId));
 
         Optional<Bank> bank = bankService.findById(bankId);
         assert bank.isPresent();

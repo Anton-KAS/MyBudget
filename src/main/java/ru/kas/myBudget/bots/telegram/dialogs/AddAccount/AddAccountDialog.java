@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.bot.TelegramBot.COMMAND_PREFIX;
 import static ru.kas.myBudget.bots.telegram.commands.CommandIndex.COMMAND;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.EDIT_NUM;
@@ -41,11 +41,11 @@ public class AddAccountDialog implements Dialog, CommandController {
         String messageText = UpdateParameter.getMessageText(update);
 
         if (dialogSteps == null || dialogSteps.isEmpty() || (callbackData != null &&
-                callbackData[CALLBACK_STEP_INDEX.getIndex()].equals(START.getDialogId()))) {
+                callbackData[CALLBACK_STEP_INDEX.getIndex()].equals(START.getName()))) {
             currentStep = FIRST_STEP_INDEX.getIndex();
             lastStep = FIRST_STEP_INDEX.getIndex();
         } else {
-            currentStep = Integer.parseInt(dialogSteps.get(CURRENT_DIALOG_STEP.getDialogId()));
+            currentStep = Integer.parseInt(dialogSteps.get(CURRENT_DIALOG_STEP.getId()));
             lastStep = Integer.parseInt(dialogSteps.get(LAST_STEP.getId()));
         }
 
@@ -63,26 +63,26 @@ public class AddAccountDialog implements Dialog, CommandController {
             if (update.hasCallbackQuery() && callbackData != null &&
                     callbackData.length > CALLBACK_OPERATION_DATA_INDEX.getIndex() &&
                     callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()].equals(NEXT.getId())) {
-                addAccountContainer.retrieve(AddAccountName.getDialogNameByOrder(currentStep)).skip(update);
+                addAccountContainer.retrieve(AddAccountNames.getDialogNameByOrder(currentStep)).skip(update);
                 lastStep = getNextStepNum(lastStep);
-            } else if (addAccountContainer.retrieve(AddAccountName.getDialogNameByOrder(currentStep)).commit(update)) {
+            } else if (addAccountContainer.retrieve(AddAccountNames.getDialogNameByOrder(currentStep)).commit(update)) {
                 dialogSteps = dialogsMap.get(chatId);
                 lastStep = getNextStepNum(lastStep);
             }
         }
 
-        if (dialogSteps != null && (dialogSteps.get(TYPE.getDialogId()) == null
-                || dialogSteps.get(TYPE.getDialogId()).equals(CASH_ID.getId()))
-                && AddAccountName.getDialogNameByOrder(lastStep).equals(BANK.getDialogId())) {
+        if (dialogSteps != null && (dialogSteps.get(TYPE.getName()) == null
+                || dialogSteps.get(TYPE.getName()).equals(CASH_ID.getId()))
+                && AddAccountNames.getDialogNameByOrder(lastStep).equals(BANK.getName())) {
             lastStep = getNextStepNum(lastStep);
         }
 
         assert dialogSteps != null;
-        dialogSteps.replace(CURRENT_DIALOG_STEP.getDialogId(), String.valueOf(lastStep));
+        dialogSteps.replace(CURRENT_DIALOG_STEP.getId(), String.valueOf(lastStep));
         if (lastStep > Integer.parseInt(dialogSteps.get(LAST_STEP.getId()))) {
             dialogSteps.replace(LAST_STEP.getId(), String.valueOf(lastStep));
         }
-        addAccountContainer.retrieve(AddAccountName.getDialogNameByOrder(lastStep)).execute(update);
+        addAccountContainer.retrieve(AddAccountNames.getDialogNameByOrder(lastStep)).execute(update);
     }
 
     @Override
@@ -96,6 +96,6 @@ public class AddAccountDialog implements Dialog, CommandController {
     }
 
     private int getNextStepNum(int lastStep) {
-        return lastStep + 1 < AddAccountName.values().length ? lastStep + 1 : lastStep;
+        return lastStep + 1 < AddAccountNames.values().length ? lastStep + 1 : lastStep;
     }
 }

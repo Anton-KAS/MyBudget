@@ -7,13 +7,13 @@ import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.MENU;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.MENU;
 
 @DisplayName("Unit-level testing for MenuCommand")
 public class MenuCommandTest extends AbstractCommandControllerTest {
     @Override
     protected String getCommandName() {
-        return MENU.getCommandName();
+        return MENU.getName();
     }
 
     @Override

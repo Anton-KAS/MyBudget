@@ -4,8 +4,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import ru.kas.myBudget.bots.telegram.keyboards.InlineKeyboardBuilder;
 import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.DESCRIPTION;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogName.ADD_ACCOUNT;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.DESCRIPTION;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 public class DescriptionKeyboard implements Keyboard {
     public DescriptionKeyboard() {
@@ -14,7 +14,7 @@ public class DescriptionKeyboard implements Keyboard {
     public InlineKeyboardMarkup getKeyboard() {
         InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboardBuilder();
         return inlineKeyboardBuilder
-                .addRow().addButton(getNextButton(ADD_ACCOUNT.getDialogName(), DESCRIPTION.getDialogId()))
+                .addRow().addButton(getNextButton(ADD_ACCOUNT.getName(), DESCRIPTION.getName()))
                 .build();
     }
 }

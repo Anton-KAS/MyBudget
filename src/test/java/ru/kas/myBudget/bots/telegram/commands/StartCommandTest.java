@@ -7,13 +7,13 @@ import ru.kas.myBudget.bots.telegram.texts.StartText;
 import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.START;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.START;
 
 @DisplayName("Unit-level testing for StartCommand")
 public class StartCommandTest extends AbstractCommandControllerTest {
     @Override
     protected String getCommandName() {
-        return START.getCommandName();
+        return START.getName();
     }
 
     @Override

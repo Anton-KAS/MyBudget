@@ -17,8 +17,9 @@ import ru.kas.myBudget.services.TelegramUserService;
 import java.util.Map;
 import java.util.Optional;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.CALLBACK_OPERATION_DATA_INDEX;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.PAGE;
 
 public class CurrencyDialog implements Dialog, CommandController {
@@ -40,7 +41,7 @@ public class CurrencyDialog implements Dialog, CommandController {
     @Override
     public void execute(Update update) {
         long userId = UpdateParameter.getUserId(update);
-        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getDialogId()));
+        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getId()));
         String[] callbackData = UpdateParameter.getCallbackData(update);
 
         int page;
@@ -71,7 +72,7 @@ public class CurrencyDialog implements Dialog, CommandController {
         int currencyId = Integer.parseInt(callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
 
         Map<String, String> dialogSteps = dialogsMap.get(UpdateParameter.getChatId(update));
-        dialogSteps.put(CURRENCY.getDialogId(), String.valueOf(currencyId));
+        dialogSteps.put(CURRENCY.getName(), String.valueOf(currencyId));
 
         Optional<Currency> currency = currencyService.findById(currencyId);
         assert currency.isPresent();

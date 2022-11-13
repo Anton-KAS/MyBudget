@@ -12,7 +12,8 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Map;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 
 public class TitleDialog implements Dialog, CommandController {
     private final BotMessageService botMessageService;
@@ -32,7 +33,7 @@ public class TitleDialog implements Dialog, CommandController {
     @Override
     public void execute(Update update) {
         long userId = UpdateParameter.getUserId(update);
-        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getDialogId()));
+        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getId()));
 
         ExecuteMode executeMode = getExecuteMode(update, dialogStep);
         String text = new AddAccountText().setUserId(userId).getText();
@@ -52,7 +53,7 @@ public class TitleDialog implements Dialog, CommandController {
         }
 
         Map<String, String> dialogSteps = dialogsMap.get(UpdateParameter.getChatId(update));
-        dialogSteps.put(TITLE.getDialogId(), text);
+        dialogSteps.put(TITLE.getName(), text);
 
         dialogSteps.put(TITLE.getDialogIdText(),
                 String.format(TITLE.getDialogTextPattern(), "%s", text));

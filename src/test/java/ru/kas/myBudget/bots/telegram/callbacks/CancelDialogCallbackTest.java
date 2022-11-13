@@ -10,13 +10,13 @@ import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.ACCOUNTS;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.ACCOUNTS;
 
 @DisplayName("Unit-level testing for CancelDialogCallback")
 public class CancelDialogCallbackTest extends AbstractCommandControllerTest {
     @Override
     protected String getCommandName() {
-        return ACCOUNTS.getCommandName();
+        return ACCOUNTS.getName();
     }
 
     @Override

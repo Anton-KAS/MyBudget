@@ -1,7 +1,7 @@
 package ru.kas.myBudget.bots.telegram.texts;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.*;
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.STAT;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.*;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.STAT;
 
 public class HelpText implements MessageText {
 
@@ -20,9 +20,9 @@ public class HelpText implements MessageText {
                         %s - приостановить работу со мной
                         %s - количество активных пользователей бота
                         """,
-                START.getCommandName(),
-                MENU.getCommandName(),
-                STOP.getCommandName(),
-                STAT.getCommandName());
+                START.getName(),
+                MENU.getName(),
+                STOP.getName(),
+                STAT.getName());
     }
 }
