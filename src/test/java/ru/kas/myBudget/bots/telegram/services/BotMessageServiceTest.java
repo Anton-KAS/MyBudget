@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
-@DisplayName("Unit-level testing for SendBotMessageService")
+@DisplayName("Unit-level testing for BotMessageService")
 public class BotMessageServiceTest {
 
     private TelegramBot telegramBot;

@@ -22,7 +22,7 @@ public abstract class DialogImpl implements Dialog {
     protected final DialogsMap dialogsMap;
 
     protected Long userId;
-    protected int dialogStep;
+    protected Integer dialogStep;
     protected ExecuteMode defaultExecuteMode;
     protected String text;
     protected InlineKeyboardMarkup inlineKeyboardMarkup;
@@ -66,10 +66,9 @@ public abstract class DialogImpl implements Dialog {
     }
 
     protected void setData(Update update) {
-//        userId = UpdateParameter.getUserId(update);
-//        dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(userId, CURRENT_DIALOG_STEP.getId()));
-        if (userId == null) userId = UpdateParameter.getUserId(update);;
-        defaultExecuteMode = getExecuteMode(update, dialogStep);
+        if (userId == null) userId = UpdateParameter.getUserId(update);
+        if (dialogStep == null) dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(userId, CURRENT_DIALOG_STEP.getId()));
+        if (defaultExecuteMode == null) defaultExecuteMode = getExecuteMode(update, dialogStep);
 
         text = messageText.setUserId(userId).getText();
         inlineKeyboardMarkup = keyboard.getKeyboard();
@@ -93,14 +92,5 @@ public abstract class DialogImpl implements Dialog {
             return ExecuteMode.EDIT;
         }
         return ExecuteMode.SEND;
-
-//        if (update.hasCallbackQuery() && dialogStep == null) {
-//            return ExecuteMode.EDIT;
-//        } else if (update.hasCallbackQuery() && dialogStep != null) {
-//            if (dialogStep > FIRST_STEP_INDEX.getIndex()) {
-//                return ExecuteMode.EDIT;
-//            }
-//        }
-//        return ExecuteMode.SEND;
     }
 }

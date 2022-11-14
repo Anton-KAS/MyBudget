@@ -1,5 +1,6 @@
 package ru.kas.myBudget.bots.telegram.dialogs;
 
+import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.util.AbstractContainerTest;
@@ -9,6 +10,7 @@ import ru.kas.myBudget.services.AccountTypeService;
 import ru.kas.myBudget.services.BankService;
 import ru.kas.myBudget.services.CurrencyService;
 
+@DisplayName("Unit-level testing for DialogContainer")
 public class DialogContainerTest extends AbstractContainerTest {
     private final CallbackContainer callbackContainerMock = new CallbackContainer(botMessageServiceMock, telegramUserServiceMock);
     private final AccountTypeService accountTypeServiceMock = Mockito.mock(AccountTypeService.class);

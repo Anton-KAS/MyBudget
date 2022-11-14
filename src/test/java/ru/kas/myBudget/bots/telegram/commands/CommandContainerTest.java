@@ -1,11 +1,10 @@
 package ru.kas.myBudget.bots.telegram.commands;
 
-import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
-import ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl;
-import ru.kas.myBudget.bots.telegram.callbacks.UnknownCallback;
+import org.junit.jupiter.api.DisplayName;
 import ru.kas.myBudget.bots.telegram.util.AbstractContainerTest;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
+@DisplayName("Unit-level testing for CommandContainer")
 public class CommandContainerTest extends AbstractContainerTest {
     @Override
     protected void setContainer() {
