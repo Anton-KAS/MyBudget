@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.keyboards.addAccount;
+package ru.kas.myBudget.bots.telegram.keyboards.addAccountDialog;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.keyboards.InlineKeyboardBuilder;
@@ -13,13 +13,13 @@ import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.B
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 public class BanksKeyboard implements Keyboard {
-    private final BankService bankService;
+    private BankService bankService;
+    private long userId;
     private final static String TEXT_BUTTON_PATTERN = "%s (%s)";
     public final String CALLBACK_BUTTON_PATTERN = String.format("%s_%s_%s_%s_%s",
             DIALOG.getId(), ADD_ACCOUNT.getName(), ADD_ACCOUNT.getName(), BANK.getName(), "%s");
 
-    public BanksKeyboard(BankService bankService) {
-        this.bankService = bankService;
+    public BanksKeyboard() {
     }
 
     @Override
@@ -34,5 +34,15 @@ public class BanksKeyboard implements Keyboard {
         }
         inlineKeyboardBuilder.addRow().addButton(getNextButton(ADD_ACCOUNT.getName(), BANK.getName()));
         return inlineKeyboardBuilder.build();
+    }
+
+    public BanksKeyboard setBankService(BankService bankService) {
+        this.bankService = bankService;
+        return this;
+    }
+
+    public BanksKeyboard setUserId(long userId) {
+        this.userId = userId;
+        return this;
     }
 }

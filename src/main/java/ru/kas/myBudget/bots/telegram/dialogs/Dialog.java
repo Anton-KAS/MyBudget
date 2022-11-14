@@ -8,23 +8,10 @@ import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.FIRST_STEP_INDEX
 
 public interface Dialog extends CommandController {
 
-    @Override
-    default void execute(Update update, ExecuteMode executeMode) {
-        execute(update);
-    }
-
     boolean commit(Update update);
 
     void skip(Update update);
 
-    default ExecuteMode getExecuteMode(Update update, Integer dialogStep) {
-        if (update.hasCallbackQuery() && dialogStep == null) {
-            return ExecuteMode.EDIT;
-        } else if (update.hasCallbackQuery() && dialogStep != null) {
-            if (dialogStep > FIRST_STEP_INDEX.getIndex() + 1) {
-                return ExecuteMode.EDIT;
-            }
-        }
-        return ExecuteMode.SEND;
-    }
+    ExecuteMode getExecuteMode(Update update, Integer dialogStep);
+
 }

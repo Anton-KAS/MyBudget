@@ -213,7 +213,7 @@ public class TelegramUser {
         isPremium = premium;
     }
 
-    public int getLastMessageId() {
+    public Integer getLastMessageId() {
         return lastMessageId;
     }
 

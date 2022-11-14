@@ -1,8 +1,8 @@
 package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
 
-import ru.kas.myBudget.bots.telegram.util.CommandNames;
+import ru.kas.myBudget.bots.telegram.dialogs.CommandDialogNames;
 
-public enum AddAccountNames implements CommandNames {
+public enum AddAccountNames implements CommandDialogNames {
     // Order is important!
     START("start", "<b>Добавление нового счета</b>\n"),
     TYPE("addType", "%s - Тип: %s"),
@@ -27,10 +27,12 @@ public enum AddAccountNames implements CommandNames {
         return name;
     }
 
+    @Override
     public String getDialogTextPattern() {
         return dialogTextPattern;
     }
 
+    @Override
     public String getDialogIdText() {
         return name + "Text";
     }

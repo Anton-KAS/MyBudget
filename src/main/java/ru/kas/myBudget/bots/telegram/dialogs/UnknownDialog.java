@@ -17,10 +17,16 @@ public class UnknownDialog extends CommandControllerImpl implements Dialog {
 
     @Override
     public boolean commit(Update update) {
-        return true;
+        return false;
     }
 
     @Override
     public void skip(Update update) {
+
+    }
+
+    @Override
+    public ExecuteMode getExecuteMode(Update update, Integer dialogStep) {
+        return null;
     }
 }

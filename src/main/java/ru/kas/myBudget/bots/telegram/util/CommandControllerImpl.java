@@ -28,15 +28,15 @@ public abstract class CommandControllerImpl implements CommandController{
 
     @Override
     public void execute(Update update) {
-        executeMessageService(update, defaultExecuteMode);
+        executeByOrder(update, defaultExecuteMode);
     }
 
     @Override
     public void execute(Update update, ExecuteMode executeMode) {
-        executeMessageService(update, executeMode);
+        executeByOrder(update, executeMode);
     }
 
-    protected void executeMessageService(Update update, ExecuteMode executeMode) {
+    protected void executeByOrder(Update update, ExecuteMode executeMode) {
         setData(update);
         executeData(update, executeMode);
     }

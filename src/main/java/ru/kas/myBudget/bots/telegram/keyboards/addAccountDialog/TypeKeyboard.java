@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.keyboards.addAccount;
+package ru.kas.myBudget.bots.telegram.keyboards.addAccountDialog;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames;
@@ -11,7 +11,7 @@ import ru.kas.myBudget.services.AccountTypeService;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
 
 public class TypeKeyboard implements Keyboard {
-    private final AccountTypeService accountTypeService;
+    private AccountTypeService accountTypeService;
     private final static String TEXT_BUTTON_PATTERN = "%s";
     private final static String CALLBACK_BUTTON_PATTERN = String.format("%s_%s_%s_%s_%s",
             DIALOG.getId(),
@@ -20,8 +20,7 @@ public class TypeKeyboard implements Keyboard {
             AddAccountNames.TYPE.getName(),
             "%s");
 
-    public TypeKeyboard(AccountTypeService accountTypeService) {
-        this.accountTypeService = accountTypeService;
+    public TypeKeyboard() {
     }
 
     @Override
@@ -34,5 +33,10 @@ public class TypeKeyboard implements Keyboard {
                             String.format(CALLBACK_BUTTON_PATTERN, account.getId()));
         }
         return inlineKeyboardBuilder.build();
+    }
+
+    public TypeKeyboard setAccountTypeService(AccountTypeService accountTypeService) {
+        this.accountTypeService = accountTypeService;
+        return this;
     }
 }

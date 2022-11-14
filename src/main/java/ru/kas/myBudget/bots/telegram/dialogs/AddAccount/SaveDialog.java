@@ -2,15 +2,14 @@ package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
-import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
+import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
-import ru.kas.myBudget.bots.telegram.util.CommandController;
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
-import ru.kas.myBudget.models.Account;
-import ru.kas.myBudget.models.Bank;
-import ru.kas.myBudget.models.Currency;
+import ru.kas.myBudget.models.*;
 import ru.kas.myBudget.services.*;
 
 import java.math.BigDecimal;
@@ -21,88 +20,70 @@ import java.util.Optional;
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_ID;
 
-public class SaveDialog implements Dialog, CommandController {
-    private final BotMessageService botMessageService;
-    private final TelegramUserService telegramUserService;
+public class SaveDialog extends DialogImpl {
     private final CallbackContainer callbackContainer;
     private final CurrencyService currencyService;
     private final AccountTypeService accountTypeService;
     private final BankService bankService;
     private final AccountService accountService;
-    private final Map<Long, Map<String, String>> dialogsMap;
-    private final static String CONFIRM_TEXT = "всё сохранил";
-    private final static String EXCEPTION_TEXT = "что-то пошло не так =(";
+    private Map<String, String> dialogMap;
 
     public SaveDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                      MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap,
                       CallbackContainer callbackContainer, AccountTypeService accountTypeService,
                       CurrencyService currencyService, BankService bankService, AccountService accountService) {
-        this.botMessageService = botMessageService;
-        this.telegramUserService = telegramUserService;
+        super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, null);
         this.callbackContainer = callbackContainer;
         this.currencyService = currencyService;
         this.accountTypeService = accountTypeService;
         this.bankService = bankService;
         this.accountService = accountService;
-        this.dialogsMap = DialogsMap.getDialogsMap();
     }
 
     @Override
-    public void execute(Update update) {
-        long userId = UpdateParameter.getUserId(update);
+    protected void setData(Update update) {
+        this.userId = UpdateParameter.getUserId(update);
+        this.dialogMap = dialogsMap.getDialogMapById(userId);
 
-        Map<String, String> dialogMap = dialogsMap.get(userId);
-        try {
-            Bank bank;
-            if (dialogMap.get(BANK.getName()) != null &&
-                    bankService.findById(Integer.parseInt(dialogMap.get(BANK.getName()))).isPresent()) {
-                bank = bankService.findById(Integer.parseInt(dialogMap.get(BANK.getName()))).get();
-            } else {
-                bank = null;
-            }
+        Bank bank = getBank();
+        BigDecimal startBalance = getStartBalance();
+        TelegramUser telegramUser = telegramUserService.findById(userId).orElse(null);
+        Currency currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName()))).orElse(null);
+        AccountType accountType = accountTypeService.findById(Integer.parseInt(dialogMap.get(TYPE.getName()))).orElse(null);
 
-            Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
-            int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
+        Account account = new Account(dialogMap.get(TITLE.getName()), dialogMap.get(DESCRIPTION.getName()),
+                startBalance, startBalance, telegramUser, currency, accountType, bank
+        );
+        accountService.save(account);
+    }
 
-            String startBalanceString = dialogMap.get(START_BALANCE.getName());
-            BigDecimal startBalance;
-            if (startBalanceString == null) startBalance = new BigDecimal(0);
-            else startBalance = new BigDecimal(startBalanceString).multiply(new BigDecimal(numberToBAsic))
-                    .setScale(String.valueOf(numberToBAsic).length() - 1, RoundingMode.HALF_UP);
-
-            Account account = new Account(
-                    dialogMap.get(TITLE.getName()),
-                    dialogMap.get(DESCRIPTION.getName()),
-                    startBalance,
-                    startBalance,
-                    telegramUserService.findById(userId).get(),
-                    currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName()))).get(),
-                    accountTypeService.findById(Integer.parseInt(dialogMap.get(TYPE.getName()))).get(),
-                    bank
-            );
-
-            accountService.save(account);
-
-            botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
-                    CONFIRM_TEXT, null);
-        } catch (Exception ignore) {
-            //TODO Add project Logger
-            botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
-                    EXCEPTION_TEXT, null);
-        }
+    @Override
+    protected void executeData(Update update, ExecuteMode executeMode) {
+        botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
+                messageText.setUserId(userId).getText(), keyboard.getKeyboard());
         String fromStartId = dialogMap.get(START_FROM_ID.getId());
-        if (fromStartId != null) {
-            callbackContainer.retrieve(fromStartId).execute(update, ExecuteMode.SEND);
-        }
+        if (fromStartId != null) callbackContainer.retrieve(fromStartId).execute(update, ExecuteMode.SEND);
         dialogsMap.remove(userId);
     }
 
-    @Override
-    public boolean commit(Update update) {
-        return true;
+    private Bank getBank() {
+        if (dialogMap.get(BANK.getName()) != null &&
+                bankService.findById(Integer.parseInt(dialogMap.get(BANK.getName()))).isPresent())
+            return bankService.findById(Integer.parseInt(dialogMap.get(BANK.getName()))).get();
+
+        else return null;
     }
 
-    @Override
-    public void skip(Update update) {
+    private BigDecimal getStartBalance() {
+        Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
+        int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
 
+        String startBalanceString = dialogMap.get(START_BALANCE.getName());
+
+        if (startBalanceString == null) return new BigDecimal(0);
+
+        else return new BigDecimal(startBalanceString).multiply(new BigDecimal(numberToBAsic))
+                .setScale(String.valueOf(numberToBAsic).length() - 1, RoundingMode.HALF_UP);
     }
+
 }

@@ -14,16 +14,16 @@ import ru.kas.myBudget.services.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.*;
 
 public class DialogContainer implements Container {
-    private final ImmutableMap<String, Dialog> dialogMap;
-    private final Dialog unknownDialog;
+    private final ImmutableMap<String, CommandController> dialogMap;
+    private final CommandController unknownDialog;
 
     public DialogContainer(BotMessageService botMessageService, TelegramUserService telegramUserService,
                            CallbackContainer callbackContainer, AccountTypeService accountTypeService,
                            CurrencyService currencyService, BankService bankService, AccountService accountService) {
-        dialogMap = ImmutableMap.<String, Dialog>builder()
+        dialogMap = ImmutableMap.<String, CommandController>builder()
                 .put(ADD_ACCOUNT.getName(),
-                        new AddAccountDialog(botMessageService, telegramUserService, callbackContainer,
-                                accountTypeService, currencyService, bankService, accountService))
+                        new AddAccountDialog(botMessageService, telegramUserService, DialogsMap.getDialogsMapClass(),
+                                callbackContainer, accountTypeService, currencyService, bankService, accountService))
                 .build();
 
         unknownDialog = new UnknownDialog(botMessageService, telegramUserService, ExecuteMode.SEND,

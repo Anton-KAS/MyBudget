@@ -1,13 +1,11 @@
 package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
-import ru.kas.myBudget.bots.telegram.keyboards.addAccount.StartBalanceKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
-import ru.kas.myBudget.bots.telegram.texts.AddAccountText;
-import ru.kas.myBudget.bots.telegram.util.CommandController;
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.models.Currency;
@@ -20,51 +18,37 @@ import java.util.Map;
 import java.util.Optional;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.CURRENCY_AMOUNT;
 import static ru.kas.myBudget.bots.telegram.util.UpdateParameter.getUserId;
 
-public class StartBalanceDialog implements Dialog, CommandController {
-    private final BotMessageService botMessageService;
-    private final TelegramUserService telegramUserService;
+public class StartBalanceDialog extends DialogImpl {
     private final CurrencyService currencyService;
-    private final Map<Long, Map<String, String>> dialogsMap;
     private final static String ASK_TEXT = "Введите текущий баланс счета:";
     private final static String VERIFY_EXCEPTION_TEXT = "Введите только одно число";
     private final static String DEFAULT_BALANCE_TEXT = "0.0";
 
     public StartBalanceDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                              MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap,
                               CurrencyService currencyService) {
-        this.botMessageService = botMessageService;
-        this.telegramUserService = telegramUserService;
+        super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, ASK_TEXT);
         this.currencyService = currencyService;
-        this.dialogsMap = DialogsMap.getDialogsMap();
-    }
-
-    @Override
-    public void execute(Update update) {
-        long userId = getUserId(update);
-        int dialogStep = Integer.parseInt(dialogsMap.get(userId).get(CURRENT_DIALOG_STEP.getId()));
-
-        ExecuteMode executeMode = getExecuteMode(update, dialogStep);
-        String text = new AddAccountText().setUserId(userId).getText();
-        InlineKeyboardMarkup inlineKeyboardMarkup = new StartBalanceKeyboard().getKeyboard();
-
-        botMessageService.executeAndUpdateUser(telegramUserService, update, executeMode,
-                String.format(text, ASK_TEXT), inlineKeyboardMarkup);
     }
 
     @Override
     public boolean commit(Update update) {
-        String text = UpdateParameter.getMessageText(update);
+        this.userId = UpdateParameter.getUserId(update);
+        String receivedText = UpdateParameter.getMessageText(update);
 
-        if (!text.matches(CURRENCY_AMOUNT.getRegex())) {
+        if (!receivedText.matches(CURRENCY_AMOUNT.getRegex())) {
             botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
                     VERIFY_EXCEPTION_TEXT, null);
             return false;
         }
 
-        addStartBalance(text, getUserId(update));
+        BigDecimal startBalance = getStartBalance(receivedText, getUserId(update));
+
+        addToDialogMap(userId, START_BALANCE, startBalance.toString(),
+                String.format(START_BALANCE.getDialogTextPattern(), "%s", startBalance));
 
         telegramUserService.checkUser(telegramUserService, update);
         return true;
@@ -72,22 +56,18 @@ public class StartBalanceDialog implements Dialog, CommandController {
 
     @Override
     public void skip(Update update) {
-        addStartBalance(DEFAULT_BALANCE_TEXT, getUserId(update));
+        getStartBalance(DEFAULT_BALANCE_TEXT, getUserId(update));
     }
 
-    private void addStartBalance(String text, long userId) {
-        Map<String, String> dialogSteps = dialogsMap.get(userId);
+    private BigDecimal getStartBalance(String text, long userId) {
+        Map<String, String> dialogMap = dialogsMap.getDialogMapById(userId);
 
-        Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogSteps.get(CURRENCY.getName())));
+        Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
         int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
 
         text = text.replace(",", ".");
         BigDecimal startBalance = new BigDecimal(text);
-        startBalance = startBalance.setScale(String.valueOf(numberToBAsic).length() - 1, RoundingMode.HALF_UP);
 
-        dialogSteps.put(START_BALANCE.getName(), startBalance.toString());
-
-        dialogSteps.put(START_BALANCE.getDialogIdText(),
-                String.format(START_BALANCE.getDialogTextPattern(), "%s", startBalance));
+        return startBalance.setScale(String.valueOf(numberToBAsic).length() - 1, RoundingMode.HALF_UP);
     }
 }

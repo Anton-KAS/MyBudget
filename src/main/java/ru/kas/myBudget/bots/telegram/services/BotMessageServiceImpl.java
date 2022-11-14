@@ -110,11 +110,11 @@ public class BotMessageServiceImpl implements BotMessageService {
 
         if (executeMode == ExecuteMode.SEND) executeRemoveInlineKeyboard(update);
 
+        TelegramUser telegramUser = telegramUserService.findById(userId).orElse(null);
         if (executeMode == ExecuteMode.SEND && !update.hasCallbackQuery()) {
-            Optional<TelegramUser> telegramUserOpt = telegramUserService.findById(userId);
-            if (telegramUserOpt.isPresent()) {
-                TelegramUser telegramUser = telegramUserOpt.get();
-                int messageIdToRemove = telegramUser.getLastMessageId();
+            if (telegramUser != null) {
+                Integer messageIdToRemove = telegramUser.getLastMessageId();
+                if (messageIdToRemove == null) return;
                 String messageTextToRemove;
                 if (messageIdToRemove == UpdateParameter.getMessageId(update)) {
                     if (update.hasCallbackQuery())
@@ -129,6 +129,9 @@ public class BotMessageServiceImpl implements BotMessageService {
                     telegramUserService.save(telegramUser);
                 }
             }
+        } else if (telegramUser != null) {
+            telegramUser.removeLastMessage();
+            telegramUserService.save(telegramUser);
         }
     }
 
