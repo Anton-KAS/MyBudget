@@ -7,8 +7,7 @@ import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CASH_ID;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
 
 public class AddAccountText implements MessageText {
     private Long userId;
@@ -40,10 +39,13 @@ public class AddAccountText implements MessageText {
                     && addAccountName.equals(BANK)) continue;
 
             int currentStepId = Integer.parseInt(dialogMap.get(CURRENT_DIALOG_STEP.getId()));
-            if (count != 1 && currentStepId > count) stringBuilder.append("/");
+            int lastStepId = Integer.parseInt(dialogMap.get(LAST_STEP.getId()));
+
             if (currentStepId == count) stringBuilder.append("<b>");
 
             String textPattern = dialogMap.get(addAccountName.getDialogIdText());
+            if (count != 0 && (lastStepId > count || textPattern != null)) stringBuilder.append("/");
+
             if (textPattern == null) {
                 stringBuilder.append(String.format(addAccountName.getDialogTextPattern(), n, ""));
             } else {

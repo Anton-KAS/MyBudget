@@ -22,7 +22,7 @@ public class TypeDialog extends DialogImpl {
     private final TypeKeyboard typeKeyboard = (TypeKeyboard) keyboard;
 
     public TypeDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                      MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap,
+                      MessageText messageText, TypeKeyboard keyboard, DialogsMap dialogsMap,
                       AccountTypeService accountTypeService) {
         super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, ASK_TEXT);
         this.accountTypeService = accountTypeService;

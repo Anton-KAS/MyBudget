@@ -51,6 +51,7 @@ public class AddAccountDialog extends MainDialogImpl {
             currentStep = Integer.parseInt(dialogMap.get(CURRENT_DIALOG_STEP.getId()));
             lastStep = Integer.parseInt(dialogMap.get(LAST_STEP.getId()));
         }
+        System.out.println("1 LAST STEP : " + lastStep);
 
         dialogMap = dialogsMap.getDialogMapById(chatId);
         System.out.println("DIALOG MAP FOR " + chatId + " MIDDLE : " + DialogsMap.getDialogMap(chatId));
@@ -61,14 +62,21 @@ public class AddAccountDialog extends MainDialogImpl {
                 currentStep = null;
                 assert dialogMap != null;
                 dialogMap.replace(LAST_STEP.getId(), String.valueOf(lastStep - 1));
-                lastStep = Integer.parseInt(commandIdentifier.substring(1)) + 1;
+                lastStep = Integer.parseInt(commandIdentifier.substring(1));
             }
         }
+
+        System.out.println("2 LAST STEP : " + lastStep);
+
         lastStep = skipOrCommit(update, currentStep, lastStep);
+        System.out.println("3 LAST STEP : " + lastStep);
         System.out.println("DIALOG MAP FOR " + chatId + " AFTER COMMIT : " + DialogsMap.getDialogMap(chatId));
         lastStep = skipStep(lastStep);
+        System.out.println("4 LAST STEP : " + lastStep);
         updateStepsInDialogMap(lastStep);
+        System.out.println("5 LAST STEP : " + lastStep);
 
+        System.out.println("EXECUTE: " + AddAccountNames.getDialogNameByOrder(lastStep));
         addAccountContainer.retrieve(AddAccountNames.getDialogNameByOrder(lastStep)).execute(update);
 
         System.out.println("DIALOG MAP FOR " + chatId + " END : " + DialogsMap.getDialogMap(chatId));

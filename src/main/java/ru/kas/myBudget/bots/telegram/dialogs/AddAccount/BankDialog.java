@@ -48,7 +48,7 @@ public class BankDialog extends DialogImpl {
         else return false;
 
         Optional<Bank> bank = bankService.findById(bankId);
-        if (bank.isPresent()) return false;
+        if (bank.isEmpty()) return false;
 
         String text = String.format(BANK.getDialogTextPattern(),
                 "%s", bank.get().getTitleRu() + " (" + bank.get().getCountry().getTitleRu() + ")");

@@ -56,7 +56,10 @@ public class StartBalanceDialog extends DialogImpl {
 
     @Override
     public void skip(Update update) {
-        getStartBalance(DEFAULT_BALANCE_TEXT, getUserId(update));
+        BigDecimal startBalance = getStartBalance(DEFAULT_BALANCE_TEXT, getUserId(update));
+        addToDialogMap(userId, START_BALANCE, startBalance.toString(),
+                String.format(START_BALANCE.getDialogTextPattern(), "%s", startBalance));
+        telegramUserService.checkUser(telegramUserService, update);
     }
 
     private BigDecimal getStartBalance(String text, long userId) {

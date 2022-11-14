@@ -21,7 +21,7 @@ public abstract class DialogImpl implements Dialog {
     protected Keyboard keyboard;
     protected final DialogsMap dialogsMap;
 
-    protected long userId;
+    protected Long userId;
     protected int dialogStep;
     protected ExecuteMode defaultExecuteMode;
     protected String text;
@@ -50,7 +50,9 @@ public abstract class DialogImpl implements Dialog {
 
     @Override
     public void execute(Update update) {
-        executeByOrder(update, defaultExecuteMode);
+        userId = UpdateParameter.getUserId(update);
+        dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(userId, CURRENT_DIALOG_STEP.getId()));
+        executeByOrder(update, getExecuteMode(update, dialogStep));
     }
 
     @Override
@@ -64,8 +66,9 @@ public abstract class DialogImpl implements Dialog {
     }
 
     protected void setData(Update update) {
-        userId = UpdateParameter.getUserId(update);
-        dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(userId, CURRENT_DIALOG_STEP.getId()));
+//        userId = UpdateParameter.getUserId(update);
+//        dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(userId, CURRENT_DIALOG_STEP.getId()));
+        if (userId == null) userId = UpdateParameter.getUserId(update);;
         defaultExecuteMode = getExecuteMode(update, dialogStep);
 
         text = messageText.setUserId(userId).getText();
@@ -86,13 +89,18 @@ public abstract class DialogImpl implements Dialog {
 
     @Override
     public ExecuteMode getExecuteMode(Update update, Integer dialogStep) {
-        if (update.hasCallbackQuery() && dialogStep == null) {
+        if (update.hasCallbackQuery() && dialogStep > FIRST_STEP_INDEX.getIndex()) {
             return ExecuteMode.EDIT;
-        } else if (update.hasCallbackQuery() && dialogStep != null) {
-            if (dialogStep > FIRST_STEP_INDEX.getIndex() + 1) {
-                return ExecuteMode.EDIT;
-            }
         }
         return ExecuteMode.SEND;
+
+//        if (update.hasCallbackQuery() && dialogStep == null) {
+//            return ExecuteMode.EDIT;
+//        } else if (update.hasCallbackQuery() && dialogStep != null) {
+//            if (dialogStep > FIRST_STEP_INDEX.getIndex()) {
+//                return ExecuteMode.EDIT;
+//            }
+//        }
+//        return ExecuteMode.SEND;
     }
 }

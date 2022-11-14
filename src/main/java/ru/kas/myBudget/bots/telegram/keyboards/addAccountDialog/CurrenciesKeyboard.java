@@ -100,9 +100,8 @@ public class CurrenciesKeyboard implements Keyboard {
         return this;
     }
 
-    public CurrenciesKeyboard setTelegramUserService(TelegramUserService telegramUserService) {
+    public void setTelegramUserService(TelegramUserService telegramUserService) {
         this.telegramUserService = telegramUserService;
-        return this;
     }
 
     public CurrenciesKeyboard setPage(int page) {

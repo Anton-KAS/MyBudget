@@ -29,7 +29,6 @@ public class CurrencyDialog extends DialogImpl {
                           MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap,
                           CurrencyService currencyService) {
         super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, ASK_TEXT);
-
         this.currencyService = currencyService;
     }
 
@@ -38,7 +37,7 @@ public class CurrencyDialog extends DialogImpl {
         this.userId = UpdateParameter.getUserId(update);
         setKeyboardPage(update);
         setKeyboardServices();
-        keyboard = currenciesKeyboard;
+
         super.executeByOrder(update, executeMode);
     }
 

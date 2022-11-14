@@ -36,7 +36,7 @@ public class AddAccountContainer implements Container {
                                 new TitleKeyboard(), DialogsMap.getDialogsMapClass()))
                 .put(DESCRIPTION.getName(),
                         new DescriptionDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new CurrenciesKeyboard(), DialogsMap.getDialogsMapClass()))
+                                new DescriptionKeyboard(), DialogsMap.getDialogsMapClass()))
                 .put(CURRENCY.getName(),
                         new CurrencyDialog(botMessageService, telegramUserService, new AddAccountText(),
                                 new CurrenciesKeyboard(), DialogsMap.getDialogsMapClass(), currencyService))
@@ -45,10 +45,10 @@ public class AddAccountContainer implements Container {
                                 new BanksKeyboard(), DialogsMap.getDialogsMapClass(), bankService))
                 .put(START_BALANCE.getName(),
                         new StartBalanceDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new CurrenciesKeyboard(), DialogsMap.getDialogsMapClass(), currencyService))
+                                new StartBalanceKeyboard(), DialogsMap.getDialogsMapClass(), currencyService))
                 .put(CONFIRM.getName(),
-                        new ConfirmDialog(botMessageService, telegramUserService,
-                                new AddAccountText(), new ConfirmKeyboard(), DialogsMap.getDialogsMapClass()))
+                        new ConfirmDialog(botMessageService, telegramUserService, new AddAccountText(),
+                                new ConfirmKeyboard(), DialogsMap.getDialogsMapClass()))
                 .put(SAVE.getName(),
                         new SaveDialog(botMessageService, telegramUserService, new SaveDialogText(),
                                 new SaveKeyboard(), DialogsMap.getDialogsMapClass(),
