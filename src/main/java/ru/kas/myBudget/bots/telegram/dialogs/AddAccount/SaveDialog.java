@@ -41,7 +41,7 @@ public class SaveDialog extends DialogImpl {
     }
 
     @Override
-    protected void setData(Update update) {
+    public void setData(Update update) {
         this.userId = UpdateParameter.getUserId(update);
         this.dialogMap = dialogsMap.getDialogMapById(userId);
 
@@ -58,7 +58,7 @@ public class SaveDialog extends DialogImpl {
     }
 
     @Override
-    protected void executeData(Update update, ExecuteMode executeMode) {
+    public void executeData(Update update, ExecuteMode executeMode) {
         botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
                 messageText.setUserId(userId).getText(), keyboard.getKeyboard());
         String fromStartId = dialogMap.get(START_FROM_ID.getId());

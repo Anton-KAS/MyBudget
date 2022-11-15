@@ -18,7 +18,7 @@ public class AccountsCallbackTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new AccountsCallback(botMessageService, telegramUserService, DEFAULT_EXECUTE_MODE, messageText, keyboard);
+        return new AccountsCallback(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
     }
 
     @Override

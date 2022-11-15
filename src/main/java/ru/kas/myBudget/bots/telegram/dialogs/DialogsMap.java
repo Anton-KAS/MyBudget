@@ -46,18 +46,17 @@ public class DialogsMap {
         return instance;
     }
 
-    public void putDialogMap(long userId, Map<String, String> dialogMap) {
-        DialogsMap.getDialogsMap().put(userId, dialogMap);
+    public void putDialogMap(long chatId, Map<String, String> dialogMap) {
+        DialogsMap.getDialogsMap().put(chatId, dialogMap);
     }
 
-    public DialogsMap replaceById(long chatId, String nameId, String text) {
+    public void replaceById(long chatId, String nameId, String text) {
         if (instance == null) {
-            return null;
+            return;
         }
         Map<String, String> dialogMap = getDialogMap(chatId);
-        if (dialogMap == null) return null;
+        if (dialogMap == null) return;
         if (dialogMap.get(nameId) != null) dialogMap.replace(nameId, text);
-        return this;
     }
 
     public DialogsMap remove(long chatId) {

@@ -23,7 +23,7 @@ public class StopCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new StopCommand(botMessageService, telegramUserService, DEFAULT_EXECUTE_MODE, messageText, keyboard);
+        return new StopCommand(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
     }
 
     @Override
@@ -37,26 +37,26 @@ public class StopCommandTest extends AbstractCommandControllerTest {
         TelegramUser telegramUser = new TelegramUser();
         telegramUser.setId(TEST_USER_ID);
         Optional<TelegramUser> telegramUserOptional = Optional.of(telegramUser);
-        Mockito.when(telegramUserService.findById(TEST_USER_ID)).thenReturn(telegramUserOptional);
+        Mockito.when(telegramUserServiceMock.findById(TEST_USER_ID)).thenReturn(telegramUserOptional);
         Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
 
         // when
         getCommand().execute(update);
 
         // then
-        Mockito.verify(telegramUserService, Mockito.times(1)).save(telegramUser);
+        Mockito.verify(telegramUserServiceMock, Mockito.times(1)).save(telegramUser);
     }
 
     @Test
     public void shouldNotProperlyExecuteSetActiveFalse() {
         // given
-        Mockito.when(telegramUserService.findById(TEST_USER_ID)).thenReturn(Optional.empty());
+        Mockito.when(telegramUserServiceMock.findById(TEST_USER_ID)).thenReturn(Optional.empty());
         Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
 
         // when
         getCommand().execute(update);
 
         // then
-        Mockito.verify(telegramUserService, Mockito.times(0)).save(new TelegramUser());
+        Mockito.verify(telegramUserServiceMock, Mockito.times(0)).save(new TelegramUser());
     }
 }

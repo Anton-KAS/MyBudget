@@ -13,9 +13,9 @@ import ru.kas.myBudget.services.TelegramUserService;
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
 
 public class DescriptionDialog extends DialogImpl {
-    private final static int MAX_DESCRIPTION_LENGTH = 100;
+    public final static int MAX_DESCRIPTION_LENGTH = 100;
     private final static String ASK_TEXT = "Введите описание счета:";
-    private final static String VERIFY_EXCEPTION_TEXT = "Описание должно быть до %s символов";
+    public final static String VERIFY_EXCEPTION_TEXT = "Описание должно быть до %s символов";
 
     public DescriptionDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
                              MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap) {
@@ -24,6 +24,8 @@ public class DescriptionDialog extends DialogImpl {
 
     @Override
     public boolean commit(Update update) {
+        if (update.hasCallbackQuery()) return false;
+
         this.userId = UpdateParameter.getUserId(update);
         String text = UpdateParameter.getMessageText(update);
 

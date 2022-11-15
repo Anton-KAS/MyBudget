@@ -95,18 +95,16 @@ public class CurrenciesKeyboard implements Keyboard {
         }
     }
 
-    public CurrenciesKeyboard setCurrencyService(CurrencyService currencyService) {
+    public void setCurrencyService(CurrencyService currencyService) {
         this.currencyService = currencyService;
-        return this;
     }
 
     public void setTelegramUserService(TelegramUserService telegramUserService) {
         this.telegramUserService = telegramUserService;
     }
 
-    public CurrenciesKeyboard setPage(int page) {
+    public void setPage(int page) {
         this.page = page;
-        return this;
     }
 
     public CurrenciesKeyboard setUserId(long userId) {

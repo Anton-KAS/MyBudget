@@ -21,7 +21,7 @@ public class StatCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new StatCommand(botMessageService, telegramUserService, DEFAULT_EXECUTE_MODE, messageText, keyboard);
+        return new StatCommand(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class StatCommandTest extends AbstractCommandControllerTest {
         getCommand().execute(update);
 
         //then
-        Mockito.verify(telegramUserService, Mockito.times(1)).retrieveAllActiveUsers();
+        Mockito.verify(telegramUserServiceMock, Mockito.times(1)).retrieveAllActiveUsers();
     }
     @Test
     public void shouldProperlyExecuteRetrieveAllActiveUsersExecuteMode() {
@@ -51,6 +51,6 @@ public class StatCommandTest extends AbstractCommandControllerTest {
         getCommand().execute(update, ExecuteMode.EDIT);
 
         //then
-        Mockito.verify(telegramUserService, Mockito.times(1)).retrieveAllActiveUsers();
+        Mockito.verify(telegramUserServiceMock, Mockito.times(1)).retrieveAllActiveUsers();
     }
 }

@@ -16,7 +16,7 @@ public class UnknownCallbackTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new NoCallback(botMessageService, telegramUserService, DEFAULT_EXECUTE_MODE, messageText, keyboard);
+        return new NoCallback(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class BankDialog extends DialogImpl {
         String[] callbackData = UpdateParameter.getCallbackData(update);
 
         Integer bankId;
-        if (callbackData != null)
+        if (callbackData != null && callbackData.length > CALLBACK_OPERATION_DATA_INDEX.getIndex())
             bankId = Integer.parseInt(callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
         else return false;
 

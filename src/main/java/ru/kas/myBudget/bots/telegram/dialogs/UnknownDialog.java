@@ -26,6 +26,26 @@ public class UnknownDialog extends CommandControllerImpl implements Dialog {
     }
 
     @Override
+    public void executeByOrder(Update update, ExecuteMode executeMode) {
+
+    }
+
+    @Override
+    public void setData(Update update) {
+
+    }
+
+    @Override
+    public void executeData(Update update, ExecuteMode executeMode) {
+
+    }
+
+    @Override
+    public void addToDialogMap(long userId, CommandDialogNames name, String stringId, String text) {
+
+    }
+
+    @Override
     public ExecuteMode getExecuteMode(Update update, Integer dialogStep) {
         return null;
     }

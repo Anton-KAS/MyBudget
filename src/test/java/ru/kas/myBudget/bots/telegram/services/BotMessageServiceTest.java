@@ -12,13 +12,12 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 @DisplayName("Unit-level testing for BotMessageService")
 public class BotMessageServiceTest {
 
-    private TelegramBot telegramBot;
+    private final TelegramBot telegramBotMock = Mockito.mock(TelegramBot.class);;
     private BotMessageService botMessageService;
 
     @BeforeEach
     public void init() {
-        telegramBot = Mockito.mock(TelegramBot.class);
-        botMessageService = new BotMessageServiceImpl(telegramBot);
+        botMessageService = new BotMessageServiceImpl(telegramBotMock);
     }
 
     @Test
@@ -36,6 +35,6 @@ public class BotMessageServiceTest {
         botMessageService.executeMessage(ExecuteMode.SEND, chatId, null, message, null);
 
         //then
-        Mockito.verify(telegramBot).execute(sendMessage);
+        Mockito.verify(telegramBotMock).execute(sendMessage);
     }
 }

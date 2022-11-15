@@ -26,11 +26,11 @@ abstract public class AbstractCommandControllerTest {
     protected static String TEST_TEXT = "Test Text";
     protected static ExecuteMode DEFAULT_EXECUTE_MODE = ExecuteMode.SEND;
 
-    protected BotMessageService botMessageService = Mockito.mock(BotMessageService.class);
-    protected TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
-    protected DialogsMap dialogMap = Mockito.mock(DialogsMap.class);
-    protected Keyboard keyboard = Mockito.mock(Keyboard.class);
-    protected MessageText messageText = Mockito.mock(MessageText.class);
+    protected BotMessageService botMessageServiceMock = Mockito.mock(BotMessageService.class);
+    protected TelegramUserService telegramUserServiceMock = Mockito.mock(TelegramUserService.class);
+    protected DialogsMap dialogMapMock = Mockito.mock(DialogsMap.class);
+    protected Keyboard keyboardMock = Mockito.mock(Keyboard.class);
+    protected MessageText messageTextMock = Mockito.mock(MessageText.class);
 
     protected abstract String getCommandName();
 
@@ -39,15 +39,15 @@ abstract public class AbstractCommandControllerTest {
 
     @BeforeEach
     public void beforeEach() {
-        Mockito.when(keyboard.getKeyboard()).thenReturn(TEST_INLINE_KEYBOARD);
+        Mockito.when(keyboardMock.getKeyboard()).thenReturn(TEST_INLINE_KEYBOARD);
 
-        this.messageText = getMockMessageText();
-        Mockito.when(messageText.setUserId(TEST_USER_ID)).thenReturn(messageText);
-        Mockito.when(messageText.getText()).thenReturn(TEST_TEXT);
+        this.messageTextMock = getMockMessageText();
+        Mockito.when(messageTextMock.setUserId(TEST_USER_ID)).thenReturn(messageTextMock);
+        Mockito.when(messageTextMock.getText()).thenReturn(TEST_TEXT);
 
-        Mockito.when(telegramUserService.retrieveAllActiveUsers()).thenReturn(TEST_USER_LIST);
+        Mockito.when(telegramUserServiceMock.retrieveAllActiveUsers()).thenReturn(TEST_USER_LIST);
 
-        Mockito.when(dialogMap.remove(TEST_USER_ID)).thenReturn(dialogMap);
+        Mockito.when(dialogMapMock.remove(TEST_USER_ID)).thenReturn(dialogMapMock);
     }
 
     @Test
@@ -59,7 +59,7 @@ abstract public class AbstractCommandControllerTest {
         getCommand().execute(update);
 
         //then
-        Mockito.verify(messageText, Mockito.times(1)).setUserId(TEST_USER_ID);
+        Mockito.verify(messageTextMock, Mockito.times(1)).setUserId(TEST_USER_ID);
     }
 
     @Test
@@ -71,7 +71,7 @@ abstract public class AbstractCommandControllerTest {
         getCommand().execute(update, ExecuteMode.EDIT);
 
         //then
-        Mockito.verify(messageText, Mockito.times(1)).setUserId(TEST_USER_ID);
+        Mockito.verify(messageTextMock, Mockito.times(1)).setUserId(TEST_USER_ID);
     }
 
     @Test
@@ -83,7 +83,7 @@ abstract public class AbstractCommandControllerTest {
         getCommand().execute(update);
 
         //then
-        Mockito.verify(messageText, Mockito.times(1)).getText();
+        Mockito.verify(messageTextMock, Mockito.times(1)).getText();
     }
 
     @Test
@@ -95,7 +95,7 @@ abstract public class AbstractCommandControllerTest {
         getCommand().execute(update, ExecuteMode.EDIT);
 
         //then
-        Mockito.verify(messageText, Mockito.times(1)).getText();
+        Mockito.verify(messageTextMock, Mockito.times(1)).getText();
     }
 
     @Test
@@ -107,8 +107,8 @@ abstract public class AbstractCommandControllerTest {
         getCommand().execute(update);
 
         //then
-        Mockito.verify(botMessageService, Mockito.times(1)).executeAndUpdateUser(
-                telegramUserService, update, ExecuteMode.SEND, TEST_TEXT, TEST_INLINE_KEYBOARD);
+        Mockito.verify(botMessageServiceMock, Mockito.times(1)).executeAndUpdateUser(
+                telegramUserServiceMock, update, ExecuteMode.SEND, TEST_TEXT, TEST_INLINE_KEYBOARD);
     }
 
     @Test
@@ -120,8 +120,8 @@ abstract public class AbstractCommandControllerTest {
         getCommand().execute(update, ExecuteMode.EDIT);
 
         //then
-        Mockito.verify(botMessageService, Mockito.times(1)).executeAndUpdateUser(
-                telegramUserService, update, ExecuteMode.EDIT, TEST_TEXT, TEST_INLINE_KEYBOARD);
+        Mockito.verify(botMessageServiceMock, Mockito.times(1)).executeAndUpdateUser(
+                telegramUserServiceMock, update, ExecuteMode.EDIT, TEST_TEXT, TEST_INLINE_KEYBOARD);
     }
 
     protected Update givenUpdate(long userId, long chatId) {

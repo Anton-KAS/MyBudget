@@ -60,26 +60,31 @@ public abstract class DialogImpl implements Dialog {
         executeByOrder(update, executeMode);
     }
 
-    protected void executeByOrder(Update update, ExecuteMode executeMode) {
+    @Override
+    public void executeByOrder(Update update, ExecuteMode executeMode) {
         setData(update);
         executeData(update, executeMode);
     }
 
-    protected void setData(Update update) {
+    @Override
+    public void setData(Update update) {
         if (userId == null) userId = UpdateParameter.getUserId(update);
-        if (dialogStep == null) dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(userId, CURRENT_DIALOG_STEP.getId()));
+        if (dialogStep == null)
+            dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(userId, CURRENT_DIALOG_STEP.getId()));
         if (defaultExecuteMode == null) defaultExecuteMode = getExecuteMode(update, dialogStep);
 
         text = messageText.setUserId(userId).getText();
         inlineKeyboardMarkup = keyboard.getKeyboard();
     }
 
-    protected void executeData(Update update, ExecuteMode executeMode) {
+    @Override
+    public void executeData(Update update, ExecuteMode executeMode) {
         botMessageService.executeAndUpdateUser(telegramUserService, update, executeMode,
                 String.format(text, askText), inlineKeyboardMarkup);
     }
 
-    protected void addToDialogMap(long userId, CommandDialogNames name, String stringId, String text) {
+    @Override
+    public void addToDialogMap(long userId, CommandDialogNames name, String stringId, String text) {
         Map<String, String> dialogSteps = dialogsMap.getDialogMapById(userId);
 
         dialogSteps.put(name.getName(), stringId);
@@ -88,7 +93,7 @@ public abstract class DialogImpl implements Dialog {
 
     @Override
     public ExecuteMode getExecuteMode(Update update, Integer dialogStep) {
-        if (update.hasCallbackQuery() && dialogStep > FIRST_STEP_INDEX.getIndex()) {
+        if (update.hasCallbackQuery() && dialogStep != null && dialogStep > FIRST_STEP_INDEX.getIndex()) {
             return ExecuteMode.EDIT;
         }
         return ExecuteMode.SEND;

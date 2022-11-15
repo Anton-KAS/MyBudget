@@ -9,12 +9,12 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @DisplayName("Unit-level testing for AccountsText")
 public class AccountsTextTest {
-    private final TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
+    private final TelegramUserService telegramUserServiceMock = Mockito.mock(TelegramUserService.class);
 
     @Test
     public void ShouldGetError() {
         //given
-        MessageText messageText = new AccountsText(telegramUserService);
+        MessageText messageText = new AccountsText(telegramUserServiceMock);
         String expectedText = "userId is not set";
         String actual = null;
 

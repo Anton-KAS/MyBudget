@@ -33,7 +33,7 @@ public class CurrencyDialog extends DialogImpl {
     }
 
     @Override
-    protected void executeByOrder(Update update, ExecuteMode executeMode) {
+    public void executeByOrder(Update update, ExecuteMode executeMode) {
         this.userId = UpdateParameter.getUserId(update);
         setKeyboardPage(update);
         setKeyboardServices();
@@ -49,9 +49,13 @@ public class CurrencyDialog extends DialogImpl {
         if (callbackData == null ||
                 (update.hasCallbackQuery() &&
                         callbackData.length > PAGE_INDEX &&
-                        callbackData[PAGE_INDEX - 1].equals(PAGE.getId()))) return false;
+                        callbackData[PAGE_INDEX - 1].equals(PAGE.getId())))
+            return false;
 
-        int currencyId = Integer.parseInt(callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
+        int currencyId;
+        if (callbackData.length > CALLBACK_OPERATION_DATA_INDEX.getIndex())
+            currencyId = Integer.parseInt(callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
+        else return false;
 
         Optional<Currency> currency = currencyService.findById(currencyId);
         if (currency.isEmpty()) return false;

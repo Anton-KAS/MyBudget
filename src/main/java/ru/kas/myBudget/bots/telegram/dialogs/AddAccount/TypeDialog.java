@@ -29,7 +29,7 @@ public class TypeDialog extends DialogImpl {
     }
 
     @Override
-    protected void executeByOrder(Update update, ExecuteMode executeMode) {
+    public void executeByOrder(Update update, ExecuteMode executeMode) {
         typeKeyboard.setAccountTypeService(accountTypeService);
         setData(update);
         executeData(update, executeMode);

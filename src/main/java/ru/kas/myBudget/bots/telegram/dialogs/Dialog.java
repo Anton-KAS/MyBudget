@@ -12,6 +12,14 @@ public interface Dialog extends CommandController {
 
     void skip(Update update);
 
+    void executeByOrder(Update update, ExecuteMode executeMode);
+
+    void setData(Update update);
+
+    void executeData(Update update, ExecuteMode executeMode);
+
+    void addToDialogMap(long userId, CommandDialogNames name, String stringId, String text);
+
     ExecuteMode getExecuteMode(Update update, Integer dialogStep);
 
 }
