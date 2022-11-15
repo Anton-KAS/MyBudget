@@ -76,15 +76,14 @@ public class BankDialogTest extends AbstractDialogImplTest {
     public void shouldProperlyExecuteCommit(Update update, int testBankId, Optional<Bank> returnFindById, boolean expected) {
         //given
         Mockito.when(bankServiceMock.findById(testBankId)).thenReturn(returnFindById);
+        int times = expected ? 1 : 0;
 
         //when
         boolean result = getCommand().commit(update);
 
         //then
         assertEquals(expected, result);
-        if (expected) {
-            Mockito.verify(telegramUserServiceMock).checkUser(telegramUserServiceMock, update);
-        }
+        Mockito.verify(telegramUserServiceMock, Mockito.times(times)).checkUser(telegramUserServiceMock, update);
     }
 
     public static Stream<Arguments> sourceBankCommit() {

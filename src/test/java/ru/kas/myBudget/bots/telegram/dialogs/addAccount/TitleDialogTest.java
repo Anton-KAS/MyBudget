@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.DescriptionDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.TitleDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
@@ -17,27 +17,28 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.DESCRIPTION;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.DescriptionDialog.MAX_DESCRIPTION_LENGTH;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.DescriptionDialog.VERIFY_EXCEPTION_TEXT;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.TITLE;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.TitleDialog.VERIFY_EXCEPTION_TEXT;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.TitleDialog.MAX_TITLE_LENGTH;
+import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.TitleDialog.MIN_TITLE_LENGTH;
 
 
-@DisplayName("Unit-level testing for DescriptionDialog")
-public class DescriptionDialogTest extends AbstractDialogImplTest {
+@DisplayName("Unit-level testing for TitleDialog")
+public class TitleDialogTest extends AbstractDialogImplTest {
 
     @Override
     protected String getCommandName() {
-        return DESCRIPTION.getName();
+        return TITLE.getName();
     }
 
     @Override
     public CommandDialogNames getCommandDialogName() {
-        return DESCRIPTION;
+        return TITLE;
     }
 
     @Override
     public Dialog getCommand() {
-        return new DescriptionDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock, dialogsMapMock);
+        return new TitleDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock, dialogsMapMock);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class DescriptionDialogTest extends AbstractDialogImplTest {
     }
 
     @ParameterizedTest
-    @MethodSource("sourceDescriptionCommit")
+    @MethodSource("sourceTitleCommit")
     public void shouldProperlyExecuteCommit(Update update, boolean expected) {
         //given
         int timesExpected = expected ? 1 : 0;
@@ -62,25 +63,37 @@ public class DescriptionDialogTest extends AbstractDialogImplTest {
         //then
         assertEquals(expected, result);
         Mockito.verify(botMessageServiceMock, Mockito.times(timesNonExpected)).executeAndUpdateUser(telegramUserServiceMock, update, ExecuteMode.SEND,
-                String.format(VERIFY_EXCEPTION_TEXT, MAX_DESCRIPTION_LENGTH), keyboardMock.getKeyboard());
+                String.format(VERIFY_EXCEPTION_TEXT, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH), keyboardMock.getKeyboard());
         Mockito.verify(telegramUserServiceMock, Mockito.times(timesExpected)).checkUser(telegramUserServiceMock, update);
     }
 
-    public static Stream<Arguments> sourceDescriptionCommit() {
+    public static Stream<Arguments> sourceTitleCommit() {
         return Stream.of(
                 Arguments.of(getCallbackUpdateWithData(TEST_TEXT), false),
                 Arguments.of(getCallbackUpdateWithData(TEST_COMMAND), false),
                 Arguments.of(getCallbackUpdateWithData(TEST_DATA), false),
-                Arguments.of(getUpdateWithText(getNormalMessageText()), true),
-                Arguments.of(getUpdateWithText(getLongMessageText()), false)
+                Arguments.of(getCallbackUpdateWithData(getLongMessageText()), false),
+                Arguments.of(getCallbackUpdateWithData(getNormalLongMessageText()), false),
+                Arguments.of(getCallbackUpdateWithData(getNormalShortMessageText()), false),
+                Arguments.of(getCallbackUpdateWithData(getShortMessageText()), false),
+                Arguments.of(getUpdateWithText(getNormalLongMessageText()), true),
+                Arguments.of(getUpdateWithText(getLongMessageText()), false),
+                Arguments.of(getUpdateWithText(getNormalShortMessageText()), true),
+                Arguments.of(getUpdateWithText(getShortMessageText()), false)
         );
     }
 
     public static String getLongMessageText() {
-        return "s".repeat(MAX_DESCRIPTION_LENGTH + 1);
+        return "t".repeat(MAX_TITLE_LENGTH + 1);
     }
 
-    public static String getNormalMessageText() {
-        return "s".repeat(MAX_DESCRIPTION_LENGTH);
+    public static String getNormalLongMessageText() {
+        return "t".repeat(MAX_TITLE_LENGTH);
+    }
+    public static String getNormalShortMessageText() {
+        return "t".repeat(MIN_TITLE_LENGTH);
+    }
+    public static String getShortMessageText() {
+        return "t".repeat(MIN_TITLE_LENGTH - 1);
     }
 }

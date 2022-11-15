@@ -3,7 +3,6 @@ package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.addAccountDialog.TypeKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
@@ -39,10 +38,10 @@ public class TypeDialog extends DialogImpl {
     public boolean commit(Update update) {
         this.userId = UpdateParameter.getUserId(update);
         String[] callbackData = UpdateParameter.getCallbackData(update);
-        if (callbackData == null) return false;
+
+        if (callbackData == null || callbackData.length <= CALLBACK_OPERATION_DATA_INDEX.getIndex()) return false;
 
         int accountTypeId = Integer.parseInt(callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
-
         AccountType accountType = accountTypeService.findById(accountTypeId).orElse(null);
         if (accountType == null) return false;
 

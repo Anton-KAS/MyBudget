@@ -31,19 +31,21 @@ public class StartDialog extends DialogImpl {
 
     @Override
     public boolean commit(Update update) {
-        this.userId = UpdateParameter.getUserId(update);
+        long chatId = UpdateParameter.getChatId(update);
         String[] callbackData = UpdateParameter.getCallbackData(update);
-        dialogsMap.remove(userId);
+        dialogsMap.remove(chatId);
 
         if (callbackData == null) return false;
         Map<String, String> dialogSteps = new HashMap<>();
+
+        if (callbackData.length <= FROM.getIndex()) return false;
 
         dialogSteps.put(DIALOG_ID.getId(), DialogNamesImpl.ADD_ACCOUNT.getName());
         dialogSteps.put(START_FROM_ID.getId(), callbackData[FROM.getIndex()]);
         dialogSteps.put(CURRENT_DIALOG_STEP.getId(), String.valueOf(FIRST_STEP_INDEX.getIndex()));
         dialogSteps.put(LAST_STEP.getId(), String.valueOf(FIRST_STEP_INDEX.getIndex()));
 
-        dialogsMap.putDialogMap(userId, dialogSteps);
+        dialogsMap.putDialogMap(chatId, dialogSteps);
         return true;
     }
 }

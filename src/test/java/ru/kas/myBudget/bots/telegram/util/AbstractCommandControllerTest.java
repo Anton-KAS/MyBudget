@@ -19,7 +19,7 @@ import java.util.List;
 
 abstract public class AbstractCommandControllerTest {
     protected static long TEST_USER_ID = 123456789L;
-    protected static long TEST_CHAT_ID = TEST_USER_ID;
+    protected static long TEST_CHAT_ID = 987654321L;
     protected static List<TelegramUser> TEST_USER_LIST = getUserList();
     protected static int TEST_USER_LIST_SIZE = TEST_USER_LIST.size();
     protected static InlineKeyboardMarkup TEST_INLINE_KEYBOARD = null;
