@@ -25,8 +25,7 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     protected final static String TEST_DATA = "test_data";
     protected final static String TEST_STEP_ID = "testStepId";
     protected final static String TEST_STEP_TEXT = "test step text";
-    protected final DialogsMap dialogsMapMock = Mockito.mock(DialogsMap.class);
-    protected final Map<String, String> TEST_DIALOG_MAP = new HashMap<>();
+    protected Map<String, String> testDialogMap;
 
     @Override
     public abstract Dialog getCommand();
@@ -37,7 +36,8 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     @BeforeEach
     public void beforeEach() {
         super.beforeEach();
-        Mockito.when(dialogsMapMock.getDialogMapById(TEST_CHAT_ID)).thenReturn(TEST_DIALOG_MAP);
+        testDialogMap = new HashMap<>();
+        Mockito.when(dialogsMapMock.getDialogMapById(TEST_CHAT_ID)).thenReturn(testDialogMap);
         Mockito.when(dialogsMapMock.getDialogStepById(TEST_USER_ID, CURRENT_DIALOG_STEP.getId())).thenReturn(TEST_DIALOG_STEP_ID);
     }
 
@@ -117,14 +117,14 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     @Test
     public void shouldProperlyAddToDialogMap() {
         //given
-        int expectedSize = 2;
+        int expectedSize = testDialogMap.size() + 2;
 
         //when
         getCommand().addToDialogMap(TEST_CHAT_ID, getCommandDialogName(), TEST_STEP_ID, TEST_STEP_TEXT);
 
 
         //then
-        assertEquals(TEST_DIALOG_MAP.size(), expectedSize);
+        assertEquals(testDialogMap.size(), expectedSize);
     }
 
     protected static Update getUpdateWithText(String text) {

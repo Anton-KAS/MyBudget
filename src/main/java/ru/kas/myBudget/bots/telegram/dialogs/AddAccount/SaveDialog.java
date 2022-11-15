@@ -43,7 +43,8 @@ public class SaveDialog extends DialogImpl {
     @Override
     public void setData(Update update) {
         this.userId = UpdateParameter.getUserId(update);
-        this.dialogMap = dialogsMap.getDialogMapById(userId);
+        long chatId = UpdateParameter.getChatId(update);
+        this.dialogMap = dialogsMap.getDialogMapById(chatId);
 
         Bank bank = getBank();
         BigDecimal startBalance = getStartBalance();
@@ -52,8 +53,7 @@ public class SaveDialog extends DialogImpl {
         AccountType accountType = accountTypeService.findById(Integer.parseInt(dialogMap.get(TYPE.getName()))).orElse(null);
 
         Account account = new Account(dialogMap.get(TITLE.getName()), dialogMap.get(DESCRIPTION.getName()),
-                startBalance, startBalance, telegramUser, currency, accountType, bank
-        );
+                startBalance, startBalance, telegramUser, currency, accountType, bank);
         accountService.save(account);
     }
 
@@ -74,7 +74,7 @@ public class SaveDialog extends DialogImpl {
         else return null;
     }
 
-    private BigDecimal getStartBalance() {
+    public BigDecimal getStartBalance() {
         Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
         int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
 

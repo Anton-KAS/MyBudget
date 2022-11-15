@@ -27,7 +27,7 @@ import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.T
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 
-@DisplayName("Unit-level testing for TypeDialog")
+@DisplayName("Unit-level testing for AddAccount.TypeDialog")
 public class TypeDialogTest extends AbstractDialogImplTest {
     private final static String TEST_EXISTENT_TYPE_ID = "7890";
     private final static String TEST_NONEXISTENT_TYPE_ID = "1111";

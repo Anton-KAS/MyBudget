@@ -11,7 +11,7 @@ import ru.kas.myBudget.bots.telegram.texts.addAccountDialog.AddAccountText;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.CONFIRM;
 
-@DisplayName("Unit-level testing for ConfirmDialog")
+@DisplayName("Unit-level testing for AddAccount.ConfirmDialog")
 public class ConfirmDialogTest extends AbstractDialogImplTest {
     @Override
     protected String getCommandName() {

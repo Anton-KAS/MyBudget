@@ -19,12 +19,11 @@ import java.util.Optional;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.CURRENCY_AMOUNT;
-import static ru.kas.myBudget.bots.telegram.util.UpdateParameter.getUserId;
 
 public class StartBalanceDialog extends DialogImpl {
     private final CurrencyService currencyService;
     private final static String ASK_TEXT = "Введите текущий баланс счета:";
-    private final static String VERIFY_EXCEPTION_TEXT = "Введите только одно число";
+    public final static String VERIFY_EXCEPTION_TEXT = "Введите только одно число";
     private final static String DEFAULT_BALANCE_TEXT = "0.0";
 
     public StartBalanceDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
@@ -36,18 +35,18 @@ public class StartBalanceDialog extends DialogImpl {
 
     @Override
     public boolean commit(Update update) {
-        this.userId = UpdateParameter.getUserId(update);
+        long chatId = UpdateParameter.getChatId(update);
         String receivedText = UpdateParameter.getMessageText(update);
 
-        if (!receivedText.matches(CURRENCY_AMOUNT.getRegex())) {
+        if (update.hasCallbackQuery() || !receivedText.matches(CURRENCY_AMOUNT.getRegex())) {
             botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
                     VERIFY_EXCEPTION_TEXT, null);
             return false;
         }
 
-        BigDecimal startBalance = getStartBalance(receivedText, getUserId(update));
+        BigDecimal startBalance = getStartBalance(receivedText, chatId);
 
-        addToDialogMap(userId, START_BALANCE, startBalance.toString(),
+        addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
                 String.format(START_BALANCE.getDialogTextPattern(), "%s", startBalance));
 
         telegramUserService.checkUser(telegramUserService, update);
@@ -56,14 +55,15 @@ public class StartBalanceDialog extends DialogImpl {
 
     @Override
     public void skip(Update update) {
-        BigDecimal startBalance = getStartBalance(DEFAULT_BALANCE_TEXT, getUserId(update));
-        addToDialogMap(userId, START_BALANCE, startBalance.toString(),
+        long chatId = UpdateParameter.getChatId(update);
+        BigDecimal startBalance = getStartBalance(DEFAULT_BALANCE_TEXT, chatId);
+        addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
                 String.format(START_BALANCE.getDialogTextPattern(), "%s", startBalance));
         telegramUserService.checkUser(telegramUserService, update);
     }
 
-    private BigDecimal getStartBalance(String text, long userId) {
-        Map<String, String> dialogMap = dialogsMap.getDialogMapById(userId);
+    private BigDecimal getStartBalance(String text, long chatId) {
+        Map<String, String> dialogMap = dialogsMap.getDialogMapById(chatId);
 
         Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
         int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);

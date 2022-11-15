@@ -23,7 +23,7 @@ import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.TitleDialog.MAX_T
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.TitleDialog.MIN_TITLE_LENGTH;
 
 
-@DisplayName("Unit-level testing for TitleDialog")
+@DisplayName("Unit-level testing for AddAccount.TitleDialog")
 public class TitleDialogTest extends AbstractDialogImplTest {
 
     @Override

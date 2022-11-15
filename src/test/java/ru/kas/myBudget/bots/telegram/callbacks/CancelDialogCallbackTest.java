@@ -22,7 +22,7 @@ public class CancelDialogCallbackTest extends AbstractCommandControllerTest {
     @Override
     public CommandController getCommand() {
         return new CancelDialogCallback(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock,
-                keyboardMock, dialogMapMock);
+                keyboardMock, dialogsMapMock);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class CancelDialogCallbackTest extends AbstractCommandControllerTest {
         getCommand().execute(update);
 
         //then
-        Mockito.verify(dialogMapMock, Mockito.times(1)).remove(TEST_USER_ID);
+        Mockito.verify(dialogsMapMock, Mockito.times(1)).remove(TEST_USER_ID);
     }
 
     @Test
@@ -51,6 +51,6 @@ public class CancelDialogCallbackTest extends AbstractCommandControllerTest {
         getCommand().execute(update, ExecuteMode.EDIT);
 
         //then
-        Mockito.verify(dialogMapMock, Mockito.times(1)).remove(TEST_USER_ID);
+        Mockito.verify(dialogsMapMock, Mockito.times(1)).remove(TEST_USER_ID);
     }
 }

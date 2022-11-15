@@ -25,7 +25,7 @@ import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.B
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 
-@DisplayName("Unit-level testing for BankDialog")
+@DisplayName("Unit-level testing for AddAccount.BankDialog")
 public class BankDialogTest extends AbstractDialogImplTest {
     private final static int TEST_EXISTENT_BANK_ID = 777;
     private final static int TEST_NONEXISTENT_BANK_ID = 666;

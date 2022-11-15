@@ -28,7 +28,7 @@ abstract public class AbstractCommandControllerTest {
 
     protected BotMessageService botMessageServiceMock = Mockito.mock(BotMessageService.class);
     protected TelegramUserService telegramUserServiceMock = Mockito.mock(TelegramUserService.class);
-    protected DialogsMap dialogMapMock = Mockito.mock(DialogsMap.class);
+    protected DialogsMap dialogsMapMock = Mockito.mock(DialogsMap.class);
     protected Keyboard keyboardMock = Mockito.mock(Keyboard.class);
     protected MessageText messageTextMock = Mockito.mock(MessageText.class);
 
@@ -47,7 +47,7 @@ abstract public class AbstractCommandControllerTest {
 
         Mockito.when(telegramUserServiceMock.retrieveAllActiveUsers()).thenReturn(TEST_USER_LIST);
 
-        Mockito.when(dialogMapMock.remove(TEST_USER_ID)).thenReturn(dialogMapMock);
+        Mockito.when(dialogsMapMock.remove(TEST_USER_ID)).thenReturn(dialogsMapMock);
     }
 
     @Test

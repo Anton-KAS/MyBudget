@@ -174,8 +174,13 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", startBalance=" + startBalance +
+                ", currentBalance=" + currentBalance +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

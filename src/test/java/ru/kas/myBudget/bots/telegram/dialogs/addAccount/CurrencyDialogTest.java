@@ -28,7 +28,7 @@ import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.PAGE;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 
-@DisplayName("Unit-level testing for CurrencyDialog")
+@DisplayName("Unit-level testing for AddAccount.CurrencyDialog")
 public class CurrencyDialogTest extends AbstractDialogImplTest {
     private final static int TEST_PAGE_NUM = 999;
     private final static String TEST_EXISTENT_CURRENCY_ID = "7890";

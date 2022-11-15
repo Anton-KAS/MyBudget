@@ -22,7 +22,7 @@ import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.DescriptionDialog
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.DescriptionDialog.VERIFY_EXCEPTION_TEXT;
 
 
-@DisplayName("Unit-level testing for DescriptionDialog")
+@DisplayName("Unit-level testing for AddAccount.DescriptionDialog")
 public class DescriptionDialogTest extends AbstractDialogImplTest {
 
     @Override
