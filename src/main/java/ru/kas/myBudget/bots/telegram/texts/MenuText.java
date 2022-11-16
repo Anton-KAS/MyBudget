@@ -7,15 +7,22 @@ import java.util.Optional;
 
 public class MenuText implements MessageText {
     private final TelegramUserService telegramUserService;
-    private final Long userId;
+    private Long userId;
 
-    public MenuText(TelegramUserService telegramUserService, Long userId) {
+    public MenuText(TelegramUserService telegramUserService) {
         this.telegramUserService = telegramUserService;
+    }
+
+    @Override
+    public MenuText setUserId(Long userId) {
         this.userId = userId;
+        return this;
     }
 
     @Override
     public String getText() {
+        checkUserIdSet(userId);
+
         Optional<TelegramUser> telegramUser = telegramUserService.findById(userId);
         int accountCount = 0;
         if (telegramUser.isPresent()) {

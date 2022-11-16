@@ -1,6 +1,7 @@
 package ru.kas.myBudget.models;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -46,7 +47,7 @@ public class TelegramUser {
     private List<Account> accounts;
 
     @Column(name = "last_message_id")
-    private Long lastMessageId;
+    private Integer lastMessageId;
 
     @Column(name = "last_message_text")
     private String lastMessageText;
@@ -64,7 +65,7 @@ public class TelegramUser {
 
     public TelegramUser(long id, long chat_id, String username, String firstName, String lastName, String languageCode,
                         Boolean isPremium, Date createdAt, Date lastActive, boolean active, WebUser webUser,
-                        List<Account> accounts, Long lastMessageId, String lastMessageText, Date lastMessageTimestamp) {
+                        List<Account> accounts, Integer lastMessageId, String lastMessageText, Date lastMessageTimestamp) {
         this.id = id;
         this.chat_id = chat_id;
         this.username = username;
@@ -102,8 +103,8 @@ public class TelegramUser {
         this.active = true;
         this.webUser = null;
         if (update.hasCallbackQuery()) {
-            this.lastMessageId = Long.valueOf(update.getCallbackQuery().getMessage().getMessageId());
-            this.lastMessageText = update.getCallbackQuery().getMessage().getText();
+            this.lastMessageId = UpdateParameter.getMessageId(update);
+            this.lastMessageText = UpdateParameter.getMessageText(update);
             this.lastMessageTimestamp = new Date();
         }
     }
@@ -212,11 +213,11 @@ public class TelegramUser {
         isPremium = premium;
     }
 
-    public Long getLastMessageId() {
+    public Integer getLastMessageId() {
         return lastMessageId;
     }
 
-    public void setLastMessageId(Long lastMessageId) {
+    public void setLastMessageId(Integer lastMessageId) {
         this.lastMessageId = lastMessageId;
     }
 

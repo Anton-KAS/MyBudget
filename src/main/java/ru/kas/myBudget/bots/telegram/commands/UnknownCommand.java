@@ -1,28 +1,16 @@
 package ru.kas.myBudget.bots.telegram.commands;
 
-import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
+import ru.kas.myBudget.bots.telegram.util.CommandControllerImpl;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.services.TelegramUserService;
 
-public class UnknownCommand implements Command {
+public class UnknownCommand extends CommandControllerImpl {
 
-    private final BotMessageService sendBotMessageService;
-
-    public final static String UNKNOWN_MESSAGE = "" +
-            "Не понимаю вас =(\n" +
-            "Напишите /help чтобы узнать что я понимаю.";
-
-    public UnknownCommand(BotMessageService sendBotMessageService) {
-        this.sendBotMessageService = sendBotMessageService;
-    }
-
-    @Override
-    public void execute(Update update) {
-        sendBotMessageService.executeSendMessage(getUserId(update), UNKNOWN_MESSAGE);
-    }
-
-    @Override
-    public void execute(Update update, ExecuteMode executeMode) {
-        execute(update);
+    public UnknownCommand(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                          ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
+        super(botMessageService, telegramUserService, defaultExecuteMode, messageText, keyboard);
     }
 }

@@ -3,6 +3,8 @@ package ru.kas.myBudget.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.models.TelegramUser;
 import ru.kas.myBudget.repositories.TelegramUserRepository;
 
@@ -38,12 +40,27 @@ public class TelegramUserServiceImpl implements TelegramUserService {
 
     @Override
     @Transactional
-    public void setLastMessage(TelegramUser telegramUser, Long messageId, String messageText) {
+    public void setLastMessage(TelegramUser telegramUser, Integer messageId, String messageText) {
         if (telegramUser == null || messageId == null) return;
         telegramUser.setLastMessageId(messageId);
         telegramUser.setLastMessageText(messageText);
         telegramUser.setLastMessageTimestamp(new Date());
         telegramUserRepository.save(telegramUser);
+    }
+
+    @Override
+    @Transactional
+    public void checkUser(TelegramUserService telegramUserService, Update update) {
+        telegramUserService.findById(UpdateParameter.getUserId(update)).ifPresentOrElse(
+                user -> {
+                    user.setActive(true);
+                    telegramUserService.save(user);
+                },
+                () -> {
+                    TelegramUser telegramUser = new TelegramUser(update);
+                    telegramUserService.save(telegramUser);
+                }
+        );
     }
 
     @Override

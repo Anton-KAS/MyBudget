@@ -1,23 +1,26 @@
 package ru.kas.myBudget.bots.telegram.commands;
 
 import org.junit.jupiter.api.DisplayName;
-
-import static ru.kas.myBudget.bots.telegram.commands.UnknownCommand.UNKNOWN_MESSAGE;
+import org.mockito.Mockito;
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
+import ru.kas.myBudget.bots.telegram.texts.UnknownText;
+import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 
 @DisplayName("Unit-level testing for UnknownCommand")
-public class UnknownCommandTest extends AbstractCommandTest {
+public class UnknownCommandTest extends AbstractCommandControllerTest {
     @Override
-    String getCommandName() {
+    protected String getCommandName() {
         return "/test_unknown_command";
     }
 
     @Override
-    String getCommandMessage() {
-        return UNKNOWN_MESSAGE;
+    public CommandController getCommand() {
+        return new UnknownCommand(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
     }
 
     @Override
-    Command getCommand() {
-        return new UnknownCommand(sendBotMessageService);
+    public MessageText getMockMessageText() {
+        return Mockito.mock(UnknownText.class);
     }
 }

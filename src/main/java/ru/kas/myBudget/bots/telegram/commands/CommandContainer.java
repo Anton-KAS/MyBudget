@@ -2,37 +2,45 @@ package ru.kas.myBudget.bots.telegram.commands;
 
 import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.callbacks.AccountsCallback;
+import ru.kas.myBudget.bots.telegram.keyboards.*;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.texts.*;
 import ru.kas.myBudget.bots.telegram.util.Container;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
-import ru.kas.myBudget.bots.telegram.util.UpdateExtraction;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.*;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.*;
 
 public class CommandContainer implements Container {
-
     private final static ExecuteMode defaultExecuteMode = ExecuteMode.SEND;
-    private final ImmutableMap<String, UpdateExtraction> commandMap;
-    private final Command unknownCommand;
+    private final ImmutableMap<String, CommandController> commandMap;
+    private final CommandController unknownCommand;
 
     public CommandContainer(BotMessageService sendBotMessageService, TelegramUserService telegramUserService) {
-        commandMap = ImmutableMap.<String, UpdateExtraction>builder()
-                .put(START.getCommandName(), new StartCommand(sendBotMessageService, telegramUserService))
-                .put(STOP.getCommandName(), new StopCommand(sendBotMessageService, telegramUserService))
-                .put(HELP.getCommandName(), new HelpCommand(sendBotMessageService, telegramUserService))
-                .put(NO.getCommandName(), new NoCommand(sendBotMessageService, telegramUserService))
-                .put(STAT.getCommandName(), new StatCommand(sendBotMessageService, telegramUserService))
-                .put(MENU.getCommandName(), new MenuCommand(defaultExecuteMode, sendBotMessageService, telegramUserService))
-                .put(ACCOUNTS.getCommandName(), new AccountsCallback(defaultExecuteMode, sendBotMessageService,
-                        telegramUserService))
+        commandMap = ImmutableMap.<String, CommandController>builder()
+                .put(START.getName(), new StartCommand(sendBotMessageService, telegramUserService,
+                        defaultExecuteMode, new StartText(), new StartKeyboard()))
+                .put(STOP.getName(), new StopCommand(sendBotMessageService, telegramUserService,
+                        defaultExecuteMode, new StopText(), new StopKeyboard()))
+                .put(HELP.getName(), new HelpCommand(sendBotMessageService, telegramUserService,
+                        defaultExecuteMode, new HelpText(), new HelpKeyboard()))
+                .put(NO.getName(), new NoCommand(sendBotMessageService, telegramUserService,
+                        defaultExecuteMode, new NoText(), new NoKeyboard()))
+                .put(STAT.getName(), new StatCommand(sendBotMessageService, telegramUserService,
+                        defaultExecuteMode, new StatText(), new StatKeyboard()))
+                .put(MENU.getName(), new MenuCommand(sendBotMessageService, telegramUserService,
+                        defaultExecuteMode, new MenuText(telegramUserService), new MenuKeyboard()))
+                .put(ACCOUNTS.getName(), new AccountsCallback(sendBotMessageService, telegramUserService,
+                        defaultExecuteMode, new AccountsText(telegramUserService), new AccountsKeyboard()))
                 .build();
 
-        unknownCommand = new UnknownCommand(sendBotMessageService);
+        unknownCommand = new UnknownCommand(sendBotMessageService, telegramUserService,
+                defaultExecuteMode, new UnknownText(), new UnknownKeyboard());
     }
 
     @Override
-    public UpdateExtraction retrieve(String identifier) {
+    public CommandController retrieve(String identifier) {
         return commandMap.getOrDefault(identifier, unknownCommand);
     }
 }

@@ -1,26 +1,52 @@
 package ru.kas.myBudget.bots.telegram.dialogs;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.callbacks.Callback;
+import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
+import ru.kas.myBudget.bots.telegram.util.CommandControllerImpl;
+import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.services.TelegramUserService;
 
-public class UnknownDialog implements Dialog, Callback {
-    private final BotMessageService botMessageService;
+public class UnknownDialog extends CommandControllerImpl implements Dialog {
 
-    public final static String NO_MESSAGE = "Что-то пошло не так =(";
-
-    public UnknownDialog(BotMessageService botMessageService) {
-        this.botMessageService = botMessageService;
-    }
-
-    @Override
-    public void execute(Update update) {
-        botMessageService.executeMessage(getExecuteMode(update, null),
-                getChatId(update), getMessageId(update), NO_MESSAGE, null);
+    public UnknownDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                         ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
+        super(botMessageService, telegramUserService, defaultExecuteMode, messageText, keyboard);
     }
 
     @Override
     public boolean commit(Update update) {
-        return true;
+        return false;
+    }
+
+    @Override
+    public void skip(Update update) {
+
+    }
+
+    @Override
+    public void executeByOrder(Update update, ExecuteMode executeMode) {
+
+    }
+
+    @Override
+    public void setData(Update update) {
+
+    }
+
+    @Override
+    public void executeData(Update update, ExecuteMode executeMode) {
+
+    }
+
+    @Override
+    public void addToDialogMap(long userId, CommandDialogNames name, String stringId, String text) {
+
+    }
+
+    @Override
+    public ExecuteMode getExecuteMode(Update update, Integer dialogStep) {
+        return null;
     }
 }

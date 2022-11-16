@@ -1,24 +1,28 @@
 package ru.kas.myBudget.bots.telegram.commands;
 
 import org.junit.jupiter.api.DisplayName;
+import org.mockito.Mockito;
+import ru.kas.myBudget.bots.telegram.texts.HelpText;
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
+import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
+import ru.kas.myBudget.bots.telegram.util.CommandController;
 
-import static ru.kas.myBudget.bots.telegram.commands.CommandName.HELP;
-import static ru.kas.myBudget.bots.telegram.commands.HelpCommand.HELP_MESSAGE;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.HELP;
 
 @DisplayName("Unit-level testing for HelpCommand")
-public class HelpCommandTest extends AbstractCommandTest{
+public class HelpCommandTest extends AbstractCommandControllerTest {
     @Override
-    String getCommandName() {
-        return HELP.getCommandName();
+    protected String getCommandName() {
+        return HELP.getName();
     }
 
     @Override
-    String getCommandMessage() {
-        return HELP_MESSAGE;
+    public CommandController getCommand() {
+        return new HelpCommand(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
     }
 
     @Override
-    Command getCommand() {
-        return new HelpCommand(sendBotMessageService, telegramUserService);
+    public MessageText getMockMessageText() {
+        return Mockito.mock(HelpText.class);
     }
 }
