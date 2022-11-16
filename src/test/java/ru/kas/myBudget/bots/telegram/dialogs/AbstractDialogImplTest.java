@@ -38,7 +38,7 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
         super.beforeEach();
         testDialogMap = new HashMap<>();
         Mockito.when(dialogsMapMock.getDialogMapById(TEST_CHAT_ID)).thenReturn(testDialogMap);
-        Mockito.when(dialogsMapMock.getDialogStepById(TEST_USER_ID, CURRENT_DIALOG_STEP.getId())).thenReturn(TEST_DIALOG_STEP_ID);
+        Mockito.when(dialogsMapMock.getDialogStepById(TEST_CHAT_ID, CURRENT_DIALOG_STEP.getId())).thenReturn(TEST_DIALOG_STEP_ID);
     }
 
     @ParameterizedTest

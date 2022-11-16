@@ -69,8 +69,10 @@ public abstract class DialogImpl implements Dialog {
     @Override
     public void setData(Update update) {
         if (userId == null) userId = UpdateParameter.getUserId(update);
+        long chatId = UpdateParameter.getChatId(update);
+
         if (dialogStep == null)
-            dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(userId, CURRENT_DIALOG_STEP.getId()));
+            dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId()));
         if (defaultExecuteMode == null) defaultExecuteMode = getExecuteMode(update, dialogStep);
 
         text = messageText.setUserId(userId).getText();

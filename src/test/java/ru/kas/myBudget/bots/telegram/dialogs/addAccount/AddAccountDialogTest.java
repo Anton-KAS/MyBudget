@@ -16,13 +16,13 @@ import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.CurrencyDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.BankDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.SaveDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.StartBalanceDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.MainDialogImplTest;
+import ru.kas.myBudget.bots.telegram.dialogs.AbstractMainDialogImplTest;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 @DisplayName("Unit-level testing for AddAccount.AddAccountDialog")
-public class AddAccountDialogTest extends MainDialogImplTest {
+public class AddAccountDialogTest extends AbstractMainDialogImplTest {
     private static String ADD_ACCOUNT_CALLBACK_PATTERN;
 
     private AddAccountDialog addAccountDialog;
@@ -42,16 +42,6 @@ public class AddAccountDialogTest extends MainDialogImplTest {
     @BeforeAll
     public static void beforeAll() {
         ADD_ACCOUNT_CALLBACK_PATTERN = String.format(CALLBACK_DIALOG_PATTERN, "%s", ADD_ACCOUNT.getName(), "%s", "%s");
-    }
-
-    @Override
-    @BeforeEach
-    public void beforeEach() {
-        super.beforeEach();
-
-        this.addAccountDialog = new AddAccountDialog(botMessageServiceMock, telegramUserServiceMock, dialogsMapMock,
-                addAccountContainerMock);
-
 
         Mockito.when(addAccountContainerMock.retrieve(START.getName())).thenReturn(startDialogMock);
         Mockito.when(addAccountContainerMock.retrieve(TYPE.getName())).thenReturn(typeDialogMock);
@@ -61,6 +51,15 @@ public class AddAccountDialogTest extends MainDialogImplTest {
         Mockito.when(addAccountContainerMock.retrieve(BANK.getName())).thenReturn(bankDialogMock);
         Mockito.when(addAccountContainerMock.retrieve(START_BALANCE.getName())).thenReturn(startBalanceDialogMock);
         Mockito.when(addAccountContainerMock.retrieve(SAVE.getName())).thenReturn(saveDialog);
+    }
+
+    @Override
+    @BeforeEach
+    public void beforeEach() {
+        super.beforeEach();
+
+        this.addAccountDialog = new AddAccountDialog(botMessageServiceMock, telegramUserServiceMock, dialogsMapMock,
+                addAccountContainerMock);
     }
 
     @Test
@@ -80,6 +79,6 @@ public class AddAccountDialogTest extends MainDialogImplTest {
 
     @Test
     public void shouldProperlyExecuteWithExecuteMode() {
-
+        // TODO: Write it!
     }
 }

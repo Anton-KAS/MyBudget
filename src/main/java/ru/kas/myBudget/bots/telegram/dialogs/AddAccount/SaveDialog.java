@@ -43,8 +43,7 @@ public class SaveDialog extends DialogImpl {
     @Override
     public void setData(Update update) {
         this.userId = UpdateParameter.getUserId(update);
-        long chatId = UpdateParameter.getChatId(update);
-        this.dialogMap = dialogsMap.getDialogMapById(chatId);
+        this.dialogMap = dialogsMap.getDialogMapById(UpdateParameter.getChatId(update));
 
         Bank bank = getBank();
         BigDecimal startBalance = getStartBalance();

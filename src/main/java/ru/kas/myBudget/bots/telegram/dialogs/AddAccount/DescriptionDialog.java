@@ -26,7 +26,7 @@ public class DescriptionDialog extends DialogImpl {
     public boolean commit(Update update) {
         if (update.hasCallbackQuery()) return false;
 
-        this.userId = UpdateParameter.getUserId(update);
+        long chatId = UpdateParameter.getChatId(update);
         String text = UpdateParameter.getMessageText(update);
 
         if (text.length() > MAX_DESCRIPTION_LENGTH) {
@@ -35,7 +35,7 @@ public class DescriptionDialog extends DialogImpl {
             return false;
         }
 
-        addToDialogMap(userId, DESCRIPTION, text, String.format(DESCRIPTION.getDialogTextPattern(), "%s", text));
+        addToDialogMap(chatId, DESCRIPTION, text, String.format(DESCRIPTION.getDialogTextPattern(), "%s", text));
         telegramUserService.checkUser(telegramUserService, update);
         return true;
     }
