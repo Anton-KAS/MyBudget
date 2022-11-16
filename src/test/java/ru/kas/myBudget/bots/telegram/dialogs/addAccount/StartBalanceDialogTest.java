@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.StartBalanceDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
@@ -21,9 +20,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.CURRENCY;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.START_BALANCE;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.StartBalanceDialog.VERIFY_EXCEPTION_TEXT;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.CURRENCY;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.START_BALANCE;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.StartBalanceDialog.VERIFY_EXCEPTION_TEXT;
 
 
 @DisplayName("Unit-level testing for AddAccount.StartBalanceDialog")

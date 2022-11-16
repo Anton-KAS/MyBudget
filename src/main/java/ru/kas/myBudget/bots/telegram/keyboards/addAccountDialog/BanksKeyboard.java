@@ -9,7 +9,7 @@ import ru.kas.myBudget.services.BankService;
 import java.util.List;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.BANK;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.BANK;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 public class BanksKeyboard implements Keyboard {

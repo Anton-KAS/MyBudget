@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.*;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.BankDialog;
 import ru.kas.myBudget.bots.telegram.keyboards.addAccountDialog.BanksKeyboard;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.texts.addAccountDialog.AddAccountText;
@@ -21,7 +20,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.BANK;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.BANK;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 

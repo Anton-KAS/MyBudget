@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;

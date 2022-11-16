@@ -12,7 +12,7 @@ import ru.kas.myBudget.services.TelegramUserService;
 import java.util.*;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.CURRENCY;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.CURRENCY;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.*;
 
 public class CurrenciesKeyboard implements Keyboard {

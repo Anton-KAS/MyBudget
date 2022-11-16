@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
@@ -17,7 +17,7 @@ import java.math.RoundingMode;
 import java.util.Map;
 import java.util.Optional;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.CURRENCY_AMOUNT;
 
 public class StartBalanceDialog extends DialogImpl {

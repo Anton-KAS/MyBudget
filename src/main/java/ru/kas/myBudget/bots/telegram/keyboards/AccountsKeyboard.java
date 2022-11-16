@@ -4,7 +4,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNTS;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.START;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.START;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 public class AccountsKeyboard implements Keyboard {

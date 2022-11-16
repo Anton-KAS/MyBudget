@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
@@ -12,7 +12,7 @@ import ru.kas.myBudget.models.AccountType;
 import ru.kas.myBudget.services.AccountTypeService;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.TYPE;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.TYPE;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.CALLBACK_OPERATION_DATA_INDEX;
 
 public class TypeDialog extends DialogImpl {

@@ -7,7 +7,6 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.SaveDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
@@ -22,7 +21,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 
 @DisplayName("Unit-level testing for AddAccount.SaveDialog")
 public class SaveTest extends AbstractDialogImplTest {

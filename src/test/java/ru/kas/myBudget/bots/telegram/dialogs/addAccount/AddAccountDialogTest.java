@@ -4,25 +4,26 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountContainer;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.StartDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.TypeDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.TitleDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.DescriptionDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.CurrencyDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.BankDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.SaveDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.StartBalanceDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractMainDialogImplTest;
+import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
+import java.util.HashMap;
+import java.util.stream.Stream;
+
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.FIRST_STEP_INDEX;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 @DisplayName("Unit-level testing for AddAccount.AddAccountDialog")
 public class AddAccountDialogTest extends AbstractMainDialogImplTest {
+    private final static int TEST_ADD_ID = 666;
+
     private static String ADD_ACCOUNT_CALLBACK_PATTERN;
 
     private AddAccountDialog addAccountDialog;
@@ -36,7 +37,8 @@ public class AddAccountDialogTest extends AbstractMainDialogImplTest {
     private final static CurrencyDialog currencyDialogMock = Mockito.mock(CurrencyDialog.class);
     private final static BankDialog bankDialogMock = Mockito.mock(BankDialog.class);
     private final static StartBalanceDialog startBalanceDialogMock = Mockito.mock(StartBalanceDialog.class);
-    private final static SaveDialog saveDialog = Mockito.mock(SaveDialog.class);
+    private final static ConfirmDialog confirmDialogMock = Mockito.mock(ConfirmDialog.class);
+    private final static SaveDialog saveDialogMock = Mockito.mock(SaveDialog.class);
 
 
     @BeforeAll
@@ -50,7 +52,18 @@ public class AddAccountDialogTest extends AbstractMainDialogImplTest {
         Mockito.when(addAccountContainerMock.retrieve(CURRENCY.getName())).thenReturn(currencyDialogMock);
         Mockito.when(addAccountContainerMock.retrieve(BANK.getName())).thenReturn(bankDialogMock);
         Mockito.when(addAccountContainerMock.retrieve(START_BALANCE.getName())).thenReturn(startBalanceDialogMock);
-        Mockito.when(addAccountContainerMock.retrieve(SAVE.getName())).thenReturn(saveDialog);
+        Mockito.when(addAccountContainerMock.retrieve(CONFIRM.getName())).thenReturn(confirmDialogMock);
+        Mockito.when(addAccountContainerMock.retrieve(SAVE.getName())).thenReturn(saveDialogMock);
+
+        Mockito.when(startDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
+        Mockito.when(typeDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
+        Mockito.when(titleDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
+        Mockito.when(descriptionDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
+        Mockito.when(currencyDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
+        Mockito.when(bankDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
+        Mockito.when(startBalanceDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
+        Mockito.when(confirmDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
+        Mockito.when(saveDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
     }
 
     @Override
@@ -63,19 +76,59 @@ public class AddAccountDialogTest extends AbstractMainDialogImplTest {
     }
 
     @Test
-    public void shouldProperlyExecuteStartDialog() {
+    public void shouldProperlyExecuteStartDialogCommitAndTypeExecute() {
         //given
         dialogMap = null;
+        int dialogStep = 0;
         Mockito.when(dialogsMapMock.getDialogMapById(TEST_CHAT_ID)).thenReturn(dialogMap);
-        Mockito.when(dialogsMapMock.getDialogStepById(TEST_CHAT_ID, TYPE.getName())).thenReturn("1");
-        Update update = getCallbackUpdate(String.format(ADD_ACCOUNT_CALLBACK_PATTERN, "", START.getName(), "start"));
+        Mockito.when(dialogsMapMock.getDialogStepById(TEST_CHAT_ID, TYPE.getName())).thenReturn(String.valueOf(dialogStep));
+        Update update = getCallbackUpdate(String.format(ADD_ACCOUNT_CALLBACK_PATTERN, "from", START.getName(), "start"));
 
         //when
         addAccountDialog.execute(update);
 
         //then
         Mockito.verify(startDialogMock).commit(update);
+        Mockito.verify(typeDialogMock).execute(update);
     }
+
+    @ParameterizedTest
+    @MethodSource("sourceCommitExecute")
+    public void shouldProperlyExecuteCommitExecute(Update update, int dialogStep, AddAccountNames addAccountName,
+                                                   Dialog commitDialogMock, Dialog executeDialogMock) {
+        //given
+        dialogMap = new HashMap<>();
+        dialogMap.put(CURRENT_DIALOG_STEP.getId(), String.valueOf(dialogStep));
+        dialogMap.put(LAST_STEP.getId(), String.valueOf(dialogStep));
+        dialogMap.put(TYPE.getName(), "TEST TYPE ID");
+        Mockito.when(dialogsMapMock.getDialogMapById(TEST_CHAT_ID)).thenReturn(dialogMap);
+        Mockito.when(dialogsMapMock.getDialogStepById(TEST_CHAT_ID, addAccountName.getName())).thenReturn(String.valueOf(dialogStep));
+
+        //when
+        addAccountDialog.execute(update);
+
+        //then
+        Mockito.verify(commitDialogMock).commit(update);
+        Mockito.verify(executeDialogMock).execute(update);
+    }
+
+    private static Stream<Arguments> sourceCommitExecute() {
+        int dialogStep = FIRST_STEP_INDEX.getIndex() + 1;
+        return Stream.of(
+                Arguments.of(getCallbackUpdate(TYPE), dialogStep++, TYPE, typeDialogMock, titleDialogMock),
+                Arguments.of(getCommandAndTextUpdate(TEST_TEXT), dialogStep++, TITLE, titleDialogMock, descriptionDialogMock),
+                Arguments.of(getCommandAndTextUpdate(TEST_TEXT), dialogStep++, DESCRIPTION, descriptionDialogMock, currencyDialogMock),
+                Arguments.of(getCallbackUpdate(CURRENCY), dialogStep++, CURRENCY, currencyDialogMock, bankDialogMock),
+                Arguments.of(getCallbackUpdate(BANK), dialogStep++, BANK, bankDialogMock, startBalanceDialogMock),
+                Arguments.of(getCommandAndTextUpdate(TEST_TEXT), dialogStep++, START_BALANCE, startBalanceDialogMock, confirmDialogMock)
+        );
+    }
+
+    private static Update getCallbackUpdate(AddAccountNames addAccountName) {
+        return getCallbackUpdate(String.format(ADD_ACCOUNT_CALLBACK_PATTERN, ADD_ACCOUNT.getName(),
+                addAccountName.getName(), TEST_ADD_ID));
+    }
+
 
     @Test
     public void shouldProperlyExecuteWithExecuteMode() {

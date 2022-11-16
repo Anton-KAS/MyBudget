@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
@@ -10,7 +10,7 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 
 public class TitleDialog extends DialogImpl {
     public final static int MIN_TITLE_LENGTH = 2;

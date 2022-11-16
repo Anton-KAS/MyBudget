@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
 
 import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
@@ -15,7 +15,7 @@ import ru.kas.myBudget.bots.telegram.util.Container;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.*;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 
 public class AddAccountContainer implements Container {
     private final ImmutableMap<String, Dialog> dialogMap;

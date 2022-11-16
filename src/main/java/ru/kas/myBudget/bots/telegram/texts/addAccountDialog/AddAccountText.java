@@ -1,12 +1,12 @@
 package ru.kas.myBudget.bots.telegram.texts.addAccountDialog;
 
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames;
+import ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 
 import java.util.Map;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
 
 public class AddAccountText implements MessageText {

@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.dialogs.AddAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.bot.TelegramBot.COMMAND_PREFIX;
 import static ru.kas.myBudget.bots.telegram.commands.CommandIndex.COMMAND;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.EDIT_NUM;

@@ -5,7 +5,7 @@ import ru.kas.myBudget.bots.telegram.keyboards.InlineKeyboardBuilder;
 import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.*;
-import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.CONFIRM;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.CONFIRM;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 public class ConfirmKeyboard implements Keyboard {

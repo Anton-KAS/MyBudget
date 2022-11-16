@@ -2,8 +2,8 @@ package ru.kas.myBudget.bots.telegram.dialogs;
 
 import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountContainer;
-import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountContainer;
+import ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountDialog;
 import ru.kas.myBudget.bots.telegram.keyboards.callback.NoKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.callback.NoText;

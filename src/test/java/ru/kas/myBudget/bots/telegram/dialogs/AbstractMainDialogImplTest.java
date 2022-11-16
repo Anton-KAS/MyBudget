@@ -6,7 +6,6 @@ import org.telegram.telegrambots.meta.api.objects.*;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
@@ -29,8 +28,6 @@ public abstract class AbstractMainDialogImplTest {
 
     @BeforeEach
     public void beforeEach() {
-        dialogMap = new HashMap<>();
-        Mockito.when(dialogsMapMock.getDialogMapById(TEST_USER_ID)).thenReturn(dialogMap);
     }
 
     protected static Update getCommandAndTextUpdate(String text) {
