@@ -5,6 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "account")
@@ -182,5 +183,21 @@ public class Account {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return id == account.id && title.equals(account.title) && Objects.equals(description, account.description)
+                && startBalance.equals(account.startBalance) && currentBalance.equals(account.currentBalance)
+                && telegramUser.equals(account.telegramUser) && currency.equals(account.currency)
+                && accountType.equals(account.accountType) && Objects.equals(bank, account.bank);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, description, startBalance, currentBalance, telegramUser, currency, accountType, bank);
     }
 }

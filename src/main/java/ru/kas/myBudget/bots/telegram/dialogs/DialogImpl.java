@@ -50,8 +50,8 @@ public abstract class DialogImpl implements Dialog {
 
     @Override
     public void execute(Update update) {
-        userId = UpdateParameter.getUserId(update);
-        dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(userId, CURRENT_DIALOG_STEP.getId()));
+        long chatId = UpdateParameter.getChatId(update);
+        dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId()));
         executeByOrder(update, getExecuteMode(update, dialogStep));
     }
 

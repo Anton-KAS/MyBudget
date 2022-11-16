@@ -2,6 +2,7 @@ package ru.kas.myBudget.bots.telegram.dialogs;
 
 import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
+import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountDialog;
 import ru.kas.myBudget.bots.telegram.keyboards.callback.NoKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
@@ -20,10 +21,14 @@ public class DialogContainer implements Container {
     public DialogContainer(BotMessageService botMessageService, TelegramUserService telegramUserService,
                            CallbackContainer callbackContainer, AccountTypeService accountTypeService,
                            CurrencyService currencyService, BankService bankService, AccountService accountService) {
+
+        AddAccountContainer addAccountContainer = new AddAccountContainer(botMessageService, telegramUserService,
+                callbackContainer, accountTypeService, currencyService, bankService, accountService);
+
         dialogMap = ImmutableMap.<String, CommandController>builder()
                 .put(ADD_ACCOUNT.getName(),
                         new AddAccountDialog(botMessageService, telegramUserService, DialogsMap.getDialogsMapClass(),
-                                callbackContainer, accountTypeService, currencyService, bankService, accountService))
+                                addAccountContainer))
                 .build();
 
         unknownDialog = new UnknownDialog(botMessageService, telegramUserService, ExecuteMode.SEND,

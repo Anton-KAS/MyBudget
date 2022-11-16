@@ -19,7 +19,7 @@ import ru.kas.myBudget.services.BankService;
 import ru.kas.myBudget.services.CurrencyService;
 
 import java.math.BigDecimal;
-//import java.math.RoundingMode;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.AddAccount.AddAccountNames.*;
@@ -31,8 +31,8 @@ public class SaveTest extends AbstractDialogImplTest {
     private final static int TEST_BANK_ID = 33333;
 
     private final static int TEST_NUMBER_TO_BASIC = 100;
-    //    private final static BigDecimal TEST_START_BALANCE = new BigDecimal("12345")
-//            .setScale(String.valueOf(TEST_NUMBER_TO_BASIC).length() - 1, RoundingMode.HALF_UP);
+        private final static BigDecimal TEST_START_BALANCE = new BigDecimal("12345")
+            .setScale(String.valueOf(TEST_NUMBER_TO_BASIC).length() - 1, RoundingMode.HALF_UP);
     private final static BigDecimal TEST_START_BALANCE_DIALOG_MAP = new BigDecimal("123.45");
 
     private final static String TEST_TITLE_TEXT = "TEST TITLE TEXT";
@@ -98,20 +98,19 @@ public class SaveTest extends AbstractDialogImplTest {
     public void shouldProperlyExecuteSaveAccount() {
         //given
         Update update = getCallbackUpdateWithData(TEST_DATA);
-        //Account expectedAccount = getExpectedAccount();
+        Account expectedAccount = getExpectedAccount();
 
         //when
         getCommand().execute(update);
 
         //then
-        //Mockito.verify(accountServiceMock).save(expectedAccount);
-        Mockito.verify(accountServiceMock).save(Mockito.any(Account.class));
+        Mockito.verify(accountServiceMock).save(expectedAccount);
     }
 
-//    private Account getExpectedAccount() {
-//        return new Account(TEST_TITLE_TEXT, TEST_DESCRIPTION_TEXT,
-//                TEST_START_BALANCE, TEST_START_BALANCE, telegramUserMock, currencyMock, accountTypeMock, bankMock);
-//    }
+    private Account getExpectedAccount() {
+        return new Account(TEST_TITLE_TEXT, TEST_DESCRIPTION_TEXT,
+                TEST_START_BALANCE, TEST_START_BALANCE, telegramUserMock, currencyMock, accountTypeMock, bankMock);
+    }
 
 
     @Override

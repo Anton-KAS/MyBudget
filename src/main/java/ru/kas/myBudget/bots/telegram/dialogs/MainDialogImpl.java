@@ -18,10 +18,8 @@ public abstract class MainDialogImpl implements MainDialog {
     }
 
     @Override
-    public void execute(Update update) {
+    public void execute(Update update, ExecuteMode executeMode) {
+        execute(update);
     }
 
-    @Override
-    public void execute(Update update, ExecuteMode executeMode) {
-    }
 }
