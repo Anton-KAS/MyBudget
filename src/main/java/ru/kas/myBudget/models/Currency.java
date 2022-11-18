@@ -1,5 +1,8 @@
 package ru.kas.myBudget.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -8,6 +11,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "currency")
+@Getter
+@Setter
 public class Currency implements Comparable<Currency>{
     @Id
     @Column(name = "id")
@@ -51,70 +56,6 @@ public class Currency implements Comparable<Currency>{
         this.symbol = symbol;
         this.isoCode = isoCode;
         this.numberToBasic = numberToBasic;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCurrencyEn() {
-        return currencyEn;
-    }
-
-    public void setCurrencyEn(String currencyEn) {
-        this.currencyEn = currencyEn;
-    }
-
-    public String getCurrencyRu() {
-        return currencyRu;
-    }
-
-    public void setCurrencyRu(String currencyRu) {
-        this.currencyRu = currencyRu;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public String getIsoCode() {
-        return isoCode;
-    }
-
-    public void setIsoCode(String isoCode) {
-        this.isoCode = isoCode;
-    }
-
-    public int getNumberToBasic() {
-        return numberToBasic;
-    }
-
-    public void setNumberToBasic(int numberToBasic) {
-        this.numberToBasic = numberToBasic;
-    }
-
-    public List<Country> getCountries() {
-        return countries;
-    }
-
-    public void setCountries(List<Country> countries) {
-        this.countries = countries;
-    }
-
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
     }
 
     @Override
