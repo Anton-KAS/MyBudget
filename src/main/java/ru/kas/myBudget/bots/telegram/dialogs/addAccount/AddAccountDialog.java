@@ -62,7 +62,7 @@ public class AddAccountDialog extends MainDialogImpl {
         lastStep = skipStep(lastStep);
         updateStepsInDialogMap(lastStep);
 
-        addAccountContainer.retrieve(AddAccountNames.getDialogNameByOrder(lastStep)).execute(update);
+        addAccountContainer.retrieve(AddAccountNames.values()[lastStep].getName()).execute(update);
     }
 
 
@@ -74,12 +74,12 @@ public class AddAccountDialog extends MainDialogImpl {
                 callbackData.length > CALLBACK_OPERATION_DATA_INDEX.getIndex() &&
                 callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()].equals(NEXT.getId())) {
 
-            addAccountContainer.retrieve(AddAccountNames.getDialogNameByOrder(currentStep)).skip(update);
+            addAccountContainer.retrieve(AddAccountNames.values()[currentStep].getName()).skip(update);
 
             return getNextStepNum(lastStep);
 
         } else {
-            boolean result = addAccountContainer.retrieve(AddAccountNames.getDialogNameByOrder(currentStep)).commit(update);
+            boolean result = addAccountContainer.retrieve(AddAccountNames.values()[currentStep].getName()).commit(update);
             if (result) {
                 dialogMap = dialogsMap.getDialogMapById(chatId);
                 return getNextStepNum(lastStep);
@@ -95,7 +95,7 @@ public class AddAccountDialog extends MainDialogImpl {
     private int skipStep(int lastStep) {
         if (dialogMap != null && (dialogMap.get(TYPE.getName()) == null
                 || dialogMap.get(TYPE.getName()).equals(CASH_ID.getId()))
-                && AddAccountNames.getDialogNameByOrder(lastStep).equals(BANK.getName())) {
+                && AddAccountNames.values()[lastStep].getName().equals(BANK.getName())) {
 
             return getNextStepNum(lastStep);
         }
