@@ -1,5 +1,8 @@
 package ru.kas.myBudget.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -7,6 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "country")
+@Getter
+@Setter
 public class Country {
     @Id
     @Column(name = "id")
@@ -41,54 +46,6 @@ public class Country {
         this.titleRu = titleRu;
         this.custom = custom;
         this.currency = currency;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitleEn() {
-        return titleEn;
-    }
-
-    public void setTitleEn(String titleEn) {
-        this.titleEn = titleEn;
-    }
-
-    public String getTitleRu() {
-        return titleRu;
-    }
-
-    public void setTitleRu(String titleRu) {
-        this.titleRu = titleRu;
-    }
-
-    public boolean isCustom() {
-        return custom;
-    }
-
-    public void setCustom(boolean custom) {
-        this.custom = custom;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public List<Bank> getBanks() {
-        return banks;
-    }
-
-    public void setBanks(List<Bank> banks) {
-        this.banks = banks;
     }
 
     @Override

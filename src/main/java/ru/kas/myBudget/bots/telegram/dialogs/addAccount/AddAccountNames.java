@@ -37,7 +37,4 @@ public enum AddAccountNames implements CommandDialogNames {
         return name + "Text";
     }
 
-    public static String getDialogNameByOrder(int order) {
-        return AddAccountNames.values()[order].getName();
-    }
 }

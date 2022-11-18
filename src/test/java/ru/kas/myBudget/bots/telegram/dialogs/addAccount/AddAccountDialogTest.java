@@ -12,7 +12,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractMainDialogImplTest;
 import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
@@ -96,6 +98,8 @@ public class AddAccountDialogTest extends AbstractMainDialogImplTest {
     @MethodSource("sourceCommitExecute")
     public void shouldProperlyExecuteCommitExecute(Update update, int dialogStep, AddAccountNames addAccountName,
                                                    Dialog commitDialogMock, Dialog executeDialogMock) {
+
+
         //given
         dialogMap = new HashMap<>();
         dialogMap.put(CURRENT_DIALOG_STEP.getId(), String.valueOf(dialogStep));
@@ -113,15 +117,14 @@ public class AddAccountDialogTest extends AbstractMainDialogImplTest {
     }
 
     private static Stream<Arguments> sourceCommitExecute() {
-        int dialogStep = FIRST_STEP_INDEX.getIndex() + 1;
-        return Stream.of(
-                Arguments.of(getCallbackUpdate(TYPE), dialogStep++, TYPE, typeDialogMock, titleDialogMock),
-                Arguments.of(getCommandAndTextUpdate(TEST_TEXT), dialogStep++, TITLE, titleDialogMock, descriptionDialogMock),
-                Arguments.of(getCommandAndTextUpdate(TEST_TEXT), dialogStep++, DESCRIPTION, descriptionDialogMock, currencyDialogMock),
-                Arguments.of(getCallbackUpdate(CURRENCY), dialogStep++, CURRENCY, currencyDialogMock, bankDialogMock),
-                Arguments.of(getCallbackUpdate(BANK), dialogStep++, BANK, bankDialogMock, startBalanceDialogMock),
-                Arguments.of(getCommandAndTextUpdate(TEST_TEXT), dialogStep++, START_BALANCE, startBalanceDialogMock, confirmDialogMock)
-        );
+        //int dialogStep = FIRST_STEP_INDEX.getIndex() + 1;
+        List<Arguments> arguments = new ArrayList<>();
+        for (int i = FIRST_STEP_INDEX.getIndex() + 1; i + 1 < AddAccountNames.values().length; i++) {
+            arguments.add(Arguments.of(getCallbackUpdate(AddAccountNames.values()[i]), i, AddAccountNames.values()[i],
+                    addAccountContainerMock.retrieve(AddAccountNames.values()[i].getName()),
+                    addAccountContainerMock.retrieve(AddAccountNames.values()[i+1].getName())));
+        }
+        return arguments.stream();
     }
 
     private static Update getCallbackUpdate(AddAccountNames addAccountName) {

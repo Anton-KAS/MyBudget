@@ -1,5 +1,8 @@
 package ru.kas.myBudget.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -9,6 +12,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "account")
+@Getter
+@Setter
 public class Account {
     @Id
     @Column(name = "id")
@@ -82,94 +87,6 @@ public class Account {
         this.currency = currency;
         this.accountType = accountType;
         this.bank = bank;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public TelegramUser getTelegramUser() {
-        return telegramUser;
-    }
-
-    public void setTelegramUser(TelegramUser telegramUser) {
-        this.telegramUser = telegramUser;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public AccountType getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
-    }
-
-    public Bank getBank() {
-        return bank;
-    }
-
-    public void setBank(Bank bank) {
-        this.bank = bank;
-    }
-
-    public BigDecimal getStartBalance() {
-        return startBalance;
-    }
-
-    public void setStartBalance(BigDecimal startBalance) {
-        this.startBalance = startBalance;
-    }
-
-    public BigDecimal getCurrentBalance() {
-        return currentBalance;
-    }
-
-    public void setCurrentBalance(BigDecimal currentBalance) {
-        this.currentBalance = currentBalance;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createTimestamp) {
-        this.createdAt = createTimestamp;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updateTimestamp) {
-        this.updatedAt = updateTimestamp;
     }
 
     @Override

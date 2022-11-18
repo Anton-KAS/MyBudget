@@ -1,5 +1,7 @@
 package ru.kas.myBudget.models;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 
@@ -9,6 +11,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "tg_user")
+@Getter
+@Setter
 public class TelegramUser {
     @Id
     @Column(name = "id")
@@ -107,134 +111,6 @@ public class TelegramUser {
             this.lastMessageText = UpdateParameter.getMessageText(update);
             this.lastMessageTimestamp = new Date();
         }
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getChat_id() {
-        return chat_id;
-    }
-
-    public void setChat_id(long chat_id) {
-        this.chat_id = chat_id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getLanguageCode() {
-        return languageCode;
-    }
-
-    public void setLanguageCode(String languageCode) {
-        this.languageCode = languageCode;
-    }
-
-    public boolean isPremium() {
-        return isPremium;
-    }
-
-    public void setPremium(boolean premium) {
-        isPremium = premium;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getLastActive() {
-        return lastActive;
-    }
-
-    public void setLastActive(Date lastActive) {
-        this.lastActive = lastActive;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public WebUser getWebUser() {
-        return webUser;
-    }
-
-    public void setWebUser(WebUser webUser) {
-        this.webUser = webUser;
-    }
-
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
-    }
-
-    public Boolean getPremium() {
-        return isPremium;
-    }
-
-    public void setPremium(Boolean premium) {
-        isPremium = premium;
-    }
-
-    public Integer getLastMessageId() {
-        return lastMessageId;
-    }
-
-    public void setLastMessageId(Integer lastMessageId) {
-        this.lastMessageId = lastMessageId;
-    }
-
-    public String getLastMessageText() {
-        return lastMessageText;
-    }
-
-    public void setLastMessageText(String lastMessageText) {
-        this.lastMessageText = lastMessageText;
-    }
-
-    public Date getLastMessageTimestamp() {
-        return lastMessageTimestamp;
-    }
-
-    public void setLastMessageTimestamp(Date lastMessageTimestamp) {
-        this.lastMessageTimestamp = lastMessageTimestamp;
     }
 
     public void removeLastMessage() {
