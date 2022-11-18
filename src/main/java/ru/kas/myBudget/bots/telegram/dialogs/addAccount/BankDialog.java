@@ -50,7 +50,7 @@ public class BankDialog extends DialogImpl {
         Optional<Bank> bank = bankService.findById(bankId);
         if (bank.isEmpty()) return false;
 
-        String text = String.format(BANK.getDialogTextPattern(),
+        String text = String.format(BANK.getStepTextPattern(),
                 "%s", bank.get().getTitleRu() + " (" + bank.get().getCountry().getTitleRu() + ")");
         addToDialogMap(userId, BANK, String.valueOf(bankId), text);
         telegramUserService.checkUser(telegramUserService, update);

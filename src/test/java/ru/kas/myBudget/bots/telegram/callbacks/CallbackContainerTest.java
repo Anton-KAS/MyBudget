@@ -7,7 +7,7 @@ import ru.kas.myBudget.bots.telegram.util.*;
 public class CallbackContainerTest extends AbstractContainerTest {
     @Override
     protected void setContainer() {
-        container = new CallbackContainer(botMessageServiceMock, telegramUserServiceMock);
+        container = new CallbackContainer(botMessageServiceMock, telegramUserServiceMock, accountServiceMock);
     }
 
     @Override

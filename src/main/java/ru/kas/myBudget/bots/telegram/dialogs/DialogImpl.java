@@ -86,11 +86,11 @@ public abstract class DialogImpl implements Dialog {
     }
 
     @Override
-    public void addToDialogMap(long userId, CommandDialogNames name, String stringId, String text) {
-        Map<String, String> dialogSteps = dialogsMap.getDialogMapById(userId);
+    public void addToDialogMap(long chatId, CommandDialogNames name, String stringId, String text) {
+        Map<String, String> dialogSteps = dialogsMap.getDialogMapById(chatId);
 
         dialogSteps.put(name.getName(), stringId);
-        dialogSteps.put(name.getDialogIdText(), text);
+        dialogSteps.put(name.getStepIdText(), text);
     }
 
     @Override

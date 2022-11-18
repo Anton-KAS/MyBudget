@@ -6,6 +6,7 @@ import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.CommandControllerImpl;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
@@ -19,6 +20,8 @@ public class StopCommand extends CommandControllerImpl {
     @Override
     protected void setData(Update update) {
         super.setData(update);
+
+        ResponseWaitingMap.remove(UpdateParameter.getChatId(update));
 
         telegramUserService.findById(UpdateParameter.getUserId(update)).ifPresent(
                 user -> {

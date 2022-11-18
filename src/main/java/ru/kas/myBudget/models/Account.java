@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Objects;
 
@@ -67,8 +68,10 @@ public class Account {
                    AccountType accountType, Bank bank) {
         this.title = title;
         this.description = description;
-        this.startBalance = startBalance;
-        this.currentBalance = currentBalance;
+        this.startBalance = startBalance.setScale(
+                String.valueOf(currency.getNumberToBasic()).length() - 1, RoundingMode.HALF_UP);
+        this.currentBalance = currentBalance.setScale(
+                String.valueOf(currency.getNumberToBasic()).length() - 1, RoundingMode.HALF_UP);
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.telegramUser = telegramUser;
@@ -81,8 +84,10 @@ public class Account {
                    TelegramUser telegramUser, Currency currency, AccountType accountType, Bank bank) {
         this.title = title;
         this.description = description;
-        this.startBalance = startBalance;
-        this.currentBalance = currentBalance;
+        this.startBalance = startBalance.setScale(
+                String.valueOf(currency.getNumberToBasic()).length() - 1, RoundingMode.HALF_UP);
+        this.currentBalance = currentBalance.setScale(
+                String.valueOf(currency.getNumberToBasic()).length() - 1, RoundingMode.HALF_UP);
         this.telegramUser = telegramUser;
         this.currency = currency;
         this.accountType = accountType;

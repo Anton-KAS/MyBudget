@@ -32,40 +32,40 @@ public class AddAccountDialogTest extends AbstractMainDialogImplTest {
 
     private final static AddAccountContainer addAccountContainerMock = Mockito.mock(AddAccountContainer.class);
 
-    private final static StartDialog startDialogMock = Mockito.mock(StartDialog.class);
+    private final static AddAccountStartDialog START_ADD_ACCOUNT_DIALOG_MOCK = Mockito.mock(AddAccountStartDialog.class);
     private final static TypeDialog typeDialogMock = Mockito.mock(TypeDialog.class);
     private final static TitleDialog titleDialogMock = Mockito.mock(TitleDialog.class);
     private final static DescriptionDialog descriptionDialogMock = Mockito.mock(DescriptionDialog.class);
     private final static CurrencyDialog currencyDialogMock = Mockito.mock(CurrencyDialog.class);
     private final static BankDialog bankDialogMock = Mockito.mock(BankDialog.class);
     private final static StartBalanceDialog startBalanceDialogMock = Mockito.mock(StartBalanceDialog.class);
-    private final static ConfirmDialog confirmDialogMock = Mockito.mock(ConfirmDialog.class);
-    private final static SaveDialog saveDialogMock = Mockito.mock(SaveDialog.class);
+    private final static AddAccountConfirmDialog CONFIRM_ADD_ACCOUNT_DIALOG_MOCK = Mockito.mock(AddAccountConfirmDialog.class);
+    private final static AddAccountSaveDialog ADD_ACCOUNT_SAVE_DIALOG_MOCK = Mockito.mock(AddAccountSaveDialog.class);
 
 
     @BeforeAll
     public static void beforeAll() {
         ADD_ACCOUNT_CALLBACK_PATTERN = String.format(CALLBACK_DIALOG_PATTERN, "%s", ADD_ACCOUNT.getName(), "%s", "%s");
 
-        Mockito.when(addAccountContainerMock.retrieve(START.getName())).thenReturn(startDialogMock);
+        Mockito.when(addAccountContainerMock.retrieve(START.getName())).thenReturn(START_ADD_ACCOUNT_DIALOG_MOCK);
         Mockito.when(addAccountContainerMock.retrieve(TYPE.getName())).thenReturn(typeDialogMock);
         Mockito.when(addAccountContainerMock.retrieve(TITLE.getName())).thenReturn(titleDialogMock);
         Mockito.when(addAccountContainerMock.retrieve(DESCRIPTION.getName())).thenReturn(descriptionDialogMock);
         Mockito.when(addAccountContainerMock.retrieve(CURRENCY.getName())).thenReturn(currencyDialogMock);
         Mockito.when(addAccountContainerMock.retrieve(BANK.getName())).thenReturn(bankDialogMock);
         Mockito.when(addAccountContainerMock.retrieve(START_BALANCE.getName())).thenReturn(startBalanceDialogMock);
-        Mockito.when(addAccountContainerMock.retrieve(CONFIRM.getName())).thenReturn(confirmDialogMock);
-        Mockito.when(addAccountContainerMock.retrieve(SAVE.getName())).thenReturn(saveDialogMock);
+        Mockito.when(addAccountContainerMock.retrieve(CONFIRM.getName())).thenReturn(CONFIRM_ADD_ACCOUNT_DIALOG_MOCK);
+        Mockito.when(addAccountContainerMock.retrieve(SAVE.getName())).thenReturn(ADD_ACCOUNT_SAVE_DIALOG_MOCK);
 
-        Mockito.when(startDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
+        Mockito.when(START_ADD_ACCOUNT_DIALOG_MOCK.commit(Mockito.any(Update.class))).thenReturn(true);
         Mockito.when(typeDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
         Mockito.when(titleDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
         Mockito.when(descriptionDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
         Mockito.when(currencyDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
         Mockito.when(bankDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
         Mockito.when(startBalanceDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
-        Mockito.when(confirmDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
-        Mockito.when(saveDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
+        Mockito.when(CONFIRM_ADD_ACCOUNT_DIALOG_MOCK.commit(Mockito.any(Update.class))).thenReturn(true);
+        Mockito.when(ADD_ACCOUNT_SAVE_DIALOG_MOCK.commit(Mockito.any(Update.class))).thenReturn(true);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class AddAccountDialogTest extends AbstractMainDialogImplTest {
         addAccountDialog.execute(update);
 
         //then
-        Mockito.verify(startDialogMock).commit(update);
+        Mockito.verify(START_ADD_ACCOUNT_DIALOG_MOCK).commit(update);
         Mockito.verify(typeDialogMock).execute(update);
     }
 

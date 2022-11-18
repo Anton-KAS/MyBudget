@@ -60,7 +60,7 @@ public class CurrencyDialog extends DialogImpl {
         Optional<Currency> currency = currencyService.findById(currencyId);
         if (currency.isEmpty()) return false;
 
-        String text = String.format(CURRENCY.getDialogTextPattern(),
+        String text = String.format(CURRENCY.getStepTextPattern(),
                 "%s", currency.get().getSymbol() + " - " + currency.get().getCurrencyRu());
 
         addToDialogMap(userId, CURRENCY, String.valueOf(currencyId), text);

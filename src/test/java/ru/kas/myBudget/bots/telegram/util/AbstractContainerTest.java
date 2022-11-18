@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
+import ru.kas.myBudget.services.AccountService;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Arrays;
@@ -19,6 +20,7 @@ abstract public class AbstractContainerTest {
 
     protected BotMessageService botMessageServiceMock = Mockito.mock(BotMessageService.class);
     protected TelegramUserService telegramUserServiceMock = Mockito.mock(TelegramUserService.class);
+    protected AccountService accountServiceMock = Mockito.mock(AccountService.class);
     protected Keyboard keyboardMock = Mockito.mock(Keyboard.class);
     protected MessageText messageTextMock = Mockito.mock(MessageText.class);
 

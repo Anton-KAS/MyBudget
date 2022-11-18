@@ -35,7 +35,7 @@ public class DescriptionDialog extends DialogImpl {
             return false;
         }
 
-        addToDialogMap(chatId, DESCRIPTION, text, String.format(DESCRIPTION.getDialogTextPattern(), "%s", text));
+        addToDialogMap(chatId, DESCRIPTION, text, String.format(DESCRIPTION.getStepTextPattern(), "%s", text));
         telegramUserService.checkUser(telegramUserService, update);
         return true;
     }

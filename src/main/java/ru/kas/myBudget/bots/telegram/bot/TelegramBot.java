@@ -10,6 +10,7 @@ import ru.kas.myBudget.bots.telegram.commands.CommandContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.services.BotMessageServiceImpl;
+import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.*;
 
@@ -44,7 +45,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         this.commandContainer = new CommandContainer(
                 new BotMessageServiceImpl(this), telegramUserService);
         this.callbackContainer = new CallbackContainer(
-                new BotMessageServiceImpl(this), telegramUserService);
+                new BotMessageServiceImpl(this), telegramUserService, accountService);
         this.dialogContainer = new DialogContainer(
                 new BotMessageServiceImpl(this), telegramUserService, callbackContainer,
                 accountTypeService, currencyService, bankService, accountService);
@@ -74,7 +75,16 @@ public class TelegramBot extends TelegramLongPollingBot {
 
                 System.out.println("COMMAND ID: " + commandIdentifier); //TODO Add project Logger
 
-                if (commandIdentifier.matches(EDIT_NUM.getRegex()) && dialogsMap.containsKey(chatId)) {
+                if (ResponseWaitingMap.contains(chatId)) {
+                    String identifier = ResponseWaitingMap.get(chatId).getName();
+                    if (commandContainer.contains(identifier)) {
+                        commandContainer.retrieve(identifier).execute(update);
+                    } else if (callbackContainer.contains(identifier)) {
+                        callbackContainer.retrieve(identifier).execute(update);
+                    } else if (dialogContainer.contains(identifier)) {
+                        dialogContainer.retrieve(identifier).execute(update);
+                    }
+                } else if (commandIdentifier.matches(EDIT_NUM.getRegex()) && dialogsMap.containsKey(chatId)) {
                     String dialogIdentifier = dialogsMap.get(chatId).get(DIALOG_ID.getId());
                     dialogContainer.retrieve(dialogIdentifier).execute(update);
                 } else {

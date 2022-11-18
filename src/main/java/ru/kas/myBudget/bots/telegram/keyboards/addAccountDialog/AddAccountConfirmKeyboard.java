@@ -8,12 +8,12 @@ import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.CONFIRM;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
-public class ConfirmKeyboard implements Keyboard {
+public class AddAccountConfirmKeyboard implements Keyboard {
     public final String SAVE_BUTTON_TEXT = "Сохранить";
     public final String SAVE_BUTTON_CALLBACK = String.format("%s_%s_%s_%s_%s",
             DIALOG.getId(), ADD_ACCOUNT.getName(), ADD_ACCOUNT.getName(), CONFIRM.getName(), "save");
 
-    public ConfirmKeyboard() {
+    public AddAccountConfirmKeyboard() {
     }
 
     public InlineKeyboardMarkup getKeyboard() {

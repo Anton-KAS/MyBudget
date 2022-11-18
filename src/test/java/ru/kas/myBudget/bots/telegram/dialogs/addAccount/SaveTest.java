@@ -83,7 +83,7 @@ public class SaveTest extends AbstractDialogImplTest {
 
     @Override
     public Dialog getCommand() {
-        return new SaveDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock,
+        return new AddAccountSaveDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock,
                 dialogsMapMock, callbackContainerMock, accountTypeServiceMock, currencyServiceMock, bankServiceMock,
                 accountServiceMock);
     }

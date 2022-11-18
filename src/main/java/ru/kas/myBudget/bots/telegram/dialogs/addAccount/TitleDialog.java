@@ -36,7 +36,7 @@ public class TitleDialog extends DialogImpl {
             return false;
         }
 
-        addToDialogMap(userId, TITLE, text, String.format(TITLE.getDialogTextPattern(), "%s", text));
+        addToDialogMap(userId, TITLE, text, String.format(TITLE.getStepTextPattern(), "%s", text));
         telegramUserService.checkUser(telegramUserService, update);
         return true;
     }

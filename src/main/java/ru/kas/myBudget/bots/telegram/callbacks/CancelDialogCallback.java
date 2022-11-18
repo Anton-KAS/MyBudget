@@ -7,6 +7,7 @@ import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.CommandControllerImpl;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
@@ -23,6 +24,8 @@ public class CancelDialogCallback extends CommandControllerImpl {
     @Override
     protected void executeData(Update update, ExecuteMode executeMode) {
         super.executeData(update, executeMode);
-        dialogsMap.remove(UpdateParameter.getUserId(update));
+        long chatId = UpdateParameter.getChatId(update);
+        ResponseWaitingMap.remove(chatId);
+        dialogsMap.remove(chatId);
     }
 }

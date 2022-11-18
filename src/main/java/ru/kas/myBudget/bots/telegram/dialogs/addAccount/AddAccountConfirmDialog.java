@@ -7,11 +7,11 @@ import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.services.TelegramUserService;
 
-public class ConfirmDialog extends DialogImpl {
+public class AddAccountConfirmDialog extends DialogImpl {
     private final static String ASK_TEXT = "Всё готово! Сохранить?";
 
-    public ConfirmDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                         MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap) {
+    public AddAccountConfirmDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                                   MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap) {
         super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, ASK_TEXT);
     }
 }

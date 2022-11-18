@@ -46,7 +46,7 @@ public class TypeDialog extends DialogImpl {
         if (accountType == null) return false;
 
         addToDialogMap(userId, TYPE, String.valueOf(accountTypeId),
-                String.format(TYPE.getDialogTextPattern(), "%s", accountType.getTitleRu()));
+                String.format(TYPE.getStepTextPattern(), "%s", accountType.getTitleRu()));
         telegramUserService.checkUser(telegramUserService, update);
         return true;
     }

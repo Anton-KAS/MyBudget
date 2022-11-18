@@ -58,6 +58,10 @@ public class Currency implements Comparable<Currency>{
         this.numberToBasic = numberToBasic;
     }
 
+    public String displayToUser() {
+        return symbol + " - " + currencyRu;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

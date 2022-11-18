@@ -9,6 +9,9 @@ import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
+
+    Optional<Account> findById(int accountId);
+
     Optional<Account> findByTelegramUser(Long telegramUserId);
 
     List<Account> findAllByTelegramUser(Long telegramUserId);

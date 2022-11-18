@@ -49,6 +49,10 @@ public class Bank {
         this.country = country;
     }
 
+    public String displayToUser() {
+        return titleRu + " (" + country.getTitleRu() + ")";
+    }
+
     @Override
     public String toString() {
         return "Bank{" +

@@ -22,15 +22,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @Transactional
-    public void save(Account account) {
-        if (account.getCreatedAt() == null) account.setCreatedAt(new Date());
-        account.setUpdatedAt(new Date());
-        accountRepository.save(account);
+    public Optional<Account> findById(int accountId) {
+        return accountRepository.findById(accountId);
     }
 
     @Override
     public List<Account> findAllByTelegramUserId(long telegramUserId) {
         return accountRepository.findAllByTelegramUser(telegramUserId);
+    }
+
+    @Override
+    @Transactional
+    public void save(Account account) {
+        if (account.getCreatedAt() == null) account.setCreatedAt(new Date());
+        account.setUpdatedAt(new Date());
+        accountRepository.save(account);
     }
 }

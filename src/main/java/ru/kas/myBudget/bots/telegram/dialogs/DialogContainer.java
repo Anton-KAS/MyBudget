@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.editAccount.EditAccountContainer;
+import ru.kas.myBudget.bots.telegram.dialogs.editAccount.EditAccountDialog;
 import ru.kas.myBudget.bots.telegram.keyboards.callback.NoKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.callback.NoText;
@@ -25,10 +27,16 @@ public class DialogContainer implements Container {
         AddAccountContainer addAccountContainer = new AddAccountContainer(botMessageService, telegramUserService,
                 callbackContainer, accountTypeService, currencyService, bankService, accountService);
 
+        EditAccountContainer editAccountContainer = new EditAccountContainer(botMessageService, telegramUserService,
+                callbackContainer, accountTypeService, currencyService, bankService, accountService);
+
         dialogMap = ImmutableMap.<String, CommandController>builder()
                 .put(ADD_ACCOUNT.getName(),
                         new AddAccountDialog(botMessageService, telegramUserService, DialogsMap.getDialogsMapClass(),
                                 addAccountContainer))
+                .put(EDIT_ACCOUNT.getName(),
+                        new EditAccountDialog(botMessageService, telegramUserService, DialogsMap.getDialogsMapClass(),
+                                editAccountContainer))
                 .build();
 
         unknownDialog = new UnknownDialog(botMessageService, telegramUserService, ExecuteMode.SEND,
@@ -36,7 +44,13 @@ public class DialogContainer implements Container {
         // TODO: Execute command подумать, может задавать автоматически
     }
 
+    @Override
     public CommandController retrieve(String identifier) {
         return dialogMap.getOrDefault(identifier, unknownDialog);
+    }
+
+    @Override
+    public boolean contains(String commandNames) {
+        return dialogMap.containsKey(commandNames);
     }
 }

@@ -1,31 +1,33 @@
-package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.editAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.dialogs.MainDialogImpl;
+import ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountContainer;
+import ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
-import ru.kas.myBudget.services.*;
+import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.bot.TelegramBot.COMMAND_PREFIX;
 import static ru.kas.myBudget.bots.telegram.commands.CommandIndex.COMMAND;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.EDIT_NUM;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 
-public class AddAccountDialog extends MainDialogImpl {
-    private final AddAccountContainer addAccountContainer;
+public class EditAccountDialog extends MainDialogImpl {
+    private final EditAccountContainer editAccountContainer;
     private Map<String, String> dialogMap;
     private long chatId;
 
-    public AddAccountDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                            DialogsMap dialogsMap, AddAccountContainer addAccountContainer) {
+    public EditAccountDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                             DialogsMap dialogsMap, EditAccountContainer editAccountContainer) {
         super(botMessageService, telegramUserService, dialogsMap);
-        this.addAccountContainer = addAccountContainer;
+        this.editAccountContainer = editAccountContainer;
     }
 
     @Override
@@ -64,7 +66,7 @@ public class AddAccountDialog extends MainDialogImpl {
         lastStep = skipStep(lastStep);
         updateStepsInDialogMap(lastStep);
 
-        addAccountContainer.retrieve(AddAccountNames.values()[lastStep].getName()).execute(update);
+        editAccountContainer.retrieve(AddAccountNames.values()[lastStep].getName()).execute(update);
     }
 
 
@@ -76,12 +78,12 @@ public class AddAccountDialog extends MainDialogImpl {
                 callbackData.length > CALLBACK_OPERATION_DATA_INDEX.getIndex() &&
                 callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()].equals(NEXT.getId())) {
 
-            addAccountContainer.retrieve(AddAccountNames.values()[currentStep].getName()).skip(update);
+            editAccountContainer.retrieve(AddAccountNames.values()[currentStep].getName()).skip(update);
 
             return getNextStepNum(lastStep);
 
         } else {
-            boolean result = addAccountContainer.retrieve(AddAccountNames.values()[currentStep].getName()).commit(update);
+            boolean result = editAccountContainer.retrieve(AddAccountNames.values()[currentStep].getName()).commit(update);
             if (result) {
                 dialogMap = dialogsMap.getDialogMapById(chatId);
                 return getNextStepNum(lastStep);

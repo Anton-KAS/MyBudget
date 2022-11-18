@@ -47,7 +47,7 @@ public class StartBalanceDialog extends DialogImpl {
         BigDecimal startBalance = getStartBalance(receivedText, chatId);
 
         addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
-                String.format(START_BALANCE.getDialogTextPattern(), "%s", startBalance));
+                String.format(START_BALANCE.getStepTextPattern(), "%s", startBalance));
 
         telegramUserService.checkUser(telegramUserService, update);
         return true;
@@ -58,7 +58,7 @@ public class StartBalanceDialog extends DialogImpl {
         long chatId = UpdateParameter.getChatId(update);
         BigDecimal startBalance = getStartBalance(DEFAULT_BALANCE_TEXT, chatId);
         addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
-                String.format(START_BALANCE.getDialogTextPattern(), "%s", startBalance));
+                String.format(START_BALANCE.getStepTextPattern(), "%s", startBalance));
         telegramUserService.checkUser(telegramUserService, update);
     }
 

@@ -15,11 +15,11 @@ public enum AddAccountNames implements CommandDialogNames {
     SAVE("accSave", null);
 
     private final String name;
-    private final String dialogTextPattern;
+    private final String stepTextPattern;
 
-    AddAccountNames(String name, String dialogTextPattern) {
+    AddAccountNames(String name, String stepTextPattern) {
         this.name = name;
-        this.dialogTextPattern = dialogTextPattern;
+        this.stepTextPattern = stepTextPattern;
     }
 
     @Override
@@ -28,12 +28,12 @@ public enum AddAccountNames implements CommandDialogNames {
     }
 
     @Override
-    public String getDialogTextPattern() {
-        return dialogTextPattern;
+    public String getStepTextPattern() {
+        return stepTextPattern;
     }
 
     @Override
-    public String getDialogIdText() {
+    public String getStepIdText() {
         return name + "Text";
     }
 

@@ -43,4 +43,9 @@ public class CommandContainer implements Container {
     public CommandController retrieve(String identifier) {
         return commandMap.getOrDefault(identifier, unknownCommand);
     }
+
+    @Override
+    public boolean contains(String commandNames) {
+        return commandMap.containsKey(commandNames);
+    }
 }

@@ -20,7 +20,7 @@ import java.util.Optional;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_ID;
 
-public class SaveDialog extends DialogImpl {
+public class AddAccountSaveDialog extends DialogImpl {
     private final CallbackContainer callbackContainer;
     private final CurrencyService currencyService;
     private final AccountTypeService accountTypeService;
@@ -28,10 +28,10 @@ public class SaveDialog extends DialogImpl {
     private final AccountService accountService;
     private Map<String, String> dialogMap;
 
-    public SaveDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                      MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap,
-                      CallbackContainer callbackContainer, AccountTypeService accountTypeService,
-                      CurrencyService currencyService, BankService bankService, AccountService accountService) {
+    public AddAccountSaveDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                                MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap,
+                                CallbackContainer callbackContainer, AccountTypeService accountTypeService,
+                                CurrencyService currencyService, BankService bankService, AccountService accountService) {
         super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, null);
         this.callbackContainer = callbackContainer;
         this.currencyService = currencyService;

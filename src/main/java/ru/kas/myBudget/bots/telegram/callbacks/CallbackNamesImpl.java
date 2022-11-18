@@ -5,6 +5,7 @@ import ru.kas.myBudget.bots.telegram.util.CommandNames;
 public enum CallbackNamesImpl implements CommandNames {
     MENU("menu"),
     ACCOUNTS("accounts"),
+    ACCOUNT("acc"),
     CANCEL_DIALOG("cancelDialog"),
     CLOSE("close"),
     NO("");

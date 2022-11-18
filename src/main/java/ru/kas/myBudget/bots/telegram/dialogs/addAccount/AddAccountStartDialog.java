@@ -12,17 +12,21 @@ import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.FROM;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.FIRST_STEP_INDEX;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
 
-public class StartDialog extends DialogImpl {
+public class AddAccountStartDialog extends DialogImpl {
+    protected final DialogNamesImpl dialogName;
+    protected Long chatId;
+    protected String[] callbackData;
 
-    public StartDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                       MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap) {
+    public AddAccountStartDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                                 MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap,
+                                 DialogNamesImpl dialogName) {
         super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, null);
+        this.dialogName = dialogName;
     }
 
     @Override
@@ -31,16 +35,16 @@ public class StartDialog extends DialogImpl {
 
     @Override
     public boolean commit(Update update) {
-        long chatId = UpdateParameter.getChatId(update);
-        String[] callbackData = UpdateParameter.getCallbackData(update);
+        chatId = UpdateParameter.getChatId(update);
+        callbackData = UpdateParameter.getCallbackData(update);
         dialogsMap.remove(chatId);
 
         if (callbackData == null) return false;
-        Map<String, String> dialogSteps = new HashMap<>();
+        var dialogSteps = new HashMap<String, String>();
 
         if (callbackData.length <= FROM.getIndex()) return false;
 
-        dialogSteps.put(DIALOG_ID.getId(), DialogNamesImpl.ADD_ACCOUNT.getName());
+        dialogSteps.put(DIALOG_ID.getId(), dialogName.getName());
         dialogSteps.put(START_FROM_ID.getId(), callbackData[FROM.getIndex()]);
         dialogSteps.put(CURRENT_DIALOG_STEP.getId(), String.valueOf(FIRST_STEP_INDEX.getIndex()));
         dialogSteps.put(LAST_STEP.getId(), String.valueOf(FIRST_STEP_INDEX.getIndex()));

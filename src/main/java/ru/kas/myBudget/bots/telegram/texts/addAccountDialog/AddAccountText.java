@@ -33,7 +33,7 @@ public class AddAccountText implements MessageText {
         int n = 0;
         for (int count = 0; count < addAccountNames.length; count++) {
             AddAccountNames addAccountName = addAccountNames[count];
-            if (addAccountName.getDialogTextPattern() == null) continue;
+            if (addAccountName.getStepTextPattern() == null) continue;
 
             if ((dialogMap.get(TYPE.getName()) == null || dialogMap.get(TYPE.getName()).equals(CASH_ID.getId()))
                     && addAccountName.equals(BANK)) continue;
@@ -43,11 +43,11 @@ public class AddAccountText implements MessageText {
 
             if (currentStepId == count) stringBuilder.append("<b>");
 
-            String textPattern = dialogMap.get(addAccountName.getDialogIdText());
+            String textPattern = dialogMap.get(addAccountName.getStepIdText());
             if (count != 0 && (lastStepId > count || textPattern != null)) stringBuilder.append("/");
 
             if (textPattern == null) {
-                stringBuilder.append(String.format(addAccountName.getDialogTextPattern(), n, ""));
+                stringBuilder.append(String.format(addAccountName.getStepTextPattern(), n, ""));
             } else {
                 stringBuilder.append(String.format(textPattern, n));
             }

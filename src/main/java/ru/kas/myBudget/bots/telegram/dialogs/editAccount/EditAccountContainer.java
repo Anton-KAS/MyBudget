@@ -1,8 +1,9 @@
-package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.editAccount;
 
 import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.*;
+import ru.kas.myBudget.bots.telegram.dialogs.addAccount.*;
 import ru.kas.myBudget.bots.telegram.keyboards.addAccountDialog.*;
 import ru.kas.myBudget.bots.telegram.keyboards.callback.NoKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
@@ -15,17 +16,18 @@ import ru.kas.myBudget.services.*;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 
-public class AddAccountContainer implements Container {
+public class EditAccountContainer implements Container {
     private final ImmutableMap<String, Dialog> dialogMap;
     private final Dialog unknownDialog;
 
-    public AddAccountContainer(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                               CallbackContainer callbackContainer,
-                               AccountTypeService accountTypeService, CurrencyService currencyService,
-                               BankService bankService, AccountService accountService) {
+    public EditAccountContainer(BotMessageService botMessageService, TelegramUserService telegramUserService,
+                                CallbackContainer callbackContainer,
+                                AccountTypeService accountTypeService, CurrencyService currencyService,
+                                BankService bankService, AccountService accountService) {
+
         dialogMap = ImmutableMap.<String, Dialog>builder()
-                .put(START.getName(), new AddAccountStartDialog(botMessageService, telegramUserService, new AddAccountText(),
-                        null, DialogsMap.getDialogsMapClass(), DialogNamesImpl.ADD_ACCOUNT))
+                .put(START.getName(), new EditAccountStartDialog(botMessageService, telegramUserService, new AddAccountText(),
+                        null, DialogsMap.getDialogsMapClass(), DialogNamesImpl.EDIT_ACCOUNT, accountService))
                 .put(TYPE.getName(),
                         new TypeDialog(botMessageService, telegramUserService, new AddAccountText(),
                                 new TypeKeyboard(), DialogsMap.getDialogsMapClass(), accountTypeService))
