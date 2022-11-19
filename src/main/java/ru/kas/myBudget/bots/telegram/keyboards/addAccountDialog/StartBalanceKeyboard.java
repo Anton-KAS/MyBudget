@@ -15,7 +15,7 @@ public class StartBalanceKeyboard extends DialogKeyboardImpl {
     public InlineKeyboardMarkup getKeyboard() {
         InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboardBuilder();
         return inlineKeyboardBuilder
-                .addRow().addButton(getNextButton(currentDialogName, START_BALANCE.getName()))
+                .addRow().addNextButton(currentDialogName, START_BALANCE.getName())
                 .build();
     }
 }

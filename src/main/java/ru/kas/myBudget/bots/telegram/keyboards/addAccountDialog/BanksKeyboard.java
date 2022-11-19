@@ -30,7 +30,7 @@ public class BanksKeyboard extends DialogKeyboardImpl {
                     .addButton(String.format(TEXT_BUTTON_PATTERN, bank.getTitleRu(), bank.getCountry().getTitleRu()),
                             String.format(callbackPattern, bank.getId()));
         }
-        inlineKeyboardBuilder.addRow().addButton(getNextButton(ADD_ACCOUNT.getName(), BANK.getName()));
+        inlineKeyboardBuilder.addRow().addNextButton(ADD_ACCOUNT.getName(), BANK.getName());
         return inlineKeyboardBuilder.build();
     }
 

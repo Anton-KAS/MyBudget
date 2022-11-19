@@ -5,6 +5,7 @@ import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.*;
 import ru.kas.myBudget.bots.telegram.dialogs.addAccount.*;
 import ru.kas.myBudget.bots.telegram.keyboards.addAccountDialog.*;
+import ru.kas.myBudget.bots.telegram.keyboards.callback.EditAccountConfirmKeyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.callback.NoKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.addAccountDialog.AddAccountText;
@@ -51,7 +52,7 @@ public class EditAccountContainer implements Container {
                                 new StartBalanceKeyboard(currentDialogName), currencyService))
                 .put(CONFIRM.getName(),
                         new AddAccountConfirmDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new AddAccountConfirmKeyboard(currentDialogName)))
+                                new EditAccountConfirmKeyboard(currentDialogName)))
                 .put(SAVE.getName(),
                         new EditAccountSaveDialog(botMessageService, telegramUserService, new SaveDialogText(),
                                 new SaveKeyboard(currentDialogName), callbackContainer, accountTypeService, currencyService, bankService,

@@ -41,10 +41,10 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
                             String.format(callbackPattern, currency.getId()));
         }
         if (page > 1 || currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addRow();
-        if (page > 1) inlineKeyboardBuilder.addButton(getPreviousPageButton(
-                ADD_ACCOUNT.getName(), CURRENCY.getName(), page - 1));
-        if (currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addButton(getNextPageButton(
-                ADD_ACCOUNT.getName(), CURRENCY.getName(), page + 1));
+        if (page > 1) inlineKeyboardBuilder.addPreviousPageButton(
+                ADD_ACCOUNT.getName(), CURRENCY.getName(), page - 1);
+        if (currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addNextPageButton(
+                ADD_ACCOUNT.getName(), CURRENCY.getName(), page + 1);
 
         return inlineKeyboardBuilder.build();
     }

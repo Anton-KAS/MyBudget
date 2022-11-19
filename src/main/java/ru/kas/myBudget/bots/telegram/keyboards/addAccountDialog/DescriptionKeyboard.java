@@ -14,7 +14,7 @@ public class DescriptionKeyboard extends DialogKeyboardImpl {
     public InlineKeyboardMarkup getKeyboard() {
         InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboardBuilder();
         return inlineKeyboardBuilder
-                .addRow().addButton(getNextButton(currentDialogName, DESCRIPTION.getName()))
+                .addRow().addNextButton(currentDialogName, DESCRIPTION.getName())
                 .build();
     }
 }

@@ -30,6 +30,6 @@ public class AccountKeyboard implements Keyboard {
         InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboardBuilder();
         return inlineKeyboardBuilder
                 .addRow().addButton(EDIT_ACCOUNT_BUTTON_TEXT, EDIT_ACCOUNT_BUTTON_CALLBACK)
-                .addRow().addButton(getReturnButton(FROM, RETURN_TO)).build();
+                .addRow().addReturnButton(FROM, RETURN_TO).build();
     }
 }

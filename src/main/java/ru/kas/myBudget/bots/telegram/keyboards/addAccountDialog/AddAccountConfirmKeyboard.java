@@ -19,7 +19,7 @@ public class AddAccountConfirmKeyboard extends DialogKeyboardImpl {
         InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboardBuilder();
         return inlineKeyboardBuilder
                 .addRow().addButton(SAVE_BUTTON_TEXT, callbackPattern)
-                .addRow().addButton(getCancelDialogButton(ADD_ACCOUNT.getName()))
+                .addRow().addCancelDialogButton(ADD_ACCOUNT.getName())
                 .build();
     }
 }

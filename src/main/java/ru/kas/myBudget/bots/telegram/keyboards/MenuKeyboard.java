@@ -17,6 +17,7 @@ public class MenuKeyboard implements Keyboard {
         InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboardBuilder();
         return inlineKeyboardBuilder
                 .addRow().addButton(ACCOUNTS_BUTTON_TEXT, ACCOUNTS_BUTTON_CALLBACK)
-                .addRow().addButton(getCloseButton(FROM)).build();
+                .addRow().addCloseButton(FROM)
+                .build();
     }
 }
