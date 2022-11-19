@@ -13,6 +13,7 @@ import ru.kas.myBudget.bots.telegram.util.Container;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.*;
 
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 
 public class AddAccountContainer implements Container {
@@ -23,34 +24,37 @@ public class AddAccountContainer implements Container {
                                CallbackContainer callbackContainer,
                                AccountTypeService accountTypeService, CurrencyService currencyService,
                                BankService bankService, AccountService accountService) {
+
+        String currentDialogName = ADD_ACCOUNT.getName();
+
         dialogMap = ImmutableMap.<String, Dialog>builder()
                 .put(START.getName(), new AddAccountStartDialog(botMessageService, telegramUserService, new AddAccountText(),
-                        null, DialogsMap.getDialogsMapClass(), DialogNamesImpl.ADD_ACCOUNT))
+                        null, ADD_ACCOUNT))
                 .put(TYPE.getName(),
                         new TypeDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new TypeKeyboard(), DialogsMap.getDialogsMapClass(), accountTypeService))
+                                new TypeKeyboard(currentDialogName), accountTypeService))
                 .put(TITLE.getName(),
                         new TitleDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new TitleKeyboard(), DialogsMap.getDialogsMapClass()))
+                                new TitleKeyboard(currentDialogName)))
                 .put(DESCRIPTION.getName(),
                         new DescriptionDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new DescriptionKeyboard(), DialogsMap.getDialogsMapClass()))
+                                new DescriptionKeyboard(currentDialogName)))
                 .put(CURRENCY.getName(),
                         new CurrencyDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new CurrenciesKeyboard(), DialogsMap.getDialogsMapClass(), currencyService))
+                                new CurrenciesKeyboard(currentDialogName), currencyService))
                 .put(BANK.getName(),
                         new BankDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new BanksKeyboard(), DialogsMap.getDialogsMapClass(), bankService))
+                                new BanksKeyboard(currentDialogName), bankService))
                 .put(START_BALANCE.getName(),
                         new StartBalanceDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new StartBalanceKeyboard(), DialogsMap.getDialogsMapClass(), currencyService))
+                                new StartBalanceKeyboard(currentDialogName), currencyService))
                 .put(CONFIRM.getName(),
                         new AddAccountConfirmDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new AddAccountConfirmKeyboard(), DialogsMap.getDialogsMapClass()))
+                                new AddAccountConfirmKeyboard(currentDialogName)))
                 .put(SAVE.getName(),
                         new AddAccountSaveDialog(botMessageService, telegramUserService, new SaveDialogText(),
-                                new SaveKeyboard(), DialogsMap.getDialogsMapClass(),
-                                callbackContainer, accountTypeService, currencyService, bankService, accountService))
+                                new SaveKeyboard(currentDialogName), callbackContainer, accountTypeService, currencyService,
+                                bankService, accountService))
                 .build();
 
         unknownDialog = new UnknownDialog(botMessageService, telegramUserService, ExecuteMode.SEND,

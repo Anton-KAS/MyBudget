@@ -4,7 +4,9 @@ public enum DialogMapDefaultName {
     CURRENT_DIALOG_STEP("currentStep"),
     LAST_STEP("lastStep"),
     DIALOG_ID("dialogId"),
-    START_FROM_ID("startFrom"),
+    START_FROM_ID("startFromId"),
+    START_FROM_DATA("startFromData"),
+    EDIT_ID("editId"),
     NEXT("next"),
     PAGE("tpPage"),
     CASH_ID("1");

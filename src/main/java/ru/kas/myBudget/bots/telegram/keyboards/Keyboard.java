@@ -2,6 +2,7 @@ package ru.kas.myBudget.bots.telegram.keyboards;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import ru.kas.myBudget.bots.telegram.keyboards.addAccountDialog.AddAccountConfirmKeyboard;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.CANCEL_DIALOG;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.CLOSE;

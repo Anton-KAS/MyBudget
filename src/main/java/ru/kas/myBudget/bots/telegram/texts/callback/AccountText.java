@@ -5,8 +5,6 @@ import ru.kas.myBudget.models.Account;
 import ru.kas.myBudget.models.Bank;
 import ru.kas.myBudget.services.AccountService;
 
-import java.math.RoundingMode;
-
 public class AccountText implements MessageText {
     private AccountService accountService;
     private Long userId;
@@ -59,9 +57,7 @@ public class AccountText implements MessageText {
                 bankText,
                 account.getAccountType().getTitleRu(),
                 description,
-                account.getCurrentBalance().setScale(
-                        String.valueOf(account.getCurrency().getNumberToBasic()).length() - 1,
-                        RoundingMode.HALF_UP), account.getCurrency().getSymbol()
+                account.getCurrentBalanceWithScale(), account.getCurrency().getSymbol()
                 );
     }
 }

@@ -2,7 +2,6 @@ package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
-import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.addAccountDialog.CurrenciesKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
@@ -26,9 +25,9 @@ public class CurrencyDialog extends DialogImpl {
     private final CurrenciesKeyboard currenciesKeyboard = (CurrenciesKeyboard) keyboard;
 
     public CurrencyDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                          MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap,
+                          MessageText messageText, Keyboard keyboard,
                           CurrencyService currencyService) {
-        super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, ASK_TEXT);
+        super(botMessageService, telegramUserService, messageText, keyboard, ASK_TEXT);
         this.currencyService = currencyService;
     }
 
@@ -44,6 +43,7 @@ public class CurrencyDialog extends DialogImpl {
     @Override
     public boolean commit(Update update) {
         this.userId = UpdateParameter.getUserId(update);
+        this.chatId = UpdateParameter.getUserId(update);
         String[] callbackData = UpdateParameter.getCallbackData(update);
 
         if (callbackData == null ||
@@ -63,7 +63,7 @@ public class CurrencyDialog extends DialogImpl {
         String text = String.format(CURRENCY.getStepTextPattern(),
                 "%s", currency.get().getSymbol() + " - " + currency.get().getCurrencyRu());
 
-        addToDialogMap(userId, CURRENCY, String.valueOf(currencyId), text);
+        addToDialogMap(chatId, CURRENCY, String.valueOf(currencyId), text);
         telegramUserService.checkUser(telegramUserService, update);
         return true;
     }

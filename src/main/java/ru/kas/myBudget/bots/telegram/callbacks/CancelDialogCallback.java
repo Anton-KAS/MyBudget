@@ -12,13 +12,10 @@ import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
 public class CancelDialogCallback extends CommandControllerImpl {
-    private final DialogsMap dialogsMap;
 
     public CancelDialogCallback(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                                ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard,
-                                DialogsMap dialogsMap) {
+                                ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
         super(botMessageService, telegramUserService, defaultExecuteMode, messageText, keyboard);
-        this.dialogsMap = dialogsMap;
     }
 
     @Override
@@ -26,6 +23,6 @@ public class CancelDialogCallback extends CommandControllerImpl {
         super.executeData(update, executeMode);
         long chatId = UpdateParameter.getChatId(update);
         ResponseWaitingMap.remove(chatId);
-        dialogsMap.remove(chatId);
+        DialogsMap.remove(chatId);
     }
 }

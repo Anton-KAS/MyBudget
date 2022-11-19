@@ -1,8 +1,8 @@
 package ru.kas.myBudget.bots.telegram.keyboards.addAccountDialog;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import ru.kas.myBudget.bots.telegram.keyboards.DialogKeyboardImpl;
 import ru.kas.myBudget.bots.telegram.keyboards.InlineKeyboardBuilder;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.models.Account;
 import ru.kas.myBudget.models.Currency;
 import ru.kas.myBudget.models.TelegramUser;
@@ -11,21 +11,19 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.*;
 
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.CURRENCY;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.*;
 
-public class CurrenciesKeyboard implements Keyboard {
+public class CurrenciesKeyboard extends DialogKeyboardImpl {
     private CurrencyService currencyService;
     private TelegramUserService telegramUserService;
-    private long userId;
     private int page;
     private final static int NUM_IN_PAGE = 5;
     private final static String TEXT_BUTTON_PATTERN = "%s - %s";
-    public final String CALLBACK_BUTTON_PATTERN = String.format("%s_%s_%s_%s_%s",
-            DIALOG.getId(), ADD_ACCOUNT.getName(), ADD_ACCOUNT.getName(), CURRENCY.getName(), "%s");
 
-    public CurrenciesKeyboard() {
+    public CurrenciesKeyboard(String currentDialogName) {
+        super(currentDialogName);
+        this.callbackPattern = String.format(callbackPattern, CURRENCY.getName(), "%s");
     }
 
     @Override
@@ -40,7 +38,7 @@ public class CurrenciesKeyboard implements Keyboard {
             Currency currency = currencies.get(i);
             inlineKeyboardBuilder.addRow()
                     .addButton(String.format(TEXT_BUTTON_PATTERN, currency.getSymbol(), currency.getCurrencyRu()),
-                            String.format(CALLBACK_BUTTON_PATTERN, currency.getId()));
+                            String.format(callbackPattern, currency.getId()));
         }
         if (page > 1 || currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addRow();
         if (page > 1) inlineKeyboardBuilder.addButton(getPreviousPageButton(

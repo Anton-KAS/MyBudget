@@ -2,7 +2,6 @@ package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
-import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
@@ -19,15 +18,16 @@ public class TitleDialog extends DialogImpl {
     public final static String VERIFY_EXCEPTION_TEXT = "Название должно быть от %s и до %s символов";
 
     public TitleDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                       MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap) {
-        super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, ASK_TEXT);
+                       MessageText messageText, Keyboard keyboard) {
+        super(botMessageService, telegramUserService, messageText, keyboard, ASK_TEXT);
     }
 
     @Override
     public boolean commit(Update update) {
+        this.userId = UpdateParameter.getUserId(update);
+        this.chatId = UpdateParameter.getUserId(update);
         if (update.hasCallbackQuery()) return false;
 
-        this.userId = UpdateParameter.getUserId(update);
         String text = UpdateParameter.getMessageText(update);
 
         if (text.length() < MIN_TITLE_LENGTH || text.length() > MAX_TITLE_LENGTH) {
@@ -36,7 +36,7 @@ public class TitleDialog extends DialogImpl {
             return false;
         }
 
-        addToDialogMap(userId, TITLE, text, String.format(TITLE.getStepTextPattern(), "%s", text));
+        addToDialogMap(chatId, TITLE, text, String.format(TITLE.getStepTextPattern(), "%s", text));
         telegramUserService.checkUser(telegramUserService, update);
         return true;
     }

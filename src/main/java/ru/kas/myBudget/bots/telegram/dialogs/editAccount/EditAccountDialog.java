@@ -3,10 +3,8 @@ package ru.kas.myBudget.bots.telegram.dialogs.editAccount;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.dialogs.MainDialogImpl;
-import ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
-import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
@@ -25,16 +23,15 @@ public class EditAccountDialog extends MainDialogImpl {
     private long chatId;
 
     public EditAccountDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                             DialogsMap dialogsMap, EditAccountContainer editAccountContainer) {
-        super(botMessageService, telegramUserService, dialogsMap);
+                             EditAccountContainer editAccountContainer) {
+        super(botMessageService, telegramUserService);
         this.editAccountContainer = editAccountContainer;
     }
 
     @Override
     public void execute(Update update) {
         this.chatId = UpdateParameter.getChatId(update);
-        this.dialogMap = dialogsMap.getDialogMapById(chatId);
-        ResponseWaitingMap.remove(chatId);
+        this.dialogMap = DialogsMap.getDialogMapById(chatId);
 
         Integer currentStep;
         int lastStep;
@@ -50,7 +47,7 @@ public class EditAccountDialog extends MainDialogImpl {
             lastStep = Integer.parseInt(dialogMap.get(LAST_STEP.getId()));
         }
 
-        dialogMap = dialogsMap.getDialogMapById(chatId);
+        dialogMap = DialogsMap.getDialogMapById(chatId);
 
         if (!update.hasCallbackQuery() && messageText.startsWith(COMMAND_PREFIX)) {
             String commandIdentifier = messageText.split(" ")[COMMAND.getIndex()].toLowerCase();
@@ -85,7 +82,8 @@ public class EditAccountDialog extends MainDialogImpl {
         } else {
             boolean result = editAccountContainer.retrieve(AddAccountNames.values()[currentStep].getName()).commit(update);
             if (result) {
-                dialogMap = dialogsMap.getDialogMapById(chatId);
+                dialogMap = DialogsMap.getDialogMapById(chatId);
+                lastStep = Integer.parseInt(dialogMap.get(LAST_STEP.getId()));
                 return getNextStepNum(lastStep);
             }
         }
@@ -107,9 +105,9 @@ public class EditAccountDialog extends MainDialogImpl {
     }
 
     private void updateStepsInDialogMap(int lastStep) {
-        dialogsMap.replaceById(chatId, CURRENT_DIALOG_STEP.getId(), String.valueOf(lastStep));
+        DialogsMap.replaceById(chatId, CURRENT_DIALOG_STEP.getId(), String.valueOf(lastStep));
         if (dialogMap != null && lastStep > Integer.parseInt(dialogMap.get(LAST_STEP.getId()))) {
-            dialogsMap.replaceById(chatId, LAST_STEP.getId(), String.valueOf(lastStep));
+            DialogsMap.replaceById(chatId, LAST_STEP.getId(), String.valueOf(lastStep));
         }
     }
 }

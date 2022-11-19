@@ -58,7 +58,7 @@ public class BankDialogTest extends AbstractDialogImplTest {
 
     @Override
     public Dialog getCommand() {
-        return new BankDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardBankMock, dialogsMapMock, bankServiceMock);
+        return new BankDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardBankMock, bankServiceMock);
     }
 
     @Override

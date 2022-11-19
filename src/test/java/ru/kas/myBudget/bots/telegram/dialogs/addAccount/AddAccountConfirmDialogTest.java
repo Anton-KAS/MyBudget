@@ -24,7 +24,7 @@ public class AddAccountConfirmDialogTest extends AbstractDialogImplTest {
 
     @Override
     public Dialog getCommand() {
-        return new AddAccountConfirmDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock, dialogsMapMock);
+        return new AddAccountConfirmDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock);
     }
 
     @Override

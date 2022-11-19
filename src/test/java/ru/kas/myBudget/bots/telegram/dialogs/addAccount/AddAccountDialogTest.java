@@ -73,8 +73,7 @@ public class AddAccountDialogTest extends AbstractMainDialogImplTest {
     public void beforeEach() {
         super.beforeEach();
 
-        this.addAccountDialog = new AddAccountDialog(botMessageServiceMock, telegramUserServiceMock, dialogsMapMock,
-                addAccountContainerMock);
+        this.addAccountDialog = new AddAccountDialog(botMessageServiceMock, telegramUserServiceMock, addAccountContainerMock);
     }
 
     @Test

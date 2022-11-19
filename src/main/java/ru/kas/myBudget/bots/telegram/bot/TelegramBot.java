@@ -8,20 +8,16 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.commands.CommandContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogContainer;
-import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.services.BotMessageServiceImpl;
 import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.*;
 
 import java.util.Arrays;
-import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.*;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.*;
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.NO;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.DIALOG_ID;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.EDIT_NUM;
 
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
@@ -36,7 +32,6 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final CommandContainer commandContainer;
     private final CallbackContainer callbackContainer;
     private final DialogContainer dialogContainer;
-    private final Map<Long, Map<String, String>> dialogsMap;
 
     @Autowired
     public TelegramBot(TelegramUserService telegramUserService, AccountService accountService,
@@ -49,7 +44,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         this.dialogContainer = new DialogContainer(
                 new BotMessageServiceImpl(this), telegramUserService, callbackContainer,
                 accountTypeService, currencyService, bankService, accountService);
-        this.dialogsMap = DialogsMap.getDialogsMap();
     }
 
     @Override
@@ -70,33 +64,36 @@ public class TelegramBot extends TelegramLongPollingBot {
             String messageText = UpdateParameter.getMessageText(update);
             long chatId = UpdateParameter.getChatId(update);
 
-            if (messageText.startsWith(COMMAND_PREFIX)) {
+            if (ResponseWaitingMap.contains(chatId)) {
+                String identifier = ResponseWaitingMap.get(chatId).getName();
+
+                System.out.println("WAITING BY: " + identifier); //TODO Add project Logger
+
+                if (commandContainer.contains(identifier)) {
+                    System.out.println("COMMAND CONTAINER"); //TODO Add project Logger
+                    commandContainer.retrieve(identifier).execute(update);
+                } else if (callbackContainer.contains(identifier)) {
+                    System.out.println("CALLBACK CONTAINER"); //TODO Add project Logger
+                    callbackContainer.retrieve(identifier).execute(update);
+                } else if (dialogContainer.contains(identifier)) {
+                    System.out.println("DIALOG CONTAINER"); //TODO Add project Logger
+                    dialogContainer.retrieve(identifier).execute(update);
+                } else {
+                    System.out.println("NO CONTAINER"); //TODO Add project Logger
+                    commandContainer.retrieve(NO.getName()).execute(update);
+                }
+
+            } else if (messageText.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = messageText.split(" ")[0].toLowerCase();
 
                 System.out.println("COMMAND ID: " + commandIdentifier); //TODO Add project Logger
 
-                if (ResponseWaitingMap.contains(chatId)) {
-                    String identifier = ResponseWaitingMap.get(chatId).getName();
-                    if (commandContainer.contains(identifier)) {
-                        commandContainer.retrieve(identifier).execute(update);
-                    } else if (callbackContainer.contains(identifier)) {
-                        callbackContainer.retrieve(identifier).execute(update);
-                    } else if (dialogContainer.contains(identifier)) {
-                        dialogContainer.retrieve(identifier).execute(update);
-                    }
-                } else if (commandIdentifier.matches(EDIT_NUM.getRegex()) && dialogsMap.containsKey(chatId)) {
-                    String dialogIdentifier = dialogsMap.get(chatId).get(DIALOG_ID.getId());
-                    dialogContainer.retrieve(dialogIdentifier).execute(update);
-                } else {
-                    onCommandReceived(update, commandIdentifier);
-                }
+                onCommandReceived(update, commandIdentifier);
 
-            } else if (dialogsMap.containsKey(chatId)) {
-                String dialogIdentifier = dialogsMap.get(chatId).get(DIALOG_ID.getId());
-                dialogContainer.retrieve(dialogIdentifier).execute(update);
             } else {
                 commandContainer.retrieve(NO.getName()).execute(update);
             }
+
         } else if (update.hasCallbackQuery()) {
             String[] callbackData = UpdateParameter.getCallbackData(update);
             onCallbackReceived(update, callbackData);

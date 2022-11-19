@@ -44,7 +44,7 @@ public class StartBalanceDialogTest extends AbstractDialogImplTest {
     @Override
     public Dialog getCommand() {
         return new StartBalanceDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock,
-                dialogsMapMock, currencyServiceMock);
+                currencyServiceMock);
     }
 
     @Override

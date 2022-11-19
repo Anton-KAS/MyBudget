@@ -2,7 +2,6 @@ package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
-import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
@@ -18,12 +17,14 @@ public class DescriptionDialog extends DialogImpl {
     public final static String VERIFY_EXCEPTION_TEXT = "Описание должно быть до %s символов";
 
     public DescriptionDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                             MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap) {
-        super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, ASK_TEXT);
+                             MessageText messageText, Keyboard keyboard) {
+        super(botMessageService, telegramUserService, messageText, keyboard, ASK_TEXT);
     }
 
     @Override
     public boolean commit(Update update) {
+        this.userId = UpdateParameter.getUserId(update);
+        this.chatId = UpdateParameter.getUserId(update);
         if (update.hasCallbackQuery()) return false;
 
         long chatId = UpdateParameter.getChatId(update);

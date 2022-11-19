@@ -60,7 +60,7 @@ public class TypeDialogTest extends AbstractDialogImplTest {
     @Override
     public Dialog getCommand() {
         return new TypeDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock,
-                typeKeyboardMock, dialogsMapMock, accountTypeServiceMock);
+                typeKeyboardMock, accountTypeServiceMock);
     }
 
     @Override

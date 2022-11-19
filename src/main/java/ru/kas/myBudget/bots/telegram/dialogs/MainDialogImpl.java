@@ -8,13 +8,10 @@ import ru.kas.myBudget.services.TelegramUserService;
 public abstract class MainDialogImpl implements MainDialog {
     protected final BotMessageService botMessageService;
     protected final TelegramUserService telegramUserService;
-    protected final DialogsMap dialogsMap;
 
-    public MainDialogImpl(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                          DialogsMap dialogsMap) {
+    public MainDialogImpl(BotMessageService botMessageService, TelegramUserService telegramUserService) {
         this.botMessageService = botMessageService;
         this.telegramUserService = telegramUserService;
-        this.dialogsMap = dialogsMap;
     }
 
     @Override

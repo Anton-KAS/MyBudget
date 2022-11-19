@@ -48,7 +48,7 @@ abstract public class AbstractCommandControllerTest {
 
         Mockito.when(telegramUserServiceMock.retrieveAllActiveUsers()).thenReturn(TEST_USER_LIST);
 
-        Mockito.when(dialogsMapMock.remove(TEST_USER_ID)).thenReturn(dialogsMapMock);
+        //Mockito.when(dialogsMapMock.remove(TEST_USER_ID)).thenReturn(dialogsMapMock);
     }
 
     @Test

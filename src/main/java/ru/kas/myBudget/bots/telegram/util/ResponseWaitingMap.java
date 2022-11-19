@@ -1,45 +1,41 @@
 package ru.kas.myBudget.bots.telegram.util;
 
-import ru.kas.myBudget.bots.telegram.util.CommandNames;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class ResponseWaitingMap {
-    private static Map<Long, CommandNames> map;
+    private static Map<Long, CommandNames> instanceMap;
 
     private ResponseWaitingMap() {
     }
 
-    private static void checkMap() {
-        if (map == null) {
-            map = new HashMap<>();
-        }
+    private static void checkInstanceMap() {
+        if (instanceMap == null) instanceMap = new HashMap<>();
     }
 
-    public static Map<Long, CommandNames> getResponseWaitingMap() {
-        checkMap();
-        return map;
+    public static Map<Long, CommandNames> getMap() {
+        checkInstanceMap();
+        return instanceMap;
     }
 
     public static void put(long chatId, CommandNames commandName) {
-        checkMap();
-        map.put(chatId, commandName);
+        checkInstanceMap();
+        instanceMap.put(chatId, commandName);
     }
 
     public static void remove(long chatId) {
-        checkMap();
-        map.remove(chatId);
+        checkInstanceMap();
+        instanceMap.remove(chatId);
     }
 
     public static CommandNames get(long chatId) {
-        checkMap();
-        return map.get(chatId);
+        checkInstanceMap();
+        return instanceMap.get(chatId);
     }
 
     public static boolean contains(long chatId) {
-        checkMap();
-        return map.containsKey(chatId);
+        checkInstanceMap();
+        return instanceMap.containsKey(chatId);
     }
 
 }

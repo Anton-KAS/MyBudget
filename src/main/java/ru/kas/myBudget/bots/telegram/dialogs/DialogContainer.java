@@ -32,11 +32,9 @@ public class DialogContainer implements Container {
 
         dialogMap = ImmutableMap.<String, CommandController>builder()
                 .put(ADD_ACCOUNT.getName(),
-                        new AddAccountDialog(botMessageService, telegramUserService, DialogsMap.getDialogsMapClass(),
-                                addAccountContainer))
+                        new AddAccountDialog(botMessageService, telegramUserService, addAccountContainer))
                 .put(EDIT_ACCOUNT.getName(),
-                        new EditAccountDialog(botMessageService, telegramUserService, DialogsMap.getDialogsMapClass(),
-                                editAccountContainer))
+                        new EditAccountDialog(botMessageService, telegramUserService, editAccountContainer))
                 .build();
 
         unknownDialog = new UnknownDialog(botMessageService, telegramUserService, ExecuteMode.SEND,

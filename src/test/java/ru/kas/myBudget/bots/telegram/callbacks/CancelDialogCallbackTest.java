@@ -22,7 +22,7 @@ public class CancelDialogCallbackTest extends AbstractCommandControllerTest {
     @Override
     public CommandController getCommand() {
         return new CancelDialogCallback(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock,
-                keyboardMock, dialogsMapMock);
+                keyboardMock);
     }
 
     @Override

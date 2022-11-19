@@ -14,6 +14,7 @@ import ru.kas.myBudget.bots.telegram.util.Container;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.*;
 
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 
 public class EditAccountContainer implements Container {
@@ -25,34 +26,36 @@ public class EditAccountContainer implements Container {
                                 AccountTypeService accountTypeService, CurrencyService currencyService,
                                 BankService bankService, AccountService accountService) {
 
+        String currentDialogName = EDIT_ACCOUNT.getName();
+
         dialogMap = ImmutableMap.<String, Dialog>builder()
                 .put(START.getName(), new EditAccountStartDialog(botMessageService, telegramUserService, new AddAccountText(),
-                        null, DialogsMap.getDialogsMapClass(), DialogNamesImpl.EDIT_ACCOUNT, accountService))
+                        null, EDIT_ACCOUNT, accountService))
                 .put(TYPE.getName(),
                         new TypeDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new TypeKeyboard(), DialogsMap.getDialogsMapClass(), accountTypeService))
+                                new TypeKeyboard(currentDialogName), accountTypeService))
                 .put(TITLE.getName(),
                         new TitleDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new TitleKeyboard(), DialogsMap.getDialogsMapClass()))
+                                new TitleKeyboard(currentDialogName)))
                 .put(DESCRIPTION.getName(),
                         new DescriptionDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new DescriptionKeyboard(), DialogsMap.getDialogsMapClass()))
+                                new DescriptionKeyboard(currentDialogName)))
                 .put(CURRENCY.getName(),
                         new CurrencyDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new CurrenciesKeyboard(), DialogsMap.getDialogsMapClass(), currencyService))
+                                new CurrenciesKeyboard(currentDialogName), currencyService))
                 .put(BANK.getName(),
                         new BankDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new BanksKeyboard(), DialogsMap.getDialogsMapClass(), bankService))
+                                new BanksKeyboard(currentDialogName), bankService))
                 .put(START_BALANCE.getName(),
                         new StartBalanceDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new StartBalanceKeyboard(), DialogsMap.getDialogsMapClass(), currencyService))
+                                new StartBalanceKeyboard(currentDialogName), currencyService))
                 .put(CONFIRM.getName(),
                         new AddAccountConfirmDialog(botMessageService, telegramUserService, new AddAccountText(),
-                                new AddAccountConfirmKeyboard(), DialogsMap.getDialogsMapClass()))
+                                new AddAccountConfirmKeyboard(currentDialogName)))
                 .put(SAVE.getName(),
-                        new AddAccountSaveDialog(botMessageService, telegramUserService, new SaveDialogText(),
-                                new SaveKeyboard(), DialogsMap.getDialogsMapClass(),
-                                callbackContainer, accountTypeService, currencyService, bankService, accountService))
+                        new EditAccountSaveDialog(botMessageService, telegramUserService, new SaveDialogText(),
+                                new SaveKeyboard(currentDialogName), callbackContainer, accountTypeService, currencyService, bankService,
+                                accountService))
                 .build();
 
         unknownDialog = new UnknownDialog(botMessageService, telegramUserService, ExecuteMode.SEND,

@@ -2,7 +2,6 @@ package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
-import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
 import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.addAccountDialog.BanksKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
@@ -24,9 +23,8 @@ public class BankDialog extends DialogImpl {
     private final BanksKeyboard banksKeyboard = (BanksKeyboard) keyboard;
 
     public BankDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                      MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap,
-                      BankService bankService) {
-        super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, ASK_TEXT);
+                      MessageText messageText, Keyboard keyboard, BankService bankService) {
+        super(botMessageService, telegramUserService, messageText, keyboard, ASK_TEXT);
         this.bankService = bankService;
     }
 
@@ -40,6 +38,7 @@ public class BankDialog extends DialogImpl {
     @Override
     public boolean commit(Update update) {
         this.userId = UpdateParameter.getUserId(update);
+        this.chatId = UpdateParameter.getChatId(update);
         String[] callbackData = UpdateParameter.getCallbackData(update);
 
         Integer bankId;
@@ -52,7 +51,7 @@ public class BankDialog extends DialogImpl {
 
         String text = String.format(BANK.getStepTextPattern(),
                 "%s", bank.get().getTitleRu() + " (" + bank.get().getCountry().getTitleRu() + ")");
-        addToDialogMap(userId, BANK, String.valueOf(bankId), text);
+        addToDialogMap(chatId, BANK, String.valueOf(bankId), text);
         telegramUserService.checkUser(telegramUserService, update);
         return true;
     }

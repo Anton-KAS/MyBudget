@@ -5,12 +5,12 @@ import ru.kas.myBudget.bots.telegram.dialogs.CommandDialogNames;
 public enum AddAccountNames implements CommandDialogNames {
     // Order is important!
     START("start", "<b>Добавление нового счета</b>\n"),
-    TYPE("addType", "%s - Тип: %s"),
-    TITLE("addTitle", "%s - Название: %s"),
-    DESCRIPTION("addDescription", "%s - Описание: %s"),
-    CURRENCY("addCurrency", "%s - Валюта: %s"),
-    BANK("addBank", "%s - Банк: %s"),
-    START_BALANCE("addStartBalance", "%s - Начальный баланс: %s"),
+    TYPE("addType", "%s - Тип:  <b><i>%s</i></b>"),
+    TITLE("addTitle", "%s - Название:  <b><i>%s</i></b>"),
+    DESCRIPTION("addDescription", "%s - Описание:  <b><i>%s</i></b>"),
+    CURRENCY("addCurrency", "%s - Валюта:  <b><i>%s</i></b>"),
+    BANK("addBank", "%s - Банк:  <b><i>%s</i></b>"),
+    START_BALANCE("addStartBalance", "%s - Начальный баланс:  <b><i>%s</i></b>"),
     CONFIRM("confirm", null),
     SAVE("accSave", null);
 

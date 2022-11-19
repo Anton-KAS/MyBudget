@@ -9,8 +9,6 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import java.util.Map;
-
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.FIRST_STEP_INDEX;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 
@@ -19,9 +17,10 @@ public abstract class DialogImpl implements Dialog {
     protected final TelegramUserService telegramUserService;
     protected final MessageText messageText;
     protected Keyboard keyboard;
-    protected final DialogsMap dialogsMap;
+    //protected final DialogsMap dialogsMap;
 
     protected Long userId;
+    protected Long chatId;
     protected Integer dialogStep;
     protected ExecuteMode defaultExecuteMode;
     protected String text;
@@ -30,12 +29,12 @@ public abstract class DialogImpl implements Dialog {
     protected final String askText;
 
     public DialogImpl(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                      MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap, String askText) {
+                      MessageText messageText, Keyboard keyboard, String askText) {
         this.botMessageService = botMessageService;
         this.telegramUserService = telegramUserService;
         this.messageText = messageText;
         this.keyboard = keyboard;
-        this.dialogsMap = dialogsMap;
+        //this.dialogsMap = dialogsMap;
         this.askText = askText;
     }
 
@@ -50,9 +49,15 @@ public abstract class DialogImpl implements Dialog {
 
     @Override
     public void execute(Update update) {
-        long chatId = UpdateParameter.getChatId(update);
-        dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId()));
-        executeByOrder(update, getExecuteMode(update, dialogStep));
+        this.userId = UpdateParameter.getUserId(update);
+        this.chatId = UpdateParameter.getChatId(update);
+        ExecuteMode executeMode = defaultExecuteMode;
+        String dialogStepString = DialogsMap.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId());
+        if (dialogStepString != null) {
+            dialogStep = Integer.parseInt(dialogStepString);
+            executeMode = getExecuteMode(update, dialogStep);
+        }
+        executeByOrder(update, executeMode);
     }
 
     @Override
@@ -68,12 +73,12 @@ public abstract class DialogImpl implements Dialog {
 
     @Override
     public void setData(Update update) {
-        if (userId == null) userId = UpdateParameter.getUserId(update);
-        long chatId = UpdateParameter.getChatId(update);
+//        if (userId == null)
+//        long chatId = UpdateParameter.getChatId(update);
 
-        if (dialogStep == null)
-            dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId()));
-        if (defaultExecuteMode == null) defaultExecuteMode = getExecuteMode(update, dialogStep);
+//        if (dialogStep == null)
+//            dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId()));
+//        if (defaultExecuteMode == null) defaultExecuteMode = getExecuteMode(update, dialogStep);
 
         text = messageText.setUserId(userId).getText();
         inlineKeyboardMarkup = keyboard.getKeyboard();
@@ -87,10 +92,8 @@ public abstract class DialogImpl implements Dialog {
 
     @Override
     public void addToDialogMap(long chatId, CommandDialogNames name, String stringId, String text) {
-        Map<String, String> dialogSteps = dialogsMap.getDialogMapById(chatId);
-
-        dialogSteps.put(name.getName(), stringId);
-        dialogSteps.put(name.getStepIdText(), text);
+        DialogsMap.put(chatId, name.getName(), stringId);
+        DialogsMap.put(chatId, name.getStepIdText(), text);
     }
 
     @Override

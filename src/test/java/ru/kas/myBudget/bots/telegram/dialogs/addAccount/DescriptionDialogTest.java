@@ -36,7 +36,7 @@ public class DescriptionDialogTest extends AbstractDialogImplTest {
 
     @Override
     public Dialog getCommand() {
-        return new DescriptionDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock, dialogsMapMock);
+        return new DescriptionDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock);
     }
 
     @Override

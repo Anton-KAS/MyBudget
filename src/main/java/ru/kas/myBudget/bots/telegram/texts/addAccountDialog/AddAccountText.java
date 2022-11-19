@@ -54,7 +54,7 @@ public class AddAccountText implements MessageText {
 
             n++;
 
-            if (currentStepId == count) stringBuilder.append("</b>");
+            if (currentStepId == count) stringBuilder.append("</b>  \uD83D\uDC48");
 
             stringBuilder.append("\n");
         }

@@ -68,10 +68,8 @@ public class Account {
                    AccountType accountType, Bank bank) {
         this.title = title;
         this.description = description;
-        this.startBalance = startBalance.setScale(
-                String.valueOf(currency.getNumberToBasic()).length() - 1, RoundingMode.HALF_UP);
-        this.currentBalance = currentBalance.setScale(
-                String.valueOf(currency.getNumberToBasic()).length() - 1, RoundingMode.HALF_UP);
+        this.startBalance = startBalance;
+        this.currentBalance = currentBalance;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.telegramUser = telegramUser;
@@ -84,14 +82,34 @@ public class Account {
                    TelegramUser telegramUser, Currency currency, AccountType accountType, Bank bank) {
         this.title = title;
         this.description = description;
-        this.startBalance = startBalance.setScale(
-                String.valueOf(currency.getNumberToBasic()).length() - 1, RoundingMode.HALF_UP);
-        this.currentBalance = currentBalance.setScale(
-                String.valueOf(currency.getNumberToBasic()).length() - 1, RoundingMode.HALF_UP);
+        this.startBalance = startBalance;
+        this.currentBalance = currentBalance;
         this.telegramUser = telegramUser;
         this.currency = currency;
         this.accountType = accountType;
         this.bank = bank;
+    }
+
+    public BigDecimal getStartBalanceWithScale() {
+        BigDecimal numberToBasic = new BigDecimal(currency.getNumberToBasic());
+        return startBalance.divide(numberToBasic, RoundingMode.HALF_UP)
+                .setScale(String.valueOf(numberToBasic).length() - 1, RoundingMode.HALF_UP);
+    }
+
+    public void setStartBalanceWithScale(BigDecimal startBalance) {
+        BigDecimal numberToBasic = new BigDecimal(currency.getNumberToBasic());
+        this.startBalance = startBalance.multiply(numberToBasic).setScale(0, RoundingMode.HALF_UP);
+    }
+
+    public BigDecimal getCurrentBalanceWithScale() {
+        BigDecimal numberToBasic = new BigDecimal(currency.getNumberToBasic());
+        return currentBalance.divide(numberToBasic, RoundingMode.HALF_UP)
+                .setScale(String.valueOf(numberToBasic).length() - 1, RoundingMode.HALF_UP);
+    }
+
+    public void setCurrentBalanceWithScale(BigDecimal currentBalance) {
+        BigDecimal numberToBasic = new BigDecimal(currency.getNumberToBasic());
+        this.currentBalance = currentBalance.multiply(numberToBasic).setScale(0, RoundingMode.HALF_UP);
     }
 
     @Override

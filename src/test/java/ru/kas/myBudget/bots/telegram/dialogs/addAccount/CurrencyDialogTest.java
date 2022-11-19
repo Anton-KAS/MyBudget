@@ -66,7 +66,7 @@ public class CurrencyDialogTest extends AbstractDialogImplTest {
     @Override
     public Dialog getCommand() {
         return new CurrencyDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock,
-                currenciesKeyboardMock, dialogsMapMock, currencyServiceMock);
+                currenciesKeyboardMock, currencyServiceMock);
     }
 
     @Override

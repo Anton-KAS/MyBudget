@@ -8,31 +8,31 @@ import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
+import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.models.*;
 import ru.kas.myBudget.services.*;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Map;
-import java.util.Optional;
 
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_DATA;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_ID;
 
 public class AddAccountSaveDialog extends DialogImpl {
-    private final CallbackContainer callbackContainer;
-    private final CurrencyService currencyService;
-    private final AccountTypeService accountTypeService;
-    private final BankService bankService;
-    private final AccountService accountService;
-    private Map<String, String> dialogMap;
+    protected final CallbackContainer callbackContainer;
+    protected final CurrencyService currencyService;
+    protected final AccountTypeService accountTypeService;
+    protected final BankService bankService;
+    protected final AccountService accountService;
+    protected Map<String, String> dialogMap;
 
     public AddAccountSaveDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                                MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap,
+                                MessageText messageText, Keyboard keyboard,
                                 CallbackContainer callbackContainer, AccountTypeService accountTypeService,
                                 CurrencyService currencyService, BankService bankService, AccountService accountService) {
-        super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, null);
+        super(botMessageService, telegramUserService, messageText, keyboard, null);
         this.callbackContainer = callbackContainer;
         this.currencyService = currencyService;
         this.accountTypeService = accountTypeService;
@@ -43,7 +43,8 @@ public class AddAccountSaveDialog extends DialogImpl {
     @Override
     public void setData(Update update) {
         this.userId = UpdateParameter.getUserId(update);
-        this.dialogMap = dialogsMap.getDialogMapById(UpdateParameter.getChatId(update));
+        this.chatId = UpdateParameter.getChatId(update);
+        this.dialogMap = DialogsMap.getDialogMap(chatId);
 
         Bank bank = getBank();
         BigDecimal startBalance = getStartBalance();
@@ -53,6 +54,8 @@ public class AddAccountSaveDialog extends DialogImpl {
 
         Account account = new Account(dialogMap.get(TITLE.getName()), dialogMap.get(DESCRIPTION.getName()),
                 startBalance, startBalance, telegramUser, currency, accountType, bank);
+        account.setCurrentBalanceWithScale(startBalance);
+        account.setStartBalanceWithScale(startBalance);
         accountService.save(account);
     }
 
@@ -61,11 +64,13 @@ public class AddAccountSaveDialog extends DialogImpl {
         botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
                 messageText.setUserId(userId).getText(), keyboard.getKeyboard());
         String fromStartId = dialogMap.get(START_FROM_ID.getId());
+        update.getCallbackQuery().setData(DialogsMap.getDialogStepById(chatId, START_FROM_DATA.getId()));
+        DialogsMap.remove(chatId);
+        ResponseWaitingMap.remove(chatId);
         if (fromStartId != null) callbackContainer.retrieve(fromStartId).execute(update, ExecuteMode.SEND);
-        dialogsMap.remove(userId);
     }
 
-    private Bank getBank() {
+    protected Bank getBank() {
         if (dialogMap.get(BANK.getName()) != null &&
                 bankService.findById(Integer.parseInt(dialogMap.get(BANK.getName()))).isPresent())
             return bankService.findById(Integer.parseInt(dialogMap.get(BANK.getName()))).get();
@@ -74,15 +79,10 @@ public class AddAccountSaveDialog extends DialogImpl {
     }
 
     public BigDecimal getStartBalance() {
-        Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
-        int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
-
         String startBalanceString = dialogMap.get(START_BALANCE.getName());
-
         if (startBalanceString == null) return new BigDecimal(0);
 
-        else return new BigDecimal(startBalanceString).multiply(new BigDecimal(numberToBAsic))
-                .setScale(String.valueOf(numberToBAsic).length() - 1, RoundingMode.HALF_UP);
+        else return new BigDecimal(startBalanceString);
     }
 
 }

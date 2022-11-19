@@ -27,15 +27,15 @@ public class StartBalanceDialog extends DialogImpl {
     private final static String DEFAULT_BALANCE_TEXT = "0.0";
 
     public StartBalanceDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                              MessageText messageText, Keyboard keyboard, DialogsMap dialogsMap,
-                              CurrencyService currencyService) {
-        super(botMessageService, telegramUserService, messageText, keyboard, dialogsMap, ASK_TEXT);
+                              MessageText messageText, Keyboard keyboard, CurrencyService currencyService) {
+        super(botMessageService, telegramUserService, messageText, keyboard, ASK_TEXT);
         this.currencyService = currencyService;
     }
 
     @Override
     public boolean commit(Update update) {
-        long chatId = UpdateParameter.getChatId(update);
+        this.userId = UpdateParameter.getUserId(update);
+        this.chatId = UpdateParameter.getUserId(update);
         String receivedText = UpdateParameter.getMessageText(update);
 
         if (update.hasCallbackQuery() || !receivedText.matches(CURRENCY_AMOUNT.getRegex())) {
@@ -55,15 +55,18 @@ public class StartBalanceDialog extends DialogImpl {
 
     @Override
     public void skip(Update update) {
-        long chatId = UpdateParameter.getChatId(update);
+        this.userId = UpdateParameter.getUserId(update);
+        this.chatId = UpdateParameter.getUserId(update);
         BigDecimal startBalance = getStartBalance(DEFAULT_BALANCE_TEXT, chatId);
-        addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
-                String.format(START_BALANCE.getStepTextPattern(), "%s", startBalance));
+        if (!DialogsMap.getDialogMap(chatId).containsKey(START_BALANCE.getName())) {
+            addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
+                    String.format(START_BALANCE.getStepTextPattern(), "%s", startBalance));
+        }
         telegramUserService.checkUser(telegramUserService, update);
     }
 
     private BigDecimal getStartBalance(String text, long chatId) {
-        Map<String, String> dialogMap = dialogsMap.getDialogMapById(chatId);
+        Map<String, String> dialogMap = DialogsMap.getDialogMapById(chatId);
 
         Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
         int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
