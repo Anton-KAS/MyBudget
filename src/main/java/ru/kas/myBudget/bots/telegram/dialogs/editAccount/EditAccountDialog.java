@@ -11,6 +11,7 @@ import ru.kas.myBudget.services.TelegramUserService;
 import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.bot.TelegramBot.COMMAND_PREFIX;
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.OPERATION;
 import static ru.kas.myBudget.bots.telegram.commands.CommandIndex.COMMAND;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
@@ -39,7 +40,7 @@ public class EditAccountDialog extends MainDialogImpl {
         String messageText = UpdateParameter.getMessageText(update);
 
         if (dialogMap == null || dialogMap.isEmpty() || (callbackData != null &&
-                callbackData[CALLBACK_STEP_INDEX.getIndex()].equals(START.getName()))) {
+                callbackData[OPERATION.getIndex()].equals(START.getName()))) {
             currentStep = FIRST_STEP_INDEX.getIndex();
             lastStep = FIRST_STEP_INDEX.getIndex();
         } else {
