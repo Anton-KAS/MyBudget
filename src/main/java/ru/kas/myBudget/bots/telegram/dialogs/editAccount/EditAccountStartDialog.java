@@ -15,7 +15,6 @@ import ru.kas.myBudget.models.Bank;
 import ru.kas.myBudget.services.AccountService;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import java.math.RoundingMode;
 import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
@@ -60,7 +59,11 @@ public class EditAccountStartDialog extends AddAccountStartDialog {
 
         Bank bank = account.getBank();
         String bankText = "";
-        if (bank != null) bankText = bank.displayToUser();
+        String bankId = "";
+        if (bank != null) {
+            bankText = bank.displayToUser();
+            bankId = String.valueOf(bank.getId());
+        }
 
         String description;
         if (account.getDescription() == null) description = "";
@@ -78,7 +81,7 @@ public class EditAccountStartDialog extends AddAccountStartDialog {
         addToDialogMap(chatId, CURRENCY, String.valueOf(account.getCurrency().getId()),
                 String.format(CURRENCY.getStepTextPattern(), "%s", account.getCurrency().displayToUser()));
 
-        addToDialogMap(chatId, BANK, String.valueOf(account.getBank().getId()),
+        addToDialogMap(chatId, BANK, bankId,
                 String.format(BANK.getStepTextPattern(), "%s", bankText));
 
         addToDialogMap(chatId, START_BALANCE, String.valueOf(account.getStartBalance()),

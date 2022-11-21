@@ -3,7 +3,7 @@ package ru.kas.myBudget.bots.telegram.callbacks;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
-import ru.kas.myBudget.bots.telegram.texts.AccountsText;
+import ru.kas.myBudget.bots.telegram.texts.callback.AccountsText;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 

@@ -35,6 +35,10 @@ public class DialogContainer implements Container {
                         new AddAccountDialog(botMessageService, telegramUserService, addAccountContainer))
                 .put(EDIT_ACCOUNT.getName(),
                         new EditAccountDialog(botMessageService, telegramUserService, editAccountContainer))
+                .put(DELETE_CONFIRM.getName(),
+                        new DeleteConfirmDialog(botMessageService, telegramUserService))
+                .put(DELETE_EXECUTE.getName(),
+                        new DeleteExecuteDialog(botMessageService, telegramUserService, callbackContainer, accountService))
                 .build();
 
         unknownDialog = new UnknownDialog(botMessageService, telegramUserService, ExecuteMode.SEND,

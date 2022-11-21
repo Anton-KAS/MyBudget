@@ -1,6 +1,8 @@
-package ru.kas.myBudget.bots.telegram.texts;
+package ru.kas.myBudget.bots.telegram.texts.commands;
 
-public class UnknownText implements MessageText{
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
+
+public class UnknownText implements MessageText {
     @Override
     public MessageText setUserId(Long userId) {
         return this;

@@ -1,6 +1,8 @@
-package ru.kas.myBudget.bots.telegram.texts;
+package ru.kas.myBudget.bots.telegram.texts.commands;
 
-public class StopText implements MessageText{
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
+
+public class StopText implements MessageText {
     @Override
     public MessageText setUserId(Long userId) {
         return this;

@@ -51,7 +51,7 @@ public class EditAccountContainer implements Container {
                         new StartBalanceDialog(botMessageService, telegramUserService, new AddAccountText(),
                                 new StartBalanceKeyboard(currentDialogName), currencyService))
                 .put(CONFIRM.getName(),
-                        new AddAccountConfirmDialog(botMessageService, telegramUserService, new AddAccountText(),
+                        new EditAccountConfirmDialog(botMessageService, telegramUserService, new AddAccountText(),
                                 new EditAccountConfirmKeyboard(currentDialogName)))
                 .put(SAVE.getName(),
                         new EditAccountSaveDialog(botMessageService, telegramUserService, new SaveDialogText(),

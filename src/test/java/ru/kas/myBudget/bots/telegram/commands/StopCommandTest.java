@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
-import ru.kas.myBudget.bots.telegram.texts.StopText;
+import ru.kas.myBudget.bots.telegram.texts.commands.StopText;
 import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 import ru.kas.myBudget.models.TelegramUser;

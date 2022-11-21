@@ -12,6 +12,8 @@ import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.NORMAL;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.NEXT;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.PAGE;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.DELETE_CONFIRM;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.DELETE_EXECUTE;
 
 public class InlineKeyboardBuilder {
     private List<List<InlineKeyboardButton>> rowsInline;
@@ -109,10 +111,26 @@ public class InlineKeyboardBuilder {
         return this;
     }
 
-    public InlineKeyboardBuilder addDeleteButton(String fromDialog, String fromStep) {
+    public InlineKeyboardBuilder addDeleteButton(String returnTo, String fromDialog, String fromStep, String idToDelete) {
+        String buttonText = "\uD83E\uDDE8  Удалить";
+        String buttonCallback = String.format(EXTRA_DIALOG_CALLBACK_PATTERN,
+                DIALOG.getId(), returnTo, DELETE_CONFIRM.getName(), fromDialog, fromStep, idToDelete);
+        addButton(buttonText, buttonCallback);
+        return this;
+    }
+
+    public InlineKeyboardBuilder addExecuteDeleteButton(String fromDialog, String idToDelete) {
         String buttonText = "\uD83E\uDDE8  Удалить";
         String buttonCallback = String.format(DIALOG_CALLBACK_PATTERN,
-                DIALOG.getId(), fromDialog, fromDialog, fromStep, "delete");
+                DIALOG.getId(), fromDialog, DELETE_EXECUTE.getName(), "delete", idToDelete);
+        addButton(buttonText, buttonCallback);
+        return this;
+    }
+
+    public InlineKeyboardBuilder addCancelDeleteButton(String fromDialog, String fromStep) {
+        String buttonText = "Отмена";
+        String buttonCallback = String.format(DIALOG_CALLBACK_PATTERN,
+                DIALOG.getId(), fromDialog, fromDialog, fromStep, "cancel");
         addButton(buttonText, buttonCallback);
         return this;
     }

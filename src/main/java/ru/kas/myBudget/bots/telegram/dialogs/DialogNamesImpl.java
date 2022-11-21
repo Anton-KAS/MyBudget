@@ -4,7 +4,9 @@ import ru.kas.myBudget.bots.telegram.util.CommandNames;
 
 public enum DialogNamesImpl implements CommandNames {
     ADD_ACCOUNT("addAcc"),
-    EDIT_ACCOUNT("editAcc");
+    EDIT_ACCOUNT("editAcc"),
+    DELETE_CONFIRM("deleteConfirm"),
+    DELETE_EXECUTE("deleteExecute");
 
     private final String name;
 

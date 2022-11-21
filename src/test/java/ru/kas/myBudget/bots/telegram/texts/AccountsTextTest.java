@@ -3,6 +3,7 @@ package ru.kas.myBudget.bots.telegram.texts;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import ru.kas.myBudget.bots.telegram.texts.callback.AccountsText;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import static org.springframework.test.util.AssertionErrors.assertEquals;

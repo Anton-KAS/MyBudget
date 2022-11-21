@@ -73,13 +73,6 @@ public abstract class DialogImpl implements Dialog {
 
     @Override
     public void setData(Update update) {
-//        if (userId == null)
-//        long chatId = UpdateParameter.getChatId(update);
-
-//        if (dialogStep == null)
-//            dialogStep = Integer.parseInt(dialogsMap.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId()));
-//        if (defaultExecuteMode == null) defaultExecuteMode = getExecuteMode(update, dialogStep);
-
         text = messageText.setUserId(userId).getText();
         inlineKeyboardMarkup = keyboard.getKeyboard();
     }

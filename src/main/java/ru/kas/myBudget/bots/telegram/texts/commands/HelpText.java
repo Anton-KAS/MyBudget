@@ -1,4 +1,6 @@
-package ru.kas.myBudget.bots.telegram.texts;
+package ru.kas.myBudget.bots.telegram.texts.commands;
+
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.*;
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.STAT;

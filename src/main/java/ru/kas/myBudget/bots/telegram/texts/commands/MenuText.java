@@ -1,5 +1,6 @@
-package ru.kas.myBudget.bots.telegram.texts;
+package ru.kas.myBudget.bots.telegram.texts.commands;
 
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.models.TelegramUser;
 import ru.kas.myBudget.services.TelegramUserService;
 

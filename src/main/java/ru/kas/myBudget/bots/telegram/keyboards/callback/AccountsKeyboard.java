@@ -1,6 +1,8 @@
-package ru.kas.myBudget.bots.telegram.keyboards;
+package ru.kas.myBudget.bots.telegram.keyboards.callback;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import ru.kas.myBudget.bots.telegram.keyboards.InlineKeyboardBuilder;
+import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNTS;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.MENU;

@@ -1,6 +1,8 @@
-package ru.kas.myBudget.bots.telegram.texts;
+package ru.kas.myBudget.bots.telegram.texts.commands;
 
-public class StatText implements MessageText{
+import ru.kas.myBudget.bots.telegram.texts.MessageText;
+
+public class StatText implements MessageText {
     private int activeUserCount;
     @Override
     public StatText setUserId(Long userId) {

@@ -2,9 +2,11 @@ package ru.kas.myBudget.bots.telegram.commands;
 
 import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.callbacks.AccountsCallback;
-import ru.kas.myBudget.bots.telegram.keyboards.*;
+import ru.kas.myBudget.bots.telegram.keyboards.callback.AccountsKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.commands.*;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
-import ru.kas.myBudget.bots.telegram.texts.*;
+import ru.kas.myBudget.bots.telegram.texts.callback.AccountsText;
+import ru.kas.myBudget.bots.telegram.texts.commands.*;
 import ru.kas.myBudget.bots.telegram.util.Container;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
