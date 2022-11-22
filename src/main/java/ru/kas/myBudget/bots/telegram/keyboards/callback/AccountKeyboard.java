@@ -11,10 +11,10 @@ import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.START;
 
 public class AccountKeyboard implements Keyboard {
-    public String FROM = ACCOUNT.getName();
-    public String RETURN_TO = ACCOUNTS.getName();
-    public String EDIT_ACCOUNT_BUTTON_TEXT = "Редактировать";
-    public String EDIT_ACCOUNT_BUTTON_PATTERN = String.format("%s_%s_%s_%s_%s",
+    public final static String FROM = ACCOUNT.getName();
+    public final static String RETURN_TO = ACCOUNTS.getName();
+    public final static String EDIT_ACCOUNT_BUTTON_TEXT = "Редактировать";
+    public final static String EDIT_ACCOUNT_BUTTON_PATTERN = String.format("%s_%s_%s_%s_%s",
             DIALOG.getId(), ACCOUNT.getName(), EDIT_ACCOUNT.getName(), START.getName(), "%s"); // TODO: One place for keeping callbacks patterns
 
     public String editAccountButtonText;

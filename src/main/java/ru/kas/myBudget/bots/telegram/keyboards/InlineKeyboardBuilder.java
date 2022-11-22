@@ -127,10 +127,10 @@ public class InlineKeyboardBuilder {
         return this;
     }
 
-    public InlineKeyboardBuilder addCancelDeleteButton(String fromDialog, String fromStep) {
+    public InlineKeyboardBuilder addCancelDeleteButton(String fromMenu, String fromDialog, String fromStep) {
         String buttonText = "Отмена";
         String buttonCallback = String.format(DIALOG_CALLBACK_PATTERN,
-                DIALOG.getId(), fromDialog, fromDialog, fromStep, "cancel");
+                DIALOG.getId(), fromMenu, fromDialog, fromStep, "cancel");
         addButton(buttonText, buttonCallback);
         return this;
     }

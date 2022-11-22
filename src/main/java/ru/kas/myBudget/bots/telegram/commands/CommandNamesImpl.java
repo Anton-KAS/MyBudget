@@ -6,6 +6,7 @@ public enum CommandNamesImpl implements CommandNames {
     START("/start"),
     HELP("/help"),
     STOP("/stop"),
+    CANCEL("/cancel"),
     STAT("/stat"),
     MENU("/menu"),
     ACCOUNTS("/accounts"),

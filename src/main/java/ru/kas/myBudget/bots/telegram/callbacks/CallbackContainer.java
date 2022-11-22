@@ -45,7 +45,7 @@ public class CallbackContainer implements Container {
                                 new NoText(), new NoKeyboard()))
                 .put(CANCEL_DIALOG.getName(),
                         new CancelDialogCallback(botMessageService, telegramUserService, defaultExecuteMode,
-                                new CancelDialogText(), new CancelDialogKeyboard()))
+                                new CancelDialogText(), new CancelDialogKeyboard(), this))
                 .build();
 
         unknownCommand = new UnknownCallback(botMessageService, telegramUserService, defaultExecuteMode,

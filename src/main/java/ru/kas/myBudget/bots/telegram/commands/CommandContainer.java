@@ -23,10 +23,12 @@ public class CommandContainer implements Container {
         commandMap = ImmutableMap.<String, CommandController>builder()
                 .put(START.getName(), new StartCommand(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new StartText(), new StartKeyboard()))
-                .put(STOP.getName(), new StopCommand(sendBotMessageService, telegramUserService,
-                        defaultExecuteMode, new StopText(), new StopKeyboard()))
                 .put(HELP.getName(), new HelpCommand(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new HelpText(), new HelpKeyboard()))
+                .put(STOP.getName(), new StopCommand(sendBotMessageService, telegramUserService,
+                        defaultExecuteMode, new StopText(), new StopKeyboard()))
+                .put(CANCEL.getName(), new CancelCommand(sendBotMessageService, telegramUserService,
+                        defaultExecuteMode, new CancelText(), new CancelKeyboard()))
                 .put(NO.getName(), new NoCommand(sendBotMessageService, telegramUserService,
                         defaultExecuteMode, new NoText(), new NoKeyboard()))
                 .put(STAT.getName(), new StatCommand(sendBotMessageService, telegramUserService,

@@ -14,6 +14,8 @@ import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.ACCOUNTS;
 
 @DisplayName("Unit-level testing for CancelDialogCallback")
 public class CancelDialogCallbackTest extends AbstractCommandControllerTest {
+    private final static CallbackContainer callbackContainerMock = Mockito.mock(CallbackContainer.class);
+
     @Override
     protected String getCommandName() {
         return ACCOUNTS.getName();
@@ -22,7 +24,7 @@ public class CancelDialogCallbackTest extends AbstractCommandControllerTest {
     @Override
     public CommandController getCommand() {
         return new CancelDialogCallback(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock,
-                keyboardMock);
+                keyboardMock, callbackContainerMock);
     }
 
     @Override

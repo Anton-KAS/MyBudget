@@ -17,6 +17,7 @@ import java.util.Arrays;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.*;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.*;
+import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.CANCEL;
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.NO;
 
 @Component
@@ -64,7 +65,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             String messageText = UpdateParameter.getMessageText(update);
             long chatId = UpdateParameter.getChatId(update);
 
-            if (ResponseWaitingMap.contains(chatId)) {
+            if (ResponseWaitingMap.contains(chatId) && !messageText.equals(CANCEL.getName())) {
                 String identifier = ResponseWaitingMap.get(chatId).getName();
 
                 System.out.println("WAITING BY: " + identifier); //TODO Add project Logger
@@ -115,7 +116,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         String callbackType = callbackData[TYPE.getIndex()];
         if (callbackType.equals(NORMAL.getId()))
             callbackContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
-        else if (callbackType.equals(DIALOG.getId()))
+        else if (callbackType.equals(DIALOG.getId()) && dialogContainer.contains(callbackData[TO.getIndex()]))
             dialogContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
         else callbackContainer.retrieve(NO.getName()).execute(update);
     }
