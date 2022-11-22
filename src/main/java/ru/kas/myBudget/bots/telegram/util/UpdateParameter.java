@@ -2,6 +2,8 @@ package ru.kas.myBudget.bots.telegram.util;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.Optional;
+
 public class UpdateParameter {
     public static long getUserId(Update update) {
         if (update.hasCallbackQuery()) return update.getCallbackQuery().getFrom().getId();
@@ -23,8 +25,8 @@ public class UpdateParameter {
         return update.getMessage().getText().trim();
     }
 
-    public static String[] getCallbackData(Update update) {
-        if (update.hasCallbackQuery()) return update.getCallbackQuery().getData().split("_");
-        return null;
+    public static Optional<String[]> getCallbackData(Update update) {
+        if (update.hasCallbackQuery()) return Optional.of(update.getCallbackQuery().getData().split("_"));
+        return Optional.empty();
     }
 }

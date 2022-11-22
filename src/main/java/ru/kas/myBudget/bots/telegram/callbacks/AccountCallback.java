@@ -36,7 +36,7 @@ public class AccountCallback extends CommandControllerImpl {
         ResponseWaitingMap.remove(UpdateParameter.getChatId(update));
         Integer accountId = null;
         if (update.hasCallbackQuery()) {
-            String[] callbackData = UpdateParameter.getCallbackData(update);
+            String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
             if (callbackData != null) {
                 accountId = Integer.parseInt(callbackData[OPERATION_DATA.getIndex()]);
             }

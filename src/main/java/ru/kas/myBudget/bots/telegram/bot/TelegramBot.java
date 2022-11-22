@@ -96,8 +96,8 @@ public class TelegramBot extends TelegramLongPollingBot {
             }
 
         } else if (update.hasCallbackQuery()) {
-            String[] callbackData = UpdateParameter.getCallbackData(update);
-            onCallbackReceived(update, callbackData);
+
+            onCallbackReceived(update);
         }
     }
 
@@ -105,19 +105,21 @@ public class TelegramBot extends TelegramLongPollingBot {
         commandContainer.retrieve(commandIdentifier).execute(update);
     }
 
-    public void onCallbackReceived(Update update, String[] callbackData) {
+    public void onCallbackReceived(Update update) {
         long messageId = UpdateParameter.getMessageId(update);
         long chatId = UpdateParameter.getChatId(update);
 
-        System.out.println("Call data: " + Arrays.toString(callbackData)); //TODO Add project Logger
         System.out.println("Message id: " + messageId); //TODO Add project Logger
         System.out.println("Chat id: " + chatId); //TODO Add project Logger
 
-        String callbackType = callbackData[TYPE.getIndex()];
-        if (callbackType.equals(NORMAL.getId()))
-            callbackContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
-        else if (callbackType.equals(DIALOG.getId()) && dialogContainer.contains(callbackData[TO.getIndex()]))
-            dialogContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
-        else callbackContainer.retrieve(NO.getName()).execute(update);
+        String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
+        System.out.println("Call data: " + Arrays.toString(callbackData)); //TODO Add project Logger
+        if (callbackData != null && callbackData.length > TO.getIndex()) {
+            String callbackType = callbackData[TYPE.getIndex()];
+            if (callbackType.equals(NORMAL.getId()))
+                callbackContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
+            else if (callbackType.equals(DIALOG.getId()) && dialogContainer.contains(callbackData[TO.getIndex()]))
+                dialogContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
+        } else callbackContainer.retrieve(NO.getName()).execute(update);
     }
 }

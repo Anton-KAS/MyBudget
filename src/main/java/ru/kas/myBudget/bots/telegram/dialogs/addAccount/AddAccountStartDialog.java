@@ -39,12 +39,11 @@ public class AddAccountStartDialog extends DialogImpl {
     @Override
     public boolean commit(Update update) {
         this.chatId = UpdateParameter.getChatId(update);
-        this.callbackData = UpdateParameter.getCallbackData(update);
         DialogsMap.remove(chatId);
+        this.callbackData = UpdateParameter.getCallbackData(update).orElse(null);
 
         if (callbackData == null) return false;
         var dialogSteps = new HashMap<String, String>();
-
         if (callbackData.length <= FROM.getIndex()) return false;
 
         dialogSteps.put(DIALOG_ID.getId(), dialogName.getName());

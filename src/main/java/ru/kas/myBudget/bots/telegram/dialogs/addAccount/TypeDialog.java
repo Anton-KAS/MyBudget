@@ -36,7 +36,7 @@ public class TypeDialog extends DialogImpl {
     public boolean commit(Update update) {
         this.userId = UpdateParameter.getUserId(update);
         this.chatId = UpdateParameter.getUserId(update);
-        String[] callbackData = UpdateParameter.getCallbackData(update);
+        String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
 
         if (callbackData == null || callbackData.length <= CALLBACK_OPERATION_DATA_INDEX.getIndex()) return false;
 

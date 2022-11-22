@@ -1,17 +1,10 @@
 package ru.kas.myBudget.bots.telegram.dialogs;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.kas.myBudget.bots.telegram.callbacks.AccountsCallback;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
-import ru.kas.myBudget.bots.telegram.keyboards.DeleteConfirmDialogKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
-import ru.kas.myBudget.bots.telegram.texts.dialogs.DeleteConfirmDialogText;
-import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
-import ru.kas.myBudget.models.Account;
 import ru.kas.myBudget.services.AccountService;
 import ru.kas.myBudget.services.TelegramUserService;
 
@@ -20,8 +13,6 @@ import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT;
 
 public class DeleteExecuteDialog extends MainDialogImpl{
-    private final static DeleteConfirmDialogKeyboard keyboard = new DeleteConfirmDialogKeyboard();
-    private final static DeleteConfirmDialogText messageText = new DeleteConfirmDialogText();
 
     private final CallbackContainer callbackContainer;
     private final AccountService accountService;
@@ -36,9 +27,9 @@ public class DeleteExecuteDialog extends MainDialogImpl{
     @Override
     public void execute(Update update) {
         long chatId = UpdateParameter.getChatId(update);
-        String[] callbackData = UpdateParameter.getCallbackData(update);
         ResponseWaitingMap.remove(chatId);
         DialogsMap.remove(chatId);
+        String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
         if (callbackData != null && callbackData.length > OPERATION_DATA.getIndex()
                 && callbackData[OPERATION.getIndex()].equals("delete")) {
             if (callbackData[FROM.getIndex()].equals(EDIT_ACCOUNT.getName())) {

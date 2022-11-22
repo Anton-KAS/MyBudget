@@ -19,7 +19,6 @@ public class AccountKeyboard implements Keyboard {
 
     public String editAccountButtonText;
 
-
     private Integer accountId;
 
     public AccountKeyboard setAccountId(int accountId) {

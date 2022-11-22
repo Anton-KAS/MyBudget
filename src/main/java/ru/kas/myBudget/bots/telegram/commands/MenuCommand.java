@@ -10,8 +10,6 @@ import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
-
 public class MenuCommand extends CommandControllerImpl {
 
     public MenuCommand(BotMessageService botMessageService, TelegramUserService telegramUserService,

@@ -44,7 +44,7 @@ public class CurrencyDialog extends DialogImpl {
     public boolean commit(Update update) {
         this.userId = UpdateParameter.getUserId(update);
         this.chatId = UpdateParameter.getUserId(update);
-        String[] callbackData = UpdateParameter.getCallbackData(update);
+        String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
 
         if (callbackData == null ||
                 (update.hasCallbackQuery() &&
@@ -69,7 +69,7 @@ public class CurrencyDialog extends DialogImpl {
     }
 
     private void setKeyboardPage(Update update) {
-        String[] callbackData = UpdateParameter.getCallbackData(update);
+        String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
         int page;
         if (update.hasCallbackQuery() && callbackData != null && callbackData.length > PAGE_INDEX
                 && callbackData[PAGE_INDEX - 1].equals(PAGE.getId())) {

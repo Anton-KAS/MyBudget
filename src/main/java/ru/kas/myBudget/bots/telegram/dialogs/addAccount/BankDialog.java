@@ -39,7 +39,7 @@ public class BankDialog extends DialogImpl {
     public boolean commit(Update update) {
         this.userId = UpdateParameter.getUserId(update);
         this.chatId = UpdateParameter.getChatId(update);
-        String[] callbackData = UpdateParameter.getCallbackData(update);
+        String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
 
         Integer bankId;
         if (callbackData != null && callbackData.length > CALLBACK_OPERATION_DATA_INDEX.getIndex())

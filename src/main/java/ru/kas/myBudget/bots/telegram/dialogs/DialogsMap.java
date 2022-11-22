@@ -13,11 +13,6 @@ public class DialogsMap {
         if (dialogsMap == null) dialogsMap = new HashMap<>();
     }
 
-    public static Map<Long, Map<String, String>> getDialogsMap() {
-        checkInstanceMap();
-        return dialogsMap;
-    }
-
     public static Map<String, String> getDialogMap(long chatId) {
         checkInstanceMap();
         return dialogsMap.get(chatId);

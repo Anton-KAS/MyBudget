@@ -32,7 +32,7 @@ public class AddAccountDialog extends MainDialogImpl {
 
         Integer currentStep;
         int lastStep;
-        String[] callbackData = UpdateParameter.getCallbackData(update);
+        String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
         String messageText = UpdateParameter.getMessageText(update);
 
         if (DialogsMap.getDialogMap(chatId) == null || (callbackData != null &&
@@ -65,7 +65,7 @@ public class AddAccountDialog extends MainDialogImpl {
     private int skipOrCommit(Update update, Integer currentStep, int lastStep) {
         if (currentStep == null) return lastStep;
 
-        String[] callbackData = UpdateParameter.getCallbackData(update);
+        String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
         if (update.hasCallbackQuery() && callbackData != null &&
                 callbackData.length > CALLBACK_OPERATION_DATA_INDEX.getIndex() &&
                 callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()].equals(NEXT.getId())) {
