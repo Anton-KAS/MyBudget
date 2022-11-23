@@ -2,10 +2,9 @@ package ru.kas.myBudget.bots.telegram.dialogs;
 
 import com.google.common.collect.ImmutableMap;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
-import ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountContainer;
-import ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.editAccount.EditAccountContainer;
-import ru.kas.myBudget.bots.telegram.dialogs.editAccount.EditAccountDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountContainer;
+import ru.kas.myBudget.bots.telegram.dialogs.account.AccountDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.account.editAccount.EditAccountContainer;
 import ru.kas.myBudget.bots.telegram.keyboards.callback.NoKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.callback.NoText;
@@ -32,9 +31,9 @@ public class DialogContainer implements Container {
 
         dialogMap = ImmutableMap.<String, CommandController>builder()
                 .put(ADD_ACCOUNT.getName(),
-                        new AddAccountDialog(botMessageService, telegramUserService, addAccountContainer))
+                        new AccountDialog(botMessageService, telegramUserService, addAccountContainer))
                 .put(EDIT_ACCOUNT.getName(),
-                        new EditAccountDialog(botMessageService, telegramUserService, editAccountContainer))
+                        new AccountDialog(botMessageService, telegramUserService, editAccountContainer))
                 .put(DELETE_CONFIRM.getName(),
                         new DeleteConfirmDialog(botMessageService, telegramUserService))
                 .put(DELETE_EXECUTE.getName(),

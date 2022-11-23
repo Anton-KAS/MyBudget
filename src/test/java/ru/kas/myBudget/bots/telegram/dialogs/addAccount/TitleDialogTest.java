@@ -7,19 +7,20 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
-import ru.kas.myBudget.bots.telegram.dialogs.CommandDialogNames;
-import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.account.TitleDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
+import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
-import ru.kas.myBudget.bots.telegram.texts.addAccountDialog.AddAccountText;
+import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.TITLE;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.TitleDialog.VERIFY_EXCEPTION_TEXT;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.TitleDialog.MAX_TITLE_LENGTH;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.TitleDialog.MIN_TITLE_LENGTH;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.TITLE;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.TitleDialog.VERIFY_EXCEPTION_TEXT;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.TitleDialog.MAX_TITLE_LENGTH;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.TitleDialog.MIN_TITLE_LENGTH;
 
 
 @DisplayName("Unit-level testing for AddAccount.TitleDialog")
@@ -42,7 +43,7 @@ public class TitleDialogTest extends AbstractDialogImplTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AddAccountText.class);
+        return Mockito.mock(AccountText.class);
     }
 
     @Override

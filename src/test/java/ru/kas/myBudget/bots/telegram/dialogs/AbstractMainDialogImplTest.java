@@ -4,11 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.*;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Map;
 
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 
 public abstract class AbstractMainDialogImplTest {
     protected final static long TEST_USER_ID = 123456789L;

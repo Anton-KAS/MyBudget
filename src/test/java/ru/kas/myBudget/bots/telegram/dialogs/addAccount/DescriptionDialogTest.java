@@ -7,18 +7,19 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
-import ru.kas.myBudget.bots.telegram.dialogs.CommandDialogNames;
-import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.account.DescriptionDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
+import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
-import ru.kas.myBudget.bots.telegram.texts.addAccountDialog.AddAccountText;
+import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.DESCRIPTION;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.DescriptionDialog.MAX_DESCRIPTION_LENGTH;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.DescriptionDialog.VERIFY_EXCEPTION_TEXT;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.DESCRIPTION;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.DescriptionDialog.MAX_DESCRIPTION_LENGTH;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.DescriptionDialog.VERIFY_EXCEPTION_TEXT;
 
 
 @DisplayName("Unit-level testing for AddAccount.DescriptionDialog")
@@ -41,7 +42,7 @@ public class DescriptionDialogTest extends AbstractDialogImplTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AddAccountText.class);
+        return Mockito.mock(AccountText.class);
     }
 
     @Override

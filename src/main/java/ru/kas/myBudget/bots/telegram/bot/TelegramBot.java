@@ -15,8 +15,8 @@ import ru.kas.myBudget.services.*;
 
 import java.util.Arrays;
 
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.*;
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.*;
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.*;
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.*;
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.NO;
 
 @Component

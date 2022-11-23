@@ -93,7 +93,7 @@ public class UpdateParameterTest {
     @MethodSource("sourceCallbackData")
     public void ShouldPropertyExtractCallbackData(Update update, String[] expectedText) {
         //when
-        String[] dataResult = UpdateParameter.getCallbackData(update);
+        String[] dataResult = UpdateParameter.getCallbackData(update).orElse(null);
 
         //then
         assertArrayEquals(expectedText, dataResult);

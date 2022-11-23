@@ -2,9 +2,9 @@ package ru.kas.myBudget.bots.telegram.keyboards.commands;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl;
-import ru.kas.myBudget.bots.telegram.callbacks.CallbackType;
-import ru.kas.myBudget.bots.telegram.keyboards.InlineKeyboardBuilder;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
+import ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType;
+import ru.kas.myBudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 
 public class MenuKeyboard implements Keyboard {
     public final String FROM = "menu";

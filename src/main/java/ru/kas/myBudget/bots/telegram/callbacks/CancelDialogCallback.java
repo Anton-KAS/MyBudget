@@ -1,8 +1,8 @@
 package ru.kas.myBudget.bots.telegram.callbacks;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
+import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.CommandControllerImpl;
@@ -12,7 +12,8 @@ import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.MENU;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_CALLBACK;
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.TO;
+import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.START_FROM_CALLBACK;
 
 public class CancelDialogCallback extends CommandControllerImpl {
     private final CallbackContainer callbackContainer;
@@ -29,8 +30,17 @@ public class CancelDialogCallback extends CommandControllerImpl {
         super.executeData(update, executeMode);
 
         long chatId = UpdateParameter.getChatId(update);
-        update.getCallbackQuery().setData(DialogsMap.getDialogStepById(chatId, START_FROM_CALLBACK.getId()));
-        callbackContainer.retrieve(MENU.getName()).execute(update);
+        if (update.hasCallbackQuery()) {
+            update.getCallbackQuery().setData(DialogsMap.getDialogStepById(chatId, START_FROM_CALLBACK.getId()));
+            String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
+            String identifier;
+            if (callbackData != null) {
+                identifier = callbackData[TO.ordinal()];
+            } else {
+                identifier = MENU.getName();
+            }
+            callbackContainer.retrieve(identifier).execute(update);
+        }
         ResponseWaitingMap.remove(chatId);
         DialogsMap.remove(chatId);
     }

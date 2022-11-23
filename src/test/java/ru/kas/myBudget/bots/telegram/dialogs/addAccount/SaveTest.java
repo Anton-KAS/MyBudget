@@ -7,10 +7,11 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
-import ru.kas.myBudget.bots.telegram.dialogs.CommandDialogNames;
-import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountSaveDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
+import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
-import ru.kas.myBudget.bots.telegram.texts.addAccountDialog.AddAccountText;
+import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import ru.kas.myBudget.models.*;
 import ru.kas.myBudget.services.AccountService;
 import ru.kas.myBudget.services.AccountTypeService;
@@ -21,7 +22,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Optional;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 
 @DisplayName("Unit-level testing for AddAccount.SaveDialog")
 public class SaveTest extends AbstractDialogImplTest {
@@ -89,7 +90,7 @@ public class SaveTest extends AbstractDialogImplTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AddAccountText.class);
+        return Mockito.mock(AccountText.class);
     }
 
     @Test

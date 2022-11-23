@@ -2,17 +2,19 @@ package ru.kas.myBudget.bots.telegram.dialogs;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
+import ru.kas.myBudget.bots.telegram.dialogs.util.MainDialogImpl;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
+import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.AccountService;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.*;
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.*;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT;
 
-public class DeleteExecuteDialog extends MainDialogImpl{
+public class DeleteExecuteDialog extends MainDialogImpl {
 
     private final CallbackContainer callbackContainer;
     private final AccountService accountService;

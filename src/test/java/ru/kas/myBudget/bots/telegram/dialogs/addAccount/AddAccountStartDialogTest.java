@@ -8,14 +8,17 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.*;
+import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountStartDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
+import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
-import ru.kas.myBudget.bots.telegram.texts.addAccountDialog.AddAccountText;
+import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 
 @DisplayName("Unit-level testing for AddAccount.SaveDialog")
 public class AddAccountStartDialogTest extends AbstractDialogImplTest {
@@ -41,7 +44,7 @@ public class AddAccountStartDialogTest extends AbstractDialogImplTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AddAccountText.class);
+        return Mockito.mock(AccountText.class);
     }
 
     @ParameterizedTest

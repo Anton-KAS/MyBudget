@@ -8,10 +8,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
-import ru.kas.myBudget.bots.telegram.dialogs.CommandDialogNames;
-import ru.kas.myBudget.bots.telegram.dialogs.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.account.StartBalanceDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
+import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
-import ru.kas.myBudget.bots.telegram.texts.addAccountDialog.AddAccountText;
+import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.models.Currency;
 import ru.kas.myBudget.services.CurrencyService;
@@ -20,9 +21,9 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.CURRENCY;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.START_BALANCE;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.StartBalanceDialog.VERIFY_EXCEPTION_TEXT;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.CURRENCY;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.START_BALANCE;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.StartBalanceDialog.VERIFY_EXCEPTION_TEXT;
 
 
 @DisplayName("Unit-level testing for AddAccount.StartBalanceDialog")
@@ -49,7 +50,7 @@ public class StartBalanceDialogTest extends AbstractDialogImplTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AddAccountText.class);
+        return Mockito.mock(AccountText.class);
     }
 
     @Override

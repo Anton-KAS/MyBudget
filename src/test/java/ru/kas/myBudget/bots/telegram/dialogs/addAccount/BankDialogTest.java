@@ -8,9 +8,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.*;
-import ru.kas.myBudget.bots.telegram.keyboards.addAccountDialog.BanksKeyboard;
+import ru.kas.myBudget.bots.telegram.dialogs.account.BankDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
+import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
+import ru.kas.myBudget.bots.telegram.keyboards.AccountDialog.BanksKeyboard;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
-import ru.kas.myBudget.bots.telegram.texts.addAccountDialog.AddAccountText;
+import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import ru.kas.myBudget.models.Bank;
 import ru.kas.myBudget.models.Country;
 import ru.kas.myBudget.services.BankService;
@@ -19,8 +22,8 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.BANK;
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.BANK;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 
@@ -63,7 +66,7 @@ public class BankDialogTest extends AbstractDialogImplTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AddAccountText.class);
+        return Mockito.mock(AccountText.class);
     }
 
     @Override

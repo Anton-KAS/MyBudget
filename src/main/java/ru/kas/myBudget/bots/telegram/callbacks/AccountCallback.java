@@ -1,7 +1,7 @@
 package ru.kas.myBudget.bots.telegram.callbacks;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.callback.AccountKeyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.callback.NoKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
@@ -16,8 +16,8 @@ import ru.kas.myBudget.models.TelegramUser;
 import ru.kas.myBudget.services.AccountService;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.OPERATION_DATA;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.EDIT_NUM;
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.OPERATION_DATA;
+import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogPattern.EDIT_NUM;
 
 public class AccountCallback extends CommandControllerImpl {
     private final AccountText accountText = (AccountText) messageText;

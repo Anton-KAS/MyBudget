@@ -1,13 +1,13 @@
 package ru.kas.myBudget.bots.telegram.keyboards.callback;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.kas.myBudget.bots.telegram.keyboards.InlineKeyboardBuilder;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNTS;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.MENU;
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.START;
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.START;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 public class AccountsKeyboard implements Keyboard {
