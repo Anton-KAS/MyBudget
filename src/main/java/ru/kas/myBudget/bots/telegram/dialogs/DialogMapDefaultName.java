@@ -5,11 +5,12 @@ public enum DialogMapDefaultName {
     LAST_STEP("lastStep"),
     DIALOG_ID("dialogId"),
     START_FROM_ID("startFromId"),
-    START_FROM_DATA("startFromData"),
+    START_FROM_CALLBACK("startFromData"),
     EDIT_ID("editId"),
     NEXT("next"),
-    PAGE("tpPage"),
-    CASH_ID("1");
+    PAGE("toPage"),
+    CAN_SAVE("canSave"),
+    CASH_ID("1"); // TODO: replace it
 
     private final String id;
 

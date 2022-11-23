@@ -14,8 +14,8 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Optional;
 
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.OPERATION_DATA;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.CALLBACK_OPERATION_DATA_INDEX;
 
 public class BankDialog extends DialogImpl {
     private final BankService bankService;
@@ -42,8 +42,8 @@ public class BankDialog extends DialogImpl {
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
 
         Integer bankId;
-        if (callbackData != null && callbackData.length > CALLBACK_OPERATION_DATA_INDEX.getIndex())
-            bankId = Integer.parseInt(callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
+        if (callbackData != null && callbackData.length > OPERATION_DATA.ordinal())
+            bankId = Integer.parseInt(callbackData[OPERATION_DATA.ordinal()]);
         else return false;
 
         Optional<Bank> bank = bankService.findById(bankId);

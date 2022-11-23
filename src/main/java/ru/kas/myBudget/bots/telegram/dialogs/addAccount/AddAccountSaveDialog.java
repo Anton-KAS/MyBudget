@@ -16,7 +16,7 @@ import ru.kas.myBudget.services.*;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_DATA;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_CALLBACK;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_ID;
 
@@ -64,7 +64,7 @@ public class AddAccountSaveDialog extends DialogImpl {
         botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
                 messageText.setUserId(userId).getText(), keyboard.getKeyboard());
         String fromStartId = dialogMap.get(START_FROM_ID.getId());
-        update.getCallbackQuery().setData(DialogsMap.getDialogStepById(chatId, START_FROM_DATA.getId()));
+        update.getCallbackQuery().setData(DialogsMap.getDialogStepById(chatId, START_FROM_CALLBACK.getId()));
         DialogsMap.remove(chatId);
         ResponseWaitingMap.remove(chatId);
         if (fromStartId != null) callbackContainer.retrieve(fromStartId).execute(update, ExecuteMode.SEND);

@@ -10,14 +10,14 @@ import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.FIRST_STEP_INDEX;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.CONFIRM;
 
 public abstract class DialogImpl implements Dialog {
     protected final BotMessageService botMessageService;
     protected final TelegramUserService telegramUserService;
     protected final MessageText messageText;
     protected Keyboard keyboard;
-    //protected final DialogsMap dialogsMap;
 
     protected Long userId;
     protected Long chatId;
@@ -34,7 +34,6 @@ public abstract class DialogImpl implements Dialog {
         this.telegramUserService = telegramUserService;
         this.messageText = messageText;
         this.keyboard = keyboard;
-        //this.dialogsMap = dialogsMap;
         this.askText = askText;
     }
 
@@ -87,11 +86,14 @@ public abstract class DialogImpl implements Dialog {
     public void addToDialogMap(long chatId, CommandDialogNames name, String stringId, String text) {
         DialogsMap.put(chatId, name.getName(), stringId);
         DialogsMap.put(chatId, name.getStepIdText(), text);
+        if (DialogsMap.getDialogMapById(chatId).get(LAST_STEP.getId()).equals(String.valueOf(CONFIRM.ordinal()))) {
+            DialogsMap.getDialogMapById(chatId).replace(CAN_SAVE.getId(), "true");
+        }
     }
 
     @Override
     public ExecuteMode getExecuteMode(Update update, Integer dialogStep) {
-        if (update.hasCallbackQuery() && dialogStep != null && dialogStep > FIRST_STEP_INDEX.getIndex()) {
+        if (update.hasCallbackQuery() && dialogStep != null && dialogStep > FIRST_STEP_INDEX.ordinal()) {
             return ExecuteMode.EDIT;
         }
         return ExecuteMode.SEND;

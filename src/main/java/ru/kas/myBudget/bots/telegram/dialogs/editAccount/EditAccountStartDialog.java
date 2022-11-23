@@ -17,10 +17,10 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Map;
 
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.OPERATION_DATA;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNTS;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.NORMAL;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.CALLBACK_OPERATION_DATA_INDEX;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
@@ -45,16 +45,17 @@ public class EditAccountStartDialog extends AddAccountStartDialog {
 
         Map<String, String> dialogMap = DialogsMap.getDialogMapById(chatId);
 
-        if (callbackData.length <= CALLBACK_OPERATION_DATA_INDEX.getIndex()) return false;
-        int accountId = Integer.parseInt(callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
+        if (callbackData.length <= OPERATION_DATA.ordinal()) return false;
+        int accountId = Integer.parseInt(callbackData[OPERATION_DATA.ordinal()]);
 
         Account account = accountService.findById(accountId).orElse(null);
         if (account == null) return false;
 
-        dialogMap.replace(START_FROM_DATA.getId(),
+        dialogMap.replace(START_FROM_CALLBACK.getId(),
                 String.format("%s_%s_%s_%s_%s", NORMAL.getId(), ACCOUNTS.getName(), ACCOUNT.getName(), "show", accountId));
         dialogMap.replace(CURRENT_DIALOG_STEP.getId(), String.valueOf(CONFIRM.ordinal() - 1));
         dialogMap.replace(LAST_STEP.getId(), String.valueOf(CONFIRM.ordinal() - 1));
+        dialogMap.replace(CAN_SAVE.getId(), "true");
         dialogMap.put(EDIT_ID.getId(), String.valueOf(accountId));
 
         Bank bank = account.getBank();

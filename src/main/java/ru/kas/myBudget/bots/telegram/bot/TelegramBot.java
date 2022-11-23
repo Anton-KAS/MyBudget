@@ -118,17 +118,17 @@ public class TelegramBot extends TelegramLongPollingBot {
 
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
         System.out.println("Call data: " + Arrays.toString(callbackData)); //TODO Add project Logger
-        if (callbackData == null || callbackData.length <= TO.getIndex()) {
+        if (callbackData == null || callbackData.length <= TO.ordinal()) {
             callbackContainer.retrieve(NO.getName()).execute(update);
             return;
         }
-        String callbackType = callbackData[TYPE.getIndex()];
+        String callbackType = callbackData[TYPE.ordinal()];
         if (callbackType.equals(NORMAL.getId())) {
-            callbackContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
+            callbackContainer.retrieve(callbackData[TO.ordinal()]).execute(update);
             return;
         }
-        if (callbackType.equals(DIALOG.getId()) && dialogContainer.contains(callbackData[TO.getIndex()])) {
-            dialogContainer.retrieve(callbackData[TO.getIndex()]).execute(update);
+        if (callbackType.equals(DIALOG.getId()) && dialogContainer.contains(callbackData[TO.ordinal()])) {
+            dialogContainer.retrieve(callbackData[TO.ordinal()]).execute(update);
             return;
         }
         callbackContainer.retrieve(NO.getName()).execute(update);

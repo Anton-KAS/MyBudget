@@ -23,8 +23,8 @@ public class AddAccountConfirmDialog extends DialogImpl {
     @Override
     public boolean commit(Update update) {
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
-        if (callbackData == null || callbackData.length <= OPERATION_DATA.getIndex()
-                || !callbackData[OPERATION_DATA.getIndex()].equals("save")) {
+        if (callbackData == null || callbackData.length <= OPERATION_DATA.ordinal()
+                || !callbackData[OPERATION_DATA.ordinal()].equals("save")) {
             botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
                     VERIFY_EXCEPTION_TEXT, null);
             return false;

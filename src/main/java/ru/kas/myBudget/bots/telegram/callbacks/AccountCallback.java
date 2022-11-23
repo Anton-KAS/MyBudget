@@ -38,7 +38,7 @@ public class AccountCallback extends CommandControllerImpl {
         if (update.hasCallbackQuery()) {
             String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
             if (callbackData != null) {
-                accountId = Integer.parseInt(callbackData[OPERATION_DATA.getIndex()]);
+                accountId = Integer.parseInt(callbackData[OPERATION_DATA.ordinal()]);
             }
         } else {
             String textData = UpdateParameter.getMessageText(update);

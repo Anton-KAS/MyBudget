@@ -93,24 +93,24 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     public static Stream<Arguments> sourceGetExecuteMode() {
         return Stream.of(
                 Arguments.of(getUpdateWithText(TEST_TEXT), null, ExecuteMode.SEND),
-                Arguments.of(getUpdateWithText(TEST_TEXT), FIRST_STEP_INDEX.getIndex(), ExecuteMode.SEND),
-                Arguments.of(getUpdateWithText(TEST_TEXT), FIRST_STEP_INDEX.getIndex() + 1, ExecuteMode.SEND),
+                Arguments.of(getUpdateWithText(TEST_TEXT), FIRST_STEP_INDEX.ordinal(), ExecuteMode.SEND),
+                Arguments.of(getUpdateWithText(TEST_TEXT), FIRST_STEP_INDEX.ordinal() + 1, ExecuteMode.SEND),
 
                 Arguments.of(getUpdateWithText(TEST_COMMAND), null, ExecuteMode.SEND),
-                Arguments.of(getUpdateWithText(TEST_COMMAND), FIRST_STEP_INDEX.getIndex(), ExecuteMode.SEND),
-                Arguments.of(getUpdateWithText(TEST_COMMAND), FIRST_STEP_INDEX.getIndex() + 1, ExecuteMode.SEND),
+                Arguments.of(getUpdateWithText(TEST_COMMAND), FIRST_STEP_INDEX.ordinal(), ExecuteMode.SEND),
+                Arguments.of(getUpdateWithText(TEST_COMMAND), FIRST_STEP_INDEX.ordinal() + 1, ExecuteMode.SEND),
 
                 Arguments.of(getCallbackUpdateWithData(TEST_TEXT), null, ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_TEXT), FIRST_STEP_INDEX.getIndex(), ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_TEXT), FIRST_STEP_INDEX.getIndex() + 1, ExecuteMode.EDIT),
+                Arguments.of(getCallbackUpdateWithData(TEST_TEXT), FIRST_STEP_INDEX.ordinal(), ExecuteMode.SEND),
+                Arguments.of(getCallbackUpdateWithData(TEST_TEXT), FIRST_STEP_INDEX.ordinal() + 1, ExecuteMode.EDIT),
 
                 Arguments.of(getCallbackUpdateWithData(TEST_COMMAND), null, ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_COMMAND), FIRST_STEP_INDEX.getIndex(), ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_COMMAND), FIRST_STEP_INDEX.getIndex() + 1, ExecuteMode.EDIT),
+                Arguments.of(getCallbackUpdateWithData(TEST_COMMAND), FIRST_STEP_INDEX.ordinal(), ExecuteMode.SEND),
+                Arguments.of(getCallbackUpdateWithData(TEST_COMMAND), FIRST_STEP_INDEX.ordinal() + 1, ExecuteMode.EDIT),
 
                 Arguments.of(getCallbackUpdateWithData(TEST_DATA), null, ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_DATA), FIRST_STEP_INDEX.getIndex(), ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_DATA), FIRST_STEP_INDEX.getIndex() + 1, ExecuteMode.EDIT)
+                Arguments.of(getCallbackUpdateWithData(TEST_DATA), FIRST_STEP_INDEX.ordinal(), ExecuteMode.SEND),
+                Arguments.of(getCallbackUpdateWithData(TEST_DATA), FIRST_STEP_INDEX.ordinal() + 1, ExecuteMode.EDIT)
         );
     }
 

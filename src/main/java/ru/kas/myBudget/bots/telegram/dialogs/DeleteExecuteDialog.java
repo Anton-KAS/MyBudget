@@ -30,11 +30,11 @@ public class DeleteExecuteDialog extends MainDialogImpl{
         ResponseWaitingMap.remove(chatId);
         DialogsMap.remove(chatId);
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
-        if (callbackData != null && callbackData.length > OPERATION_DATA.getIndex()
-                && callbackData[OPERATION.getIndex()].equals("delete")) {
-            if (callbackData[FROM.getIndex()].equals(EDIT_ACCOUNT.getName())) {
+        if (callbackData != null && callbackData.length > OPERATION_DATA.ordinal()
+                && callbackData[OPERATION.ordinal()].equals("delete")) {
+            if (callbackData[FROM.ordinal()].equals(EDIT_ACCOUNT.getName())) {
                 String returnTo = ACCOUNTS.getName();
-                int idToDelete = Integer.parseInt(callbackData[OPERATION_DATA.getIndex()]);
+                int idToDelete = Integer.parseInt(callbackData[OPERATION_DATA.ordinal()]);
                 accountService.deleteById(idToDelete);
                 callbackContainer.retrieve(returnTo).execute(update);
                 return;

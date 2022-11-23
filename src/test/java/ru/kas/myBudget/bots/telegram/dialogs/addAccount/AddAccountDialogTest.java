@@ -118,7 +118,7 @@ public class AddAccountDialogTest extends AbstractMainDialogImplTest {
     private static Stream<Arguments> sourceCommitExecute() {
         //int dialogStep = FIRST_STEP_INDEX.getIndex() + 1;
         List<Arguments> arguments = new ArrayList<>();
-        for (int i = FIRST_STEP_INDEX.getIndex() + 1; i + 1 < AddAccountNames.values().length; i++) {
+        for (int i = FIRST_STEP_INDEX.ordinal() + 1; i + 1 < AddAccountNames.values().length; i++) {
             arguments.add(Arguments.of(getCallbackUpdate(AddAccountNames.values()[i]), i, AddAccountNames.values()[i],
                     addAccountContainerMock.retrieve(AddAccountNames.values()[i].getName()),
                     addAccountContainerMock.retrieve(AddAccountNames.values()[i+1].getName())));

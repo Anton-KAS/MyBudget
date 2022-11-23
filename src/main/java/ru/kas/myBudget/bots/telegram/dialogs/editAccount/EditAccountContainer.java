@@ -11,14 +11,13 @@ import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.addAccountDialog.AddAccountText;
 import ru.kas.myBudget.bots.telegram.texts.addAccountDialog.SaveDialogText;
 import ru.kas.myBudget.bots.telegram.texts.callback.NoText;
-import ru.kas.myBudget.bots.telegram.util.Container;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.*;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
 
-public class EditAccountContainer implements Container {
+public class EditAccountContainer implements DialogStepsContainer {
     private final ImmutableMap<String, Dialog> dialogMap;
     private final Dialog unknownDialog;
 

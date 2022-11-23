@@ -43,7 +43,7 @@ public class DialogContainer implements Container {
 
         unknownDialog = new UnknownDialog(botMessageService, telegramUserService, ExecuteMode.SEND,
                 new NoText(), new NoKeyboard());
-        // TODO: Execute command подумать, может задавать автоматически
+        //TODO: Execute command подумать, может задавать автоматически
     }
 
     @Override

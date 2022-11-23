@@ -11,8 +11,10 @@ import ru.kas.myBudget.models.AccountType;
 import ru.kas.myBudget.services.AccountTypeService;
 import ru.kas.myBudget.services.TelegramUserService;
 
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.OPERATION_DATA;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CASH_ID;
+import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.BANK;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.TYPE;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.CALLBACK_OPERATION_DATA_INDEX;
 
 public class TypeDialog extends DialogImpl {
     private final AccountTypeService accountTypeService;
@@ -38,14 +40,17 @@ public class TypeDialog extends DialogImpl {
         this.chatId = UpdateParameter.getUserId(update);
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
 
-        if (callbackData == null || callbackData.length <= CALLBACK_OPERATION_DATA_INDEX.getIndex()) return false;
+        if (callbackData == null || callbackData.length <= OPERATION_DATA.ordinal()) return false;
 
-        int accountTypeId = Integer.parseInt(callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
+        int accountTypeId = Integer.parseInt(callbackData[OPERATION_DATA.ordinal()]);
         AccountType accountType = accountTypeService.findById(accountTypeId).orElse(null);
         if (accountType == null) return false;
 
         addToDialogMap(chatId, TYPE, String.valueOf(accountTypeId),
                 String.format(TYPE.getStepTextPattern(), "%s", accountType.getTitleRu()));
+        if (String.valueOf(accountTypeId).equals(CASH_ID.getId())) {
+            addToDialogMap(chatId, BANK, null, null);
+        }
         telegramUserService.checkUser(telegramUserService, update);
         return true;
     }

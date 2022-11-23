@@ -44,13 +44,14 @@ public class AddAccountStartDialog extends DialogImpl {
 
         if (callbackData == null) return false;
         var dialogSteps = new HashMap<String, String>();
-        if (callbackData.length <= FROM.getIndex()) return false;
+        if (callbackData.length <= FROM.ordinal()) return false;
 
         dialogSteps.put(DIALOG_ID.getId(), dialogName.getName());
-        dialogSteps.put(START_FROM_ID.getId(), callbackData[FROM.getIndex()]);
-        dialogSteps.put(START_FROM_DATA.getId(), String.format("%s_%s_%s", NORMAL.getId(), MENU.getName(), callbackData[FROM.getIndex()]));
-        dialogSteps.put(CURRENT_DIALOG_STEP.getId(), String.valueOf(FIRST_STEP_INDEX.getIndex()));
-        dialogSteps.put(LAST_STEP.getId(), String.valueOf(FIRST_STEP_INDEX.getIndex()));
+        dialogSteps.put(START_FROM_ID.getId(), callbackData[FROM.ordinal()]);
+        dialogSteps.put(START_FROM_CALLBACK.getId(), String.format("%s_%s_%s", NORMAL.getId(), MENU.getName(), callbackData[FROM.ordinal()]));
+        dialogSteps.put(CURRENT_DIALOG_STEP.getId(), String.valueOf(FIRST_STEP_INDEX.ordinal()));
+        dialogSteps.put(LAST_STEP.getId(), String.valueOf(FIRST_STEP_INDEX.ordinal()));
+        dialogSteps.put(CAN_SAVE.getId(), "false");
 
         DialogsMap.putDialogMap(chatId, dialogSteps);
         ResponseWaitingMap.put(chatId, ADD_ACCOUNT);

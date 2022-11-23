@@ -12,7 +12,7 @@ import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.MENU;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_DATA;
+import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.START_FROM_CALLBACK;
 
 public class CancelDialogCallback extends CommandControllerImpl {
     private final CallbackContainer callbackContainer;
@@ -29,7 +29,7 @@ public class CancelDialogCallback extends CommandControllerImpl {
         super.executeData(update, executeMode);
 
         long chatId = UpdateParameter.getChatId(update);
-        update.getCallbackQuery().setData(DialogsMap.getDialogStepById(chatId, START_FROM_DATA.getId()));
+        update.getCallbackQuery().setData(DialogsMap.getDialogStepById(chatId, START_FROM_CALLBACK.getId()));
         callbackContainer.retrieve(MENU.getName()).execute(update);
         ResponseWaitingMap.remove(chatId);
         DialogsMap.remove(chatId);

@@ -14,8 +14,8 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Optional;
 
+import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.OPERATION_DATA;
 import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.*;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.CALLBACK_OPERATION_DATA_INDEX;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.PAGE;
 
 public class CurrencyDialog extends DialogImpl {
@@ -53,8 +53,8 @@ public class CurrencyDialog extends DialogImpl {
             return false;
 
         int currencyId;
-        if (callbackData.length > CALLBACK_OPERATION_DATA_INDEX.getIndex())
-            currencyId = Integer.parseInt(callbackData[CALLBACK_OPERATION_DATA_INDEX.getIndex()]);
+        if (callbackData.length > OPERATION_DATA.ordinal())
+            currencyId = Integer.parseInt(callbackData[OPERATION_DATA.ordinal()]);
         else return false;
 
         Optional<Currency> currency = currencyService.findById(currencyId);
