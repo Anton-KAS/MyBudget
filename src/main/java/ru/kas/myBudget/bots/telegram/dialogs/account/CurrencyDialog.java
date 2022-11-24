@@ -18,6 +18,11 @@ import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.OPERATI
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.PAGE;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class CurrencyDialog extends DialogImpl {
     private final CurrencyService currencyService;
     private final static int PAGE_INDEX = 5;

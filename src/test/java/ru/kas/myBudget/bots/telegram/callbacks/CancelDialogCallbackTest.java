@@ -12,6 +12,11 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.ACCOUNTS;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for CancelDialogCallback")
 public class CancelDialogCallbackTest extends AbstractCommandControllerTest {
     private final static CallbackContainer callbackContainerMock = Mockito.mock(CallbackContainer.class);

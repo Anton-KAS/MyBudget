@@ -1,5 +1,10 @@
 package ru.kas.myBudget.bots.telegram.dialogs.util;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public enum DialogMapDefaultName {
     CURRENT_DIALOG_STEP("currentStep"),
     LAST_STEP("lastStep"),

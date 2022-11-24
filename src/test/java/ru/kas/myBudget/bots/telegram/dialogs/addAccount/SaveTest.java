@@ -24,6 +24,11 @@ import java.util.Optional;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for AddAccount.SaveDialog")
 public class SaveTest extends AbstractDialogImplTest {
     private final static int TEST_CURRENCY_ID = 11111;

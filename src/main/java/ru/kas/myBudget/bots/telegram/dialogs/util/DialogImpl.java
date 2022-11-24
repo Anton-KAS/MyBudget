@@ -13,6 +13,11 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.CONFIRM;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public abstract class DialogImpl implements Dialog {
     protected final BotMessageService botMessageService;
     protected final TelegramUserService telegramUserService;

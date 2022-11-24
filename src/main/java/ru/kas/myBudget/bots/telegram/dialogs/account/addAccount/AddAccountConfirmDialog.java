@@ -6,6 +6,11 @@ import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class AddAccountConfirmDialog extends ConfirmDialog {
 
     public AddAccountConfirmDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,

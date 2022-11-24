@@ -2,8 +2,6 @@ package ru.kas.myBudget.bots.telegram.dialogs.account;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
-import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountSaveDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.account.editAccount.EditAccountSaveDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.util.DialogImpl;
 import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
@@ -19,6 +17,11 @@ import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.START_FROM_CALLBACK;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.START_FROM_ID;
+
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
 
 public abstract class SaveDialog extends DialogImpl {
     protected final CallbackContainer callbackContainer;

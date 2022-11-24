@@ -8,6 +8,11 @@ import ru.kas.myBudget.services.AccountTypeService;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.TYPE;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class TypeKeyboard extends DialogKeyboardImpl {
     private AccountTypeService accountTypeService;
     private final static String TEXT_BUTTON_PATTERN = "%s";

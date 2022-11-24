@@ -9,6 +9,11 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class DescriptionDialog extends DialogImpl {
     public final static int MAX_DESCRIPTION_LENGTH = 100;
     private final static String ASK_TEXT = "Введите описание счета:";

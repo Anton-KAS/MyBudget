@@ -14,6 +14,11 @@ import ru.kas.myBudget.services.*;
 
 import java.math.BigDecimal;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class AddAccountSaveDialog extends SaveDialog {
     public AddAccountSaveDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
                                 MessageText messageText, Keyboard keyboard, CallbackContainer callbackContainer,

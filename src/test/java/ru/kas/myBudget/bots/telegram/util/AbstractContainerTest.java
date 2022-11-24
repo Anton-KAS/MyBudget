@@ -12,6 +12,11 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Arrays;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 abstract public class AbstractContainerTest {
     protected Container container;
     protected CommandNames[] commandNames;

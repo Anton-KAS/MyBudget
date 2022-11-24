@@ -9,6 +9,11 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class TitleDialog extends DialogImpl {
     public final static int MIN_TITLE_LENGTH = 2;
     public final static int MAX_TITLE_LENGTH = 30;

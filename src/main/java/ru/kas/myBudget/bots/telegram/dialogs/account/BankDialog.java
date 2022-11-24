@@ -16,6 +16,11 @@ import java.util.Optional;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.OPERATION_DATA;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class BankDialog extends DialogImpl {
     private final BankService bankService;
     private final static String ASK_TEXT = "Выберете банк счета:";

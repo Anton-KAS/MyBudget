@@ -6,6 +6,11 @@ import ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType;
 import ru.kas.myBudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
 import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class MenuKeyboard implements Keyboard {
     public final String FROM = "menu";
     public final String ACCOUNTS_BUTTON_TEXT = "Счета";

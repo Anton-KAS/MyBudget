@@ -25,6 +25,11 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class EditAccountStartDialog extends StartDialog {
     private final AccountService accountService;
 

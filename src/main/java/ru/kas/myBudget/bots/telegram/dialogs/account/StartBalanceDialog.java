@@ -20,6 +20,11 @@ import java.util.Optional;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogPattern.CURRENCY_AMOUNT;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class StartBalanceDialog extends DialogImpl {
     protected final CurrencyService currencyService;
     protected final static String ASK_TEXT = "Введите текущий баланс счета:";

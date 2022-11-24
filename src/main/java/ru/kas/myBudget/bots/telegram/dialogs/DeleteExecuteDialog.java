@@ -14,6 +14,11 @@ import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.*;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class DeleteExecuteDialog extends MainDialogImpl {
 
     private final CallbackContainer callbackContainer;

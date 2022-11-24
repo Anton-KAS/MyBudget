@@ -5,6 +5,11 @@ import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.*;
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.STAT;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class HelpText implements MessageText {
 
     @Override

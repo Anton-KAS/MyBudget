@@ -7,6 +7,11 @@ import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public abstract class CommandControllerImpl implements CommandController{
     protected final BotMessageService botMessageService;
     protected final TelegramUserService telegramUserService;

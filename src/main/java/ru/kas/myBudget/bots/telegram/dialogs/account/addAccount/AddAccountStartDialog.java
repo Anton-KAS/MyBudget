@@ -18,6 +18,11 @@ import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.NORMAL;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_INDEX;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class AddAccountStartDialog extends StartDialog {
 
     public AddAccountStartDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,

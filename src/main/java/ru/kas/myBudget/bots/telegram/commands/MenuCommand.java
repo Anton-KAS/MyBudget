@@ -10,6 +10,11 @@ import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.1
+ * @author Anton Komrachkov
+ */
+
 public class MenuCommand extends CommandControllerImpl {
 
     public MenuCommand(BotMessageService botMessageService, TelegramUserService telegramUserService,

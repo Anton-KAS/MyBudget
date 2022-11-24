@@ -10,6 +10,11 @@ import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.START;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class AccountKeyboard implements Keyboard {
     public final static String FROM = ACCOUNT.getName();
     public final static String RETURN_TO = ACCOUNTS.getName();

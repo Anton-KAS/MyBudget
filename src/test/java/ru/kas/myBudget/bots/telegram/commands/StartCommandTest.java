@@ -9,6 +9,11 @@ import ru.kas.myBudget.bots.telegram.util.CommandController;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.START;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for StartCommand")
 public class StartCommandTest extends AbstractCommandControllerTest {
     @Override

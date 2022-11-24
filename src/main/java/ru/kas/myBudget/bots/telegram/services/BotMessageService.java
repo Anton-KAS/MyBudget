@@ -7,6 +7,11 @@ import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public interface BotMessageService {
 
     Integer executeMessage(ExecuteMode executeMode, long chatId, Integer messageId, String message,

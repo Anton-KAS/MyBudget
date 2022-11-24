@@ -11,6 +11,11 @@ import java.util.List;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.BANK;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class BanksKeyboard extends DialogKeyboardImpl {
     private BankService bankService;
     private final static String TEXT_BUTTON_PATTERN = "%s (%s)";

@@ -5,6 +5,11 @@ import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public abstract class DialogKeyboardImpl implements DialogKeyboard {
     protected String currentDialogName;
     protected Long userId;

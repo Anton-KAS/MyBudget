@@ -20,6 +20,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_INDEX;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public abstract class AbstractDialogImplTest extends AbstractCommandControllerTest {
     protected final static String TEST_DIALOG_STEP_ID = "3";
     protected final static int TEST_MESSAGE_ID = 123;

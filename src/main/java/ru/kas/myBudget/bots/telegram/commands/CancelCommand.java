@@ -11,6 +11,11 @@ import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class CancelCommand extends CommandControllerImpl {
 
     public CancelCommand(BotMessageService botMessageService, TelegramUserService telegramUserService,

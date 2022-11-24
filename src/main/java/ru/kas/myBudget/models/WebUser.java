@@ -9,6 +9,11 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @since 0.1
+ * @author Anton Komrachkov
+ */
+
 @Entity
 @Table(name = "web_user")
 @Getter

@@ -27,6 +27,11 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for AddAccount.AddAccountDialog")
 public class accountDialogTest extends AbstractMainDialogImplTest {
     private final static int TEST_ADD_ID = 666;

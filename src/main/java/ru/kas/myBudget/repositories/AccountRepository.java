@@ -6,6 +6,11 @@ import ru.kas.myBudget.models.Account;
 
 import java.util.Optional;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 

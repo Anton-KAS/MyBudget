@@ -9,6 +9,11 @@ import ru.kas.myBudget.services.WebUserService;
 
 import java.util.Optional;
 
+/**
+ * @since 0.1
+ * @author Anton Komrachkov
+ */
+
 @Component
 public class WebUserValidator implements Validator {
 

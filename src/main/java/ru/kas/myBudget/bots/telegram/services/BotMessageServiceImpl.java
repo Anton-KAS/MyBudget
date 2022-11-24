@@ -21,6 +21,11 @@ import java.util.Optional;
 
 import static ru.kas.myBudget.bots.telegram.util.UpdateParameter.getUserId;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @Service
 public class BotMessageServiceImpl implements BotMessageService {
     private final TelegramBot telegramBot;

@@ -8,6 +8,11 @@ import ru.kas.myBudget.services.TelegramUserService;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class AccountsText implements MessageText {
     private final TelegramUserService telegramUserService;
     private Long userId;

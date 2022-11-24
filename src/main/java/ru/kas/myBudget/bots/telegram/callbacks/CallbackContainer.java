@@ -23,8 +23,8 @@ import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.*;
 /**
  * Контейнер для всех классов по списку {@link CallbackNamesImpl}
  *
+ * @since 0.2
  * @author Anton Komrachkov
- * @version 1.0
  */
 
 public class CallbackContainer implements Container {

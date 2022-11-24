@@ -2,6 +2,11 @@ package ru.kas.myBudget.bots.telegram.dialogs.account;
 
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public enum AccountNames implements CommandDialogNames {
     // Order is important!
     START("start", "<b>Добавление нового счета</b>\n"),

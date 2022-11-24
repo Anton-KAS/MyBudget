@@ -8,6 +8,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @Entity
 @Table(name = "account_type")
 @Getter

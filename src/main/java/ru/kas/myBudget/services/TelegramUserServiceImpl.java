@@ -12,6 +12,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @since 0.1
+ * @author Anton Komrachkov
+ */
+
 @Service
 @Transactional(readOnly = true)
 public class TelegramUserServiceImpl implements TelegramUserService {

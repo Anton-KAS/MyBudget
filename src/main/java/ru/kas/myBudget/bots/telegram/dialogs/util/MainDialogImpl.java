@@ -6,6 +6,11 @@ import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public abstract class MainDialogImpl implements MainDialog {
     protected final BotMessageService botMessageService;
     protected final TelegramUserService telegramUserService;

@@ -18,6 +18,11 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogPattern.EDIT_NUM;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class AccountDialog extends MainDialogImpl {
     private final DialogStepsContainer dialogContainer;
     private long chatId;

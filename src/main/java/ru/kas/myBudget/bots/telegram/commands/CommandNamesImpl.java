@@ -2,6 +2,11 @@ package ru.kas.myBudget.bots.telegram.commands;
 
 import ru.kas.myBudget.bots.telegram.util.CommandNames;
 
+/**
+ * @since 0.1
+ * @author Anton Komrachkov
+ */
+
 public enum CommandNamesImpl implements CommandNames {
     START("/start"),
     HELP("/help"),

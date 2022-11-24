@@ -14,6 +14,11 @@ import ru.kas.myBudget.services.TelegramUserService;
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.OPERATION_DATA;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.CASH_ID;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class TypeDialog extends DialogImpl {
     private final AccountTypeService accountTypeService;
     private final static String ASK_TEXT = "Выберете тип счета:";

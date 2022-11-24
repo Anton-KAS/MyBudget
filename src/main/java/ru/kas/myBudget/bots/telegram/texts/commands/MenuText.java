@@ -6,6 +6,11 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Optional;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class MenuText implements MessageText {
     private final TelegramUserService telegramUserService;
     private Long userId;

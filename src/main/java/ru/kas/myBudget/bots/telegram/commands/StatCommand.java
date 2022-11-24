@@ -10,6 +10,11 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.1
+ * @author Anton Komrachkov
+ */
+
 public class StatCommand extends CommandControllerImpl {
     public StatCommand(BotMessageService botMessageService, TelegramUserService telegramUserService,
                        ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {

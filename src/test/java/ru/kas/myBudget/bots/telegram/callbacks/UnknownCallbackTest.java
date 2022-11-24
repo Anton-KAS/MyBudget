@@ -7,6 +7,11 @@ import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.texts.callback.NoText;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for UnknownCallback")
 public class UnknownCallbackTest extends AbstractCommandControllerTest {
     @Override

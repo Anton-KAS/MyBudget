@@ -26,6 +26,10 @@ import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.TYPE;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
 
 @DisplayName("Unit-level testing for AddAccount.TypeDialog")
 public class TypeDialogTest extends AbstractDialogImplTest {

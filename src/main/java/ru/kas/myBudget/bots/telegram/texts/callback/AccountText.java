@@ -5,6 +5,11 @@ import ru.kas.myBudget.models.Account;
 import ru.kas.myBudget.models.Bank;
 import ru.kas.myBudget.services.AccountService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class AccountText implements MessageText {
     private AccountService accountService;
     private Long userId;

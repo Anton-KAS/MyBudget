@@ -11,6 +11,11 @@ import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public abstract class AbstractMainDialogImplTest {
     protected final static long TEST_USER_ID = 123456789L;
     protected final static long TEST_CHAT_ID = 987654321L;

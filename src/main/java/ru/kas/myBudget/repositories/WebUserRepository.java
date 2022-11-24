@@ -6,6 +6,11 @@ import ru.kas.myBudget.models.WebUser;
 
 import java.util.Optional;
 
+/**
+ * @since 0.1
+ * @author Anton Komrachkov
+ */
+
 @Repository
 public interface WebUserRepository extends JpaRepository<WebUser, Integer> {
     Optional<WebUser> findByUsername (String username);

@@ -2,8 +2,9 @@ package ru.kas.myBudget.bots.telegram.callbacks.util;
 
 /**
  * Операторы для формирования Callback Data (см. {@link CallbackIndex})
+ *
+ * @since 0.2
  * @author Anton Komrachkov
- * @version 1.0
  */
 
 public enum CallbackOperator {

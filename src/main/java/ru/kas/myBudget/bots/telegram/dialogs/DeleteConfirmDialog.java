@@ -10,6 +10,11 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class DeleteConfirmDialog extends MainDialogImpl {
     private final static DeleteConfirmDialogKeyboard keyboard = new DeleteConfirmDialogKeyboard();
     private final static DeleteConfirmDialogText messageText = new DeleteConfirmDialogText();

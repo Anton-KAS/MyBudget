@@ -7,6 +7,11 @@ import ru.kas.myBudget.bots.telegram.util.CommandControllerImpl;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class UnknownCallback extends CommandControllerImpl {
     public UnknownCallback(BotMessageService botMessageService, TelegramUserService telegramUserService,
                            ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {

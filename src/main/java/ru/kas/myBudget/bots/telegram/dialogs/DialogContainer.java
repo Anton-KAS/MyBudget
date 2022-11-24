@@ -15,6 +15,11 @@ import ru.kas.myBudget.services.*;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class DialogContainer implements Container {
     private final ImmutableMap<String, CommandController> dialogMap;
     private final CommandController unknownDialog;

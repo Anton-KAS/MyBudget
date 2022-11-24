@@ -10,6 +10,11 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for UpdateParameter")
 public class UpdateParameterTest {
     private final static String TEST_TEXT = "Test Text";

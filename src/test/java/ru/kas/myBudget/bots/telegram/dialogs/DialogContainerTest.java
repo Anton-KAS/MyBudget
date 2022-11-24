@@ -10,6 +10,11 @@ import ru.kas.myBudget.services.AccountTypeService;
 import ru.kas.myBudget.services.BankService;
 import ru.kas.myBudget.services.CurrencyService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for DialogContainer")
 public class DialogContainerTest extends AbstractContainerTest {
     private final AccountTypeService accountTypeServiceMock = Mockito.mock(AccountTypeService.class);

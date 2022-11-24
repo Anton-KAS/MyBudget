@@ -12,6 +12,11 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.STAT;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for StatCommand")
 public class StatCommandTest extends AbstractCommandControllerTest {
     @Override

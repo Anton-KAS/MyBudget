@@ -14,6 +14,11 @@ import java.util.Optional;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.STOP;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for StopCommand")
 public class StopCommandTest extends AbstractCommandControllerTest {
     @Override

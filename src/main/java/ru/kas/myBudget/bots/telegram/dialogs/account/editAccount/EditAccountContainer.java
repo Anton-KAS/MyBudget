@@ -19,6 +19,11 @@ import ru.kas.myBudget.services.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class EditAccountContainer implements DialogStepsContainer {
     private final ImmutableMap<String, Dialog> dialogMap;
     private final Dialog unknownDialog;

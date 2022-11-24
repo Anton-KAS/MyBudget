@@ -17,8 +17,9 @@ import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
  * <br>Тригеры:
  * <br>- CallbackData содержит ACCOUNTS из списка {@link CallbackNamesImpl}
  * <br>- Текстовая команда ACCOUNTS из списка {@link ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl}
+ *
+ * @since 0.2
  * @author Anton Komrachkov
- * @version 1.0
  */
 
 public class AccountsCallback extends CommandControllerImpl {

@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @Service
 @Transactional(readOnly = true)
 public class CurrencyServiceImpl implements CurrencyService {

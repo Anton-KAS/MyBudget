@@ -1,7 +1,11 @@
 package ru.kas.myBudget.bots.telegram.dialogs.util;
 
-import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.util.Container;
+
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
 
 public interface DialogStepsContainer extends Container {
     Dialog retrieve(String identifier);

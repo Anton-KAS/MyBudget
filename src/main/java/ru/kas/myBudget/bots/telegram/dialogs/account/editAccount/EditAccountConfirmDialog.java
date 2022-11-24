@@ -9,6 +9,11 @@ import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class EditAccountConfirmDialog extends ConfirmDialog {
     private final EditAccountConfirmKeyboard editAccountConfirmKeyboard = (EditAccountConfirmKeyboard) keyboard;
 

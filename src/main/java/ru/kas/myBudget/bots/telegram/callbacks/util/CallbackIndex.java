@@ -5,6 +5,8 @@ package ru.kas.myBudget.bots.telegram.callbacks.util;
  * Порядок в списке важен, при обращении к списку используется {@code .ordinal()}
  * Формат Callback Data:
  * <blockquote><pre>
+ *          [0]_[1]_[2]_[3]_[4]
+ *
  *     1.   TYPE _ FROM _ TO
  *      простой переход по меню
  *     2.   TYPE _ FROM _ TO _ OPERATOR
@@ -30,8 +32,8 @@ package ru.kas.myBudget.bots.telegram.callbacks.util;
  *     OPERATOR_EXTRA_DATA  -   дополнительные данные для выполнения операции
  * </pre></blockquote>
  *
+ * @since 0.2
  * @author Anton Komrachkov
- * @version 1.0
  */
 
 public enum CallbackIndex {

@@ -11,6 +11,11 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.OPERATION_DATA;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public abstract class ConfirmDialog extends DialogImpl {
     protected final static String ASK_TEXT = "Всё готово! Сохранить?";
     protected final static String VERIFY_EXCEPTION_TEXT = "В этом диалоге такая комманда не поддерживается";

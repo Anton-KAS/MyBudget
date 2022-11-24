@@ -4,6 +4,11 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Optional;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class UpdateParameter {
     public static long getUserId(Update update) {
         if (update.hasCallbackQuery()) return update.getCallbackQuery().getFrom().getId();

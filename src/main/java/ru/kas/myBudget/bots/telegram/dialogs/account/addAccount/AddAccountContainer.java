@@ -19,6 +19,11 @@ import ru.kas.myBudget.services.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class AddAccountContainer implements DialogStepsContainer {
     private final ImmutableMap<String, Dialog> dialogMap;
     private final Dialog unknownDialog;

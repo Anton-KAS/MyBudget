@@ -9,6 +9,11 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @Entity
 @Table(name = "currency")
 @Getter

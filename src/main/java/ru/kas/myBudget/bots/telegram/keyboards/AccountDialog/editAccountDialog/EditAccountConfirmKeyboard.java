@@ -9,6 +9,11 @@ import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.ACCOUNTS;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.EDIT_ID;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.CONFIRM;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class EditAccountConfirmKeyboard extends ConfirmKeyboard {
     private final static String RETURN_TO = ACCOUNTS.getName();
     private long chatId;

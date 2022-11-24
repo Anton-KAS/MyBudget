@@ -15,6 +15,15 @@ import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.MENU;
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.TO;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.START_FROM_CALLBACK;
 
+/**
+ * Отмена и сброс диалога и ожидания ввода от пользователя, возврат к стартовой точке меню
+ *
+ * @author Anton Komrachkov
+ * @version 1.0
+ */
+
+
+
 public class CancelDialogCallback extends CommandControllerImpl {
     private final CallbackContainer callbackContainer;
 

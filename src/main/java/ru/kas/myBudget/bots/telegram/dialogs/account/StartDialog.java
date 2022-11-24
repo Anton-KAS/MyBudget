@@ -18,6 +18,11 @@ import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.FROM;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public abstract class StartDialog extends DialogImpl {
     protected final DialogNamesImpl dialogName;
     protected String[] callbackData;

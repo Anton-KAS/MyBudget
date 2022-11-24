@@ -16,6 +16,11 @@ import java.math.BigDecimal;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class EditAccountSaveDialog extends SaveDialog {
 
     public EditAccountSaveDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,

@@ -6,6 +6,11 @@ import ru.kas.myBudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.CONFIRM;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class AddAccountConfirmKeyboard extends ConfirmKeyboard {
 
     public AddAccountConfirmKeyboard(String currentDialogName) {

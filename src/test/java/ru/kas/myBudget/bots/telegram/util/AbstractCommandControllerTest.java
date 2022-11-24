@@ -17,6 +17,11 @@ import ru.kas.myBudget.services.TelegramUserService;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 abstract public class AbstractCommandControllerTest {
     protected static long TEST_USER_ID = 123456789L;
     protected static long TEST_CHAT_ID = 987654321L;

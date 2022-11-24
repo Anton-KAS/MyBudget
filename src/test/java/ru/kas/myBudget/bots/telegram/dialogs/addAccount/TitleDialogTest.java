@@ -22,6 +22,10 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.TitleDialog.VERIFY_E
 import static ru.kas.myBudget.bots.telegram.dialogs.account.TitleDialog.MAX_TITLE_LENGTH;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.TitleDialog.MIN_TITLE_LENGTH;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
 
 @DisplayName("Unit-level testing for AddAccount.TitleDialog")
 public class TitleDialogTest extends AbstractDialogImplTest {

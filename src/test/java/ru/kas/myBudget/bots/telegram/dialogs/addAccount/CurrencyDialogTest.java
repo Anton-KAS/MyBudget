@@ -27,6 +27,10 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.CURRENC
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.PAGE;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
 
 @DisplayName("Unit-level testing for AddAccount.CurrencyDialog")
 public class CurrencyDialogTest extends AbstractDialogImplTest {

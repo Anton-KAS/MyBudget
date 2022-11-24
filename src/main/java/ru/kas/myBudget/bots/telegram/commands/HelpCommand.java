@@ -7,6 +7,11 @@ import ru.kas.myBudget.bots.telegram.util.CommandControllerImpl;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.1
+ * @author Anton Komrachkov
+ */
+
 public class HelpCommand extends CommandControllerImpl {
 
     public HelpCommand(BotMessageService botMessageService, TelegramUserService telegramUserService,

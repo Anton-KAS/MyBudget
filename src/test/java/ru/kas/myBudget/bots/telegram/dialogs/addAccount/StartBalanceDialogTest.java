@@ -25,6 +25,10 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.CURRENC
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.START_BALANCE;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.StartBalanceDialog.VERIFY_EXCEPTION_TEXT;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
 
 @DisplayName("Unit-level testing for AddAccount.StartBalanceDialog")
 public class StartBalanceDialogTest extends AbstractDialogImplTest {

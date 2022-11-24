@@ -10,6 +10,13 @@ import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * Закрытие текущего окна меню (удаление сообщения с меню)
+ *
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class CloseCallback extends CommandControllerImpl {
 
     public CloseCallback(BotMessageService botMessageService, TelegramUserService telegramUserService,

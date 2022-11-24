@@ -14,6 +14,11 @@ import java.util.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.CURRENCY;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class CurrenciesKeyboard extends DialogKeyboardImpl {
     private CurrencyService currencyService;
     private TelegramUserService telegramUserService;

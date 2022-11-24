@@ -16,6 +16,11 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.PA
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.DELETE_CONFIRM;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.DELETE_EXECUTE;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class InlineKeyboardBuilder {
     private List<List<InlineKeyboardButton>> rowsInline;
     private List<InlineKeyboardButton> currentRow;

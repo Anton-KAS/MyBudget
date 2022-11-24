@@ -9,6 +9,11 @@ import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 public class DeleteConfirmDialogKeyboard implements Keyboard {
     private Update update;
 

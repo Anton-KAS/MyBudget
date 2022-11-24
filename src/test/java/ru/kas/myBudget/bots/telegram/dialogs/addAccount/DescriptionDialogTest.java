@@ -21,6 +21,10 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.DESCRIP
 import static ru.kas.myBudget.bots.telegram.dialogs.account.DescriptionDialog.MAX_DESCRIPTION_LENGTH;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.DescriptionDialog.VERIFY_EXCEPTION_TEXT;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
 
 @DisplayName("Unit-level testing for AddAccount.DescriptionDialog")
 public class DescriptionDialogTest extends AbstractDialogImplTest {
