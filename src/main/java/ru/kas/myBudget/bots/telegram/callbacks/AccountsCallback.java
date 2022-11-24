@@ -12,6 +12,15 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
 
+/**
+ * Отправка в Telegram Bot меню с информацией о всех счетах пользователя.
+ * <br>Тригеры:
+ * <br>- CallbackData содержит ACCOUNTS из списка {@link CallbackNamesImpl}
+ * <br>- Текстовая команда ACCOUNTS из списка {@link ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl}
+ * @author Anton Komrachkov
+ * @version 1.0
+ */
+
 public class AccountsCallback extends CommandControllerImpl {
 
     public AccountsCallback(BotMessageService botMessageService, TelegramUserService telegramUserService,

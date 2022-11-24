@@ -20,6 +20,13 @@ import ru.kas.myBudget.services.*;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.*;
 
+/**
+ * Контейнер для всех классов по списку {@link CallbackNamesImpl}
+ *
+ * @author Anton Komrachkov
+ * @version 1.0
+ */
+
 public class CallbackContainer implements Container {
     private final ImmutableMap<String, CommandController> callbackMap;
     private final CommandController unknownCommand;
@@ -52,13 +59,23 @@ public class CallbackContainer implements Container {
                 new NoText(), new NoKeyboard());
     }
 
+    /**
+     * Возращает класс для обработки CallbackData команды
+     * @param identifier String ID по списку {@link CallbackNamesImpl}
+     * @return CommandController
+     */
     @Override
     public CommandController retrieve(String identifier) {
         return callbackMap.getOrDefault(identifier, unknownCommand);
     }
 
+    /**
+     * Проверяет наличие класса в контейнере
+     * @param identifier String ID по списку {@link CallbackNamesImpl}
+     * @return CommandController
+     */
     @Override
-    public boolean contains(String commandNames) {
-        return callbackMap.containsKey(commandNames);
+    public boolean contains(String identifier) {
+        return callbackMap.containsKey(identifier);
     }
 }

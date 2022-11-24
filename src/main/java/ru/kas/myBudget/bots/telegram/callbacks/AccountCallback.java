@@ -19,6 +19,16 @@ import ru.kas.myBudget.services.TelegramUserService;
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.OPERATION_DATA;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogPattern.EDIT_NUM;
 
+/**
+ * Отправка в Telegram Bot меню с информацией о счете пользователя.
+ * <br>При вызове метода {@code execute(Update update)} должно выполняться одно из условий:
+ * <p> -  Update содержит CallbackQuery c CallbackData порядковым номером счета пользователя в списке выдачи БД
+ * в OPERATOR_DATA (см. {@link ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex})
+ * <p> -  Update содержит текстовую комманду "/n", где n - порядковый номер счета пользователя в списке выдачи БД
+ * @author Anton Komrachkov
+ * @version 1.0
+ */
+
 public class AccountCallback extends CommandControllerImpl {
     private final AccountText accountText = (AccountText) messageText;
     private final AccountService accountService;

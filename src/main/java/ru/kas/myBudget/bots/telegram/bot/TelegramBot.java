@@ -19,6 +19,11 @@ import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.*;
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.*;
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.NO;
 
+/**
+ * @author Anton Komrachkov
+ * @version 2.0
+ */
+
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
     public static String COMMAND_PREFIX = "/";

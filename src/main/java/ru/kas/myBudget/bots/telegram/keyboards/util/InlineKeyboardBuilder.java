@@ -8,6 +8,7 @@ import java.util.List;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.CANCEL_DIALOG;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.CLOSE;
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackOperator.*;
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.NORMAL;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.NEXT;
@@ -106,7 +107,7 @@ public class InlineKeyboardBuilder {
     public InlineKeyboardBuilder addSaveButton(String fromDialog, String fromStep) {
         String buttonText = "\uD83D\uDCBE  Сохранить";
         String buttonCallback = String.format(DIALOG_CALLBACK_PATTERN,
-                DIALOG.getId(), fromDialog, fromDialog, fromStep, "save");
+                DIALOG.getId(), fromDialog, fromDialog, fromStep, SAVE.getId());
         addButton(buttonText, buttonCallback);
         return this;
     }
@@ -122,7 +123,7 @@ public class InlineKeyboardBuilder {
     public InlineKeyboardBuilder addExecuteDeleteButton(String fromDialog, String idToDelete) {
         String buttonText = "\uD83E\uDDE8  Удалить";
         String buttonCallback = String.format(DIALOG_CALLBACK_PATTERN,
-                DIALOG.getId(), fromDialog, DELETE_EXECUTE.getName(), "delete", idToDelete);
+                DIALOG.getId(), fromDialog, DELETE_EXECUTE.getName(), DELETE.getId(), idToDelete);
         addButton(buttonText, buttonCallback);
         return this;
     }
@@ -130,7 +131,7 @@ public class InlineKeyboardBuilder {
     public InlineKeyboardBuilder addCancelDeleteButton(String fromMenu, String fromDialog, String fromStep) {
         String buttonText = "Отмена";
         String buttonCallback = String.format(DIALOG_CALLBACK_PATTERN,
-                DIALOG.getId(), fromMenu, fromDialog, fromStep, "cancel");
+                DIALOG.getId(), fromMenu, fromDialog, fromStep, CANCEL.getId());
         addButton(buttonText, buttonCallback);
         return this;
     }

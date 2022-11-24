@@ -1,6 +1,7 @@
 package ru.kas.myBudget.bots.telegram.dialogs.account;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ru.kas.myBudget.bots.telegram.callbacks.util.CallbackOperator;
 import ru.kas.myBudget.bots.telegram.dialogs.util.DialogStepsContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.bots.telegram.dialogs.util.MainDialogImpl;
@@ -113,7 +114,7 @@ public class AccountDialog extends MainDialogImpl {
         if (lastStep == AccountNames.SAVE.ordinal()) {
             String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
             if (callbackData == null || callbackData.length < OPERATION_DATA.ordinal()
-                    || !callbackData[OPERATION_DATA.ordinal()].equals("save")) {
+                    || !callbackData[OPERATION_DATA.ordinal()].equals(CallbackOperator.SAVE.getId())) {
                 lastStep = AccountNames.CONFIRM.ordinal();
             }
         }
