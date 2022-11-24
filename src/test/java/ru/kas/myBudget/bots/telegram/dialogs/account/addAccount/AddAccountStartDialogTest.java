@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.account.addAccount;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.*;
-import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountStartDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;

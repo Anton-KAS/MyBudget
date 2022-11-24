@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.account;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,9 +8,9 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
-import ru.kas.myBudget.bots.telegram.dialogs.account.StartBalanceDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
@@ -65,8 +65,8 @@ public class StartBalanceDialogTest extends AbstractDialogImplTest {
     @MethodSource("sourceStartBalanceCommit")
     public void shouldProperlyExecuteCommit(Update update, boolean expected) {
         //given
-        this.testDialogMap.put(CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
-        Mockito.when(dialogsMapMock.getDialogMapById(TEST_CHAT_ID)).thenReturn(testDialogMap);
+        DialogsMap.remove(TEST_CHAT_ID);
+        DialogsMap.put(TEST_CHAT_ID, CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
         Mockito.when(currencyServiceMock.findById(TEST_CURRENCY_ID)).thenReturn(Optional.of(currencyMock));
         int timesExpectedTrue = expected ? 1 : 0;
         int timesExpectedFalse = !expected ? 1 : 0;
@@ -100,8 +100,8 @@ public class StartBalanceDialogTest extends AbstractDialogImplTest {
     @Test
     public void shouldProperlyExecuteSkip() {
         //given
-        this.testDialogMap.put(CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
-        Mockito.when(dialogsMapMock.getDialogMapById(TEST_CHAT_ID)).thenReturn(testDialogMap);
+        DialogsMap.remove(TEST_CHAT_ID);
+        DialogsMap.put(TEST_CHAT_ID, CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
         Mockito.when(currencyServiceMock.findById(TEST_CURRENCY_ID)).thenReturn(Optional.of(currencyMock));
         Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
 

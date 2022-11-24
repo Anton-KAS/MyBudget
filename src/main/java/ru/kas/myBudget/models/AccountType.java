@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @since 0.2
@@ -42,6 +43,19 @@ public class AccountType {
     public AccountType(String titleEn, String titleRu) {
         this.titleEn = titleEn;
         this.titleRu = titleRu;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AccountType that = (AccountType) o;
+        return id == that.id && titleEn.equals(that.titleEn) && titleRu.equals(that.titleRu);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, titleEn, titleRu);
     }
 
     @Override

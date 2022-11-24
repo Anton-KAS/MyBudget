@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.*;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
@@ -18,7 +19,6 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_INDEX;
-import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 
 /**
  * @since 0.2
@@ -26,7 +26,6 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.CU
  */
 
 public abstract class AbstractDialogImplTest extends AbstractCommandControllerTest {
-    protected final static String TEST_DIALOG_STEP_ID = "3";
     protected final static int TEST_MESSAGE_ID = 123;
     protected final static String TEST_COMMAND = "/command";
     protected final static String TEST_DATA = "test_data";
@@ -124,14 +123,15 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     @Test
     public void shouldProperlyAddToDialogMap() {
         //given
-        int expectedSize = testDialogMap.size() + 2;
+        DialogsMap.remove(TEST_CHAT_ID);
+        int expectedSize = 2;
 
         //when
         getCommand().addToDialogMap(TEST_CHAT_ID, getCommandDialogName(), TEST_STEP_ID, TEST_STEP_TEXT);
-
+        int actualSize = DialogsMap.getDialogMapById(TEST_CHAT_ID).size();
 
         //then
-        assertEquals(testDialogMap.size(), expectedSize);
+        assertEquals(expectedSize, actualSize);
     }
 
     protected static Update getUpdateWithText(String text) {

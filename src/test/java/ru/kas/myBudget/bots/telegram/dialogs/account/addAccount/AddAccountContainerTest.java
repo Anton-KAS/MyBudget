@@ -1,11 +1,11 @@
-package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.account.addAccount;
 
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.UnknownDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames;
+import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountContainer;
 import ru.kas.myBudget.bots.telegram.util.AbstractContainerTest;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.AccountService;

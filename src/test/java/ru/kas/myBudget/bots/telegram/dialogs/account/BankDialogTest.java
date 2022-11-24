@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.account;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.*;
-import ru.kas.myBudget.bots.telegram.dialogs.account.BankDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.keyboards.AccountDialog.BanksKeyboard;
@@ -31,7 +30,7 @@ import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
  * @author Anton Komrachkov
  */
 
-@DisplayName("Unit-level testing for AddAccount.BankDialog")
+@DisplayName("Unit-level testing for account.BankDialog")
 public class BankDialogTest extends AbstractDialogImplTest {
     private final static int TEST_EXISTENT_BANK_ID = 777;
     private final static int TEST_NONEXISTENT_BANK_ID = 666;

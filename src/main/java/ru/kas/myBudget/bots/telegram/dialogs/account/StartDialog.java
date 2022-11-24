@@ -2,7 +2,7 @@ package ru.kas.myBudget.bots.telegram.dialogs.account;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl;
-import ru.kas.myBudget.bots.telegram.dialogs.util.DialogImpl;
+import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
 import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;

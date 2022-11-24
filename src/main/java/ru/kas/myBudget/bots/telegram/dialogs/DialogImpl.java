@@ -1,7 +1,10 @@
-package ru.kas.myBudget.bots.telegram.dialogs.util;
+package ru.kas.myBudget.bots.telegram.dialogs;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
+import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
@@ -55,11 +58,10 @@ public abstract class DialogImpl implements Dialog {
     public void execute(Update update) {
         this.userId = UpdateParameter.getUserId(update);
         this.chatId = UpdateParameter.getChatId(update);
-        ExecuteMode executeMode = defaultExecuteMode;
+        ExecuteMode executeMode = getExecuteMode(update, dialogStep);
         String dialogStepString = DialogsMap.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId());
         if (dialogStepString != null) {
             dialogStep = Integer.parseInt(dialogStepString);
-            executeMode = getExecuteMode(update, dialogStep);
         }
         executeByOrder(update, executeMode);
     }
@@ -77,6 +79,7 @@ public abstract class DialogImpl implements Dialog {
 
     @Override
     public void setData(Update update) {
+        if (userId == null) userId = UpdateParameter.getUserId(update);
         text = messageText.setUserId(userId).getText();
         inlineKeyboardMarkup = keyboard.getKeyboard();
     }
@@ -91,7 +94,9 @@ public abstract class DialogImpl implements Dialog {
     public void addToDialogMap(long chatId, CommandDialogNames name, String stringId, String text) {
         DialogsMap.put(chatId, name.getName(), stringId);
         DialogsMap.put(chatId, name.getStepIdText(), text);
-        if (DialogsMap.getDialogMapById(chatId).get(LAST_STEP.getId()).equals(String.valueOf(CONFIRM.ordinal()))) {
+
+        String dialogStepData = DialogsMap.getDialogStepById(chatId, LAST_STEP.getId());
+        if (dialogStepData != null && dialogStepData.equals(String.valueOf(CONFIRM.ordinal()))) {
             DialogsMap.getDialogMapById(chatId).replace(CAN_SAVE.getId(), "true");
         }
     }

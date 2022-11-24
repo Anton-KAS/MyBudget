@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.account.addAccount;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -7,9 +7,9 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.callbacks.CallbackContainer;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
-import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountSaveDialog;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import ru.kas.myBudget.models.*;
@@ -19,7 +19,6 @@ import ru.kas.myBudget.services.BankService;
 import ru.kas.myBudget.services.CurrencyService;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Optional;
 
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
@@ -36,9 +35,9 @@ public class SaveTest extends AbstractDialogImplTest {
     private final static int TEST_BANK_ID = 33333;
 
     private final static int TEST_NUMBER_TO_BASIC = 100;
-        private final static BigDecimal TEST_START_BALANCE = new BigDecimal("12345")
-            .setScale(String.valueOf(TEST_NUMBER_TO_BASIC).length() - 1, RoundingMode.HALF_UP);
-    private final static BigDecimal TEST_START_BALANCE_DIALOG_MAP = new BigDecimal("123.45");
+        private final static BigDecimal TEST_START_BALANCE = new BigDecimal("123.45");
+            //.setScale(String.valueOf(TEST_NUMBER_TO_BASIC).length() - 1, RoundingMode.HALF_UP);
+    private final static BigDecimal TEST_START_BALANCE_DIALOG_MAP = new BigDecimal("12345");
 
     private final static String TEST_TITLE_TEXT = "TEST TITLE TEXT";
     private final static String TEST_DESCRIPTION_TEXT = "TEST DESCRIPTION TEXT";
@@ -59,19 +58,9 @@ public class SaveTest extends AbstractDialogImplTest {
     public void beforeEach() {
         super.beforeEach();
 
-        testDialogMap.put(TITLE.getName(), TEST_TITLE_TEXT);
-        testDialogMap.put(DESCRIPTION.getName(), TEST_DESCRIPTION_TEXT);
-
-        testDialogMap.put(CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
         Mockito.when(currencyServiceMock.findById(TEST_CURRENCY_ID)).thenReturn(Optional.of(currencyMock));
-
-        testDialogMap.put(START_BALANCE.getName(), TEST_START_BALANCE_DIALOG_MAP.toString());
         Mockito.when(currencyMock.getNumberToBasic()).thenReturn(TEST_NUMBER_TO_BASIC);
-
-        testDialogMap.put(TYPE.getName(), String.valueOf(TEST_TYPE_ACCOUNT_ID));
         Mockito.when(accountTypeServiceMock.findById(TEST_TYPE_ACCOUNT_ID)).thenReturn(Optional.of(accountTypeMock));
-
-        testDialogMap.put(BANK.getName(), String.valueOf(TEST_BANK_ID));
         Mockito.when(bankServiceMock.findById(TEST_BANK_ID)).thenReturn(Optional.of(bankMock));
 
         Mockito.when(telegramUserServiceMock.findById(TEST_USER_ID)).thenReturn(Optional.of(telegramUserMock));
@@ -103,6 +92,12 @@ public class SaveTest extends AbstractDialogImplTest {
         //given
         Update update = getCallbackUpdateWithData(TEST_DATA);
         Account expectedAccount = getExpectedAccount();
+        DialogsMap.put(TEST_CHAT_ID, TITLE.getName(), TEST_TITLE_TEXT);
+        DialogsMap.put(TEST_CHAT_ID, DESCRIPTION.getName(), TEST_DESCRIPTION_TEXT);
+        DialogsMap.put(TEST_CHAT_ID, CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
+        DialogsMap.put(TEST_CHAT_ID, TYPE.getName(), String.valueOf(TEST_TYPE_ACCOUNT_ID));
+        DialogsMap.put(TEST_CHAT_ID, START_BALANCE.getName(), String.valueOf(TEST_START_BALANCE));
+        DialogsMap.put(TEST_CHAT_ID, BANK.getName(), String.valueOf(TEST_BANK_ID));
 
         //when
         getCommand().execute(update);
@@ -113,7 +108,8 @@ public class SaveTest extends AbstractDialogImplTest {
 
     private Account getExpectedAccount() {
         return new Account(TEST_TITLE_TEXT, TEST_DESCRIPTION_TEXT,
-                TEST_START_BALANCE, TEST_START_BALANCE, telegramUserMock, currencyMock, accountTypeMock, bankMock);
+                TEST_START_BALANCE_DIALOG_MAP, TEST_START_BALANCE_DIALOG_MAP, telegramUserMock, currencyMock,
+                accountTypeMock, bankMock);
     }
 
 

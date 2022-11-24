@@ -46,7 +46,7 @@ public class CancelDialogCallbackTest extends AbstractCommandControllerTest {
         getCommand().execute(update);
 
         //then
-        Mockito.verify(dialogsMapMock, Mockito.times(1)).remove(TEST_USER_ID);
+        Mockito.verify(dialogsMapMock, Mockito.times(1)).remove(TEST_CHAT_ID);
     }
 
     @Test
@@ -58,6 +58,6 @@ public class CancelDialogCallbackTest extends AbstractCommandControllerTest {
         getCommand().execute(update, ExecuteMode.EDIT);
 
         //then
-        Mockito.verify(dialogsMapMock, Mockito.times(1)).remove(TEST_USER_ID);
+        Mockito.verify(dialogsMapMock, Mockito.times(1)).remove(TEST_CHAT_ID);
     }
 }

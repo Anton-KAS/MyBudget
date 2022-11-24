@@ -8,6 +8,8 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
 /**
+ * @deprecated
+ *
  * @since 0.2
  * @author Anton Komrachkov
  */

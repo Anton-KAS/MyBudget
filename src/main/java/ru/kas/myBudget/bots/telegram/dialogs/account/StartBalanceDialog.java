@@ -1,7 +1,7 @@
 package ru.kas.myBudget.bots.telegram.dialogs.account;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.dialogs.util.DialogImpl;
+import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
 import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
@@ -40,7 +40,7 @@ public class StartBalanceDialog extends DialogImpl {
     @Override
     public boolean commit(Update update) {
         this.userId = UpdateParameter.getUserId(update);
-        this.chatId = UpdateParameter.getUserId(update);
+        this.chatId = UpdateParameter.getChatId(update);
         String receivedText = UpdateParameter.getMessageText(update);
 
         if (update.hasCallbackQuery() || !receivedText.matches(CURRENCY_AMOUNT.getRegex())) {
@@ -61,7 +61,7 @@ public class StartBalanceDialog extends DialogImpl {
     @Override
     public void skip(Update update) {
         this.userId = UpdateParameter.getUserId(update);
-        this.chatId = UpdateParameter.getUserId(update);
+        this.chatId = UpdateParameter.getChatId(update);
         BigDecimal startBalance = getStartBalance(DEFAULT_BALANCE_TEXT, chatId);
         if (!DialogsMap.getDialogMap(chatId).containsKey(START_BALANCE.getName())) {
             addToDialogMap(chatId, START_BALANCE, startBalance.toString(),

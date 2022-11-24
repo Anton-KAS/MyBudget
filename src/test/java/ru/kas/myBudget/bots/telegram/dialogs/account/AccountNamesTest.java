@@ -1,7 +1,6 @@
-package ru.kas.myBudget.bots.telegram.dialogs.addAccount;
+package ru.kas.myBudget.bots.telegram.dialogs.account;
 
 import org.junit.jupiter.api.Test;
-import ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
