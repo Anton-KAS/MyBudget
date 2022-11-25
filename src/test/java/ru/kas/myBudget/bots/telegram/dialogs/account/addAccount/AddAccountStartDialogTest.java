@@ -16,7 +16,6 @@ import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 
 /**
@@ -54,16 +53,11 @@ public class AddAccountStartDialogTest extends AbstractDialogImplTest {
     @ParameterizedTest
     @MethodSource("sourceStartCommit")
     public void shouldProperlyExecuteCommit(Update update, boolean expected) {
-        //given
-        int times = expected ? 1 : 0;
-
         //when
         boolean result = getCommand().commit(update);
 
         //then
-        Mockito.verify(dialogsMapMock, Mockito.times(1)).remove(TEST_CHAT_ID);
         assertEquals(expected, result);
-        Mockito.verify(dialogsMapMock, Mockito.times(times)).putDialogMap(anyLong(), anyMap());
     }
 
     public static Stream<Arguments> sourceStartCommit() {

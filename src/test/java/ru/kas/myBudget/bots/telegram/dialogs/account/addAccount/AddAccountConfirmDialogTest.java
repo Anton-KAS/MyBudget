@@ -40,7 +40,6 @@ public class AddAccountConfirmDialogTest extends AbstractDialogImplTest {
     }
 
     @Override
-    @Test
     public void shouldReturnTrueByExecuteCommit(Update update) {
         //TODO: Write test
     }
