@@ -49,9 +49,9 @@ public class EditAccountSaveDialog extends SaveDialog {
         Account account = accountService.findById(accountId).orElse(new Account());
         account.setTitle(dialogMap.get(TITLE.getName()));
         account.setDescription(dialogMap.get(DESCRIPTION.getName()));
+        account.setCurrency(currency);
         account.setStartBalanceWithScale(startBalance);
         account.setCurrentBalanceWithScale(startBalance); // TODO : Something not good...
-        account.setCurrency(currency);
         account.setAccountType(accountType);
         account.setBank(bank);
         accountService.save(account);

@@ -33,18 +33,19 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     protected final static String TEST_STEP_TEXT = "test step text";
     protected Map<String, String> testDialogMap;
 
-    @Override
-    public abstract Dialog getCommand();
+    protected abstract CommandDialogNames getCommandDialogName();
 
-    public abstract CommandDialogNames getCommandDialogName();
+    @Override
+    protected abstract String getCommandName();
+
+    @Override
+    protected abstract Dialog getCommand();
 
     @Override
     @BeforeEach
     public void beforeEach() {
         super.beforeEach();
         testDialogMap = new HashMap<>();
-//        Mockito.when(dialogsMapMock.getDialogMapById(TEST_CHAT_ID)).thenReturn(testDialogMap);
-//        Mockito.when(dialogsMapMock.getDialogStepById(TEST_CHAT_ID, CURRENT_DIALOG_STEP.getId())).thenReturn(TEST_DIALOG_STEP_ID);
     }
 
     @ParameterizedTest

@@ -10,10 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.AbstractMainDialogImplTest;
-import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountConfirmDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountContainer;
-import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountSaveDialog;
-import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.AddAccountStartDialog;
+import ru.kas.myBudget.bots.telegram.dialogs.account.addAccount.*;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 
@@ -40,17 +37,17 @@ public class AccountDialogTest extends AbstractMainDialogImplTest {
 
     private AccountDialog accountDialog;
 
-    private final static AddAccountContainer addAccountContainerMock = Mockito.mock(AddAccountContainer.class);
+    protected final static AddAccountContainer addAccountContainerMock = Mockito.mock(AddAccountContainer.class);
 
-    private final static AddAccountStartDialog START_ADD_ACCOUNT_DIALOG_MOCK = Mockito.mock(AddAccountStartDialog.class);
-    private final static TypeDialog typeDialogMock = Mockito.mock(TypeDialog.class);
-    private final static TitleDialog titleDialogMock = Mockito.mock(TitleDialog.class);
-    private final static DescriptionDialog descriptionDialogMock = Mockito.mock(DescriptionDialog.class);
-    private final static CurrencyDialog currencyDialogMock = Mockito.mock(CurrencyDialog.class);
-    private final static BankDialog bankDialogMock = Mockito.mock(BankDialog.class);
-    private final static StartBalanceDialog startBalanceDialogMock = Mockito.mock(StartBalanceDialog.class);
-    private final static AddAccountConfirmDialog CONFIRM_ADD_ACCOUNT_DIALOG_MOCK = Mockito.mock(AddAccountConfirmDialog.class);
-    private final static AddAccountSaveDialog ADD_ACCOUNT_SAVE_DIALOG_MOCK = Mockito.mock(AddAccountSaveDialog.class);
+    protected final static AddAccountStartDialog START_ADD_ACCOUNT_DIALOG_MOCK = Mockito.mock(AddAccountStartDialog.class);
+    protected final static TypeDialog typeDialogMock = Mockito.mock(TypeDialog.class);
+    protected final static TitleDialog titleDialogMock = Mockito.mock(TitleDialog.class);
+    protected final static DescriptionDialog descriptionDialogMock = Mockito.mock(DescriptionDialog.class);
+    protected final static CurrencyDialog currencyDialogMock = Mockito.mock(CurrencyDialog.class);
+    protected final static BankDialog bankDialogMock = Mockito.mock(BankDialog.class);
+    protected final static StartBalanceDialog startBalanceDialogMock = Mockito.mock(StartBalanceDialog.class);
+    protected final static AddAccountConfirmDialog CONFIRM_ADD_ACCOUNT_DIALOG_MOCK = Mockito.mock(AddAccountConfirmDialog.class);
+    protected final static AddAccountSaveDialog ADD_ACCOUNT_SAVE_DIALOG_MOCK = Mockito.mock(AddAccountSaveDialog.class);
 
 
     @BeforeAll
