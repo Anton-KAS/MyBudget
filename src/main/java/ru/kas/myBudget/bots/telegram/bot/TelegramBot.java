@@ -34,6 +34,8 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Value("${telegram.bot.token}")
     private String token;
 
+    private final TelegramUserService telegramUserService;
+
     private final CommandContainer commandContainer;
     private final CallbackContainer callbackContainer;
     private final DialogContainer dialogContainer;
@@ -42,6 +44,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     public TelegramBot(TelegramUserService telegramUserService, AccountService accountService,
                        CurrencyService currencyService, AccountTypeService accountTypeService,
                        BankService bankService) {
+        this.telegramUserService = telegramUserService;
         this.commandContainer = new CommandContainer(
                 new BotMessageServiceImpl(this), telegramUserService);
         this.callbackContainer = new CallbackContainer(
@@ -64,6 +67,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         System.out.println(update); //TODO Add project Logger
+        telegramUserService.checkUser(telegramUserService, update);
         if (update.hasMessage() && update.getMessage().hasText()) {
             onTextMessageReceived(update);
             return;

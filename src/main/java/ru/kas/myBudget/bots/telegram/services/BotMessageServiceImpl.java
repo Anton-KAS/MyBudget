@@ -100,8 +100,6 @@ public class BotMessageServiceImpl implements BotMessageService {
                 telegramUser.ifPresent(user -> telegramUserService.setLastMessage(user, sendMessageId, text));
             }
         }
-
-        telegramUserService.checkUser(telegramUserService, update);
     }
 
     @Override
