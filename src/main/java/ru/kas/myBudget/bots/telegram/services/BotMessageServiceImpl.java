@@ -91,61 +91,63 @@ public class BotMessageServiceImpl implements BotMessageService {
                                      InlineKeyboardMarkup inlineKeyboardMarkup) {
         removeInlineKeyboard(telegramUserService, update, executeMode);
 
-        if (executeMode != null && text != null) {
-            Integer sendMessageId = executeMessage(executeMode, UpdateParameter.getChatId(update),
-                    UpdateParameter.getMessageId(update), text, inlineKeyboardMarkup);
-            if (inlineKeyboardMarkup != null ||
-                    Arrays.stream(text.split("\n")).anyMatch(n -> n.matches(".*/(\\d+) .*"))) {
-                Optional<TelegramUser> telegramUser = telegramUserService.findById(getUserId(update));
-                telegramUser.ifPresent(user -> telegramUserService.setLastMessage(user, sendMessageId, text));
-            }
-        }
+        if (executeMode == null) return;
+        if (text == null) return;
+
+        Integer sendMessageId = executeMessage(executeMode, UpdateParameter.getChatId(update),
+                UpdateParameter.getMessageId(update), text, inlineKeyboardMarkup);
+
+        boolean hasMatch = Arrays.stream(text.split("\n")).anyMatch(n -> n.matches(".*/(\\d+) .*"));
+        if (inlineKeyboardMarkup == null && !hasMatch) return;
+
+        Optional<TelegramUser> telegramUser = telegramUserService.findById(getUserId(update));
+        telegramUser.ifPresent(user -> telegramUserService.setLastMessage(user, sendMessageId, text));
     }
 
     @Override
     public void updateUser(TelegramUserService telegramUserService, Update update) {
-        executeAndUpdateUser(telegramUserService, update, null, null, null);
+        removeInlineKeyboard(telegramUserService, update, null);
     }
 
     private void removeInlineKeyboard(TelegramUserService telegramUserService,
                                       Update update, ExecuteMode executeMode) {
-        long userId = getUserId(update);
-
         if (executeMode == ExecuteMode.SEND) executeRemoveInlineKeyboard(update);
 
+        long userId = getUserId(update);
         TelegramUser telegramUser = telegramUserService.findById(userId).orElse(null);
+        if (telegramUser == null) return;
+
         if (executeMode == ExecuteMode.SEND && !update.hasCallbackQuery()) {
-            if (telegramUser != null) {
-                Integer messageIdToRemove = telegramUser.getLastMessageId();
-                if (messageIdToRemove == null) return;
-                String messageTextToRemove;
-                if (messageIdToRemove == UpdateParameter.getMessageId(update)) {
-                    if (update.hasCallbackQuery())
-                        messageTextToRemove = update.getCallbackQuery().getMessage().getText();
-                    else messageTextToRemove = UpdateParameter.getMessageText(update);
-                } else {
-                    messageTextToRemove = telegramUser.getLastMessageText();
-                }
-                if (messageTextToRemove != null) {
-                    executeRemoveInlineKeyboard(userId, messageIdToRemove, messageTextToRemove);
-                    telegramUser.removeLastMessage();
-                    telegramUserService.save(telegramUser);
-                }
-            }
-        } else if (telegramUser != null) {
+            Integer messageIdToRemove = telegramUser.getLastMessageId();
+            if (messageIdToRemove == null) return;
+
+            String messageTextToRemove = getMessageTextToRemove(update, telegramUser, messageIdToRemove);
+            if (messageTextToRemove == null) return;
+
+            executeRemoveInlineKeyboard(userId, messageIdToRemove, messageTextToRemove);
             telegramUser.removeLastMessage();
-            telegramUserService.save(telegramUser);
         }
+
+        telegramUserService.save(telegramUser);
+    }
+
+    private String getMessageTextToRemove(Update update, TelegramUser telegramUser, int messageIdToRemove) {
+        if (messageIdToRemove == UpdateParameter.getMessageId(update)) {
+            if (update.hasCallbackQuery()) return update.getCallbackQuery().getMessage().getText();
+
+            return UpdateParameter.getMessageText(update);
+        }
+        return telegramUser.getLastMessageText();
     }
 
     private void executeRemoveInlineKeyboard(Update update) {
-        if (update.hasCallbackQuery()) {
-            long chatId = UpdateParameter.getChatId(update);
-            int messageId = UpdateParameter.getMessageId(update);
+        if (!update.hasCallbackQuery()) return;
 
-            String text = update.getCallbackQuery().getMessage().getText();
-            executeMessage(ExecuteMode.EDIT, chatId, messageId, cleanTextTags(text), null);
-        }
+        long chatId = UpdateParameter.getChatId(update);
+        int messageId = UpdateParameter.getMessageId(update);
+
+        String text = update.getCallbackQuery().getMessage().getText();
+        executeMessage(ExecuteMode.EDIT, chatId, messageId, cleanTextTags(text), null);
     }
 
     private void executeRemoveInlineKeyboard(long chatId, int messageId, String messageText) {
@@ -173,12 +175,12 @@ public class BotMessageServiceImpl implements BotMessageService {
         String PARAMETER = "messageId=";
         int startIndex = sendMessageString.indexOf(PARAMETER);
         if (startIndex == -1) return null;
-        startIndex = startIndex + PARAMETER.length();
 
+        startIndex = startIndex + PARAMETER.length();
         int endIndex = sendMessageString.substring(startIndex).indexOf(",");
         if (endIndex == -1) return null;
-        endIndex = endIndex + startIndex;
 
+        endIndex = endIndex + startIndex;
         String sendMessageIdString = sendMessageString.substring(startIndex, endIndex);
         try {
             return Integer.valueOf(sendMessageIdString);
