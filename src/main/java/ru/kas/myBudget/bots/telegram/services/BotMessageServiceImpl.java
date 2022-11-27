@@ -2,6 +2,7 @@ package ru.kas.myBudget.bots.telegram.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
@@ -9,6 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
@@ -163,6 +165,10 @@ public class BotMessageServiceImpl implements BotMessageService {
         try {
             Serializable sendMessage = telegramBot.execute(botApiMethod);
             if (sendMessage != null) return getSendMessageId(sendMessage);
+        } catch (TelegramApiRequestException tre) {
+            System.out.println("TelegramApiRequestException"); // TODO: Add logging to the project
+            System.out.println(tre.getErrorCode());
+            System.out.println(tre.getMessage());
         } catch (TelegramApiException e) {
             e.printStackTrace(); // TODO: Add logging to the project
         }

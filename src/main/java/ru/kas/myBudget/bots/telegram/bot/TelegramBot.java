@@ -66,7 +66,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(update); //TODO Add project Logger
+        System.out.println(update); //TODO: Add project Logger
         telegramUserService.checkUser(telegramUserService, update);
         if (update.hasMessage() && update.getMessage().hasText()) {
             onTextMessageReceived(update);
@@ -90,7 +90,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         String messageText = UpdateParameter.getMessageText(update);
         if (messageText.startsWith(COMMAND_PREFIX)) {
             String commandIdentifier = messageText.split(" ")[0].toLowerCase();
-            System.out.println("COMMAND ID: " + commandIdentifier); //TODO Add project Logger
+            System.out.println("COMMAND ID: " + commandIdentifier); //TODO: Add project Logger
             commandContainer.retrieve(commandIdentifier).execute(update);
             return;
         }
@@ -98,23 +98,23 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     private void onWaitingReceived(Update update, String identifier) {
-        System.out.println("WAITING BY: " + identifier); //TODO Add project Logger
+        System.out.println("WAITING BY: " + identifier); //TODO: Add project Logger
         if (commandContainer.contains(identifier)) {
-            System.out.println("COMMAND CONTAINER"); //TODO Add project Logger
+            System.out.println("COMMAND CONTAINER"); //TODO: Add project Logger
             commandContainer.retrieve(identifier).execute(update);
             return;
         }
         if (callbackContainer.contains(identifier)) {
-            System.out.println("CALLBACK CONTAINER"); //TODO Add project Logger
+            System.out.println("CALLBACK CONTAINER"); //TODO: Add project Logger
             callbackContainer.retrieve(identifier).execute(update);
             return;
         }
         if (dialogContainer.contains(identifier)) {
-            System.out.println("DIALOG CONTAINER"); //TODO Add project Logger
+            System.out.println("DIALOG CONTAINER"); //TODO: Add project Logger
             dialogContainer.retrieve(identifier).execute(update);
             return;
         }
-        System.out.println("NO CONTAINER"); //TODO Add project Logger
+        System.out.println("NO CONTAINER"); //TODO: Add project Logger
         commandContainer.retrieve(NO.getName()).execute(update);
     }
 
@@ -122,11 +122,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         long messageId = UpdateParameter.getMessageId(update);
         long chatId = UpdateParameter.getChatId(update);
 
-        System.out.println("Message id: " + messageId); //TODO Add project Logger
-        System.out.println("Chat id: " + chatId); //TODO Add project Logger
+        System.out.println("Message id: " + messageId); //TODO: Add project Logger
+        System.out.println("Chat id: " + chatId); //TODO: Add project Logger
 
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
-        System.out.println("Call data: " + Arrays.toString(callbackData)); //TODO Add project Logger
+        System.out.println("Call data: " + Arrays.toString(callbackData)); //TODO: Add project Logger
         if (callbackData == null || callbackData.length <= TO.ordinal()) {
             callbackContainer.retrieve(NO.getName()).execute(update);
             return;
