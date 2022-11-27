@@ -7,8 +7,8 @@ import ru.kas.myBudget.services.TelegramUserService;
 import java.util.Optional;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class MenuText implements MessageText {

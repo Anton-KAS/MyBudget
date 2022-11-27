@@ -6,7 +6,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
@@ -21,12 +20,12 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.DescriptionDialog.MA
 import static ru.kas.myBudget.bots.telegram.dialogs.account.DescriptionDialog.VERIFY_EXCEPTION_TEXT;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
-@DisplayName("Unit-level testing for AddAccount.DescriptionDialog")
-public class DescriptionDialogTest extends AbstractDialogImplTest {
+@DisplayName("Unit-level testing for account.DescriptionDialog")
+public class DescriptionDialogTest extends AbstractAccountDialogTest {
 
     @Override
     protected String getCommandName() {

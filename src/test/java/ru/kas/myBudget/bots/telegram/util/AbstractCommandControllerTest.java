@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 abstract public class AbstractCommandControllerTest {
@@ -39,6 +39,7 @@ abstract public class AbstractCommandControllerTest {
     protected abstract String getCommandName();
 
     protected abstract CommandController getCommand();
+
     protected abstract MessageText getMockMessageText();
 
     @BeforeEach

@@ -1,8 +1,8 @@
-package ru.kas.myBudget.bots.telegram.keyboards.AccountDialog.editAccountDialog;
+package ru.kas.myBudget.bots.telegram.keyboards.accountDialog.editAccountDialog;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
-import ru.kas.myBudget.bots.telegram.keyboards.AccountDialog.ConfirmKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.accountDialog.ConfirmKeyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.ACCOUNTS;
@@ -10,8 +10,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.ED
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.CONFIRM;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class EditAccountConfirmKeyboard extends ConfirmKeyboard {

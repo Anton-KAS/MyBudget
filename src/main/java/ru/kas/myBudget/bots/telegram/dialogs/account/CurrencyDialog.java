@@ -3,7 +3,7 @@ package ru.kas.myBudget.bots.telegram.dialogs.account;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
 import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
-import ru.kas.myBudget.bots.telegram.keyboards.AccountDialog.CurrenciesKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.accountDialog.CurrenciesKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
@@ -19,8 +19,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.PAGE;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class CurrencyDialog extends DialogImpl {

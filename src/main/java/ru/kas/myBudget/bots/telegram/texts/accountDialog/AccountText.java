@@ -10,8 +10,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class AccountText implements MessageText {

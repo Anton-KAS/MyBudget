@@ -3,8 +3,8 @@ package ru.kas.myBudget.bots.telegram.dialogs.account;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public enum AccountNames implements CommandDialogNames {

@@ -12,8 +12,8 @@ import java.util.Map;
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public abstract class AbstractMainDialogImplTest {

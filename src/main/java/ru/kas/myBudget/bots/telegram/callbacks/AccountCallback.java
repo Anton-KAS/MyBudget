@@ -26,8 +26,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogPattern.EDIT_NUM;
  * в OPERATOR_DATA (см. {@link ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex})
  * <p> -  Update содержит текстовую комманду "/n", где n - порядковый номер счета пользователя в списке выдачи БД
  *
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class AccountCallback extends CommandControllerImpl {

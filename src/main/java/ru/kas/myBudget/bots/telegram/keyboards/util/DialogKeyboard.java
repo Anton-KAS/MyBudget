@@ -1,8 +1,8 @@
 package ru.kas.myBudget.bots.telegram.keyboards.util;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public interface DialogKeyboard extends Keyboard {

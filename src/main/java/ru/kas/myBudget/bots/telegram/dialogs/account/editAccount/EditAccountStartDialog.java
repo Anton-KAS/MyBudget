@@ -26,8 +26,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class EditAccountStartDialog extends StartDialog {
@@ -75,6 +75,17 @@ public class EditAccountStartDialog extends StartDialog {
         if (account.getDescription() == null) description = "";
         else description = account.getDescription();
 
+        fillDataToDialogMap(account, description, bankId, bankText);
+
+        for (int i = START.ordinal() + 1; i < CONFIRM.ordinal(); i++) {
+            String stepIdText = AccountNames.values()[i].getStepIdText();
+            dialogMap.replace(stepIdText, String.format(dialogMap.get(stepIdText), i));
+        }
+        ResponseWaitingMap.put(chatId, EDIT_ACCOUNT);
+        return true;
+    }
+
+    private void fillDataToDialogMap(Account account, String description, String bankId, String bankText) {
         addToDialogMap(chatId, TYPE, String.valueOf(account.getAccountType().getId()),
                 String.format(TYPE.getStepTextPattern(), "%s", account.getAccountType().getTitleRu()));
 
@@ -92,12 +103,5 @@ public class EditAccountStartDialog extends StartDialog {
 
         addToDialogMap(chatId, START_BALANCE, String.valueOf(account.getStartBalance()),
                 String.format(START_BALANCE.getStepTextPattern(), "%s", account.getStartBalanceWithScale()));
-
-        for (int i = START.ordinal() + 1; i < CONFIRM.ordinal(); i++) {
-            String stepIdText = AccountNames.values()[i].getStepIdText();
-            dialogMap.replace(stepIdText, String.format(dialogMap.get(stepIdText), i));
-        }
-        ResponseWaitingMap.put(chatId, EDIT_ACCOUNT);
-        return true;
     }
 }

@@ -1,14 +1,13 @@
 package ru.kas.myBudget.bots.telegram.dialogs.util;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.dialogs.util.MainDialog;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public abstract class MainDialogImpl implements MainDialog {

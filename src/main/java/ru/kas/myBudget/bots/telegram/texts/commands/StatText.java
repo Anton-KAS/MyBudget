@@ -3,12 +3,13 @@ package ru.kas.myBudget.bots.telegram.texts.commands;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class StatText implements MessageText {
     private int activeUserCount;
+
     @Override
     public StatText setUserId(Long userId) {
         return this;

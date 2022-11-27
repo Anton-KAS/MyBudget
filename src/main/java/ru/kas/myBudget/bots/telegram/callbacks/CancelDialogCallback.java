@@ -23,7 +23,6 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.ST
  */
 
 
-
 public class CancelDialogCallback extends CommandControllerImpl {
     private final CallbackContainer callbackContainer;
 

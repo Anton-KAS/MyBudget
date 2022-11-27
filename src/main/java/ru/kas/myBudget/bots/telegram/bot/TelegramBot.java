@@ -20,8 +20,8 @@ import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.*;
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.NO;
 
 /**
- * @since 0.1
  * @author Anton Komrachkov
+ * @since 0.1
  */
 
 @Component

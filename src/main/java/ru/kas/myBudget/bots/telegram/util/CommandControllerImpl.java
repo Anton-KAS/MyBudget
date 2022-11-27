@@ -8,11 +8,11 @@ import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.services.TelegramUserService;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
-public abstract class CommandControllerImpl implements CommandController{
+public abstract class CommandControllerImpl implements CommandController {
     protected final BotMessageService botMessageService;
     protected final TelegramUserService telegramUserService;
     protected final ExecuteMode defaultExecuteMode;
@@ -23,7 +23,7 @@ public abstract class CommandControllerImpl implements CommandController{
     protected InlineKeyboardMarkup inlineKeyboardMarkup;
 
     public CommandControllerImpl(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                       ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
+                                 ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
         this.botMessageService = botMessageService;
         this.telegramUserService = telegramUserService;
         this.defaultExecuteMode = defaultExecuteMode;

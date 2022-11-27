@@ -12,8 +12,8 @@ import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class CancelCommand extends CommandControllerImpl {

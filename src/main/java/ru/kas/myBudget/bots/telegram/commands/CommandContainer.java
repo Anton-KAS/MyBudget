@@ -15,8 +15,8 @@ import ru.kas.myBudget.services.TelegramUserService;
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.*;
 
 /**
- * @since 0.1
  * @author Anton Komrachkov
+ * @since 0.1
  */
 
 public class CommandContainer implements Container {

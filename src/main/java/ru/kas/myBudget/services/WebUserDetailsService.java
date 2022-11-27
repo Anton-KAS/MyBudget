@@ -13,8 +13,8 @@ import ru.kas.myBudget.security.WebUserDetails;
 import java.util.Optional;
 
 /**
- * @since 0.1
  * @author Anton Komrachkov
+ * @since 0.1
  */
 
 @Service

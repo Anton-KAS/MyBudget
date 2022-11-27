@@ -9,8 +9,8 @@ import ru.kas.myBudget.services.TelegramUserService;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 @DisplayName("Unit-level testing for AccountsText")

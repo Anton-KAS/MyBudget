@@ -1,8 +1,8 @@
 package ru.kas.myBudget.bots.telegram.commands;
 
 /**
- * @since 0.1
  * @author Anton Komrachkov
+ * @since 0.1
  */
 
 public enum CommandIndex {

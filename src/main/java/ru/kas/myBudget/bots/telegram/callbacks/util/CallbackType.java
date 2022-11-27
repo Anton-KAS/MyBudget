@@ -3,8 +3,8 @@ package ru.kas.myBudget.bots.telegram.callbacks.util;
 /**
  * Типы для формирования Callback Data (см. {@link CallbackIndex})
  *
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public enum CallbackType {

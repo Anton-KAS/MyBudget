@@ -7,15 +7,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.dialogs.*;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
-import ru.kas.myBudget.bots.telegram.keyboards.AccountDialog.BanksKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.accountDialog.BanksKeyboard;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import ru.kas.myBudget.models.Bank;
-import ru.kas.myBudget.models.Country;
-import ru.kas.myBudget.services.BankService;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -26,12 +23,12 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.BANK;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 @DisplayName("Unit-level testing for account.BankDialog")
-public class BankDialogTest extends AbstractDialogImplTest {
+public class BankDialogTest extends AbstractAccountDialogTest {
     private final static int TEST_EXISTENT_BANK_ID = 777;
     private final static int TEST_NONEXISTENT_BANK_ID = 666;
     private final static String CALLBACK_DATA_PATTERN = "%s_%s_%s_%s_%s";
@@ -40,10 +37,6 @@ public class BankDialogTest extends AbstractDialogImplTest {
     private final static String TEST_DATA_WITH_NONEXISTENT_BANK_ID = String.format(CALLBACK_DATA_PATTERN,
             DIALOG.getId(), ADD_ACCOUNT.getName(), ADD_ACCOUNT.getName(), BANK.getName(), TEST_NONEXISTENT_BANK_ID);
     protected BanksKeyboard keyboardBankMock = Mockito.mock(BanksKeyboard.class);
-    private final static Bank bankMock = Mockito.mock(Bank.class);
-    private final static Country countryMock = Mockito.mock(Country.class);
-    protected final BankService bankServiceMock = Mockito.mock(BankService.class);
-
 
     @Override
     @BeforeEach

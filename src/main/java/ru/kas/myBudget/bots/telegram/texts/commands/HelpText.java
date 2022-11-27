@@ -6,8 +6,8 @@ import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.*;
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.STAT;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class HelpText implements MessageText {

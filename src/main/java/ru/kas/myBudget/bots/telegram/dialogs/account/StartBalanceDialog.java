@@ -21,8 +21,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogPattern.CURRENCY_AMOUNT;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class StartBalanceDialog extends DialogImpl {

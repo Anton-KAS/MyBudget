@@ -11,8 +11,8 @@ import ru.kas.myBudget.services.BankService;
 import ru.kas.myBudget.services.CurrencyService;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 @DisplayName("Unit-level testing for DialogContainer")

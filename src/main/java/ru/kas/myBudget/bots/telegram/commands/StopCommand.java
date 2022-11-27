@@ -11,8 +11,8 @@ import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
 /**
- * @since 0.1
  * @author Anton Komrachkov
+ * @since 0.1
  */
 
 public class StopCommand extends CommandControllerImpl {

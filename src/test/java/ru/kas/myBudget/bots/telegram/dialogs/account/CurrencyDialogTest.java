@@ -8,14 +8,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
-import ru.kas.myBudget.bots.telegram.keyboards.AccountDialog.CurrenciesKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.accountDialog.CurrenciesKeyboard;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import ru.kas.myBudget.models.Currency;
-import ru.kas.myBudget.services.CurrencyService;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -27,12 +25,12 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.PA
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
-@DisplayName("Unit-level testing for AddAccount.CurrencyDialog")
-public class CurrencyDialogTest extends AbstractDialogImplTest {
+@DisplayName("Unit-level testing for account.CurrencyDialog")
+public class CurrencyDialogTest extends AbstractAccountDialogTest {
     private final static int TEST_PAGE_NUM = 999;
     private final static String TEST_EXISTENT_CURRENCY_ID = "7890";
     private final static String TEST_NONEXISTENT_CURRENCY_ID = "1111";
@@ -46,9 +44,7 @@ public class CurrencyDialogTest extends AbstractDialogImplTest {
     private final static String TEST_DATA_WITH_NONEXISTENT_CURRENCY_ID = String.format(CALLBACK_DATA_PATTERN,
             DIALOG.getId(), ADD_ACCOUNT.getName(), ADD_ACCOUNT.getName(), CURRENCY.getName(),
             TEST_NONEXISTENT_CURRENCY_ID, "");
-    protected final CurrencyService currencyServiceMock = Mockito.mock(CurrencyService.class);
     protected final CurrenciesKeyboard currenciesKeyboardMock = Mockito.mock(CurrenciesKeyboard.class);
-    private final static Currency currencyMock = Mockito.mock(Currency.class);
 
     @Override
     @BeforeEach

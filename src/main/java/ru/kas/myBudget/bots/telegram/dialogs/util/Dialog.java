@@ -5,8 +5,8 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public interface Dialog extends CommandController {

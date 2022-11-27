@@ -2,7 +2,7 @@ package ru.kas.myBudget.bots.telegram.dialogs.account;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.kas.myBudget.bots.telegram.dialogs.DialogImpl;
-import ru.kas.myBudget.bots.telegram.keyboards.AccountDialog.TypeKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.accountDialog.TypeKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
@@ -15,8 +15,8 @@ import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.OPERATI
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.CASH_ID;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class TypeDialog extends DialogImpl {

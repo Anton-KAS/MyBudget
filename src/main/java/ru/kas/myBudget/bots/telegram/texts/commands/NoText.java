@@ -3,11 +3,11 @@ package ru.kas.myBudget.bots.telegram.texts.commands;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
-public class NoText  implements MessageText {
+public class NoText implements MessageText {
     @Override
     public MessageText setUserId(Long userId) {
         return this;

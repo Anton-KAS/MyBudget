@@ -18,20 +18,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static ru.kas.myBudget.bots.telegram.dialogs.account.AbstractAccountDialogTest.TEST_TYPE_ACCOUNT_ID;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_INDEX;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
-@DisplayName("Unit-level testing for account.AddAccountDialog")
+@DisplayName("Unit-level testing for account.AccountDialog")
 public class AccountDialogTest extends AbstractMainDialogImplTest {
     private final static int TEST_ADD_ID = 666;
-    private final static String TEST_TYPE_ID = "TEST TYPE ID";
 
     private static String ADD_ACCOUNT_CALLBACK_PATTERN;
 
@@ -88,7 +88,7 @@ public class AccountDialogTest extends AbstractMainDialogImplTest {
         //given
         int dialogStep = 0;
         DialogsMap.remove(TEST_CHAT_ID);
-        DialogsMap.put(TEST_CHAT_ID, TYPE.getName(), TEST_TYPE_ID);
+        DialogsMap.put(TEST_CHAT_ID, TYPE.getName(), String.valueOf(TEST_TYPE_ACCOUNT_ID));
         DialogsMap.put(TEST_CHAT_ID, LAST_STEP.getId(), String.valueOf(dialogStep));
         Update update = getCallbackUpdate(String.format(ADD_ACCOUNT_CALLBACK_PATTERN, "from", START.getName(), "start"));
 
@@ -106,7 +106,7 @@ public class AccountDialogTest extends AbstractMainDialogImplTest {
                                                    Dialog commitDialogMock, Dialog executeDialogMock) {
         //given
         DialogsMap.remove(TEST_CHAT_ID);
-        DialogsMap.put(TEST_CHAT_ID, TYPE.getName(), TEST_TYPE_ID);
+        DialogsMap.put(TEST_CHAT_ID, TYPE.getName(), String.valueOf(TEST_TYPE_ACCOUNT_ID));
         DialogsMap.put(TEST_CHAT_ID, CURRENT_DIALOG_STEP.getId(), String.valueOf(addAccountName.ordinal()));
         DialogsMap.put(TEST_CHAT_ID, LAST_STEP.getId(), String.valueOf(dialogStep));
 
@@ -119,12 +119,11 @@ public class AccountDialogTest extends AbstractMainDialogImplTest {
     }
 
     private static Stream<Arguments> sourceCommitExecute() {
-        //int dialogStep = FIRST_STEP_INDEX.getIndex() + 1;
         List<Arguments> arguments = new ArrayList<>();
         for (int i = FIRST_STEP_INDEX.ordinal() + 1; i + 1 < AccountNames.values().length - 1; i++) {
             arguments.add(Arguments.of(getCallbackUpdate(AccountNames.values()[i]), i, AccountNames.values()[i],
                     addAccountContainerMock.retrieve(AccountNames.values()[i].getName()),
-                    addAccountContainerMock.retrieve(AccountNames.values()[i+1].getName())));
+                    addAccountContainerMock.retrieve(AccountNames.values()[i + 1].getName())));
         }
         return arguments.stream();
     }

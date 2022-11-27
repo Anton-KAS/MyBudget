@@ -6,7 +6,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
@@ -22,12 +21,12 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.TitleDialog.MAX_TITL
 import static ru.kas.myBudget.bots.telegram.dialogs.account.TitleDialog.MIN_TITLE_LENGTH;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
-@DisplayName("Unit-level testing for AddAccount.TitleDialog")
-public class TitleDialogTest extends AbstractDialogImplTest {
+@DisplayName("Unit-level testing for account.TitleDialog")
+public class TitleDialogTest extends AbstractAccountDialogTest {
 
     @Override
     protected String getCommandName() {
@@ -93,9 +92,11 @@ public class TitleDialogTest extends AbstractDialogImplTest {
     public static String getNormalLongMessageText() {
         return "t".repeat(MAX_TITLE_LENGTH);
     }
+
     public static String getNormalShortMessageText() {
         return "t".repeat(MIN_TITLE_LENGTH);
     }
+
     public static String getShortMessageText() {
         return "t".repeat(MIN_TITLE_LENGTH - 1);
     }

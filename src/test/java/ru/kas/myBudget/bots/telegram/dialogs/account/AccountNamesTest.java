@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class AccountNamesTest {

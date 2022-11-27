@@ -12,8 +12,8 @@ import ru.kas.myBudget.services.TelegramUserService;
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.OPERATION_DATA;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public abstract class ConfirmDialog extends DialogImpl {
@@ -22,7 +22,7 @@ public abstract class ConfirmDialog extends DialogImpl {
     protected String[] callbackData;
 
     public ConfirmDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                                   MessageText messageText, Keyboard keyboard) {
+                         MessageText messageText, Keyboard keyboard) {
         super(botMessageService, telegramUserService, messageText, keyboard, ASK_TEXT);
     }
 

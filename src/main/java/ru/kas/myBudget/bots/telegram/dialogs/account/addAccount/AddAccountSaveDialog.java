@@ -15,8 +15,8 @@ import ru.kas.myBudget.services.*;
 import java.math.BigDecimal;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class AddAccountSaveDialog extends SaveDialog {

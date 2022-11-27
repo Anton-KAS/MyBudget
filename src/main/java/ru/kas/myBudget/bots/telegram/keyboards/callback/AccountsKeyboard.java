@@ -11,15 +11,15 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.START;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class AccountsKeyboard implements Keyboard {
-    public final String FROM = ACCOUNTS.getName();
-    public final String RETURN_TO = MENU.getName();
-    public final String ADD_ACCOUNT_BUTTON_TEXT = "+ Добавить";
-    public final String ADD_ACCOUNT_BUTTON_CALLBACK = String.format("%s_%s_%s_%s_start",
+    public final static String FROM = ACCOUNTS.getName();
+    public final static String RETURN_TO = MENU.getName();
+    public final static String ADD_ACCOUNT_BUTTON_TEXT = "+ Добавить";
+    public final static String ADD_ACCOUNT_BUTTON_CALLBACK = String.format("%s_%s_%s_%s_start",
             DIALOG.getId(), ACCOUNTS.getName(), ADD_ACCOUNT.getName(), START.getName()); // TODO: One place for keeping callbacks patterns
 
     @Override

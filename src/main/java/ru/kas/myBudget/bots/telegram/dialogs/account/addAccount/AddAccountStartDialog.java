@@ -19,8 +19,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class AddAccountStartDialog extends StartDialog {

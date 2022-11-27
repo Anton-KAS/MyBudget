@@ -3,7 +3,7 @@ package ru.kas.myBudget.bots.telegram.dialogs.account.editAccount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
-import ru.kas.myBudget.bots.telegram.dialogs.account.SaveDialogTest;
+import ru.kas.myBudget.bots.telegram.dialogs.account.AbstractSaveDialogTest;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.models.Account;
 
@@ -15,8 +15,8 @@ import java.util.Optional;
  * @since 0.2
  */
 
-@DisplayName("Unit-level testing for account...EditAccountSaveDialog")
-public class EditAccountSaveDialogTest extends SaveDialogTest {
+@DisplayName("Unit-level testing for EditAccountSaveDialog")
+public class EditAccountSaveDialogTest extends AbstractSaveDialogTest {
 
     @Override
     @BeforeEach
@@ -33,8 +33,8 @@ public class EditAccountSaveDialogTest extends SaveDialogTest {
 
     @Override
     protected Account getExpectedAccount() {
-        return new Account(TEST_ACCOUNT_ID, TEST_TITLE_TEXT, TEST_DESCRIPTION_TEXT, TEST_START_BALANCE_DIALOG_MAP,
-                TEST_START_BALANCE_DIALOG_MAP, TEST_DATE, TEST_DATE, telegramUserMock, currencyMock, accountTypeMock,
+        return new Account(TEST_ACCOUNT_ID, TEST_TITLE_TEXT, TEST_DESCRIPTION_TEXT, TEST_START_BALANCE_BASIC,
+                TEST_START_BALANCE_BASIC, TEST_DATE, TEST_DATE, telegramUserMock, currencyMock, accountTypeMock,
                 bankMock);
     }
 

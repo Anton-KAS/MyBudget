@@ -10,8 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @since 0.1
  * @author Anton Komrachkov
+ * @since 0.1
  */
 
 @Entity

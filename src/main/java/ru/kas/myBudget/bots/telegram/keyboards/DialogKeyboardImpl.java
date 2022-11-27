@@ -6,8 +6,8 @@ import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public abstract class DialogKeyboardImpl implements DialogKeyboard {

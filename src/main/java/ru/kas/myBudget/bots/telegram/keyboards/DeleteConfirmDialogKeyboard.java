@@ -10,8 +10,8 @@ import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class DeleteConfirmDialogKeyboard implements Keyboard {
@@ -23,7 +23,6 @@ public class DeleteConfirmDialogKeyboard implements Keyboard {
         String fromDialog = DialogsMap.getDialogStepById(chatId, DIALOG_ID.getId());
         String editId = DialogsMap.getDialogStepById(chatId, EDIT_ID.getId());
         String fromMenu = DialogsMap.getDialogStepById(chatId, START_FROM_ID.getId());
-        String fromMenuId = DialogsMap.getDialogStepById(chatId, START_FROM_CALLBACK.getId());
 
         return new InlineKeyboardBuilder()
                 .addRow().addExecuteDeleteButton(fromDialog, editId)

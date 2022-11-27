@@ -32,8 +32,8 @@ package ru.kas.myBudget.bots.telegram.callbacks.util;
  *     OPERATOR_EXTRA_DATA  -   дополнительные данные для выполнения операции
  * </pre></blockquote>
  *
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public enum CallbackIndex {

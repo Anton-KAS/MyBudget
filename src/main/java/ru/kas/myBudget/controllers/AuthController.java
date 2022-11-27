@@ -14,8 +14,8 @@ import ru.kas.myBudget.util.WebUserValidator;
 import javax.validation.Valid;
 
 /**
- * @since 0.1
  * @author Anton Komrachkov
+ * @since 0.1
  */
 
 @Controller

@@ -7,8 +7,8 @@ import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.services.TelegramUserService;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class AddAccountConfirmDialog extends ConfirmDialog {

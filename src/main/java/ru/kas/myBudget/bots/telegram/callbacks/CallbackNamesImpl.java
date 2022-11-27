@@ -6,8 +6,8 @@ import ru.kas.myBudget.bots.telegram.util.CommandNames;
  * Список всех id Callback классов для {@link CallbackContainer}
  * и формирования CallbackData {@link ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex}
  *
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public enum CallbackNamesImpl implements CommandNames {

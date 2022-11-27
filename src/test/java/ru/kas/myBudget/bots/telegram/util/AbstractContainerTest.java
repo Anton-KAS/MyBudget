@@ -13,8 +13,8 @@ import ru.kas.myBudget.services.TelegramUserService;
 import java.util.Arrays;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 abstract public class AbstractContainerTest {
@@ -31,7 +31,9 @@ abstract public class AbstractContainerTest {
     protected static String TEST_UNKNOWN_COMMAND = "/testUnknownCommand";
 
     protected abstract void setContainer();
+
     protected abstract void setNames();
+
     protected abstract void setUnknownCommand();
 
     @BeforeEach

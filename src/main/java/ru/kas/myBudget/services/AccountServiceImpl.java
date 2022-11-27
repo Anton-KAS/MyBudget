@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 @Service

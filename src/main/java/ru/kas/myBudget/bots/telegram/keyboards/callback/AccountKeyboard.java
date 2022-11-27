@@ -11,8 +11,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.START;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class AccountKeyboard implements Keyboard {

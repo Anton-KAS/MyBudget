@@ -13,8 +13,8 @@ import ru.kas.myBudget.services.TelegramUserService;
 /**
  * Закрытие текущего окна меню (удаление сообщения с меню)
  *
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class CloseCallback extends CommandControllerImpl {

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import ru.kas.myBudget.models.Bank;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 @Repository

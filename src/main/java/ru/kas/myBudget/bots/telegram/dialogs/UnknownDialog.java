@@ -11,8 +11,8 @@ import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class UnknownDialog extends CommandControllerImpl implements Dialog {

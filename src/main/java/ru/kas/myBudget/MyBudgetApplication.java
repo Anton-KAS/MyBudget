@@ -4,15 +4,15 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @since 0.1
  * @author Anton Komrachkov
+ * @since 0.0
  */
 
 @SpringBootApplication
 public class MyBudgetApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MyBudgetApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MyBudgetApplication.class, args);
+    }
 
 }

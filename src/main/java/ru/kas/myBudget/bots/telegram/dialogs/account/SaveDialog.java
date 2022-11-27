@@ -19,8 +19,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.ST
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.START_FROM_ID;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public abstract class SaveDialog extends DialogImpl {
@@ -32,9 +32,9 @@ public abstract class SaveDialog extends DialogImpl {
     protected Map<String, String> dialogMap;
 
     public SaveDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                                MessageText messageText, Keyboard keyboard,
-                                CallbackContainer callbackContainer, AccountTypeService accountTypeService,
-                                CurrencyService currencyService, BankService bankService, AccountService accountService) {
+                      MessageText messageText, Keyboard keyboard,
+                      CallbackContainer callbackContainer, AccountTypeService accountTypeService,
+                      CurrencyService currencyService, BankService bankService, AccountService accountService) {
         super(botMessageService, telegramUserService, messageText, keyboard, null);
         this.callbackContainer = callbackContainer;
         this.currencyService = currencyService;

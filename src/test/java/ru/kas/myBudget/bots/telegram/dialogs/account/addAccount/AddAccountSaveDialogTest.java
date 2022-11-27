@@ -1,17 +1,17 @@
 package ru.kas.myBudget.bots.telegram.dialogs.account.addAccount;
 
 import org.junit.jupiter.api.DisplayName;
-import ru.kas.myBudget.bots.telegram.dialogs.account.SaveDialogTest;
+import ru.kas.myBudget.bots.telegram.dialogs.account.AbstractSaveDialogTest;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.models.Account;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
-@DisplayName("Unit-level testing for account...AddAccountSaveDialog")
-public class AddAccountSaveDialogTest extends SaveDialogTest {
+@DisplayName("Unit-level testing for AddAccountSaveDialog")
+public class AddAccountSaveDialogTest extends AbstractSaveDialogTest {
 
     @Override
     protected Dialog getCommand() {
@@ -21,8 +21,8 @@ public class AddAccountSaveDialogTest extends SaveDialogTest {
 
     @Override
     protected Account getExpectedAccount() {
-        return new Account(TEST_TITLE_TEXT, TEST_DESCRIPTION_TEXT, TEST_START_BALANCE_DIALOG_MAP,
-                TEST_START_BALANCE_DIALOG_MAP, telegramUserMock, currencyMock, accountTypeMock, bankMock);
+        return new Account(TEST_TITLE_TEXT, TEST_DESCRIPTION_TEXT, TEST_START_BALANCE_BASIC,
+                TEST_START_BALANCE_BASIC, telegramUserMock, currencyMock, accountTypeMock, bankMock);
     }
 
     @Override

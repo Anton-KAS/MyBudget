@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 @Entity

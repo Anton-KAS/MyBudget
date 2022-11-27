@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 @Entity

@@ -17,8 +17,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.CONFIRM;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public abstract class DialogImpl implements Dialog {

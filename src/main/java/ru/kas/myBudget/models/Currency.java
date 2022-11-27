@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 @Entity
 @Table(name = "currency")
 @Getter
 @Setter
-public class Currency implements Comparable<Currency>{
+public class Currency implements Comparable<Currency> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

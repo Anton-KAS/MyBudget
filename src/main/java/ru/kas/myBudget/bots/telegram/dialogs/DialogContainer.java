@@ -16,8 +16,8 @@ import ru.kas.myBudget.services.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.*;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class DialogContainer implements Container {

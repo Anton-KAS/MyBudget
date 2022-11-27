@@ -6,8 +6,8 @@ import ru.kas.myBudget.bots.telegram.dialogs.*;
 import ru.kas.myBudget.bots.telegram.dialogs.account.*;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.dialogs.util.DialogStepsContainer;
-import ru.kas.myBudget.bots.telegram.keyboards.AccountDialog.*;
-import ru.kas.myBudget.bots.telegram.keyboards.AccountDialog.editAccountDialog.EditAccountConfirmKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.accountDialog.*;
+import ru.kas.myBudget.bots.telegram.keyboards.accountDialog.editAccountDialog.EditAccountConfirmKeyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.callback.NoKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
@@ -20,8 +20,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT
 import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.*;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class EditAccountContainer implements DialogStepsContainer {

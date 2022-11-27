@@ -8,8 +8,8 @@ import ru.kas.myBudget.models.WebUser;
 import ru.kas.myBudget.repositories.WebUserRepository;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 @Service

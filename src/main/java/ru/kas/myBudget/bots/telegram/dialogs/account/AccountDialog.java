@@ -19,8 +19,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogPattern.EDIT_NUM;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class AccountDialog extends MainDialogImpl {

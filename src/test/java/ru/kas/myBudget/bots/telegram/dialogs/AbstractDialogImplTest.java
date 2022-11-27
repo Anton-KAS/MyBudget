@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_INDEX;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public abstract class AbstractDialogImplTest extends AbstractCommandControllerTest {

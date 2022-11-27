@@ -1,8 +1,8 @@
 package ru.kas.myBudget.bots.telegram.texts;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public interface MessageText {

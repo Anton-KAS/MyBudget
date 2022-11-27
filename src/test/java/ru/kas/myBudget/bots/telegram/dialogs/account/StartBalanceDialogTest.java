@@ -7,15 +7,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
 import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
-import ru.kas.myBudget.models.Currency;
-import ru.kas.myBudget.services.CurrencyService;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -26,15 +23,12 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.START_B
 import static ru.kas.myBudget.bots.telegram.dialogs.account.StartBalanceDialog.VERIFY_EXCEPTION_TEXT;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
-@DisplayName("Unit-level testing for AddAccount.StartBalanceDialog")
-public class StartBalanceDialogTest extends AbstractDialogImplTest {
-    private static final int TEST_CURRENCY_ID = 999;
-    private static final CurrencyService currencyServiceMock = Mockito.mock(CurrencyService.class);
-    private static final Currency currencyMock = Mockito.mock(Currency.class);
+@DisplayName("Unit-level testing for account.StartBalanceDialog")
+public class StartBalanceDialogTest extends AbstractAccountDialogTest {
 
     @Override
     protected String getCommandName() {

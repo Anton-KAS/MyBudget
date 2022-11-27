@@ -5,8 +5,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.Optional;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class UpdateParameter {

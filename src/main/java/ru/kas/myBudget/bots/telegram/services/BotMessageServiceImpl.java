@@ -22,8 +22,8 @@ import java.util.Optional;
 import static ru.kas.myBudget.bots.telegram.util.UpdateParameter.getUserId;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 @Service
@@ -37,7 +37,7 @@ public class BotMessageServiceImpl implements BotMessageService {
 
     @Override
     public Integer executeMessage(ExecuteMode executeMode, long chatId, Integer messageId, String message,
-                               InlineKeyboardMarkup inlineKeyboardMarkup) {
+                                  InlineKeyboardMarkup inlineKeyboardMarkup) {
         switch (executeMode) {
             case SEND -> {
                 return sendMessage(chatId, message, inlineKeyboardMarkup);

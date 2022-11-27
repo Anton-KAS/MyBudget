@@ -9,8 +9,8 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * @since 0.1
  * @author Anton Komrachkov
+ * @since 0.1
  */
 public class WebUserDetails implements UserDetails {
     private final WebUser webUser;

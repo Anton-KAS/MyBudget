@@ -19,8 +19,8 @@ import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public abstract class StartDialog extends DialogImpl {

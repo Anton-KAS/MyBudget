@@ -4,8 +4,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class UnknownKeyboard implements Keyboard {

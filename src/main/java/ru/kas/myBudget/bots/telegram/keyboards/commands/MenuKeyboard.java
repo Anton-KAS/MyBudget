@@ -7,8 +7,8 @@ import ru.kas.myBudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
 import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
 public class MenuKeyboard implements Keyboard {

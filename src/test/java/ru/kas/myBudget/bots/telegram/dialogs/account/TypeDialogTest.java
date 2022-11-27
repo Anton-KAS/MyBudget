@@ -8,14 +8,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest;
 import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
 import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
-import ru.kas.myBudget.bots.telegram.keyboards.AccountDialog.TypeKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.accountDialog.TypeKeyboard;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.texts.accountDialog.AccountText;
 import ru.kas.myBudget.models.AccountType;
-import ru.kas.myBudget.services.AccountTypeService;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -26,12 +24,12 @@ import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.TYPE;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.ADD_ACCOUNT;
 
 /**
- * @since 0.2
  * @author Anton Komrachkov
+ * @since 0.2
  */
 
-@DisplayName("Unit-level testing for AddAccount.TypeDialog")
-public class TypeDialogTest extends AbstractDialogImplTest {
+@DisplayName("Unit-level testing for account.TypeDialog")
+public class TypeDialogTest extends AbstractAccountDialogTest {
     private final static String TEST_EXISTENT_TYPE_ID = "7890";
     private final static String TEST_NONEXISTENT_TYPE_ID = "1111";
     private final static String CALLBACK_DATA_PATTERN = "%s_%s_%s_%s_%s";
@@ -41,9 +39,7 @@ public class TypeDialogTest extends AbstractDialogImplTest {
     private final static String TEST_DATA_WITH_NONEXISTENT_TYPE_ID = String.format(CALLBACK_DATA_PATTERN,
             DIALOG.getId(), ADD_ACCOUNT.getName(), ADD_ACCOUNT.getName(), TYPE.getName(),
             TEST_NONEXISTENT_TYPE_ID);
-    protected final AccountTypeService accountTypeServiceMock = Mockito.mock(AccountTypeService.class);
     protected final TypeKeyboard typeKeyboardMock = Mockito.mock(TypeKeyboard.class);
-    private final static AccountType accountTypeMock = Mockito.mock(AccountType.class);
 
     @Override
     @BeforeEach
