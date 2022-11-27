@@ -2,12 +2,17 @@ package ru.kas.myBudget.bots.telegram.util;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.services.TelegramUserService;
 
-public abstract class CommandControllerImpl implements CommandController{
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
+public abstract class CommandControllerImpl implements CommandController {
     protected final BotMessageService botMessageService;
     protected final TelegramUserService telegramUserService;
     protected final ExecuteMode defaultExecuteMode;
@@ -18,7 +23,7 @@ public abstract class CommandControllerImpl implements CommandController{
     protected InlineKeyboardMarkup inlineKeyboardMarkup;
 
     public CommandControllerImpl(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                       ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
+                                 ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
         this.botMessageService = botMessageService;
         this.telegramUserService = telegramUserService;
         this.defaultExecuteMode = defaultExecuteMode;

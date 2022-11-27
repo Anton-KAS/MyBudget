@@ -8,6 +8,10 @@ import ru.kas.myBudget.models.WebUser;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.1
+ */
 public class WebUserDetails implements UserDetails {
     private final WebUser webUser;
 

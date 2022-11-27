@@ -7,10 +7,15 @@ import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 public interface BotMessageService {
 
     Integer executeMessage(ExecuteMode executeMode, long chatId, Integer messageId, String message,
-                        InlineKeyboardMarkup inlineKeyboardMarkup);
+                           InlineKeyboardMarkup inlineKeyboardMarkup);
 
     Integer sendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
@@ -21,6 +26,7 @@ public interface BotMessageService {
     void executeAndUpdateUser(TelegramUserService telegramUserService,
                               Update update, ExecuteMode executeMode, String text,
                               InlineKeyboardMarkup inlineKeyboardMarkup);
+
     void updateUser(TelegramUserService telegramUserService, Update update);
 
     Integer execute(TelegramBot telegramBot, BotApiMethod message);

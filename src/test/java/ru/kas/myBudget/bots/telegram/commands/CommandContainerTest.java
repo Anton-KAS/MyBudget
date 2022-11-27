@@ -4,6 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import ru.kas.myBudget.bots.telegram.util.AbstractContainerTest;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for CommandContainer")
 public class CommandContainerTest extends AbstractContainerTest {
     @Override

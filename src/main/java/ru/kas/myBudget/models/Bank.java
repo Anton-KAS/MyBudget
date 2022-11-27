@@ -1,12 +1,23 @@
 package ru.kas.myBudget.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 @Entity
 @Table(name = "bank")
+@Getter
+@Setter
 public class Bank {
     @Id
     @Column(name = "id")
@@ -44,52 +55,21 @@ public class Bank {
         this.country = country;
     }
 
-    public int getId() {
-        return id;
+    public String displayToUser() {
+        return titleRu + " (" + country.getTitleRu() + ")";
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bank bank = (Bank) o;
+        return id == bank.id && custom == bank.custom && titleEn.equals(bank.titleEn) && titleRu.equals(bank.titleRu) && country.equals(bank.country);
     }
 
-    public String getTitleEn() {
-        return titleEn;
-    }
-
-    public void setTitleEn(String titleEn) {
-        this.titleEn = titleEn;
-    }
-
-    public String getTitleRu() {
-        return titleRu;
-    }
-
-    public void setTitleRu(String titleRu) {
-        this.titleRu = titleRu;
-    }
-
-    public boolean isCustom() {
-        return custom;
-    }
-
-    public void setCustom(boolean custom) {
-        this.custom = custom;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, titleEn, titleRu, custom, country);
     }
 
     @Override

@@ -9,6 +9,11 @@ import ru.kas.myBudget.repositories.BankRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 @Service
 @Transactional(readOnly = true)
 public class BankServiceImpl implements BankService {

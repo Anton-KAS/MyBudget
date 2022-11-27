@@ -1,12 +1,23 @@
 package ru.kas.myBudget.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 @Entity
 @Table(name = "country")
+@Getter
+@Setter
 public class Country {
     @Id
     @Column(name = "id")
@@ -43,52 +54,17 @@ public class Country {
         this.currency = currency;
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country = (Country) o;
+        return id == country.id && custom == country.custom && titleEn.equals(country.titleEn) && titleRu.equals(country.titleRu) && currency.equals(country.currency);
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitleEn() {
-        return titleEn;
-    }
-
-    public void setTitleEn(String titleEn) {
-        this.titleEn = titleEn;
-    }
-
-    public String getTitleRu() {
-        return titleRu;
-    }
-
-    public void setTitleRu(String titleRu) {
-        this.titleRu = titleRu;
-    }
-
-    public boolean isCustom() {
-        return custom;
-    }
-
-    public void setCustom(boolean custom) {
-        this.custom = custom;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public List<Bank> getBanks() {
-        return banks;
-    }
-
-    public void setBanks(List<Bank> banks) {
-        this.banks = banks;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, titleEn, titleRu, custom, currency);
     }
 
     @Override

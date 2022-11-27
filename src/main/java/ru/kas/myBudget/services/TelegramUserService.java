@@ -6,6 +6,11 @@ import ru.kas.myBudget.models.TelegramUser;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.1
+ */
+
 public interface TelegramUserService {
     void save(TelegramUser telegramUser);
 

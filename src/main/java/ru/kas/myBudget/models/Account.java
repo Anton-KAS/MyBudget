@@ -1,14 +1,25 @@
 package ru.kas.myBudget.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 @Entity
 @Table(name = "account")
+@Getter
+@Setter
 public class Account {
     @Id
     @Column(name = "id")
@@ -57,9 +68,10 @@ public class Account {
     public Account() {
     }
 
-    public Account(String title, String description, BigDecimal startBalance, BigDecimal currentBalance,
+    public Account(int id, String title, String description, BigDecimal startBalance, BigDecimal currentBalance,
                    Date createdAt, Date updatedAt, TelegramUser telegramUser, Currency currency,
                    AccountType accountType, Bank bank) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.startBalance = startBalance;
@@ -84,92 +96,26 @@ public class Account {
         this.bank = bank;
     }
 
-    public int getId() {
-        return id;
+    public BigDecimal getStartBalanceWithScale() {
+        BigDecimal numberToBasic = new BigDecimal(currency.getNumberToBasic());
+        return startBalance.divide(numberToBasic, RoundingMode.HALF_UP)
+                .setScale(String.valueOf(numberToBasic).length() - 1, RoundingMode.HALF_UP);
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setStartBalanceWithScale(BigDecimal startBalance) {
+        BigDecimal numberToBasic = new BigDecimal(currency.getNumberToBasic());
+        this.startBalance = startBalance.multiply(numberToBasic).setScale(0, RoundingMode.HALF_UP);
     }
 
-    public String getTitle() {
-        return title;
+    public BigDecimal getCurrentBalanceWithScale() {
+        BigDecimal numberToBasic = new BigDecimal(currency.getNumberToBasic());
+        return currentBalance.divide(numberToBasic, RoundingMode.HALF_UP)
+                .setScale(String.valueOf(numberToBasic).length() - 1, RoundingMode.HALF_UP);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public TelegramUser getTelegramUser() {
-        return telegramUser;
-    }
-
-    public void setTelegramUser(TelegramUser telegramUser) {
-        this.telegramUser = telegramUser;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public AccountType getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(AccountType accountType) {
-        this.accountType = accountType;
-    }
-
-    public Bank getBank() {
-        return bank;
-    }
-
-    public void setBank(Bank bank) {
-        this.bank = bank;
-    }
-
-    public BigDecimal getStartBalance() {
-        return startBalance;
-    }
-
-    public void setStartBalance(BigDecimal startBalance) {
-        this.startBalance = startBalance;
-    }
-
-    public BigDecimal getCurrentBalance() {
-        return currentBalance;
-    }
-
-    public void setCurrentBalance(BigDecimal currentBalance) {
-        this.currentBalance = currentBalance;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createTimestamp) {
-        this.createdAt = createTimestamp;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updateTimestamp) {
-        this.updatedAt = updateTimestamp;
+    public void setCurrentBalanceWithScale(BigDecimal currentBalance) {
+        BigDecimal numberToBasic = new BigDecimal(currency.getNumberToBasic());
+        this.currentBalance = currentBalance.multiply(numberToBasic).setScale(0, RoundingMode.HALF_UP);
     }
 
     @Override

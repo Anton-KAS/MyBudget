@@ -7,6 +7,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.*;
+import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
+import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
 import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
@@ -15,11 +18,14 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.FIRST_STEP_INDEX;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
+import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_INDEX;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 public abstract class AbstractDialogImplTest extends AbstractCommandControllerTest {
-    protected final static String TEST_DIALOG_STEP_ID = "3";
     protected final static int TEST_MESSAGE_ID = 123;
     protected final static String TEST_COMMAND = "/command";
     protected final static String TEST_DATA = "test_data";
@@ -27,18 +33,19 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     protected final static String TEST_STEP_TEXT = "test step text";
     protected Map<String, String> testDialogMap;
 
-    @Override
-    public abstract Dialog getCommand();
+    protected abstract CommandDialogNames getCommandDialogName();
 
-    public abstract CommandDialogNames getCommandDialogName();
+    @Override
+    protected abstract String getCommandName();
+
+    @Override
+    protected abstract Dialog getCommand();
 
     @Override
     @BeforeEach
     public void beforeEach() {
         super.beforeEach();
         testDialogMap = new HashMap<>();
-        Mockito.when(dialogsMapMock.getDialogMapById(TEST_CHAT_ID)).thenReturn(testDialogMap);
-        Mockito.when(dialogsMapMock.getDialogStepById(TEST_CHAT_ID, CURRENT_DIALOG_STEP.getId())).thenReturn(TEST_DIALOG_STEP_ID);
     }
 
     @ParameterizedTest
@@ -93,38 +100,39 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     public static Stream<Arguments> sourceGetExecuteMode() {
         return Stream.of(
                 Arguments.of(getUpdateWithText(TEST_TEXT), null, ExecuteMode.SEND),
-                Arguments.of(getUpdateWithText(TEST_TEXT), FIRST_STEP_INDEX.getIndex(), ExecuteMode.SEND),
-                Arguments.of(getUpdateWithText(TEST_TEXT), FIRST_STEP_INDEX.getIndex() + 1, ExecuteMode.SEND),
+                Arguments.of(getUpdateWithText(TEST_TEXT), FIRST_STEP_INDEX.ordinal(), ExecuteMode.SEND),
+                Arguments.of(getUpdateWithText(TEST_TEXT), FIRST_STEP_INDEX.ordinal() + 1, ExecuteMode.SEND),
 
                 Arguments.of(getUpdateWithText(TEST_COMMAND), null, ExecuteMode.SEND),
-                Arguments.of(getUpdateWithText(TEST_COMMAND), FIRST_STEP_INDEX.getIndex(), ExecuteMode.SEND),
-                Arguments.of(getUpdateWithText(TEST_COMMAND), FIRST_STEP_INDEX.getIndex() + 1, ExecuteMode.SEND),
+                Arguments.of(getUpdateWithText(TEST_COMMAND), FIRST_STEP_INDEX.ordinal(), ExecuteMode.SEND),
+                Arguments.of(getUpdateWithText(TEST_COMMAND), FIRST_STEP_INDEX.ordinal() + 1, ExecuteMode.SEND),
 
                 Arguments.of(getCallbackUpdateWithData(TEST_TEXT), null, ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_TEXT), FIRST_STEP_INDEX.getIndex(), ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_TEXT), FIRST_STEP_INDEX.getIndex() + 1, ExecuteMode.EDIT),
+                Arguments.of(getCallbackUpdateWithData(TEST_TEXT), FIRST_STEP_INDEX.ordinal(), ExecuteMode.SEND),
+                Arguments.of(getCallbackUpdateWithData(TEST_TEXT), FIRST_STEP_INDEX.ordinal() + 1, ExecuteMode.EDIT),
 
                 Arguments.of(getCallbackUpdateWithData(TEST_COMMAND), null, ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_COMMAND), FIRST_STEP_INDEX.getIndex(), ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_COMMAND), FIRST_STEP_INDEX.getIndex() + 1, ExecuteMode.EDIT),
+                Arguments.of(getCallbackUpdateWithData(TEST_COMMAND), FIRST_STEP_INDEX.ordinal(), ExecuteMode.SEND),
+                Arguments.of(getCallbackUpdateWithData(TEST_COMMAND), FIRST_STEP_INDEX.ordinal() + 1, ExecuteMode.EDIT),
 
                 Arguments.of(getCallbackUpdateWithData(TEST_DATA), null, ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_DATA), FIRST_STEP_INDEX.getIndex(), ExecuteMode.SEND),
-                Arguments.of(getCallbackUpdateWithData(TEST_DATA), FIRST_STEP_INDEX.getIndex() + 1, ExecuteMode.EDIT)
+                Arguments.of(getCallbackUpdateWithData(TEST_DATA), FIRST_STEP_INDEX.ordinal(), ExecuteMode.SEND),
+                Arguments.of(getCallbackUpdateWithData(TEST_DATA), FIRST_STEP_INDEX.ordinal() + 1, ExecuteMode.EDIT)
         );
     }
 
     @Test
     public void shouldProperlyAddToDialogMap() {
         //given
-        int expectedSize = testDialogMap.size() + 2;
+        DialogsMap.remove(TEST_CHAT_ID);
+        int expectedSize = 2;
 
         //when
         getCommand().addToDialogMap(TEST_CHAT_ID, getCommandDialogName(), TEST_STEP_ID, TEST_STEP_TEXT);
-
+        int actualSize = DialogsMap.getDialogMapById(TEST_CHAT_ID).size();
 
         //then
-        assertEquals(testDialogMap.size(), expectedSize);
+        assertEquals(expectedSize, actualSize);
     }
 
     protected static Update getUpdateWithText(String text) {

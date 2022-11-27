@@ -2,15 +2,20 @@ package ru.kas.myBudget.bots.telegram.util;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
+import ru.kas.myBudget.services.AccountService;
 import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.Arrays;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 abstract public class AbstractContainerTest {
     protected Container container;
@@ -19,13 +24,16 @@ abstract public class AbstractContainerTest {
 
     protected BotMessageService botMessageServiceMock = Mockito.mock(BotMessageService.class);
     protected TelegramUserService telegramUserServiceMock = Mockito.mock(TelegramUserService.class);
+    protected AccountService accountServiceMock = Mockito.mock(AccountService.class);
     protected Keyboard keyboardMock = Mockito.mock(Keyboard.class);
     protected MessageText messageTextMock = Mockito.mock(MessageText.class);
 
     protected static String TEST_UNKNOWN_COMMAND = "/testUnknownCommand";
 
     protected abstract void setContainer();
+
     protected abstract void setNames();
+
     protected abstract void setUnknownCommand();
 
     @BeforeEach

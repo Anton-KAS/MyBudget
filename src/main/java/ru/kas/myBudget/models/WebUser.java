@@ -1,13 +1,23 @@
 package ru.kas.myBudget.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.1
+ */
+
 @Entity
 @Table(name = "web_user")
+@Getter
+@Setter
 public class WebUser {
     @Id
     @Column(name = "id")
@@ -49,70 +59,6 @@ public class WebUser {
         this.createdAt = createdAt;
         this.lastActive = lastActive;
         this.active = active;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getLastActive() {
-        return lastActive;
-    }
-
-    public void setLastActive(Date lastActive) {
-        this.lastActive = lastActive;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public List<TelegramUser> getTelegramUsers() {
-        return telegramUsers;
-    }
-
-    public void setTelegramUsers(List<TelegramUser> telegramUsers) {
-        this.telegramUsers = telegramUsers;
     }
 
     @Override

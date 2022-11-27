@@ -10,6 +10,11 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 @DisplayName("Unit-level testing for UpdateParameter")
 public class UpdateParameterTest {
     private final static String TEST_TEXT = "Test Text";
@@ -93,7 +98,7 @@ public class UpdateParameterTest {
     @MethodSource("sourceCallbackData")
     public void ShouldPropertyExtractCallbackData(Update update, String[] expectedText) {
         //when
-        String[] dataResult = UpdateParameter.getCallbackData(update);
+        String[] dataResult = UpdateParameter.getCallbackData(update).orElse(null);
 
         //then
         assertArrayEquals(expectedText, dataResult);

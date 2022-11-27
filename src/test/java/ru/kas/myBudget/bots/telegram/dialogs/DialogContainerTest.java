@@ -10,13 +10,19 @@ import ru.kas.myBudget.services.AccountTypeService;
 import ru.kas.myBudget.services.BankService;
 import ru.kas.myBudget.services.CurrencyService;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 @DisplayName("Unit-level testing for DialogContainer")
 public class DialogContainerTest extends AbstractContainerTest {
-    private final CallbackContainer callbackContainerMock = new CallbackContainer(botMessageServiceMock, telegramUserServiceMock);
     private final AccountTypeService accountTypeServiceMock = Mockito.mock(AccountTypeService.class);
     private final CurrencyService currencyServiceMock = Mockito.mock(CurrencyService.class);
     private final BankService bankServiceMock = Mockito.mock(BankService.class);
     private final AccountService accountServiceMock = Mockito.mock(AccountService.class);
+    private final CallbackContainer callbackContainerMock = new CallbackContainer(
+            botMessageServiceMock, telegramUserServiceMock, accountServiceMock);
 
     @Override
     protected void setContainer() {

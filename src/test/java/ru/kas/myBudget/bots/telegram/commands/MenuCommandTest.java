@@ -2,12 +2,17 @@ package ru.kas.myBudget.bots.telegram.commands;
 
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
-import ru.kas.myBudget.bots.telegram.texts.MenuText;
+import ru.kas.myBudget.bots.telegram.texts.commands.MenuText;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.MENU;
+
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
 
 @DisplayName("Unit-level testing for MenuCommand")
 public class MenuCommandTest extends AbstractCommandControllerTest {

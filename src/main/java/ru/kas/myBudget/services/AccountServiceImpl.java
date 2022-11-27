@@ -4,11 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kas.myBudget.models.Account;
+import ru.kas.myBudget.models.TelegramUser;
 import ru.kas.myBudget.repositories.AccountRepository;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 @Service
 @Transactional(readOnly = true)
@@ -22,6 +28,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public Optional<Account> findById(int accountId) {
+        return accountRepository.findById(accountId);
+    }
+
+    @Override
     @Transactional
     public void save(Account account) {
         if (account.getCreatedAt() == null) account.setCreatedAt(new Date());
@@ -30,7 +41,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> findAllByTelegramUserId(long telegramUserId) {
-        return accountRepository.findAllByTelegramUser(telegramUserId);
+    @Transactional
+    public void deleteById(int accountId) {
+        accountRepository.deleteById(accountId);
     }
 }

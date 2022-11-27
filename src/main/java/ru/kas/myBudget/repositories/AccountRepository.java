@@ -4,12 +4,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.kas.myBudget.models.Account;
 
-import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface AccountRepository extends JpaRepository<Account, Long> {
-    Optional<Account> findByTelegramUser(Long telegramUserId);
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
-    List<Account> findAllByTelegramUser(Long telegramUserId);
+@Repository
+public interface AccountRepository extends JpaRepository<Account, Integer> {
+
+    Optional<Account> findById(int accountId);
+
 }

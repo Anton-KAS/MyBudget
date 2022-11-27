@@ -9,10 +9,16 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.kas.myBudget.bots.telegram.bot.TelegramBot;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 @DisplayName("Unit-level testing for BotMessageService")
 public class BotMessageServiceTest {
 
-    private final TelegramBot telegramBotMock = Mockito.mock(TelegramBot.class);;
+    private final TelegramBot telegramBotMock = Mockito.mock(TelegramBot.class);
+    ;
     private BotMessageService botMessageService;
 
     @BeforeEach
