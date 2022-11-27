@@ -1,4 +1,4 @@
-package ru.kas.myBudget.bots.telegram.commands;
+package ru.kas.myBudget.bots.telegram.commands.util;
 
 /**
  * @author Anton Komrachkov

@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static ru.kas.myBudget.bots.telegram.bot.TelegramBot.COMMAND_PREFIX;
 import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.OPERATION_DATA;
-import static ru.kas.myBudget.bots.telegram.commands.CommandIndex.COMMAND;
+import static ru.kas.myBudget.bots.telegram.commands.util.CommandIndex.COMMAND;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogPattern.EDIT_NUM;
