@@ -7,6 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kas.myBudget.models.WebUser;
 import ru.kas.myBudget.repositories.WebUserRepository;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 @Service
 @Transactional(readOnly = true)
 public class RegistrationService {

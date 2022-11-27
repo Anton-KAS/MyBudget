@@ -8,6 +8,12 @@ import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.1
+ */
 
 @Entity
 @Table(name = "tg_user")
@@ -117,6 +123,19 @@ public class TelegramUser {
         this.lastMessageId = null;
         this.lastMessageText = null;
         this.lastMessageTimestamp = null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TelegramUser that = (TelegramUser) o;
+        return id == that.id && chat_id == that.chat_id && username.equals(that.username) && firstName.equals(that.firstName) && lastName.equals(that.lastName) && languageCode.equals(that.languageCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, chat_id, username, firstName, lastName, languageCode);
     }
 
     @Override

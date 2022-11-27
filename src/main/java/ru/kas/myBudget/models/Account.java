@@ -11,6 +11,11 @@ import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 @Entity
 @Table(name = "account")
 @Getter
@@ -63,9 +68,10 @@ public class Account {
     public Account() {
     }
 
-    public Account(String title, String description, BigDecimal startBalance, BigDecimal currentBalance,
+    public Account(int id, String title, String description, BigDecimal startBalance, BigDecimal currentBalance,
                    Date createdAt, Date updatedAt, TelegramUser telegramUser, Currency currency,
                    AccountType accountType, Bank bank) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.startBalance = startBalance;

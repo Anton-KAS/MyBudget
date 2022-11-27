@@ -8,6 +8,11 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 @DisplayName("Unit-level testing for AccountsText")
 public class AccountsTextTest {
     private final TelegramUserService telegramUserServiceMock = Mockito.mock(TelegramUserService.class);

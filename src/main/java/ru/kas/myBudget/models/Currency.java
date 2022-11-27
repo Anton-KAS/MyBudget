@@ -9,11 +9,16 @@ import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 @Entity
 @Table(name = "currency")
 @Getter
 @Setter
-public class Currency implements Comparable<Currency>{
+public class Currency implements Comparable<Currency> {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -13,6 +13,11 @@ import ru.kas.myBudget.util.WebUserValidator;
 
 import javax.validation.Valid;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.1
+ */
+
 @Controller
 @RequestMapping("/auth")
 public class AuthController {

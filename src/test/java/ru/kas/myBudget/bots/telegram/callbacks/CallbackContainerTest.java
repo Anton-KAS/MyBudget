@@ -3,6 +3,11 @@ package ru.kas.myBudget.bots.telegram.callbacks;
 import org.junit.jupiter.api.DisplayName;
 import ru.kas.myBudget.bots.telegram.util.*;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for CallbackContainer")
 public class CallbackContainerTest extends AbstractContainerTest {
     @Override

@@ -7,6 +7,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Objects;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 @Entity
 @Table(name = "country")
@@ -46,6 +52,19 @@ public class Country {
         this.titleRu = titleRu;
         this.custom = custom;
         this.currency = currency;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country = (Country) o;
+        return id == country.id && custom == country.custom && titleEn.equals(country.titleEn) && titleRu.equals(country.titleRu) && currency.equals(country.currency);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, titleEn, titleRu, custom, currency);
     }
 
     @Override

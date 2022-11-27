@@ -11,6 +11,11 @@ import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.services.TelegramUserService;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for CloseCallback")
 public class CloseCallbackTest {
     protected static long TEST_USER_ID = 123456789L;

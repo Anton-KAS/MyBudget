@@ -14,6 +14,11 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import static ru.kas.myBudget.bots.telegram.commands.CommandNamesImpl.*;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.1
+ */
+
 public class CommandContainer implements Container {
     private final static ExecuteMode defaultExecuteMode = ExecuteMode.SEND;
     private final ImmutableMap<String, CommandController> commandMap;

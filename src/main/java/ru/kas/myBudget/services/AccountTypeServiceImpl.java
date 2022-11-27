@@ -9,6 +9,11 @@ import ru.kas.myBudget.repositories.AccountTypeRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 @Service
 @Transactional(readOnly = true)
 public class AccountTypeServiceImpl implements AccountTypeService {

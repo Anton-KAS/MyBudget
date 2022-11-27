@@ -1,5 +1,10 @@
 package ru.kas.myBudget.bots.telegram.texts;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 public interface MessageText {
     MessageText setUserId(Long userId);
 

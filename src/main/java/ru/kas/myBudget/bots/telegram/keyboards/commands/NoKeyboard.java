@@ -1,9 +1,14 @@
 package ru.kas.myBudget.bots.telegram.keyboards.commands;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 
-public class NoKeyboard  implements Keyboard {
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
+public class NoKeyboard implements Keyboard {
     @Override
     public InlineKeyboardMarkup getKeyboard() {
         return null;

@@ -5,6 +5,11 @@ import ru.kas.myBudget.models.Account;
 import ru.kas.myBudget.models.Bank;
 import ru.kas.myBudget.services.AccountService;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 public class AccountText implements MessageText {
     private AccountService accountService;
     private Long userId;
@@ -46,9 +51,9 @@ public class AccountText implements MessageText {
 
         String pattern = """
                 <b>%s</b>%s
-                
+                                
                 %s<i>%s</i>
-                
+                                
                 Баланс: <b>%s %s</b>
                 """;
 
@@ -58,6 +63,6 @@ public class AccountText implements MessageText {
                 account.getAccountType().getTitleRu(),
                 description,
                 account.getCurrentBalanceWithScale(), account.getCurrency().getSymbol()
-                );
+        );
     }
 }

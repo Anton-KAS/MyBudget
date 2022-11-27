@@ -6,6 +6,11 @@ import ru.kas.myBudget.models.Currency;
 
 import java.util.Optional;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, Integer> {
     Optional<Currency> findByIsoCode(String isoCode);

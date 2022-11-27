@@ -7,6 +7,11 @@ import ru.kas.myBudget.bots.telegram.texts.commands.UnknownText;
 import ru.kas.myBudget.bots.telegram.util.AbstractCommandControllerTest;
 import ru.kas.myBudget.bots.telegram.util.CommandController;
 
+/**
+ * @since 0.2
+ * @author Anton Komrachkov
+ */
+
 @DisplayName("Unit-level testing for UnknownCommand")
 public class UnknownCommandTest extends AbstractCommandControllerTest {
     @Override

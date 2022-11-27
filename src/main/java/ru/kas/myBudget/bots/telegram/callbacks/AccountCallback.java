@@ -1,7 +1,7 @@
 package ru.kas.myBudget.bots.telegram.callbacks;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.callback.AccountKeyboard;
 import ru.kas.myBudget.bots.telegram.keyboards.callback.NoKeyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
@@ -16,8 +16,19 @@ import ru.kas.myBudget.models.TelegramUser;
 import ru.kas.myBudget.services.AccountService;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackIndex.OPERATION_DATA;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogPattern.EDIT_NUM;
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex.OPERATION_DATA;
+import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogPattern.EDIT_NUM;
+
+/**
+ * Отправка в Telegram Bot меню с информацией о счете пользователя.
+ * <br>При вызове метода {@code execute(Update update)} должно выполняться одно из условий:
+ * <p> -  Update содержит CallbackQuery c CallbackData порядковым номером счета пользователя в списке выдачи БД
+ * в OPERATOR_DATA (см. {@link ru.kas.myBudget.bots.telegram.callbacks.util.CallbackIndex})
+ * <p> -  Update содержит текстовую комманду "/n", где n - порядковый номер счета пользователя в списке выдачи БД
+ *
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 public class AccountCallback extends CommandControllerImpl {
     private final AccountText accountText = (AccountText) messageText;
@@ -36,9 +47,9 @@ public class AccountCallback extends CommandControllerImpl {
         ResponseWaitingMap.remove(UpdateParameter.getChatId(update));
         Integer accountId = null;
         if (update.hasCallbackQuery()) {
-            String[] callbackData = UpdateParameter.getCallbackData(update);
+            String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
             if (callbackData != null) {
-                accountId = Integer.parseInt(callbackData[OPERATION_DATA.getIndex()]);
+                accountId = Integer.parseInt(callbackData[OPERATION_DATA.ordinal()]);
             }
         } else {
             String textData = UpdateParameter.getMessageText(update);

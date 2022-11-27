@@ -2,22 +2,30 @@ package ru.kas.myBudget.bots.telegram.dialogs;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
+import ru.kas.myBudget.bots.telegram.dialogs.util.CommandDialogNames;
+import ru.kas.myBudget.bots.telegram.dialogs.util.Dialog;
+import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.services.TelegramUserService;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogIndex.FIRST_STEP_INDEX;
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.CURRENT_DIALOG_STEP;
+import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_INDEX;
+import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.CONFIRM;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 public abstract class DialogImpl implements Dialog {
     protected final BotMessageService botMessageService;
     protected final TelegramUserService telegramUserService;
     protected final MessageText messageText;
     protected Keyboard keyboard;
-    //protected final DialogsMap dialogsMap;
 
     protected Long userId;
     protected Long chatId;
@@ -34,7 +42,6 @@ public abstract class DialogImpl implements Dialog {
         this.telegramUserService = telegramUserService;
         this.messageText = messageText;
         this.keyboard = keyboard;
-        //this.dialogsMap = dialogsMap;
         this.askText = askText;
     }
 
@@ -51,11 +58,10 @@ public abstract class DialogImpl implements Dialog {
     public void execute(Update update) {
         this.userId = UpdateParameter.getUserId(update);
         this.chatId = UpdateParameter.getChatId(update);
-        ExecuteMode executeMode = defaultExecuteMode;
+        ExecuteMode executeMode = getExecuteMode(update, dialogStep);
         String dialogStepString = DialogsMap.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId());
         if (dialogStepString != null) {
             dialogStep = Integer.parseInt(dialogStepString);
-            executeMode = getExecuteMode(update, dialogStep);
         }
         executeByOrder(update, executeMode);
     }
@@ -73,6 +79,7 @@ public abstract class DialogImpl implements Dialog {
 
     @Override
     public void setData(Update update) {
+        if (userId == null) userId = UpdateParameter.getUserId(update);
         text = messageText.setUserId(userId).getText();
         inlineKeyboardMarkup = keyboard.getKeyboard();
     }
@@ -87,11 +94,16 @@ public abstract class DialogImpl implements Dialog {
     public void addToDialogMap(long chatId, CommandDialogNames name, String stringId, String text) {
         DialogsMap.put(chatId, name.getName(), stringId);
         DialogsMap.put(chatId, name.getStepIdText(), text);
+
+        String dialogStepData = DialogsMap.getDialogStepById(chatId, LAST_STEP.getId());
+        if (dialogStepData != null && dialogStepData.equals(String.valueOf(CONFIRM.ordinal()))) {
+            DialogsMap.getDialogMapById(chatId).replace(CAN_SAVE.getId(), "true");
+        }
     }
 
     @Override
     public ExecuteMode getExecuteMode(Update update, Integer dialogStep) {
-        if (update.hasCallbackQuery() && dialogStep != null && dialogStep > FIRST_STEP_INDEX.getIndex()) {
+        if (update.hasCallbackQuery() && dialogStep != null && dialogStep > FIRST_STEP_INDEX.ordinal()) {
             return ExecuteMode.EDIT;
         }
         return ExecuteMode.SEND;

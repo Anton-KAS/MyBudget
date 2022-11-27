@@ -7,8 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.models.TelegramUser;
@@ -16,6 +15,11 @@ import ru.kas.myBudget.services.TelegramUserService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 abstract public class AbstractCommandControllerTest {
     protected static long TEST_USER_ID = 123456789L;
@@ -29,14 +33,14 @@ abstract public class AbstractCommandControllerTest {
 
     protected BotMessageService botMessageServiceMock = Mockito.mock(BotMessageService.class);
     protected TelegramUserService telegramUserServiceMock = Mockito.mock(TelegramUserService.class);
-    protected DialogsMap dialogsMapMock = Mockito.mock(DialogsMap.class);
     protected Keyboard keyboardMock = Mockito.mock(Keyboard.class);
-    protected MessageText messageTextMock = Mockito.mock(MessageText.class);
+    protected MessageText messageTextMock;
 
     protected abstract String getCommandName();
 
-    public abstract CommandController getCommand();
-    public abstract MessageText getMockMessageText();
+    protected abstract CommandController getCommand();
+
+    protected abstract MessageText getMockMessageText();
 
     @BeforeEach
     public void beforeEach() {
@@ -47,8 +51,6 @@ abstract public class AbstractCommandControllerTest {
         Mockito.when(messageTextMock.getText()).thenReturn(TEST_TEXT);
 
         Mockito.when(telegramUserServiceMock.retrieveAllActiveUsers()).thenReturn(TEST_USER_LIST);
-
-        //Mockito.when(dialogsMapMock.remove(TEST_USER_ID)).thenReturn(dialogsMapMock);
     }
 
     @Test

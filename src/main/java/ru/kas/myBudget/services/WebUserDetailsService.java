@@ -12,6 +12,11 @@ import ru.kas.myBudget.security.WebUserDetails;
 
 import java.util.Optional;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.1
+ */
+
 @Service
 @Transactional(readOnly = true)
 public class WebUserDetailsService implements UserDetailsService {

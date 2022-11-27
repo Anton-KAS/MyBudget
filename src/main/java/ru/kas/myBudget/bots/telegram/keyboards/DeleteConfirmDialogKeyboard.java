@@ -2,10 +2,17 @@ package ru.kas.myBudget.bots.telegram.keyboards;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.kas.myBudget.bots.telegram.dialogs.DialogsMap;
+import ru.kas.myBudget.bots.telegram.dialogs.util.DialogsMap;
+import ru.kas.myBudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 
-import static ru.kas.myBudget.bots.telegram.dialogs.DialogMapDefaultName.*;
+import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 public class DeleteConfirmDialogKeyboard implements Keyboard {
     private Update update;
@@ -16,7 +23,6 @@ public class DeleteConfirmDialogKeyboard implements Keyboard {
         String fromDialog = DialogsMap.getDialogStepById(chatId, DIALOG_ID.getId());
         String editId = DialogsMap.getDialogStepById(chatId, EDIT_ID.getId());
         String fromMenu = DialogsMap.getDialogStepById(chatId, START_FROM_ID.getId());
-        String fromMenuId = DialogsMap.getDialogStepById(chatId, START_FROM_DATA.getId());
 
         return new InlineKeyboardBuilder()
                 .addRow().addExecuteDeleteButton(fromDialog, editId)

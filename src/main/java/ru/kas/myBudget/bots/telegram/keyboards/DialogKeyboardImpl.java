@@ -1,6 +1,14 @@
 package ru.kas.myBudget.bots.telegram.keyboards;
 
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
+import ru.kas.myBudget.bots.telegram.keyboards.util.DialogKeyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
+
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 public abstract class DialogKeyboardImpl implements DialogKeyboard {
     protected String currentDialogName;

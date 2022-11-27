@@ -3,6 +3,11 @@ package ru.kas.myBudget.bots.telegram.util;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
 public class ResponseWaitingMap {
     private static Map<Long, CommandNames> instanceMap;
 

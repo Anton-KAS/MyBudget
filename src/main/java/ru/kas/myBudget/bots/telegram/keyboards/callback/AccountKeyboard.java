@@ -1,14 +1,19 @@
 package ru.kas.myBudget.bots.telegram.keyboards.callback;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import ru.kas.myBudget.bots.telegram.keyboards.InlineKeyboardBuilder;
-import ru.kas.myBudget.bots.telegram.keyboards.Keyboard;
+import ru.kas.myBudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
+import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
 import static ru.kas.myBudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNTS;
-import static ru.kas.myBudget.bots.telegram.callbacks.CallbackType.DIALOG;
+import static ru.kas.myBudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 import static ru.kas.myBudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT;
-import static ru.kas.myBudget.bots.telegram.dialogs.addAccount.AddAccountNames.START;
+import static ru.kas.myBudget.bots.telegram.dialogs.account.AccountNames.START;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
 
 public class AccountKeyboard implements Keyboard {
     public final static String FROM = ACCOUNT.getName();
@@ -18,7 +23,6 @@ public class AccountKeyboard implements Keyboard {
             DIALOG.getId(), ACCOUNT.getName(), EDIT_ACCOUNT.getName(), START.getName(), "%s"); // TODO: One place for keeping callbacks patterns
 
     public String editAccountButtonText;
-
 
     private Integer accountId;
 
