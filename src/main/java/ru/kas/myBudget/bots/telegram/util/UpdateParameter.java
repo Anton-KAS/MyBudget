@@ -34,4 +34,13 @@ public class UpdateParameter {
         if (update.hasCallbackQuery()) return Optional.of(update.getCallbackQuery().getData().split("_"));
         return Optional.empty();
     }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4
+     */
+    public static Optional<String> getCallbackQueryId(Update update) {
+        if (update.hasCallbackQuery()) return Optional.of(update.getCallbackQuery().getId());
+        return Optional.empty();
+    }
 }

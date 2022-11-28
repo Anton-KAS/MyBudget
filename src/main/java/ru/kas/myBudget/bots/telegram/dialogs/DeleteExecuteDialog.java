@@ -23,6 +23,8 @@ public class DeleteExecuteDialog extends MainDialogImpl {
 
     private final CallbackContainer callbackContainer;
     private final AccountService accountService;
+    private final static String COMMIT_MESSAGE = "удалил...";
+    private final static String EXCEPTION_MESSAGE = "ничего не удалил...";
 
     public DeleteExecuteDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
                                CallbackContainer callbackContainer, AccountService accountService) {
@@ -36,16 +38,23 @@ public class DeleteExecuteDialog extends MainDialogImpl {
         long chatId = UpdateParameter.getChatId(update);
         ResponseWaitingMap.remove(chatId);
         DialogsMap.remove(chatId);
+
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
         if (callbackData != null && callbackData.length > OPERATION_DATA.ordinal()
-                && callbackData[OPERATION.ordinal()].equals("delete")) {
+                && callbackData[OPERATION.ordinal()].equals("delete")) { // TODO: rewrite magic word delete
+
             if (callbackData[FROM.ordinal()].equals(EDIT_ACCOUNT.getName())) {
                 String returnTo = ACCOUNTS.getName();
                 int idToDelete = Integer.parseInt(callbackData[OPERATION_DATA.ordinal()]);
                 accountService.deleteById(idToDelete);
+                botMessageService.sendPopup(UpdateParameter.getCallbackQueryId(update).orElse(null), COMMIT_MESSAGE);
                 callbackContainer.retrieve(returnTo).execute(update);
                 return;
             }
+        }
+
+        if (callbackData != null) {
+            botMessageService.sendPopup(UpdateParameter.getCallbackQueryId(update).orElse(null), EXCEPTION_MESSAGE);
         }
         callbackContainer.retrieve(MENU.getName()).execute(update);
         System.out.println("Nothing to delete");

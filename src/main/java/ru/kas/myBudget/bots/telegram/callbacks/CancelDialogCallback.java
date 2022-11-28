@@ -35,7 +35,7 @@ public class CancelDialogCallback extends CommandControllerImpl {
 
     @Override
     protected void executeData(Update update, ExecuteMode executeMode) {
-        super.executeData(update, executeMode);
+        botMessageService.sendPopup(UpdateParameter.getCallbackQueryId(update).orElse(null), text);
 
         long chatId = UpdateParameter.getChatId(update);
         if (update.hasCallbackQuery()) {
