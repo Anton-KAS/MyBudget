@@ -9,6 +9,7 @@ import ru.kas.myBudget.bots.telegram.services.BotMessageService;
 import ru.kas.myBudget.bots.telegram.texts.MessageText;
 import ru.kas.myBudget.bots.telegram.util.ExecuteMode;
 import ru.kas.myBudget.bots.telegram.util.ResponseWaitingMap;
+import ru.kas.myBudget.bots.telegram.util.UpdateParameter;
 import ru.kas.myBudget.models.Bank;
 import ru.kas.myBudget.services.*;
 
@@ -47,8 +48,8 @@ public abstract class SaveDialog extends DialogImpl {
 
     @Override
     public void executeData(Update update, ExecuteMode executeMode) {
-        botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
-                messageText.setUserId(userId).getText(), keyboard.getKeyboard());
+        botMessageService.sendPopup(UpdateParameter.getCallbackQueryId(update).orElse(null),
+                messageText.setUserId(userId).getText());
         String fromStartId = dialogMap.get(START_FROM_ID.getId());
         update.getCallbackQuery().setData(DialogsMap.getDialogStepById(chatId, START_FROM_CALLBACK.getId()));
         DialogsMap.remove(chatId);

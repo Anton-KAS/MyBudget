@@ -26,9 +26,6 @@ import static ru.kas.myBudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_
  */
 
 public abstract class AbstractDialogImplTest extends AbstractCommandControllerTest {
-    protected final static int TEST_MESSAGE_ID = 123;
-    protected final static String TEST_COMMAND = "/command";
-    protected final static String TEST_DATA = "test_data";
     protected final static String TEST_STEP_ID = "testStepId";
     protected final static String TEST_STEP_TEXT = "test step text";
     protected Map<String, String> testDialogMap;
@@ -134,43 +131,4 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
         //then
         assertEquals(expectedSize, actualSize);
     }
-
-    protected static Update getUpdateWithText(String text) {
-        Update update = new Update();
-        Message message = new Message();
-        User user = new User();
-        Chat chat = new Chat();
-
-        user.setId(TEST_USER_ID);
-        chat.setId(TEST_CHAT_ID);
-
-        message.setText(text);
-        message.setFrom(user);
-        message.setMessageId(TEST_MESSAGE_ID);
-        message.setChat(chat);
-        update.setMessage(message);
-        return update;
-    }
-
-    protected static Update getCallbackUpdateWithData(String data) {
-        Update update = new Update();
-        CallbackQuery callbackQuery = new CallbackQuery();
-        Message message = new Message();
-        User user = new User();
-        Chat chat = new Chat();
-
-        user.setId(TEST_USER_ID);
-        chat.setId(TEST_CHAT_ID);
-
-        message.setMessageId(TEST_MESSAGE_ID);
-        message.setText(TEST_TEXT);
-        message.setChat(chat);
-
-        callbackQuery.setData(data);
-        callbackQuery.setFrom(user);
-        callbackQuery.setMessage(message);
-        update.setCallbackQuery(callbackQuery);
-        return update;
-    }
-
 }

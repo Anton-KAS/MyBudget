@@ -2,6 +2,7 @@ package ru.kas.myBudget.bots.telegram.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
@@ -128,6 +129,22 @@ public class BotMessageServiceImpl implements BotMessageService {
     @Override
     public void updateUser(TelegramUserService telegramUserService, Update update) {
         removeInlineKeyboard(telegramUserService, update, null);
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4
+     */
+    @Override
+    public void sendPopup(String callbackQueryId, String message) {
+        if (callbackQueryId == null) return;
+        AnswerCallbackQuery answerCallbackQuery = new AnswerCallbackQuery();
+        answerCallbackQuery.setCallbackQueryId(callbackQueryId);
+        answerCallbackQuery.setText(message);
+        answerCallbackQuery.setShowAlert(false);
+        answerCallbackQuery.setCacheTime(2);
+
+        execute(telegramBot, answerCallbackQuery);
     }
 
     private void removeInlineKeyboard(TelegramUserService telegramUserService,

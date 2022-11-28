@@ -21,7 +21,7 @@ public interface BotMessageService {
 
     /**
      * @author Anton Komrachkov
-     * @since 0.3
+     * @since 0.4
      */
     Integer sendMessageDisabledNotification(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
@@ -34,6 +34,12 @@ public interface BotMessageService {
                               InlineKeyboardMarkup inlineKeyboardMarkup);
 
     void updateUser(TelegramUserService telegramUserService, Update update);
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4
+     */
+    void sendPopup(String callbackQueryId, String message);
 
     Integer execute(TelegramBot telegramBot, BotApiMethod message);
 }
