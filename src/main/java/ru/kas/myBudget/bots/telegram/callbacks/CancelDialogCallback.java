@@ -42,7 +42,7 @@ public class CancelDialogCallback extends CommandControllerImpl {
             update.getCallbackQuery().setData(DialogsMap.getDialogStepById(chatId, START_FROM_CALLBACK.getId()));
             String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
             String identifier;
-            if (callbackData != null) {
+            if (callbackData != null && callbackData.length > TO.ordinal()) {
                 identifier = callbackData[TO.ordinal()];
             } else {
                 identifier = MENU.getName();

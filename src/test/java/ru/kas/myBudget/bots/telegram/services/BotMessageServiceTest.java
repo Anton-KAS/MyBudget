@@ -36,6 +36,7 @@ public class BotMessageServiceTest {
         sendMessage.setChatId(chatId);
         sendMessage.setText(message);
         sendMessage.enableHtml(true);
+        sendMessage.setDisableNotification(true);
 
         //when
         botMessageService.executeMessage(ExecuteMode.SEND, chatId, null, message, null);

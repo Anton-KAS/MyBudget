@@ -3,9 +3,7 @@ package ru.kas.myBudget.bots.telegram.util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import ru.kas.myBudget.bots.telegram.keyboards.util.Keyboard;
 import ru.kas.myBudget.bots.telegram.services.BotMessageService;
@@ -22,13 +20,18 @@ import java.util.List;
  */
 
 abstract public class AbstractCommandControllerTest {
-    protected static long TEST_USER_ID = 123456789L;
-    protected static long TEST_CHAT_ID = 987654321L;
+    protected final static long TEST_USER_ID = 123456789L;
+    protected final static long TEST_CHAT_ID = 987654321L;
+    protected final static int TEST_MESSAGE_ID = 123;
+    protected final static String TEST_CALLBACK_ID = "111222333444";
 
     protected static List<TelegramUser> TEST_USER_LIST = getUserList();
     protected static int TEST_USER_LIST_SIZE = TEST_USER_LIST.size();
     protected static InlineKeyboardMarkup TEST_INLINE_KEYBOARD = null;
-    protected static String TEST_TEXT = "Test Text";
+    protected final static String TEST_TEXT = "Test Text";
+    protected final static String TEST_COMMAND = "/command";
+    protected final static String TEST_DATA = "test_data";
+
     protected static ExecuteMode DEFAULT_EXECUTE_MODE = ExecuteMode.SEND;
 
     protected BotMessageService botMessageServiceMock = Mockito.mock(BotMessageService.class);
@@ -148,5 +151,54 @@ abstract public class AbstractCommandControllerTest {
         telegramUsers.add(new TelegramUser());
         telegramUsers.add(new TelegramUser());
         return telegramUsers;
+    }
+
+    /**
+     * moved from {@link ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest}
+     * @author Anton Komrachkov
+     * @since 0.4
+     */
+    protected static Update getUpdateWithText(String text) {
+        Update update = new Update();
+        Message message = new Message();
+        User user = new User();
+        Chat chat = new Chat();
+
+        user.setId(TEST_USER_ID);
+        chat.setId(TEST_CHAT_ID);
+
+        message.setText(text);
+        message.setFrom(user);
+        message.setMessageId(TEST_MESSAGE_ID);
+        message.setChat(chat);
+        update.setMessage(message);
+        return update;
+    }
+
+    /**
+     * moved from {@link ru.kas.myBudget.bots.telegram.dialogs.AbstractDialogImplTest}
+     * @author Anton Komrachkov
+     * @since 0.4
+     */
+    protected static Update getCallbackUpdateWithData(String data) {
+        Update update = new Update();
+        CallbackQuery callbackQuery = new CallbackQuery();
+        Message message = new Message();
+        User user = new User();
+        Chat chat = new Chat();
+
+        user.setId(TEST_USER_ID);
+        chat.setId(TEST_CHAT_ID);
+
+        message.setMessageId(TEST_MESSAGE_ID);
+        message.setText(TEST_TEXT);
+        message.setChat(chat);
+
+        callbackQuery.setId(TEST_CALLBACK_ID);
+        callbackQuery.setData(data);
+        callbackQuery.setFrom(user);
+        callbackQuery.setMessage(message);
+        update.setCallbackQuery(callbackQuery);
+        return update;
     }
 }

@@ -23,6 +23,7 @@ public class UpdateParameterTest {
     private final static Long TEST_USER_ID = 123456789L;
     private final static Long TEST_CHAT_ID = 987654321L;
     private final static int TEST_MESSAGE_ID = 123412345;
+    protected static String TEST_CALLBACK_ID = "111222333444";
 
     @ParameterizedTest
     @MethodSource("sourceUserId")
@@ -113,6 +114,33 @@ public class UpdateParameterTest {
         );
     }
 
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4
+     */
+    @ParameterizedTest
+    @MethodSource("sourceCallbackId")
+    public void ShouldPropertyExtractCallbackQueryId(Update update, String expectedText) {
+        //when
+        String dataResult = UpdateParameter.getCallbackQueryId(update).orElse(null);
+
+        //then
+        assertEquals(expectedText, dataResult);
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4
+     */
+    private static Stream<Arguments> sourceCallbackId() {
+        return Stream.of(
+                Arguments.of(getUpdateWithText(TEST_TEXT), null),
+                Arguments.of(getUpdateWithText(TEST_COMMAND), null),
+                Arguments.of(getCallbackUpdateWithData(TEST_TEXT), TEST_CALLBACK_ID),
+                Arguments.of(getCallbackUpdateWithData(TEST_DATA), TEST_CALLBACK_ID)
+        );
+    }
+
     private static Update getUpdateWithText(String text) {
         Update update = new Update();
         Message message = new Message();
@@ -144,6 +172,7 @@ public class UpdateParameterTest {
         message.setText(TEST_TEXT);
         message.setChat(chat);
 
+        callbackQuery.setId(TEST_CALLBACK_ID);
         callbackQuery.setData(data);
         callbackQuery.setFrom(user);
         callbackQuery.setMessage(message);
