@@ -2,7 +2,6 @@ package ru.kas.myBudget.bots.telegram.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
@@ -42,7 +41,7 @@ public class BotMessageServiceImpl implements BotMessageService {
                                   InlineKeyboardMarkup inlineKeyboardMarkup) {
         switch (executeMode) {
             case SEND -> {
-                return sendMessage(chatId, message, inlineKeyboardMarkup);
+                return sendMessageDisabledNotification(chatId, message, inlineKeyboardMarkup);
             }
             case EDIT -> {
                 return editMessage(chatId, messageId, message, inlineKeyboardMarkup);
@@ -56,6 +55,26 @@ public class BotMessageServiceImpl implements BotMessageService {
 
     @Override
     public Integer sendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup) {
+        SendMessage sendMessage = getSendMessage(chatId, message, inlineKeyboardMarkup);
+        return execute(telegramBot, sendMessage);
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.3
+     */
+    @Override
+    public Integer sendMessageDisabledNotification(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup) {
+        SendMessage sendMessage = getSendMessage(chatId, message, inlineKeyboardMarkup);
+        sendMessage.setDisableNotification(true);
+        return execute(telegramBot, sendMessage);
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.3
+     */
+    private SendMessage getSendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(chatId);
         sendMessage.enableHtml(true);
@@ -63,7 +82,7 @@ public class BotMessageServiceImpl implements BotMessageService {
         if (inlineKeyboardMarkup != null) {
             sendMessage.setReplyMarkup(inlineKeyboardMarkup);
         }
-        return execute(telegramBot, sendMessage);
+        return sendMessage;
     }
 
     @Override
