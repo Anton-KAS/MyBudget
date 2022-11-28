@@ -16,6 +16,13 @@ import java.util.Optional;
 public class AccountsText implements MessageText {
     private final TelegramUserService telegramUserService;
     private Long userId;
+    private final static String TEXT_FORMAT =
+            """
+                    📚  <b>Счета:</b>
+                    %s%s
+                    """;
+
+    private final static String TEXT_TOTAL = "\n\n<b>Общий баланс: <i>%s</i></b>";
 
     public AccountsText(TelegramUserService telegramUserService) {
         this.telegramUserService = telegramUserService;
@@ -30,28 +37,25 @@ public class AccountsText implements MessageText {
     @Override
     public String getText() {
         checkUserIdSet(userId);
-
         Optional<TelegramUser> telegramUser = telegramUserService.findById(userId);
-        StringBuilder accountTextBuilder = new StringBuilder();
-        if (telegramUser.isPresent()) {
-            List<Account> accounts = telegramUser.get().getAccounts();
+        if (telegramUser.isEmpty()) return String.format(TEXT_FORMAT, "Что-то пошло не так (((", "");
 
-            if (accounts.isEmpty()) {
-                accountTextBuilder.append("\n Нет счетов");
-            } else {
-                int n = 1;
-                for (Account account : accounts) {
-                    accountTextBuilder.append("\n")
-                            .append(n).append(" - ").append(account.getTitle())
-                            .append(" - ").append(account.getDescription() == null ? "" : account.getDescription());
-                    n++;
-                }
-            }
-        } else {
-            accountTextBuilder.append("\n Пользователь не найден");
+        List<Account> accounts = telegramUser.get().getAccounts();
+        if (accounts.isEmpty()) return String.format(TEXT_FORMAT, "Нет счетов", "");
+
+        StringBuilder accountTextBuilder = new StringBuilder();
+        for (int n = 0; n < accounts.size(); n++) {
+            Account account = accounts.get(n);
+            accountTextBuilder
+                    .append("\n").append("/").append(n + 1).append(" - ")
+                    .append(account.getTitle())
+                    .append(" : ").append("<i><b>")
+                    .append(account.getCurrentBalanceWithScale())
+                    .append(" ")
+                    .append(account.getCurrency().getSymbol()).append("</b></i>");
         }
 
-        return String.format("Счета:\n" +
-                "%s", accountTextBuilder);
+        String textTotal = String.format(TEXT_TOTAL, ""); //TODO: Add count total balance of accounts
+        return String.format(TEXT_FORMAT, accountTextBuilder, textTotal);
     }
 }
