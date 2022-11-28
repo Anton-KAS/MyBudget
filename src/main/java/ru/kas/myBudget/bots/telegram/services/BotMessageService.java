@@ -19,6 +19,12 @@ public interface BotMessageService {
 
     Integer sendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
+    /**
+     * @author Anton Komrachkov
+     * @since 0.3
+     */
+    Integer sendMessageDisabledNotification(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
+
     Integer editMessage(long chatId, int messageId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
     Integer deleteMessage(long chatId, int messageId);
