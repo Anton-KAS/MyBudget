@@ -97,7 +97,7 @@ public abstract class DialogImpl implements Dialog {
 
         String dialogStepData = DialogsMap.getDialogStepById(chatId, LAST_STEP.getId());
         if (dialogStepData != null && dialogStepData.equals(String.valueOf(CONFIRM.ordinal()))) {
-            DialogsMap.getDialogMapById(chatId).replace(CAN_SAVE.getId(), "true");
+            DialogsMap.getDialogMap(chatId).replace(CAN_SAVE.getId(), "true");
         }
     }
 

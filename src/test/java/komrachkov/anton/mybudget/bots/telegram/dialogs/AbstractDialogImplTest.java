@@ -126,7 +126,7 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
 
         //when
         getCommand().addToDialogMap(TEST_CHAT_ID, getCommandDialogName(), TEST_STEP_ID, TEST_STEP_TEXT);
-        int actualSize = DialogsMap.getDialogMapById(TEST_CHAT_ID).size();
+        int actualSize = DialogsMap.getDialogMap(TEST_CHAT_ID).size();
 
         //then
         assertEquals(expectedSize, actualSize);

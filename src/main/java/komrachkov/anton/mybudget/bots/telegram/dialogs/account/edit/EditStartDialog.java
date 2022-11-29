@@ -48,7 +48,7 @@ public class EditStartDialog extends StartDialog {
     public boolean commit(Update update) {
         if (!super.commit(update)) return false;
 
-        Map<String, String> dialogMap = DialogsMap.getDialogMapById(chatId);
+        Map<String, String> dialogMap = DialogsMap.getDialogMap(chatId);
 
         if (callbackData.length <= CallbackIndex.OPERATION_DATA.ordinal()) return false;
         int accountId = Integer.parseInt(callbackData[CallbackIndex.OPERATION_DATA.ordinal()]);

@@ -71,7 +71,7 @@ public class StartBalanceDialog extends DialogImpl {
     }
 
     private BigDecimal getStartBalance(String text, long chatId) {
-        Map<String, String> dialogMap = DialogsMap.getDialogMapById(chatId);
+        Map<String, String> dialogMap = DialogsMap.getDialogMap(chatId);
 
         Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
         int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);

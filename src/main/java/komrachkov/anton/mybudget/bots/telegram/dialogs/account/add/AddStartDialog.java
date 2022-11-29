@@ -39,7 +39,7 @@ public class AddStartDialog extends StartDialog {
     public boolean commit(Update update) {
         if (!super.commit(update)) return false;
 
-        Map<String, String> dialogMap = DialogsMap.getDialogMapById(chatId);
+        Map<String, String> dialogMap = DialogsMap.getDialogMap(chatId);
 
         dialogMap.put(DialogMapDefaultName.START_FROM_CALLBACK.getId(), String.format("%s_%s_%s", NORMAL.getId(), MENU.getName(),
                 callbackData[CallbackIndex.FROM.ordinal()]));

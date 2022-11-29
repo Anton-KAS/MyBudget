@@ -37,7 +37,7 @@ public class AccountDialog extends MainDialogImpl {
     public void execute(Update update) {
         this.chatId = UpdateParameter.getChatId(update);
 
-        System.out.println("DIALOG MAP: " + DialogsMap.getDialogMapById(chatId)); // TODO: Add project logger
+        System.out.println("DIALOG MAP: " + DialogsMap.getDialogMap(chatId)); // TODO: Add project logger
 
         getStepNums(update);
         checkDialogCommand(update);
