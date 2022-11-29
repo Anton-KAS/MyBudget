@@ -1,0 +1,38 @@
+package komrachkov.anton.mybudget.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import komrachkov.anton.mybudget.models.WebUser;
+import komrachkov.anton.mybudget.repositories.WebUserRepository;
+import komrachkov.anton.mybudget.security.WebUserDetails;
+
+import java.util.Optional;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.1
+ */
+
+@Service
+@Transactional(readOnly = true)
+public class WebUserDetailsService implements UserDetailsService {
+    private final WebUserRepository webUserRepository;
+
+    @Autowired
+    public WebUserDetailsService(WebUserRepository webUserRepository) {
+        this.webUserRepository = webUserRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<WebUser> webUser = webUserRepository.findByUsername(username);
+        if (webUser.isEmpty()) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return new WebUserDetails(webUser.get());
+    }
+}
