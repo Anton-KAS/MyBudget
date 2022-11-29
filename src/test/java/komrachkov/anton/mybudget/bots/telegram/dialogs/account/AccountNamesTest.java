@@ -1,0 +1,35 @@
+package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.*;
+
+/**
+ * @author Anton Komrachkov
+ * @since 0.2
+ */
+
+public class AccountNamesTest {
+    @Test
+    public void orderTest() {
+        //given
+        AccountNames[] expectedOrder = {
+                START,
+                TYPE,
+                TITLE,
+                DESCRIPTION,
+                CURRENCY,
+                BANK,
+                START_BALANCE,
+                CONFIRM,
+                SAVE
+        };
+
+        //then
+        AccountNames[] resultOrder = AccountNames.values();
+
+        //when
+        assertArrayEquals(expectedOrder, resultOrder);
+    }
+}
