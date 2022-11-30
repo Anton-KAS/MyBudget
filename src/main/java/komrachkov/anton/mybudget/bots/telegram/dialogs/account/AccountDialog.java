@@ -8,13 +8,15 @@ import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogStepsContainer;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.MainDialogImpl;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static komrachkov.anton.mybudget.bots.telegram.commands.util.CommandIndex.COMMAND;
+import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName.LAST_STEP;
 
 /**
  * @author Anton Komrachkov
@@ -37,7 +39,7 @@ public class AccountDialog extends MainDialogImpl {
     public void execute(Update update) {
         this.chatId = UpdateParameter.getChatId(update);
 
-        System.out.println("DIALOG MAP: " + DialogsMap.getDialogMap(chatId)); // TODO: Add project logger
+        System.out.println("DIALOG MAP: " + DialogsState.getDialogStateMap(chatId)); // TODO: Add project logger
 
         getStepNums(update);
         checkDialogCommand(update);
@@ -50,14 +52,14 @@ public class AccountDialog extends MainDialogImpl {
 
     private void getStepNums(Update update) {
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
-        Map<String, String> dialogMap = DialogsMap.getDialogMap(chatId);
+        Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
         if (dialogMap == null || (callbackData != null &&
                 callbackData[CallbackIndex.OPERATION_DATA.ordinal()].equals(AccountNames.START.getName()))) {
             currentStep = DialogIndex.FIRST_STEP_INDEX.ordinal();
             lastStep = DialogIndex.FIRST_STEP_INDEX.ordinal();
         } else {
             currentStep = Integer.parseInt(dialogMap.get(DialogMapDefaultName.CURRENT_DIALOG_STEP.getId()));
-            lastStep = Integer.parseInt(dialogMap.get(DialogMapDefaultName.LAST_STEP.getId()));
+            lastStep = Integer.parseInt(dialogMap.get(LAST_STEP.getId()));
         }
 
     }
@@ -69,7 +71,7 @@ public class AccountDialog extends MainDialogImpl {
         String commandIdentifier = messageText.split(" ")[COMMAND.getIndex()].toLowerCase();
         if (commandIdentifier.matches(DialogPattern.EDIT_NUM.getRegex())) {
             currentStep = null;
-            DialogsMap.replaceById(chatId, DialogMapDefaultName.LAST_STEP.getId(), String.valueOf(lastStep));
+            DialogsState.replaceById(chatId, LAST_STEP.getId(), String.valueOf(lastStep));
             int newLastStep = Integer.parseInt(commandIdentifier.substring(1));
             if (lastStep > newLastStep) lastStep = newLastStep;
         }
@@ -89,13 +91,15 @@ public class AccountDialog extends MainDialogImpl {
         }
         boolean result = dialogContainer.retrieve(AccountNames.values()[currentStep].getName()).commit(update);
         if (result) {
-            lastStep = Integer.parseInt(DialogsMap.getDialogMap(chatId).get(DialogMapDefaultName.LAST_STEP.getId()));
+            Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
+            if (dialogMap == null) return;
+            lastStep = Integer.parseInt(dialogMap.get(LAST_STEP.getId()));
             getNextStepNum(update);
         }
     }
 
     private void skipNextStep(Update update) {
-        Map<String, String> dialogMap = DialogsMap.getDialogMap(chatId);
+        Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
         if (dialogMap == null) return;
         if ((dialogMap.get(AccountNames.TYPE.getName()) == null || dialogMap.get(AccountNames.TYPE.getName()).equals(DialogMapDefaultName.CASH_ID.getId()))
                 && AccountNames.values()[lastStep].getName().equals(AccountNames.BANK.getName())) {
@@ -104,11 +108,13 @@ public class AccountDialog extends MainDialogImpl {
     }
 
     private void updateStepsInDialogMap() {
-        DialogsMap.replaceById(chatId, DialogMapDefaultName.CURRENT_DIALOG_STEP.getId(), String.valueOf(lastStep));
-        System.out.println("DIALOG MAP UPDATE STEPS: " + DialogsMap.getDialogMap(chatId)); // TODO: Add project logger
-        if (DialogsMap.getDialogMap(chatId) != null
-                && lastStep > Integer.parseInt(DialogsMap.getDialogMap(chatId).get(DialogMapDefaultName.LAST_STEP.getId()))) {
-            DialogsMap.replaceById(chatId, DialogMapDefaultName.LAST_STEP.getId(), String.valueOf(lastStep));
+        DialogsState.replaceById(chatId, DialogMapDefaultName.CURRENT_DIALOG_STEP.getId(), String.valueOf(lastStep));
+        Optional<Map<String, String>> dialogStateMap = DialogsState.getDialogStateMap(chatId);
+
+        System.out.println("DIALOG MAP UPDATE STEPS: " + dialogStateMap.orElse(null)); // TODO: Add project logger
+
+        if (dialogStateMap.isPresent() && lastStep > Integer.parseInt(dialogStateMap.get().get(LAST_STEP.getId()))) {
+            DialogsState.replaceById(chatId, LAST_STEP.getId(), String.valueOf(lastStep));
         }
     }
 

@@ -9,11 +9,12 @@ import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.StartDialog;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
 import java.util.Map;
+import java.util.Optional;
 
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.MENU;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackType.NORMAL;
@@ -39,7 +40,8 @@ public class AddStartDialog extends StartDialog {
     public boolean commit(Update update) {
         if (!super.commit(update)) return false;
 
-        Map<String, String> dialogMap = DialogsMap.getDialogMap(chatId);
+        Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
+        if (dialogMap == null) return false;
 
         dialogMap.put(DialogMapDefaultName.START_FROM_CALLBACK.getId(), String.format("%s_%s_%s", NORMAL.getId(), MENU.getName(),
                 callbackData[CallbackIndex.FROM.ordinal()]));

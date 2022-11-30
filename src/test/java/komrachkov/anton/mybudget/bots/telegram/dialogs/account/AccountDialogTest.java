@@ -5,6 +5,7 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddConfirmDia
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddContainer;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddSaveDialog;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddStartDialog;
+import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,12 +16,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AbstractAccountDialogTest.TEST_TYPE_ACCOUNT_ID;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.*;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_INDEX;
@@ -34,6 +36,8 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl.AD
 
 @DisplayName("Unit-level testing for account.AccountDialog")
 public class AccountDialogTest extends AbstractMainDialogImplTest {
+    // TODO: Change extends class to AbstractAccountDialogTest
+    public static final CommandNames TEST_COMMAND_NAME = ACCOUNT;
     private final static int TEST_ADD_ID = 666;
 
     private static String ADD_ACCOUNT_CALLBACK_PATTERN;
@@ -90,9 +94,9 @@ public class AccountDialogTest extends AbstractMainDialogImplTest {
     public void shouldProperlyExecuteStartDialogCommitAndTypeExecute() {
         //given
         int dialogStep = 0;
-        DialogsMap.remove(TEST_CHAT_ID);
-        DialogsMap.put(TEST_CHAT_ID, TYPE.getName(), String.valueOf(TEST_TYPE_ACCOUNT_ID));
-        DialogsMap.put(TEST_CHAT_ID, LAST_STEP.getId(), String.valueOf(dialogStep));
+        DialogsState.removeAllDialogs(TEST_CHAT_ID);
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, TYPE.getName(), String.valueOf(TEST_TYPE_ACCOUNT_ID));
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, LAST_STEP.getId(), String.valueOf(dialogStep));
         Update update = getCallbackUpdate(String.format(ADD_ACCOUNT_CALLBACK_PATTERN, "from", START.getName(), "start"));
 
         //when
@@ -108,10 +112,10 @@ public class AccountDialogTest extends AbstractMainDialogImplTest {
     public void shouldProperlyExecuteCommitExecute(Update update, int dialogStep, AccountNames addAccountName,
                                                    Dialog commitDialogMock, Dialog executeDialogMock) {
         //given
-        DialogsMap.remove(TEST_CHAT_ID);
-        DialogsMap.put(TEST_CHAT_ID, TYPE.getName(), String.valueOf(TEST_TYPE_ACCOUNT_ID));
-        DialogsMap.put(TEST_CHAT_ID, CURRENT_DIALOG_STEP.getId(), String.valueOf(addAccountName.ordinal()));
-        DialogsMap.put(TEST_CHAT_ID, LAST_STEP.getId(), String.valueOf(dialogStep));
+        DialogsState.removeAllDialogs(TEST_CHAT_ID);
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, TYPE.getName(), String.valueOf(TEST_TYPE_ACCOUNT_ID));
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, CURRENT_DIALOG_STEP.getId(), String.valueOf(addAccountName.ordinal()));
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, LAST_STEP.getId(), String.valueOf(dialogStep));
 
         //when
         accountDialog.execute(update);

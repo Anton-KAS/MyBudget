@@ -3,10 +3,11 @@ package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogImpl;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.bots.telegram.util.ResponseWaitingMap;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
@@ -16,6 +17,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Anton Komrachkov
@@ -42,17 +44,33 @@ public abstract class SaveDialog extends DialogImpl {
         this.accountService = accountService;
     }
 
-    abstract public void setData(Update update);
+    public void setData(Update update) {
+        this.userId = UpdateParameter.getUserId(update);
+        this.chatId = UpdateParameter.getChatId(update);
+        this.dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
+    }
 
     @Override
     public void executeData(Update update, ExecuteMode executeMode) {
         botMessageService.sendPopup(UpdateParameter.getCallbackQueryId(update).orElse(null),
                 messageText.setUserId(userId).getText());
         String fromStartId = dialogMap.get(DialogMapDefaultName.START_FROM_ID.getId());
-        update.getCallbackQuery().setData(DialogsMap.getDialogStepById(chatId, DialogMapDefaultName.START_FROM_CALLBACK.getId()));
-        DialogsMap.remove(chatId);
+
+        Optional<String> stepId = DialogsState.getDialogStepById(chatId, DialogMapDefaultName.START_FROM_CALLBACK.getId());
+        stepId.ifPresent(s -> update.getCallbackQuery().setData(s));
+
+        DialogsState.removeDialog(chatId);
         ResponseWaitingMap.remove(chatId);
-        if (fromStartId != null) callbackContainer.retrieve(fromStartId).execute(update, ExecuteMode.SEND);
+
+        Optional<CommandNames> dialogCommandName = DialogsState.getCommandName(chatId);
+        if (dialogCommandName.isPresent()) {
+            ResponseWaitingMap.put(chatId, dialogCommandName.get());
+            // TODO: Add return back point to previous Dialog
+        } else {
+            if (fromStartId == null) return;
+            callbackContainer.retrieve(fromStartId).execute(update, ExecuteMode.SEND);
+        }
+
     }
 
     protected Bank getBank() {

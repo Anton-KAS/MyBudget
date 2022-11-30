@@ -9,7 +9,7 @@ import komrachkov.anton.mybudget.models.Currency;
 import komrachkov.anton.mybudget.services.CurrencyService;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
@@ -63,7 +63,8 @@ public class StartBalanceDialog extends DialogImpl {
         this.userId = UpdateParameter.getUserId(update);
         this.chatId = UpdateParameter.getChatId(update);
         BigDecimal startBalance = getStartBalance(DEFAULT_BALANCE_TEXT, chatId);
-        if (!DialogsMap.getDialogMap(chatId).containsKey(START_BALANCE.getName())) {
+        Map<String, String> dialogStateMapOpt = DialogsState.getDialogStateMap(chatId).orElse(null);
+        if (dialogStateMapOpt != null && !dialogStateMapOpt.containsKey(START_BALANCE.getName())) {
             addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
                     String.format(START_BALANCE.getStepTextPattern(), "%s", startBalance));
         }
@@ -71,13 +72,17 @@ public class StartBalanceDialog extends DialogImpl {
     }
 
     private BigDecimal getStartBalance(String text, long chatId) {
-        Map<String, String> dialogMap = DialogsMap.getDialogMap(chatId);
-
-        Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
-        int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
-
         text = text.replace(",", ".");
         BigDecimal startBalance = new BigDecimal(text);
+
+        Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
+        int numberToBAsic;
+        if (dialogMap != null) {
+            Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
+            numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
+        } else {
+            numberToBAsic = 1;
+        }
 
         return startBalance.setScale(String.valueOf(numberToBAsic).length() - 1, RoundingMode.HALF_UP);
     }

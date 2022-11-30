@@ -3,8 +3,9 @@ package komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.*;
@@ -30,7 +31,7 @@ public class AccountText implements MessageText {
     public String getText() {
         checkUserIdSet(userId);
 
-        Map<String, String> dialogMap = DialogsMap.getDialogMap(userId);
+        Map<String, String> dialogMap = DialogsState.getDialogStateMap(userId).orElse(new HashMap<>());
 
         StringBuilder stringBuilder = new StringBuilder();
 

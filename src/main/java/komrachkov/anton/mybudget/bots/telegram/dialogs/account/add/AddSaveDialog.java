@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.SaveDialog;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
@@ -30,9 +30,8 @@ public class AddSaveDialog extends SaveDialog {
 
     @Override
     public void setData(Update update) {
-        this.userId = UpdateParameter.getUserId(update);
-        this.chatId = UpdateParameter.getChatId(update);
-        this.dialogMap = DialogsMap.getDialogMap(chatId);
+        super.setData(update);
+        if (dialogMap == null) return;
 
         Bank bank = getBank();
         BigDecimal startBalance = getStartBalance();

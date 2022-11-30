@@ -1,11 +1,12 @@
 package komrachkov.anton.mybudget.bots.telegram.callbacks;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.texts.callback.CancelDialogText;
 import komrachkov.anton.mybudget.bots.telegram.util.AbstractCommandControllerTest;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
+import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNTS;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
@@ -22,18 +24,19 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 @DisplayName("Unit-level testing for CancelDialogCallback")
 public class CancelDialogCallbackTest extends AbstractCallbackTest {
+    private static final CommandNames TEST_COMMAND_NAME = ACCOUNTS;
 
     @Override
     @BeforeEach
     public void beforeEach() {
         super.beforeEach();
-        DialogsMap.remove(AbstractCommandControllerTest.TEST_CHAT_ID);
-        DialogsMap.put(AbstractCommandControllerTest.TEST_CHAT_ID, DialogMapDefaultName.START_FROM_CALLBACK.getId(), CallbackNamesImpl.ACCOUNTS.getName());
+        DialogsState.removeAllDialogs(AbstractCommandControllerTest.TEST_CHAT_ID);
+        DialogsState.put(AbstractCommandControllerTest.TEST_CHAT_ID, TEST_COMMAND_NAME, DialogMapDefaultName.START_FROM_CALLBACK.getId(), ACCOUNTS.getName());
     }
 
     @Override
     protected String getCommandName() {
-        return CallbackNamesImpl.ACCOUNTS.getName();
+        return ACCOUNTS.getName();
     }
 
     @Override
@@ -50,27 +53,27 @@ public class CancelDialogCallbackTest extends AbstractCallbackTest {
     @Test
     void shouldProperlyExecuteDialogMapRemove() {
         //given
-        DialogsMap.put(AbstractCommandControllerTest.TEST_CHAT_ID, "Test", "Test");
+        DialogsState.put(AbstractCommandControllerTest.TEST_CHAT_ID, TEST_COMMAND_NAME, "Test", "Test");
         Update update = givenUpdate(AbstractCommandControllerTest.TEST_USER_ID, AbstractCommandControllerTest.TEST_CHAT_ID);
 
         //when
         getCommand().execute(update);
 
         //then
-        assertNull(DialogsMap.getDialogMap(AbstractCommandControllerTest.TEST_CHAT_ID));
+        assertNull(DialogsState.getDialogStateMap(AbstractCommandControllerTest.TEST_CHAT_ID));
     }
 
     @Test
     void shouldProperlyExecuteDialogMapRemoveExecuteMode() {
         //given
-        DialogsMap.put(AbstractCommandControllerTest.TEST_CHAT_ID, "Test", "Test");
+        DialogsState.put(AbstractCommandControllerTest.TEST_CHAT_ID, TEST_COMMAND_NAME, "Test", "Test");
         Update update = givenUpdate(AbstractCommandControllerTest.TEST_USER_ID, AbstractCommandControllerTest.TEST_CHAT_ID);
 
         //when
         getCommand().execute(update, ExecuteMode.EDIT);
 
         //then
-        assertNull(DialogsMap.getDialogMap(AbstractCommandControllerTest.TEST_CHAT_ID));
+        assertNull(DialogsState.getDialogStateMap(AbstractCommandControllerTest.TEST_CHAT_ID));
     }
 
     @Test

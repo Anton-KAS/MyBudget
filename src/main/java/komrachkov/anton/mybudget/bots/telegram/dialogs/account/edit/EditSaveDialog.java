@@ -11,10 +11,11 @@ import komrachkov.anton.mybudget.services.*;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.SaveDialog;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.*;
@@ -36,19 +37,18 @@ public class EditSaveDialog extends SaveDialog {
 
     @Override
     public void setData(Update update) {
-        this.userId = UpdateParameter.getUserId(update);
-        this.chatId = UpdateParameter.getChatId(update);
-        this.dialogMap = DialogsMap.getDialogMap(chatId);
+        super.setData(update);
+        if (dialogMap == null) return;
 
         Bank bank = getBank();
         BigDecimal startBalance = getStartBalance();
         Currency currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName()))).orElse(null);
         AccountType accountType = accountTypeService.findById(Integer.parseInt(dialogMap.get(TYPE.getName()))).orElse(null);
 
-        String accountIdString = DialogsMap.getDialogStepById(chatId, EDIT_ID.getId());
-        if (accountIdString == null) return;
+        Optional<String> accountIdString = DialogsState.getDialogStepById(chatId, EDIT_ID.getId());
+        if (accountIdString.isEmpty()) return;
 
-        int accountId = Integer.parseInt(accountIdString);
+        int accountId = Integer.parseInt(accountIdString.get());
         Account account = accountService.findById(accountId).orElse(new Account());
         account.setTitle(dialogMap.get(TITLE.getName()));
         account.setDescription(dialogMap.get(DESCRIPTION.getName()));

@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.MainDialogImpl;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.util.ResponseWaitingMap;
 import komrachkov.anton.mybudget.services.AccountService;
 
@@ -37,7 +37,7 @@ public class DeleteExecuteDialog extends MainDialogImpl {
     public void execute(Update update) {
         long chatId = UpdateParameter.getChatId(update);
         ResponseWaitingMap.remove(chatId);
-        DialogsMap.remove(chatId);
+        DialogsState.removeAllDialogs(chatId);
 
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
         if (callbackData != null && callbackData.length > OPERATION_DATA.ordinal()

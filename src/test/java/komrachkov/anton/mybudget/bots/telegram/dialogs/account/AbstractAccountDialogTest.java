@@ -1,5 +1,6 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
+import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
 import komrachkov.anton.mybudget.models.*;
 import komrachkov.anton.mybudget.services.AccountService;
 import komrachkov.anton.mybudget.services.AccountTypeService;
@@ -11,6 +12,8 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.AbstractDialogImplTest;
 
 import java.math.BigDecimal;
 import java.util.Optional;
+
+import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
 
 /**
  * @author Anton Komrachkov
@@ -29,6 +32,8 @@ public abstract class AbstractAccountDialogTest extends AbstractDialogImplTest {
 
     public final static String TEST_TITLE_TEXT = "TEST TITLE TEXT";
     public final static String TEST_DESCRIPTION_TEXT = "TEST DESCRIPTION TEXT";
+
+    public static final CommandNames TEST_COMMAND_NAME = ACCOUNT;
 
     protected static final AccountService accountServiceMock = Mockito.mock(AccountService.class);
     protected final static AccountTypeService accountTypeServiceMock = Mockito.mock(AccountTypeService.class);

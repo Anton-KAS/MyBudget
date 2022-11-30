@@ -3,13 +3,15 @@ package komrachkov.anton.mybudget.bots.telegram.callbacks;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandControllerImpl;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.bots.telegram.util.ResponseWaitingMap;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
+
+import java.util.Optional;
 
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.MENU;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackIndex.TO;
@@ -39,7 +41,10 @@ public class CancelDialogCallback extends CommandControllerImpl {
 
         long chatId = UpdateParameter.getChatId(update);
         if (update.hasCallbackQuery()) {
-            update.getCallbackQuery().setData(DialogsMap.getDialogStepById(chatId, START_FROM_CALLBACK.getId()));
+
+            Optional<String> dialogStep = DialogsState.getDialogStepById(chatId, START_FROM_CALLBACK.getId());
+            if (dialogStep.isEmpty()) return;
+            update.getCallbackQuery().setData(dialogStep.get());
             String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
             String identifier;
             if (callbackData != null && callbackData.length > TO.ordinal()) {
@@ -50,6 +55,6 @@ public class CancelDialogCallback extends CommandControllerImpl {
             callbackContainer.retrieve(identifier).execute(update);
         }
         ResponseWaitingMap.remove(chatId);
-        DialogsMap.remove(chatId);
+        DialogsState.removeAllDialogs(chatId);
     }
 }

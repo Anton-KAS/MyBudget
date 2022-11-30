@@ -2,6 +2,7 @@ package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,13 +11,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountText;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.CURRENCY;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.START_BALANCE;
@@ -29,6 +31,8 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.StartBalan
 
 @DisplayName("Unit-level testing for account.StartBalanceDialog")
 public class StartBalanceDialogTest extends AbstractAccountDialogTest {
+    // TODO: Change extends class to AbstractAccountDialogTest
+    public static final CommandNames TEST_COMMAND_NAME = ACCOUNT;
 
     @Override
     protected String getCommandName() {
@@ -59,8 +63,8 @@ public class StartBalanceDialogTest extends AbstractAccountDialogTest {
     @MethodSource("sourceStartBalanceCommit")
     public void shouldProperlyExecuteCommit(Update update, boolean expected) {
         //given
-        DialogsMap.remove(TEST_CHAT_ID);
-        DialogsMap.put(TEST_CHAT_ID, CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
+        DialogsState.removeAllDialogs(TEST_CHAT_ID);
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
         Mockito.when(currencyServiceMock.findById(TEST_CURRENCY_ID)).thenReturn(Optional.of(currencyMock));
         int timesExpectedTrue = expected ? 1 : 0;
         int timesExpectedFalse = !expected ? 1 : 0;
@@ -94,8 +98,8 @@ public class StartBalanceDialogTest extends AbstractAccountDialogTest {
     @Test
     public void shouldProperlyExecuteSkip() {
         //given
-        DialogsMap.remove(TEST_CHAT_ID);
-        DialogsMap.put(TEST_CHAT_ID, CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
+        DialogsState.removeAllDialogs(TEST_CHAT_ID);
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
         Mockito.when(currencyServiceMock.findById(TEST_CURRENCY_ID)).thenReturn(Optional.of(currencyMock));
         Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
 
