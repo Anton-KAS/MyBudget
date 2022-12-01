@@ -3,11 +3,13 @@ package komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 
-import java.util.Map;
+import java.util.Optional;
 
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.*;
+import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName.CURRENT_DIALOG_STEP;
+import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName.LAST_STEP;
 
 /**
  * @author Anton Komrachkov
@@ -15,22 +17,20 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNam
  */
 
 public class AccountText implements MessageText {
-    private Long userId;
+    private Long chatId;
 
     public AccountText() {
     }
 
     @Override
-    public MessageText setUserId(Long userId) {
-        this.userId = userId;
+    public MessageText setChatId(Long chatId) {
+        this.chatId = chatId;
         return this;
     }
 
     @Override
     public String getText() {
-        checkUserIdSet(userId);
-
-        Map<String, String> dialogMap = DialogsMap.getDialogMap(userId);
+        checkUserIdSet(chatId);
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -40,28 +40,24 @@ public class AccountText implements MessageText {
             AccountNames addAccountName = accountNames[count];
             if (addAccountName.getStepTextPattern() == null) continue;
 
-            if ((dialogMap.get(TYPE.getName()) == null || dialogMap.get(TYPE.getName()).equals(DialogMapDefaultName.CASH_ID.getId()))
+            Optional<String> typeOpt = DialogsState.getByStepId(chatId, TYPE.getName());
+            if ((typeOpt.isEmpty() || typeOpt.get().equals(DialogMapDefaultName.CASH_ID.getId()))
                     && addAccountName.equals(BANK)) continue;
 
-            int currentStepId = Integer.parseInt(dialogMap.get(DialogMapDefaultName.CURRENT_DIALOG_STEP.getId()));
-            int lastStepId = Integer.parseInt(dialogMap.get(DialogMapDefaultName.LAST_STEP.getId()));
+            int currentStepId = Integer.parseInt(DialogsState.getByStepId(chatId, CURRENT_DIALOG_STEP.getId()).orElse("0"));
+            int lastStepId = Integer.parseInt(DialogsState.getByStepId(chatId, LAST_STEP.getId()).orElse("0"));
 
             if (currentStepId == count) stringBuilder.append("<b>");
 
-            String textPattern = dialogMap.get(addAccountName.getStepIdText());
-            if (count != 0 && (lastStepId > count || textPattern != null)) stringBuilder.append("/");
+            Optional<String> textPattern = DialogsState.getByStepId(chatId, addAccountName.getStepIdText());
+            if (count != 0 && (lastStepId > count || textPattern.isPresent())) stringBuilder.append("/");
 
-            if (textPattern == null) {
-                stringBuilder.append(String.format(addAccountName.getStepTextPattern(), n, ""));
-            } else {
-                stringBuilder.append(String.format(textPattern, n));
-            }
-
-            n++;
+            if (textPattern.isEmpty()) stringBuilder.append(String.format(addAccountName.getStepTextPattern(), n, ""));
+            else stringBuilder.append(String.format(textPattern.get(), n));
 
             if (currentStepId == count) stringBuilder.append("</b>  \uD83D\uDC48");
-
             stringBuilder.append("\n");
+            n++;
         }
         stringBuilder.append("\n<b>%s</b>");
         return stringBuilder.toString();

@@ -13,7 +13,7 @@ import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.
 public class HelpText implements MessageText {
 
     @Override
-    public MessageText setUserId(Long userId) {
+    public MessageText setChatId(Long userId) {
         return this;
     }
 

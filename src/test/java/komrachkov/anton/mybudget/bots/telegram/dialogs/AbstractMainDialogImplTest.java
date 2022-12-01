@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.*;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 
 import java.util.Map;
 
@@ -29,7 +29,7 @@ public abstract class AbstractMainDialogImplTest {
     protected final BotMessageService botMessageServiceMock = Mockito.mock(BotMessageService.class);
     protected final TelegramUserService telegramUserServiceMock = Mockito.mock(TelegramUserService.class);
 
-    protected final DialogsMap dialogsMapMock = Mockito.mock(DialogsMap.class);
+    protected final DialogsState dialogsStateMock = Mockito.mock(DialogsState.class);
     protected static Map<String, String> dialogMap;
 
     @BeforeEach

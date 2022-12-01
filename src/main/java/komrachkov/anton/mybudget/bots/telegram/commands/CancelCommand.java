@@ -4,7 +4,7 @@ import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandControllerImpl;
@@ -28,6 +28,6 @@ public class CancelCommand extends CommandControllerImpl {
         super.execute(update);
         long chatId = UpdateParameter.getChatId(update);
         ResponseWaitingMap.remove(chatId);
-        DialogsMap.remove(chatId);
+        DialogsState.removeAllDialogs(chatId);
     }
 }

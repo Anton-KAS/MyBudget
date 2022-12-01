@@ -10,13 +10,13 @@ import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.StartDialog;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.services.AccountService;
 
-import java.util.Map;
+import java.util.Optional;
 
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNTS;
@@ -48,20 +48,22 @@ public class EditStartDialog extends StartDialog {
     public boolean commit(Update update) {
         if (!super.commit(update)) return false;
 
-        Map<String, String> dialogMap = DialogsMap.getDialogMapById(chatId);
+//        Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
+//        if (dialogMap == null) return false;
+        if (!DialogsState.hasDialogs(chatId)) return false;
 
         if (callbackData.length <= CallbackIndex.OPERATION_DATA.ordinal()) return false;
-        int accountId = Integer.parseInt(callbackData[CallbackIndex.OPERATION_DATA.ordinal()]);
 
+        int accountId = Integer.parseInt(callbackData[CallbackIndex.OPERATION_DATA.ordinal()]);
         Account account = accountService.findById(accountId).orElse(null);
         if (account == null) return false;
 
-        dialogMap.put(START_FROM_CALLBACK.getId(),
+        DialogsState.put(chatId, START_FROM_CALLBACK.getId(),
                 String.format("%s_%s_%s_%s_%s", NORMAL.getId(), ACCOUNTS.getName(), ACCOUNT.getName(), "show", accountId));
-        dialogMap.put(CURRENT_DIALOG_STEP.getId(), String.valueOf(CONFIRM.ordinal() - 1));
-        dialogMap.put(LAST_STEP.getId(), String.valueOf(CONFIRM.ordinal() - 1));
-        dialogMap.put(CAN_SAVE.getId(), "true");
-        dialogMap.put(EDIT_ID.getId(), String.valueOf(accountId));
+        DialogsState.put(chatId, CURRENT_DIALOG_STEP.getId(), String.valueOf(CONFIRM.ordinal() - 1));
+        DialogsState.put(chatId, LAST_STEP.getId(), String.valueOf(CONFIRM.ordinal() - 1));
+        DialogsState.put(chatId, CAN_SAVE.getId(), "true");
+        DialogsState.put(chatId, EDIT_ID.getId(), String.valueOf(accountId));
 
         Bank bank = account.getBank();
         String bankText = "";
@@ -79,7 +81,10 @@ public class EditStartDialog extends StartDialog {
 
         for (int i = START.ordinal() + 1; i < CONFIRM.ordinal(); i++) {
             String stepIdText = AccountNames.values()[i].getStepIdText();
-            dialogMap.replace(stepIdText, String.format(dialogMap.get(stepIdText), i));
+            Optional<String> stepTextOpt = DialogsState.getByStepId(chatId, stepIdText);
+            if (stepTextOpt.isPresent()) {
+                DialogsState.replaceById(chatId, stepIdText, String.format(stepTextOpt.get(), i));
+            }
         }
         ResponseWaitingMap.put(chatId, EDIT_ACCOUNT);
         return true;

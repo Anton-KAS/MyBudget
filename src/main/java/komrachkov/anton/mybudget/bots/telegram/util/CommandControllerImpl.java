@@ -47,7 +47,7 @@ public abstract class CommandControllerImpl implements CommandController {
     }
 
     protected void setData(Update update) {
-        if (messageText != null) this.text = messageText.setUserId(UpdateParameter.getUserId(update)).getText();
+        if (messageText != null) this.text = messageText.setChatId(UpdateParameter.getChatId(update)).getText();
         if (keyboard != null) this.inlineKeyboardMarkup = keyboard.getKeyboard();
     }
 

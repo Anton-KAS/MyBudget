@@ -131,15 +131,18 @@ public class TelegramBot extends TelegramLongPollingBot {
             callbackContainer.retrieve(NO.getName()).execute(update);
             return;
         }
+
         String callbackType = callbackData[TYPE.ordinal()];
         if (callbackType.equals(NORMAL.getId())) {
             callbackContainer.retrieve(callbackData[TO.ordinal()]).execute(update);
             return;
         }
+
         if (callbackType.equals(DIALOG.getId()) && dialogContainer.contains(callbackData[TO.ordinal()])) {
             dialogContainer.retrieve(callbackData[TO.ordinal()]).execute(update);
             return;
         }
+
         callbackContainer.retrieve(NO.getName()).execute(update);
     }
 }

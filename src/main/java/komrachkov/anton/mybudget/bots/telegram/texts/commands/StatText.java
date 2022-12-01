@@ -11,7 +11,7 @@ public class StatText implements MessageText {
     private int activeUserCount;
 
     @Override
-    public StatText setUserId(Long userId) {
+    public StatText setChatId(Long userId) {
         return this;
     }
 

@@ -25,7 +25,7 @@ public class DeleteConfirmDialog extends MainDialogImpl {
 
     @Override
     public void execute(Update update) {
-        String text = messageText.setUserId(UpdateParameter.getUserId(update)).getText();
+        String text = messageText.setChatId(UpdateParameter.getChatId(update)).getText();
         InlineKeyboardMarkup inlineKeyboardMarkup = keyboard.setUpdate(update).getKeyboard();
         botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.EDIT,
                 text, inlineKeyboardMarkup);

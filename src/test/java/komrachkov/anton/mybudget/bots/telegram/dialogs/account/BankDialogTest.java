@@ -80,7 +80,7 @@ public class BankDialogTest extends AbstractAccountDialogTest {
 
         //then
         assertEquals(expected, result);
-        Mockito.verify(telegramUserServiceMock, Mockito.times(times)).checkUser(telegramUserServiceMock, update);
+//        Mockito.verify(telegramUserServiceMock, Mockito.times(times)).checkUser(telegramUserServiceMock, update);
     }
 
     public static Stream<Arguments> sourceBankCommit() {

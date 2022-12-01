@@ -9,13 +9,12 @@ import komrachkov.anton.mybudget.models.Currency;
 import komrachkov.anton.mybudget.services.CurrencyService;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Map;
 import java.util.Optional;
 
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.*;
@@ -53,31 +52,34 @@ public class StartBalanceDialog extends DialogImpl {
 
         addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
                 String.format(START_BALANCE.getStepTextPattern(), "%s", startBalance));
-
-        telegramUserService.checkUser(telegramUserService, update);
         return true;
     }
 
     @Override
     public void skip(Update update) {
-        this.userId = UpdateParameter.getUserId(update);
         this.chatId = UpdateParameter.getChatId(update);
         BigDecimal startBalance = getStartBalance(DEFAULT_BALANCE_TEXT, chatId);
-        if (!DialogsMap.getDialogMap(chatId).containsKey(START_BALANCE.getName())) {
+
+        Optional<String> startBalanceOpt = DialogsState.getByStepId(chatId, START_BALANCE.getName());
+
+        if (startBalanceOpt.isEmpty()) {
             addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
                     String.format(START_BALANCE.getStepTextPattern(), "%s", startBalance));
         }
-        telegramUserService.checkUser(telegramUserService, update);
     }
 
     private BigDecimal getStartBalance(String text, long chatId) {
-        Map<String, String> dialogMap = DialogsMap.getDialogMapById(chatId);
-
-        Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
-        int numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
-
         text = text.replace(",", ".");
         BigDecimal startBalance = new BigDecimal(text);
+
+        Optional<String> currencyOpt = DialogsState.getByStepId(chatId, CURRENCY.getName());
+        int numberToBAsic;
+        if (currencyOpt.isPresent()) {
+            Optional<Currency> currency = currencyService.findById(Integer.parseInt(currencyOpt.get()));
+            numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
+        } else {
+            numberToBAsic = 1;
+        }
 
         return startBalance.setScale(String.valueOf(numberToBAsic).length() - 1, RoundingMode.HALF_UP);
     }

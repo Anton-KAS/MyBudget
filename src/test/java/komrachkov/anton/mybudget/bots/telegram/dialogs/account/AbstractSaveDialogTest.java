@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountText;
 
 import java.util.Date;
@@ -45,14 +45,14 @@ public abstract class AbstractSaveDialogTest extends AbstractAccountDialogTest {
     public void beforeEach() {
         super.beforeEach();
 
-        DialogsMap.remove(TEST_CHAT_ID);
-        DialogsMap.put(TEST_CHAT_ID, TITLE.getName(), TEST_TITLE_TEXT);
-        DialogsMap.put(TEST_CHAT_ID, DESCRIPTION.getName(), TEST_DESCRIPTION_TEXT);
-        DialogsMap.put(TEST_CHAT_ID, CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
-        DialogsMap.put(TEST_CHAT_ID, TYPE.getName(), String.valueOf(TEST_TYPE_ACCOUNT_ID));
-        DialogsMap.put(TEST_CHAT_ID, START_BALANCE.getName(), String.valueOf(TEST_START_BALANCE));
-        DialogsMap.put(TEST_CHAT_ID, BANK.getName(), String.valueOf(TEST_BANK_ID));
-        DialogsMap.put(TEST_CHAT_ID, EDIT_ID.getId(), String.valueOf(TEST_ACCOUNT_ID));
+        DialogsState.removeAllDialogs(TEST_CHAT_ID);
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, TITLE.getName(), TEST_TITLE_TEXT);
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, DESCRIPTION.getName(), TEST_DESCRIPTION_TEXT);
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, CURRENCY.getName(), String.valueOf(TEST_CURRENCY_ID));
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, TYPE.getName(), String.valueOf(TEST_TYPE_ACCOUNT_ID));
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, START_BALANCE.getName(), String.valueOf(TEST_START_BALANCE));
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, BANK.getName(), String.valueOf(TEST_BANK_ID));
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, EDIT_ID.getId(), String.valueOf(TEST_ACCOUNT_ID));
     }
 
     @Override

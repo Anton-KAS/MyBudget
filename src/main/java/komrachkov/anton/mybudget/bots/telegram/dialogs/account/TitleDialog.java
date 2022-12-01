@@ -40,7 +40,6 @@ public class TitleDialog extends DialogImpl {
         }
 
         addToDialogMap(chatId, AccountNames.TITLE, text, String.format(AccountNames.TITLE.getStepTextPattern(), "%s", text));
-        telegramUserService.checkUser(telegramUserService, update);
         return true;
     }
 }

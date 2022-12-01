@@ -3,7 +3,7 @@ package komrachkov.anton.mybudget.bots.telegram.dialogs;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogIndex;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsMap;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.util.AbstractCommandControllerTest;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import org.junit.jupiter.api.BeforeEach;
@@ -121,12 +121,12 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     @Test
     public void shouldProperlyAddToDialogMap() {
         //given
-        DialogsMap.remove(TEST_CHAT_ID);
+        DialogsState.removeAllDialogs(TEST_CHAT_ID);
         int expectedSize = 2;
 
         //when
         getCommand().addToDialogMap(TEST_CHAT_ID, getCommandDialogName(), TEST_STEP_ID, TEST_STEP_TEXT);
-        int actualSize = DialogsMap.getDialogMapById(TEST_CHAT_ID).size();
+        int actualSize = DialogsState.getStateSize(TEST_CHAT_ID);
 
         //then
         assertEquals(expectedSize, actualSize);
