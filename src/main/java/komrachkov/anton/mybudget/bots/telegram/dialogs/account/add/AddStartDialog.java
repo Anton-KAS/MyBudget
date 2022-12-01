@@ -13,9 +13,6 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
-import java.util.Map;
-import java.util.Optional;
-
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.MENU;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackType.NORMAL;
 
@@ -40,14 +37,13 @@ public class AddStartDialog extends StartDialog {
     public boolean commit(Update update) {
         if (!super.commit(update)) return false;
 
-        Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
-        if (dialogMap == null) return false;
-
-        dialogMap.put(DialogMapDefaultName.START_FROM_CALLBACK.getId(), String.format("%s_%s_%s", NORMAL.getId(), MENU.getName(),
-                callbackData[CallbackIndex.FROM.ordinal()]));
-        dialogMap.put(DialogMapDefaultName.CURRENT_DIALOG_STEP.getId(), String.valueOf(DialogIndex.FIRST_STEP_INDEX.ordinal()));
-        dialogMap.put(DialogMapDefaultName.LAST_STEP.getId(), String.valueOf(DialogIndex.FIRST_STEP_INDEX.ordinal()));
-        dialogMap.put(DialogMapDefaultName.CAN_SAVE.getId(), "false");
+        DialogsState.put(chatId, DialogMapDefaultName.START_FROM_CALLBACK.getId(),
+                String.format("%s_%s_%s", NORMAL.getId(), MENU.getName(), callbackData[CallbackIndex.FROM.ordinal()]));
+        DialogsState.put(chatId, DialogMapDefaultName.CURRENT_DIALOG_STEP.getId(),
+                String.valueOf(DialogIndex.FIRST_STEP_INDEX.ordinal()));
+        DialogsState.put(chatId, DialogMapDefaultName.LAST_STEP.getId(),
+                String.valueOf(DialogIndex.FIRST_STEP_INDEX.ordinal()));
+        DialogsState.put(chatId, DialogMapDefaultName.CAN_SAVE.getId(), "false");
         return true;
     }
 }

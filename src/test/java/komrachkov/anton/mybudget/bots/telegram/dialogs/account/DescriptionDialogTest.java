@@ -63,7 +63,7 @@ public class DescriptionDialogTest extends AbstractAccountDialogTest {
         assertEquals(expected, result);
         Mockito.verify(botMessageServiceMock, Mockito.times(timesNonExpected)).executeAndUpdateUser(telegramUserServiceMock, update, ExecuteMode.SEND,
                 String.format(DescriptionDialog.VERIFY_EXCEPTION_TEXT, DescriptionDialog.MAX_DESCRIPTION_LENGTH), keyboardMock.getKeyboard());
-        Mockito.verify(telegramUserServiceMock, Mockito.times(timesExpected)).checkUser(telegramUserServiceMock, update);
+//        Mockito.verify(telegramUserServiceMock, Mockito.times(timesExpected)).checkUser(telegramUserServiceMock, update);
     }
 
     public static Stream<Arguments> sourceDescriptionCommit() {

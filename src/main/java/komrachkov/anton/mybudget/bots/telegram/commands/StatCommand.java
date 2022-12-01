@@ -25,7 +25,7 @@ public class StatCommand extends CommandControllerImpl {
     protected void setData(Update update) {
         int activeUserCount = telegramUserService.retrieveAllActiveUsers().size();
         StatText statText = (StatText) messageText;
-        this.text = statText.setUserId(UpdateParameter.getUserId(update)).setActiveUserCount(activeUserCount).getText();
+        this.text = statText.setChatId(UpdateParameter.getChatId(update)).setActiveUserCount(activeUserCount).getText();
         this.inlineKeyboardMarkup = keyboard.getKeyboard();
     }
 }

@@ -40,7 +40,6 @@ public class DescriptionDialog extends DialogImpl {
         }
 
         addToDialogMap(chatId, AccountNames.DESCRIPTION, text, String.format(AccountNames.DESCRIPTION.getStepTextPattern(), "%s", text));
-        telegramUserService.checkUser(telegramUserService, update);
         return true;
     }
 }

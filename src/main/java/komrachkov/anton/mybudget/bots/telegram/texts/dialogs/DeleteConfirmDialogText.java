@@ -9,7 +9,7 @@ import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 
 public class DeleteConfirmDialogText implements MessageText {
     @Override
-    public MessageText setUserId(Long userId) {
+    public MessageText setChatId(Long userId) {
         return this;
     }
 

@@ -12,10 +12,11 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.MainDialogImpl;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 
-import java.util.Map;
 import java.util.Optional;
 
 import static komrachkov.anton.mybudget.bots.telegram.commands.util.CommandIndex.COMMAND;
+import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.TYPE;
+import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName.CURRENT_DIALOG_STEP;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName.LAST_STEP;
 
 /**
@@ -39,7 +40,7 @@ public class AccountDialog extends MainDialogImpl {
     public void execute(Update update) {
         this.chatId = UpdateParameter.getChatId(update);
 
-        System.out.println("DIALOG MAP: " + DialogsState.getDialogStateMap(chatId)); // TODO: Add project logger
+        System.out.println("DIALOG MAP: " + DialogsState.stateToString(chatId)); // TODO: Add project logger
 
         getStepNums(update);
         checkDialogCommand(update);
@@ -52,14 +53,17 @@ public class AccountDialog extends MainDialogImpl {
 
     private void getStepNums(Update update) {
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
-        Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
-        if (dialogMap == null || (callbackData != null &&
+        if (!DialogsState.hasDialogs(chatId) || (callbackData != null &&
                 callbackData[CallbackIndex.OPERATION_DATA.ordinal()].equals(AccountNames.START.getName()))) {
             currentStep = DialogIndex.FIRST_STEP_INDEX.ordinal();
             lastStep = DialogIndex.FIRST_STEP_INDEX.ordinal();
         } else {
-            currentStep = Integer.parseInt(dialogMap.get(DialogMapDefaultName.CURRENT_DIALOG_STEP.getId()));
-            lastStep = Integer.parseInt(dialogMap.get(LAST_STEP.getId()));
+            Optional<String> currentStepOpt = DialogsState.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId());
+            Optional<String> lastStepOpt = DialogsState.getDialogStepById(chatId, LAST_STEP.getId());
+            if (currentStepOpt.isEmpty() || lastStepOpt.isEmpty()) return;
+
+            currentStep = Integer.parseInt(currentStepOpt.get());
+            lastStep = Integer.parseInt(lastStepOpt.get());
         }
 
     }
@@ -91,29 +95,29 @@ public class AccountDialog extends MainDialogImpl {
         }
         boolean result = dialogContainer.retrieve(AccountNames.values()[currentStep].getName()).commit(update);
         if (result) {
-            Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
-            if (dialogMap == null) return;
-            lastStep = Integer.parseInt(dialogMap.get(LAST_STEP.getId()));
+            Optional<String> lastStepOpt = DialogsState.getByStepId(chatId, LAST_STEP.getId());
+            if (lastStepOpt.isEmpty()) return;
+            lastStep = Integer.parseInt(lastStepOpt.get());
             getNextStepNum(update);
         }
     }
 
     private void skipNextStep(Update update) {
-        Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
-        if (dialogMap == null) return;
-        if ((dialogMap.get(AccountNames.TYPE.getName()) == null || dialogMap.get(AccountNames.TYPE.getName()).equals(DialogMapDefaultName.CASH_ID.getId()))
+        Optional<String> accountTypeOpt = DialogsState.getDialogStepById(chatId, TYPE.getName());
+
+        if ((accountTypeOpt.isEmpty() || accountTypeOpt.get().equals(DialogMapDefaultName.CASH_ID.getId()))
                 && AccountNames.values()[lastStep].getName().equals(AccountNames.BANK.getName())) {
             getNextStepNum(update);
         }
     }
 
     private void updateStepsInDialogMap() {
-        DialogsState.replaceById(chatId, DialogMapDefaultName.CURRENT_DIALOG_STEP.getId(), String.valueOf(lastStep));
-        Optional<Map<String, String>> dialogStateMap = DialogsState.getDialogStateMap(chatId);
+        DialogsState.replaceById(chatId, CURRENT_DIALOG_STEP.getId(), String.valueOf(lastStep));
 
-        System.out.println("DIALOG MAP UPDATE STEPS: " + dialogStateMap.orElse(null)); // TODO: Add project logger
+        System.out.println("DIALOG MAP UPDATE STEPS: " + DialogsState.stateToString(chatId)); // TODO: Add project logger
 
-        if (dialogStateMap.isPresent() && lastStep > Integer.parseInt(dialogStateMap.get().get(LAST_STEP.getId()))) {
+        Optional<String> lastStepOpt = DialogsState.getByStepId(chatId, LAST_STEP.getId());
+        if (lastStepOpt.isPresent() && lastStep > Integer.parseInt(lastStepOpt.get())) {
             DialogsState.replaceById(chatId, LAST_STEP.getId(), String.valueOf(lastStep));
         }
     }

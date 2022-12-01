@@ -69,7 +69,6 @@ public class CurrencyDialog extends DialogImpl {
                 "%s", currency.get().getSymbol() + " - " + currency.get().getCurrencyRu());
 
         addToDialogMap(chatId, CURRENCY, String.valueOf(currencyId), text);
-        telegramUserService.checkUser(telegramUserService, update);
         return true;
     }
 

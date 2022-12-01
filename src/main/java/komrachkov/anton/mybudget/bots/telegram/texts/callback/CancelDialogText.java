@@ -12,7 +12,7 @@ public class CancelDialogText implements MessageText {
     }
 
     @Override
-    public MessageText setUserId(Long userId) {
+    public MessageText setChatId(Long userId) {
         return this;
     }
 

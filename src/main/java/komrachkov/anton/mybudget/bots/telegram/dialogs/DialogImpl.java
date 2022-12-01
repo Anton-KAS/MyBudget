@@ -80,7 +80,7 @@ public abstract class DialogImpl implements Dialog {
     @Override
     public void setData(Update update) {
         if (userId == null) userId = UpdateParameter.getUserId(update);
-        text = messageText.setUserId(userId).getText();
+        text = messageText.setChatId(UpdateParameter.getChatId(update)).getText();
         inlineKeyboardMarkup = keyboard.getKeyboard();
     }
 

@@ -5,14 +5,14 @@ import komrachkov.anton.mybudget.models.*;
 import komrachkov.anton.mybudget.services.*;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.SaveDialog;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 
 import java.math.BigDecimal;
+
+import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.*;
 
 /**
  * @author Anton Komrachkov
@@ -31,16 +31,21 @@ public class AddSaveDialog extends SaveDialog {
     @Override
     public void setData(Update update) {
         super.setData(update);
-        if (dialogMap == null) return;
 
-        Bank bank = getBank();
+        String title = DialogsState.getByStepId(chatId, TITLE.getName()).orElse(null);
+        String description = DialogsState.getByStepId(chatId, DESCRIPTION.getName()).orElse(null);
         BigDecimal startBalance = getStartBalance();
         TelegramUser telegramUser = telegramUserService.findById(userId).orElse(null);
-        Currency currency = currencyService.findById(Integer.parseInt(dialogMap.get(AccountNames.CURRENCY.getName()))).orElse(null);
-        AccountType accountType = accountTypeService.findById(Integer.parseInt(dialogMap.get(AccountNames.TYPE.getName()))).orElse(null);
 
-        Account account = new Account(dialogMap.get(AccountNames.TITLE.getName()), dialogMap.get(AccountNames.DESCRIPTION.getName()),
-                startBalance, startBalance, telegramUser, currency, accountType, bank);
+        int currencyId = Integer.parseInt(DialogsState.getByStepId(chatId, CURRENCY.getName()).orElse("-1"));
+        Currency currency = currencyService.findById(currencyId).orElse(null);
+
+        int accountTypeId = Integer.parseInt(DialogsState.getByStepId(chatId, TYPE.getName()).orElse("-1"));
+        AccountType accountType = accountTypeService.findById(accountTypeId).orElse(null);
+
+        Bank bank = getBank();
+
+        Account account = new Account(title, description, startBalance, startBalance, telegramUser, currency, accountType, bank);
         account.setCurrentBalanceWithScale(startBalance);
         account.setStartBalanceWithScale(startBalance);
         accountService.save(account);

@@ -15,7 +15,6 @@ import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Map;
 import java.util.Optional;
 
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.*;
@@ -53,32 +52,30 @@ public class StartBalanceDialog extends DialogImpl {
 
         addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
                 String.format(START_BALANCE.getStepTextPattern(), "%s", startBalance));
-
-        telegramUserService.checkUser(telegramUserService, update);
         return true;
     }
 
     @Override
     public void skip(Update update) {
-        this.userId = UpdateParameter.getUserId(update);
         this.chatId = UpdateParameter.getChatId(update);
         BigDecimal startBalance = getStartBalance(DEFAULT_BALANCE_TEXT, chatId);
-        Map<String, String> dialogStateMapOpt = DialogsState.getDialogStateMap(chatId).orElse(null);
-        if (dialogStateMapOpt != null && !dialogStateMapOpt.containsKey(START_BALANCE.getName())) {
+
+        Optional<String> startBalanceOpt = DialogsState.getByStepId(chatId, START_BALANCE.getName());
+
+        if (startBalanceOpt.isEmpty()) {
             addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
                     String.format(START_BALANCE.getStepTextPattern(), "%s", startBalance));
         }
-        telegramUserService.checkUser(telegramUserService, update);
     }
 
     private BigDecimal getStartBalance(String text, long chatId) {
         text = text.replace(",", ".");
         BigDecimal startBalance = new BigDecimal(text);
 
-        Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
+        Optional<String> currencyOpt = DialogsState.getByStepId(chatId, CURRENCY.getName());
         int numberToBAsic;
-        if (dialogMap != null) {
-            Optional<Currency> currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName())));
+        if (currencyOpt.isPresent()) {
+            Optional<Currency> currency = currencyService.findById(Integer.parseInt(currencyOpt.get()));
             numberToBAsic = currency.map(Currency::getNumberToBasic).orElse(1);
         } else {
             numberToBAsic = 1;

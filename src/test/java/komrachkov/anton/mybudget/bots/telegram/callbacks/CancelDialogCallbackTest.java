@@ -15,7 +15,7 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNTS;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * @since 0.2
@@ -53,27 +53,27 @@ public class CancelDialogCallbackTest extends AbstractCallbackTest {
     @Test
     void shouldProperlyExecuteDialogMapRemove() {
         //given
-        DialogsState.put(AbstractCommandControllerTest.TEST_CHAT_ID, TEST_COMMAND_NAME, "Test", "Test");
-        Update update = givenUpdate(AbstractCommandControllerTest.TEST_USER_ID, AbstractCommandControllerTest.TEST_CHAT_ID);
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, "Test", "Test");
+        Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
 
         //when
         getCommand().execute(update);
 
         //then
-        assertNull(DialogsState.getDialogStateMap(AbstractCommandControllerTest.TEST_CHAT_ID));
+        assertFalse(DialogsState.hasDialogs(TEST_CHAT_ID));
     }
 
     @Test
     void shouldProperlyExecuteDialogMapRemoveExecuteMode() {
         //given
-        DialogsState.put(AbstractCommandControllerTest.TEST_CHAT_ID, TEST_COMMAND_NAME, "Test", "Test");
-        Update update = givenUpdate(AbstractCommandControllerTest.TEST_USER_ID, AbstractCommandControllerTest.TEST_CHAT_ID);
+        DialogsState.put(TEST_CHAT_ID, TEST_COMMAND_NAME, "Test", "Test");
+        Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
 
         //when
         getCommand().execute(update, ExecuteMode.EDIT);
 
         //then
-        assertNull(DialogsState.getDialogStateMap(AbstractCommandControllerTest.TEST_CHAT_ID));
+        assertFalse(DialogsState.hasDialogs(TEST_CHAT_ID));
     }
 
     @Test

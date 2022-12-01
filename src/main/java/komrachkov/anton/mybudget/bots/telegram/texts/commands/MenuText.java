@@ -20,7 +20,7 @@ public class MenuText implements MessageText {
     }
 
     @Override
-    public MenuText setUserId(Long userId) {
+    public MenuText setChatId(Long userId) {
         this.userId = userId;
         return this;
     }

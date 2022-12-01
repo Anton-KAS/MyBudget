@@ -4,8 +4,6 @@ import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
 
 import java.util.*;
 
-import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName.DIALOG_ID;
-
 /**
  * @author Anton Komrachkov
  * @since 0.2
@@ -28,10 +26,13 @@ public class DialogsState {
         return Optional.of(instance.get(chatId).getLast());
     }
 
-    public static Optional<Map<String, String>> getDialogStateMap(long chatId) {
-        Optional<DialogState> dialogStateOpt = getDialogState(chatId);
-        if (dialogStateOpt.isEmpty()) return Optional.empty();
-        return Optional.of(dialogStateOpt.get().getDialogState());
+    public static Optional<String> getByStepId(long chatId, String stepId) {
+        Optional<DialogState> dialogState = getDialogState(chatId);
+        if (dialogState.isEmpty()) return Optional.empty();
+
+        Optional<String> stepValue = dialogState.get().getByStepId(stepId);
+        if (stepValue.isEmpty()) return Optional.empty();
+        return stepValue;
     }
 
     public static Optional<String> getCurrentDialogId(long chatId) {
@@ -43,19 +44,25 @@ public class DialogsState {
     public static Optional<String> getDialogStepById(long chatId, String stepId) {
         Optional<DialogState> dialogStateOpt = getDialogState(chatId);
         if (dialogStateOpt.isEmpty()) return Optional.empty();
-        return Optional.of(dialogStateOpt.get().getStep(stepId));
+        return dialogStateOpt.get().getByStepId(stepId);
     }
 
     public static void put(long chatId, CommandNames commandName, String stepId, String data) {
-        Optional<Map<String, String>> dialogStateMapOpt = getDialogStateMap(chatId);
-        Map<String, String> dialogStateMap;
-        if (dialogStateMapOpt.isEmpty()) {
-            dialogStateMap = new HashMap<>();
-            putDialogStateMap(chatId, commandName, dialogStateMap);
+        Optional<DialogState> dialogStateOpt = getDialogState(chatId);
+        DialogState dialogState;
+        if (dialogStateOpt.isEmpty()) {
+            dialogState = new DialogState(chatId, commandName);
+            putDialogState(chatId, dialogState);
         } else {
-            dialogStateMap = dialogStateMapOpt.get();
+            dialogState = dialogStateOpt.get();
         }
-        dialogStateMap.put(stepId, data);
+        dialogState.put(stepId, data);
+    }
+
+    public static void put(long chatId, String stepId, String data) {
+        Optional<DialogState> dialogStateOpt = getDialogState(chatId);
+        if (dialogStateOpt.isEmpty()) return;
+        dialogStateOpt.get().put(stepId, data);
     }
 
     public static void putDialogState(long chatId, DialogState dialogState) {
@@ -76,9 +83,13 @@ public class DialogsState {
     }
 
     public static void replaceById(long chatId, String nameId, String text) {
-        Optional<Map<String, String>> dialogMapOpt = getDialogStateMap(chatId);
-        if (dialogMapOpt.isEmpty()) return;
-        if (dialogMapOpt.get().get(nameId) != null) dialogMapOpt.get().replace(nameId, text);
+        Optional<DialogState> dialogStateOpt = getDialogState(chatId);
+        if (dialogStateOpt.isEmpty()) return;
+        dialogStateOpt.get().replace(nameId, text);
+    }
+
+    public static boolean hasDialogs(long chatId) {
+        return instance.containsKey(chatId);
     }
 
     public static void removeAllDialogs(long chatId) {
@@ -114,6 +125,18 @@ public class DialogsState {
         if (dialogStateOpt.isEmpty()) return Optional.empty();
         return Optional.of(dialogStateOpt.get().getCommandName());
     }
+
+    public static String stateToString(long chatId) {
+        Optional<DialogState> dialogStateOpt = getDialogState(chatId);
+        if (dialogStateOpt.isEmpty()) return "dialog for " + chatId + " not exist";
+        return dialogStateOpt.get().toString();
+    }
+
+    public static int getStateSize(long chatId) {
+        Optional<DialogState> dialogStateOpt = getDialogState(chatId);
+        if (dialogStateOpt.isEmpty()) return 0;
+        return dialogStateOpt.get().getSize();
+    }
 }
 
 /**
@@ -123,57 +146,31 @@ public class DialogsState {
 class DialogState {
     private final long chatId;
     private final CommandNames commandName;
-    private final String dialogId;
     private Map<String, String> dialogState;
-    private DialogState subDialog;
 
-    DialogState(long chatId, CommandNames commandName, String dialogId) {
+    DialogState(long chatId, CommandNames commandName) {
         this.chatId = chatId;
         this.commandName = commandName;
-        this.dialogId = dialogId;
         this.dialogState = new HashMap<>();
-    }
-
-    DialogState(long chatId, CommandNames commandName, String dialogId, Map<String, String> dialogState) {
-        this.chatId = chatId;
-        this.commandName = commandName;
-        this.dialogId = dialogId;
-        this.dialogState = dialogState;
     }
 
     DialogState(long chatId, CommandNames commandName, Map<String, String> dialogState) {
         this.chatId = chatId;
         this.commandName = commandName;
-        this.dialogId = dialogState.get(DIALOG_ID.getId());
         this.dialogState = dialogState;
     }
 
-    String getStep(String stepId) {
-        return dialogState.get(stepId);
+    Optional<String> getByStepId(String stepId) {
+        if (dialogState.containsKey(stepId)) return Optional.of(dialogState.get(stepId));
+        return Optional.empty();
     }
 
     Map<String, String> getDialogState() {
         return dialogState;
     }
 
-    boolean hasSubDialog() {
-        return subDialog != null;
-    }
-
-    void removeSubDialog() {
-        this.subDialog = null;
-    }
-
     void setDialogState(Map<String, String> dialogState) {
         this.dialogState = dialogState;
-    }
-
-    DialogState getSubDialog() {
-        return subDialog;
-    }
-
-    void setSubDialog(DialogState subDialog) {
-        this.subDialog = subDialog;
     }
 
     public long getChatId() {
@@ -181,11 +178,23 @@ class DialogState {
     }
 
     public String getDialogId() {
-        return dialogId;
+        return commandName.getName();
     }
 
     public CommandNames getCommandName() {
         return commandName;
+    }
+
+    public int getSize() {
+        return dialogState.size();
+    }
+
+    public void put(String stepId, String data) {
+        dialogState.put(stepId, data);
+    }
+
+    public void replace(String stepId, String data) {
+        dialogState.replace(stepId, data);
     }
 
     @Override
@@ -193,12 +202,21 @@ class DialogState {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DialogState that = (DialogState) o;
-        return chatId == that.chatId && dialogId.equals(that.dialogId);
+        return chatId == that.chatId && commandName.equals(that.commandName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(chatId, dialogId);
+        return Objects.hash(chatId, commandName);
+    }
+
+    @Override
+    public String toString() {
+        return "DialogState{" +
+                "chatId=" + chatId +
+                ", commandName=" + commandName +
+                ", dialogState=" + dialogState +
+                '}';
     }
 }
 

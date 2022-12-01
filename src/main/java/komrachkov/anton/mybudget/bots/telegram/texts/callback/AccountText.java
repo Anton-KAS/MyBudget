@@ -29,7 +29,7 @@ public class AccountText implements MessageText {
     }
 
     @Override
-    public MessageText setUserId(Long userId) {
+    public MessageText setChatId(Long userId) {
         this.userId = userId;
         return this;
     }

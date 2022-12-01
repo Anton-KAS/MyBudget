@@ -6,11 +6,11 @@ package komrachkov.anton.mybudget.bots.telegram.texts;
  */
 
 public interface MessageText {
-    MessageText setUserId(Long userId);
+    MessageText setChatId(Long userId);
 
     String getText();
 
-    default void checkUserIdSet(Long userId) {
-        if (userId == null) throw new Error("userId is not set");
+    default void checkUserIdSet(Long chatId) {
+        if (chatId == null) throw new Error("chatId is not set");
     }
 }

@@ -51,7 +51,7 @@ abstract public class AbstractCommandControllerTest {
         Mockito.when(keyboardMock.getKeyboard()).thenReturn(TEST_INLINE_KEYBOARD);
 
         this.messageTextMock = getMockMessageText();
-        Mockito.when(messageTextMock.setUserId(TEST_USER_ID)).thenReturn(messageTextMock);
+        Mockito.when(messageTextMock.setChatId(TEST_CHAT_ID)).thenReturn(messageTextMock);
         Mockito.when(messageTextMock.getText()).thenReturn(TEST_TEXT);
 
         Mockito.when(telegramUserServiceMock.retrieveAllActiveUsers()).thenReturn(TEST_USER_LIST);
@@ -66,7 +66,7 @@ abstract public class AbstractCommandControllerTest {
         getCommand().execute(update);
 
         //then
-        Mockito.verify(messageTextMock, Mockito.times(1)).setUserId(TEST_USER_ID);
+        Mockito.verify(messageTextMock, Mockito.times(1)).setChatId(TEST_CHAT_ID);
     }
 
     @Test
@@ -78,7 +78,7 @@ abstract public class AbstractCommandControllerTest {
         getCommand().execute(update, ExecuteMode.EDIT);
 
         //then
-        Mockito.verify(messageTextMock, Mockito.times(1)).setUserId(TEST_USER_ID);
+        Mockito.verify(messageTextMock, Mockito.times(1)).setChatId(TEST_CHAT_ID);
     }
 
     @Test

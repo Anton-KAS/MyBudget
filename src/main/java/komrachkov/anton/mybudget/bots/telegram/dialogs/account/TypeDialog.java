@@ -54,7 +54,6 @@ public class TypeDialog extends DialogImpl {
         if (String.valueOf(accountTypeId).equals(CASH_ID.getId())) {
             addToDialogMap(chatId, AccountNames.BANK, null, null);
         }
-        telegramUserService.checkUser(telegramUserService, update);
         return true;
     }
 }

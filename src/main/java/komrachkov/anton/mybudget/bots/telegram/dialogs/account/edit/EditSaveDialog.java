@@ -2,7 +2,6 @@ package komrachkov.anton.mybudget.bots.telegram.dialogs.account.edit;
 
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
-import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.models.Account;
 import komrachkov.anton.mybudget.models.AccountType;
 import komrachkov.anton.mybudget.models.Bank;
@@ -38,24 +37,32 @@ public class EditSaveDialog extends SaveDialog {
     @Override
     public void setData(Update update) {
         super.setData(update);
-        if (dialogMap == null) return;
-
-        Bank bank = getBank();
-        BigDecimal startBalance = getStartBalance();
-        Currency currency = currencyService.findById(Integer.parseInt(dialogMap.get(CURRENCY.getName()))).orElse(null);
-        AccountType accountType = accountTypeService.findById(Integer.parseInt(dialogMap.get(TYPE.getName()))).orElse(null);
 
         Optional<String> accountIdString = DialogsState.getDialogStepById(chatId, EDIT_ID.getId());
         if (accountIdString.isEmpty()) return;
 
         int accountId = Integer.parseInt(accountIdString.get());
         Account account = accountService.findById(accountId).orElse(new Account());
-        account.setTitle(dialogMap.get(TITLE.getName()));
-        account.setDescription(dialogMap.get(DESCRIPTION.getName()));
+
+        String title = DialogsState.getByStepId(chatId, TITLE.getName()).orElse(null);
+        account.setTitle(title);
+
+        String description = DialogsState.getByStepId(chatId, DESCRIPTION.getName()).orElse(null);
+        account.setDescription(description);
+
+        int currencyId = Integer.parseInt(DialogsState.getByStepId(chatId, CURRENCY.getName()).orElse("-1"));
+        Currency currency = currencyService.findById(currencyId).orElse(null);
         account.setCurrency(currency);
+
+        BigDecimal startBalance = getStartBalance();
         account.setStartBalanceWithScale(startBalance);
         account.setCurrentBalanceWithScale(startBalance); // TODO : Something not good...
+
+        int accountTypeId = Integer.parseInt(DialogsState.getByStepId(chatId, TYPE.getName()).orElse("-1"));
+        AccountType accountType = accountTypeService.findById(accountTypeId).orElse(null);
         account.setAccountType(accountType);
+
+        Bank bank = getBank();
         account.setBank(bank);
         accountService.save(account);
     }

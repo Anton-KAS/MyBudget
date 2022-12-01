@@ -21,7 +21,7 @@ public class AccountsTextTest {
     public void ShouldGetError() {
         //given
         MessageText messageText = new AccountsText(telegramUserServiceMock);
-        String expectedText = "userId is not set";
+        String expectedText = "chatId is not set";
         String actual = null;
 
         //when
@@ -31,6 +31,6 @@ public class AccountsTextTest {
             actual = err.getMessage();
         }
         //then
-        assertEquals("ErrorUserIdSet", expectedText, actual);
+        assertEquals("ErrorChatIdSet", expectedText, actual);
     }
 }

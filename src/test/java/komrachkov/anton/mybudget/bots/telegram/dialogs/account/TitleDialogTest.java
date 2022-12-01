@@ -66,7 +66,7 @@ public class TitleDialogTest extends AbstractAccountDialogTest {
         assertEquals(expected, result);
         Mockito.verify(botMessageServiceMock, Mockito.times(timesNonExpected)).executeAndUpdateUser(telegramUserServiceMock, update, ExecuteMode.SEND,
                 String.format(VERIFY_EXCEPTION_TEXT, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH), keyboardMock.getKeyboard());
-        Mockito.verify(telegramUserServiceMock, Mockito.times(timesExpected)).checkUser(telegramUserServiceMock, update);
+//        Mockito.verify(telegramUserServiceMock, Mockito.times(timesExpected)).checkUser(telegramUserServiceMock, update);
     }
 
     public static Stream<Arguments> sourceTitleCommit() {

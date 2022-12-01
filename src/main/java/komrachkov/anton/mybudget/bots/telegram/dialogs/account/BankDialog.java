@@ -56,7 +56,6 @@ public class BankDialog extends DialogImpl {
         String text = String.format(AccountNames.BANK.getStepTextPattern(),
                 "%s", bank.get().getTitleRu() + " (" + bank.get().getCountry().getTitleRu() + ")");
         addToDialogMap(chatId, AccountNames.BANK, String.valueOf(bankId), text);
-        telegramUserService.checkUser(telegramUserService, update);
         return true;
     }
 }
