@@ -96,6 +96,18 @@ public class InlineKeyboardBuilder {
         return this;
     }
 
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    public InlineKeyboardBuilder addReturnToAllButton(String fromDialog, String fromStep, int toPage) {
+        String buttonText = "ALL";
+        String buttonCallback = String.format(EXTRA_DIALOG_CALLBACK_PATTERN,
+                DIALOG.getId(), fromDialog, fromDialog, fromStep, PAGE.getId(), toPage);
+        addButton(buttonText, buttonCallback);
+        return this;
+    }
+
     public InlineKeyboardBuilder addPreviousPageButton(String fromDialog, String fromStep, int toPage) {
         String buttonText = "◀️";
         String buttonCallback = String.format(EXTRA_DIALOG_CALLBACK_PATTERN,

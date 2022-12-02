@@ -67,6 +67,7 @@ public abstract class DialogImpl implements Dialog {
         ExecuteMode executeMode = getExecuteMode(update, dialogStep);
         Optional<String> dialogStepString = DialogsState.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId());
         dialogStepString.ifPresent(s -> dialogStep = Integer.parseInt(s));
+//        TODO: 4 last row... think about it...
         executeByOrder(update, executeMode);
     }
 
