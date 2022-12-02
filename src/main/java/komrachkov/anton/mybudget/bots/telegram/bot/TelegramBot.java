@@ -15,6 +15,7 @@ import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 
 import java.util.Arrays;
 
+import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.NOTHING;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackIndex.*;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackType.*;
 import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.NO;
@@ -68,6 +69,12 @@ public class TelegramBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         System.out.println(update); //TODO: Add project Logger
         telegramUserService.checkUser(telegramUserService, update);
+
+        if (update.hasCallbackQuery() && UpdateParameter.getCallbackData(update).isPresent()
+                && UpdateParameter.getCallbackData(update).get()[0].equals(NOTHING.getName())) {
+            return;
+        }
+
         if (update.hasMessage() && update.getMessage().hasText()) {
             onTextMessageReceived(update);
             return;

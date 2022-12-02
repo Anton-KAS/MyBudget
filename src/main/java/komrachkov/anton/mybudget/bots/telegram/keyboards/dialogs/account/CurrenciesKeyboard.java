@@ -46,10 +46,14 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
                             String.format(callbackPattern, currency.getId()));
         }
         if (page > 1 || currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addRow();
+
         if (page > 1) inlineKeyboardBuilder.addPreviousPageButton(
                 ADD_ACCOUNT.getName(), CURRENCY.getName(), page - 1);
+        else if (currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addEmptyButton();
+
         if (currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addNextPageButton(
                 ADD_ACCOUNT.getName(), CURRENCY.getName(), page + 1);
+        else if (page > 1) inlineKeyboardBuilder.addEmptyButton();
 
         return inlineKeyboardBuilder.build();
     }

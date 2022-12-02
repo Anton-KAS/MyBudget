@@ -6,8 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
-import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.CANCEL_DIALOG;
-import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.CLOSE;
+import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.*;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackOperator.*;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackType.NORMAL;
@@ -59,6 +58,10 @@ public class InlineKeyboardBuilder {
     /*
     NORMAL CALLBACK BUTTONS
      */
+    public InlineKeyboardBuilder addEmptyButton() {
+        addButton(" ", NOTHING.getName());
+        return this;
+    }
 
     public InlineKeyboardBuilder addReturnButton(String from, String to) {
         String buttonText = "<- Назад";
