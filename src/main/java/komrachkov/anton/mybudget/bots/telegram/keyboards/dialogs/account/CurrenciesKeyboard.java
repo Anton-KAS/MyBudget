@@ -33,14 +33,14 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
 
     @Override
     public InlineKeyboardMarkup getKeyboard() {
-        List<komrachkov.anton.mybudget.models.Currency> currencies = getCurrenciesByOrder();
+        List<Currency> currencies = getCurrenciesByOrder(currencyService.findAll());
         InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboardBuilder();
 
         page = Math.max(page, 1);
 
         for (int i = NUM_IN_PAGE * (page - 1); i < NUM_IN_PAGE * page; i++) {
             if (i >= currencies.size()) break;
-            komrachkov.anton.mybudget.models.Currency currency = currencies.get(i);
+            Currency currency = currencies.get(i);
             inlineKeyboardBuilder.addRow()
                     .addButton(String.format(TEXT_BUTTON_PATTERN, currency.getSymbol(), currency.getCurrencyRu()),
                             String.format(callbackPattern, currency.getId()));
@@ -58,7 +58,23 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
         return inlineKeyboardBuilder.build();
     }
 
-    private List<komrachkov.anton.mybudget.models.Currency> getCurrenciesByOrder() {
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    public InlineKeyboardMarkup getKeyboard(String searchWord) {
+        return null;
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    private InlineKeyboardMarkup getKeyboardWithPages() {
+        return null;
+    }
+
+    private List<komrachkov.anton.mybudget.models.Currency> getCurrenciesByOrder(List<Currency> currencies) {
         /* Order:
         1. Used currencies
         2. National currency
@@ -66,7 +82,7 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
         4. Other currencies
          */
 
-        List<komrachkov.anton.mybudget.models.Currency> currencies = new ArrayList<>();
+        List<Currency> sortedCurrencies = new ArrayList<>();
 
         // 1
         TelegramUser telegramUser = telegramUserService.findById(userId).orElse(null);
@@ -75,30 +91,31 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
         if (telegramUser != null) accounts = telegramUser.getAccounts();
         if (accounts != null) {
             for (Account account : accounts) {
-                komrachkov.anton.mybudget.models.Currency usedCurrency = account.getCurrency();
-                if (currencies.contains(usedCurrency)) continue;
-                currencies.add(usedCurrency);
-                if (currencies.size() > page * NUM_IN_PAGE) break;
+                Currency usedCurrency = account.getCurrency();
+                if (sortedCurrencies.contains(usedCurrency)) continue;
+                if (!currencies.contains(usedCurrency)) continue;
+                sortedCurrencies.add(usedCurrency);
+                if (sortedCurrencies.size() > page * NUM_IN_PAGE) break;
             }
-            Collections.sort(currencies);
-            if (currencies.size() > page * NUM_IN_PAGE) return currencies;
+            Collections.sort(sortedCurrencies);
+            if (sortedCurrencies.size() > page * NUM_IN_PAGE) return sortedCurrencies;
         }
         // 2 TODO: ADD national currency
         // 3
-        List<komrachkov.anton.mybudget.models.Currency> reserveCurrencies = currencyService.getReserveCurrencies();
-        addCurrenciesToList(currencies, reserveCurrencies);
+        List<Currency> reserveCurrencies = currencyService.getReserveCurrencies();
+        addCurrenciesToList(currencies, sortedCurrencies, reserveCurrencies);
         // 4
-        List<komrachkov.anton.mybudget.models.Currency> otherCurrencies = currencyService.findAll();
-        addCurrenciesToList(currencies, otherCurrencies);
-        return currencies;
+        addCurrenciesToList(currencies, sortedCurrencies, currencies);
+        return sortedCurrencies;
     }
 
-    private void addCurrenciesToList(List<komrachkov.anton.mybudget.models.Currency> currencies, List<komrachkov.anton.mybudget.models.Currency> addCurrencies) {
+    private void addCurrenciesToList(List<Currency> currencies, List<Currency> sortedCurrencies, List<Currency> addCurrencies) {
         Collections.sort(addCurrencies);
         for (Currency addCurrency : addCurrencies) {
-            if (currencies.contains(addCurrency)) continue;
-            currencies.add(addCurrency);
-            if (currencies.size() > page * NUM_IN_PAGE) return;
+            if (sortedCurrencies.contains(addCurrency)) continue;
+            if (!currencies.contains(addCurrency)) continue;
+            sortedCurrencies.add(addCurrency);
+            if (sortedCurrencies.size() > page * NUM_IN_PAGE) return;
         }
     }
 
