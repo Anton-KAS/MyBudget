@@ -1,5 +1,6 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs;
 
+import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.services.TelegramUserService;
@@ -12,8 +13,10 @@ import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
+import java.util.Arrays;
 import java.util.Optional;
 
+import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackIndex.OPERATION;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogIndex.FIRST_STEP_INDEX;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName.*;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.CONFIRM;
@@ -60,9 +63,11 @@ public abstract class DialogImpl implements Dialog {
     public void execute(Update update) {
         this.userId = UpdateParameter.getUserId(update);
         this.chatId = UpdateParameter.getChatId(update);
+        this.dialogStep = getDialogStepFromCallback(update);
         ExecuteMode executeMode = getExecuteMode(update, dialogStep);
         Optional<String> dialogStepString = DialogsState.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId());
         dialogStepString.ifPresent(s -> dialogStep = Integer.parseInt(s));
+//        TODO: 4 last row... think about it...
         executeByOrder(update, executeMode);
     }
 
@@ -108,5 +113,15 @@ public abstract class DialogImpl implements Dialog {
             return ExecuteMode.EDIT;
         }
         return ExecuteMode.SEND;
+    }
+
+    protected Integer getDialogStepFromCallback(Update update) {
+        String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
+        if (callbackData == null) return null;
+        if (callbackData.length < OPERATION.ordinal()) return null;
+        String stepId = callbackData[OPERATION.ordinal()];
+        AccountNames accountName = Arrays.stream(AccountNames.values()).filter(s -> s.getName().equals(stepId)).findAny().orElse(null);
+        if (accountName == null) return null;
+        return accountName.ordinal();
     }
 }

@@ -93,12 +93,15 @@ public class AccountDialog extends MainDialogImpl {
             getNextStepNum(update);
             return;
         }
+
         boolean result = dialogContainer.retrieve(AccountNames.values()[currentStep].getName()).commit(update);
         if (result) {
             Optional<String> lastStepOpt = DialogsState.getByStepId(chatId, LAST_STEP.getId());
             if (lastStepOpt.isEmpty()) return;
             lastStep = Integer.parseInt(lastStepOpt.get());
             getNextStepNum(update);
+        } else {
+            lastStep = currentStep;
         }
     }
 

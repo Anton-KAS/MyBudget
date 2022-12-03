@@ -2,11 +2,13 @@ package komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account;
 
 import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.DialogKeyboardImpl;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
+import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.models.Account;
 import komrachkov.anton.mybudget.models.Currency;
 import komrachkov.anton.mybudget.models.TelegramUser;
 import komrachkov.anton.mybudget.services.CurrencyService;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.*;
@@ -33,28 +35,20 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
 
     @Override
     public InlineKeyboardMarkup getKeyboard() {
-        List<komrachkov.anton.mybudget.models.Currency> currencies = getCurrenciesByOrder();
-        InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboardBuilder();
-
-        page = Math.max(page, 1);
-
-        for (int i = NUM_IN_PAGE * (page - 1); i < NUM_IN_PAGE * page; i++) {
-            if (i >= currencies.size()) break;
-            komrachkov.anton.mybudget.models.Currency currency = currencies.get(i);
-            inlineKeyboardBuilder.addRow()
-                    .addButton(String.format(TEXT_BUTTON_PATTERN, currency.getSymbol(), currency.getCurrencyRu()),
-                            String.format(callbackPattern, currency.getId()));
-        }
-        if (page > 1 || currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addRow();
-        if (page > 1) inlineKeyboardBuilder.addPreviousPageButton(
-                ADD_ACCOUNT.getName(), CURRENCY.getName(), page - 1);
-        if (currencies.size() > NUM_IN_PAGE * page) inlineKeyboardBuilder.addNextPageButton(
-                ADD_ACCOUNT.getName(), CURRENCY.getName(), page + 1);
-
-        return inlineKeyboardBuilder.build();
+        List<Currency> currencies = getCurrenciesByOrder(currencyService.findAll());
+        return addNavigationByPages(getKeyboardForPage(currencies), currencies.size(), false).build();
     }
 
-    private List<komrachkov.anton.mybudget.models.Currency> getCurrenciesByOrder() {
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    public InlineKeyboardMarkup getKeyboard(String searchWord) {
+        List<Currency> currencies = getCurrenciesByOrder(currencyService.getCurrenciesBySearchWord(searchWord));
+        return addNavigationByPages(getKeyboardForPage(currencies), currencies.size(), true).build();
+    }
+
+    private List<komrachkov.anton.mybudget.models.Currency> getCurrenciesByOrder(List<Currency> currencies) {
         /* Order:
         1. Used currencies
         2. National currency
@@ -62,7 +56,7 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
         4. Other currencies
          */
 
-        List<komrachkov.anton.mybudget.models.Currency> currencies = new ArrayList<>();
+        List<Currency> sortedCurrencies = new ArrayList<>();
 
         // 1
         TelegramUser telegramUser = telegramUserService.findById(userId).orElse(null);
@@ -71,31 +65,70 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
         if (telegramUser != null) accounts = telegramUser.getAccounts();
         if (accounts != null) {
             for (Account account : accounts) {
-                komrachkov.anton.mybudget.models.Currency usedCurrency = account.getCurrency();
-                if (currencies.contains(usedCurrency)) continue;
-                currencies.add(usedCurrency);
-                if (currencies.size() > page * NUM_IN_PAGE) break;
+                Currency usedCurrency = account.getCurrency();
+                if (sortedCurrencies.contains(usedCurrency)) continue;
+                if (!currencies.contains(usedCurrency)) continue;
+                sortedCurrencies.add(usedCurrency);
+                if (sortedCurrencies.size() > page * NUM_IN_PAGE) break;
             }
-            Collections.sort(currencies);
-            if (currencies.size() > page * NUM_IN_PAGE) return currencies;
+            Collections.sort(sortedCurrencies);
+            if (sortedCurrencies.size() > page * NUM_IN_PAGE) return sortedCurrencies;
         }
         // 2 TODO: ADD national currency
         // 3
-        List<komrachkov.anton.mybudget.models.Currency> reserveCurrencies = currencyService.getReserveCurrencies();
-        addCurrenciesToList(currencies, reserveCurrencies);
+        List<Currency> reserveCurrencies = currencyService.getReserveCurrencies();
+        addCurrenciesToList(currencies, sortedCurrencies, reserveCurrencies);
         // 4
-        List<komrachkov.anton.mybudget.models.Currency> otherCurrencies = currencyService.findAll();
-        addCurrenciesToList(currencies, otherCurrencies);
-        return currencies;
+        addCurrenciesToList(currencies, sortedCurrencies, currencies);
+        return sortedCurrencies;
     }
 
-    private void addCurrenciesToList(List<komrachkov.anton.mybudget.models.Currency> currencies, List<komrachkov.anton.mybudget.models.Currency> addCurrencies) {
+    private void addCurrenciesToList(List<Currency> currencies, List<Currency> sortedCurrencies, List<Currency> addCurrencies) {
         Collections.sort(addCurrencies);
         for (Currency addCurrency : addCurrencies) {
-            if (currencies.contains(addCurrency)) continue;
-            currencies.add(addCurrency);
-            if (currencies.size() > page * NUM_IN_PAGE) return;
+            if (sortedCurrencies.contains(addCurrency)) continue;
+            if (!currencies.contains(addCurrency)) continue;
+            sortedCurrencies.add(addCurrency);
+            if (sortedCurrencies.size() > page * NUM_IN_PAGE) return;
         }
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    private InlineKeyboardBuilder getKeyboardForPage(List<Currency> currencies) {
+        page = Math.max(page, 1);
+        InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboardBuilder();
+
+        for (int i = NUM_IN_PAGE * (page - 1); i < NUM_IN_PAGE * page; i++) {
+            if (i >= currencies.size()) break;
+            Currency currency = currencies.get(i);
+            inlineKeyboardBuilder.addRow()
+                    .addButton(String.format(TEXT_BUTTON_PATTERN, currency.getSymbol(), currency.getCurrencyRu()),
+                            String.format(callbackPattern, currency.getId()));
+        }
+        return inlineKeyboardBuilder;
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    private InlineKeyboardBuilder addNavigationByPages(InlineKeyboardBuilder inlineKeyboardBuilder, int currenciesSize, boolean allButton) {
+        if (page > 1 || currenciesSize > NUM_IN_PAGE * page || allButton) inlineKeyboardBuilder.addRow();
+
+        if (page > 1) inlineKeyboardBuilder.addPreviousPageButton(
+                ADD_ACCOUNT.getName(), CURRENCY.getName(), page - 1);
+        else if (currenciesSize > NUM_IN_PAGE * page) inlineKeyboardBuilder.addEmptyButton();
+
+        if (allButton) inlineKeyboardBuilder.addReturnToAllButton(ADD_ACCOUNT.getName(), CURRENCY.getName(), 1);
+
+        if (currenciesSize > NUM_IN_PAGE * page) inlineKeyboardBuilder.addNextPageButton(
+                ADD_ACCOUNT.getName(), CURRENCY.getName(), page + 1);
+        else if (page > 1) inlineKeyboardBuilder.addEmptyButton();
+
+        return inlineKeyboardBuilder;
     }
 
     public void setCurrencyService(CurrencyService currencyService) {

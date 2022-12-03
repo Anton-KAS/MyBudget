@@ -6,8 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
-import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.CANCEL_DIALOG;
-import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.CLOSE;
+import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.*;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackOperator.*;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackType.NORMAL;
@@ -59,6 +58,10 @@ public class InlineKeyboardBuilder {
     /*
     NORMAL CALLBACK BUTTONS
      */
+    public InlineKeyboardBuilder addEmptyButton() {
+        addButton(" ", NOTHING.getName());
+        return this;
+    }
 
     public InlineKeyboardBuilder addReturnButton(String from, String to) {
         String buttonText = "<- Назад";
@@ -89,6 +92,18 @@ public class InlineKeyboardBuilder {
         String buttonText = "⛔️  Отменить";
         String buttonCallback = String.format(EASY_MOVING_CALLBACK_PATTERN,
                 NORMAL.getId(), from, CANCEL_DIALOG.getName());
+        addButton(buttonText, buttonCallback);
+        return this;
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    public InlineKeyboardBuilder addReturnToAllButton(String fromDialog, String fromStep, int toPage) {
+        String buttonText = "ALL";
+        String buttonCallback = String.format(EXTRA_DIALOG_CALLBACK_PATTERN,
+                DIALOG.getId(), fromDialog, fromDialog, fromStep, PAGE.getId(), toPage);
         addButton(buttonText, buttonCallback);
         return this;
     }

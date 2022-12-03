@@ -14,6 +14,7 @@ import komrachkov.anton.mybudget.services.CurrencyService;
 
 import java.util.Optional;
 
+import static komrachkov.anton.mybudget.bots.telegram.bot.TelegramBot.COMMAND_PREFIX;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackIndex.OPERATION_DATA;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.*;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName.PAGE;
@@ -42,15 +43,27 @@ public class CurrencyDialog extends DialogImpl {
         setKeyboardPage(update);
         setKeyboardServices();
 
-        super.executeByOrder(update, executeMode);
+        String searchWord = UpdateParameter.getMessageText(update);
+        if (!update.hasCallbackQuery() && !searchWord.contains(COMMAND_PREFIX)) {
+            text = messageText.setChatId(UpdateParameter.getChatId(update)).getText();
+            inlineKeyboardMarkup = currenciesKeyboard.getKeyboard(searchWord.toLowerCase());
+            executeData(update, ExecuteMode.SEND);
+        } else super.executeByOrder(update, executeMode);
     }
 
     @Override
     public boolean commit(Update update) {
         this.userId = UpdateParameter.getUserId(update);
         this.chatId = UpdateParameter.getUserId(update);
-        String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
 
+        if (update.hasMessage() && !update.hasCallbackQuery()) {
+            String searchWord = UpdateParameter.getMessageText(update);
+            if (searchWord.length() != 0) {
+                return false;
+            }
+        }
+
+        String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
         if (callbackData == null ||
                 (update.hasCallbackQuery() &&
                         callbackData.length > PAGE_INDEX &&

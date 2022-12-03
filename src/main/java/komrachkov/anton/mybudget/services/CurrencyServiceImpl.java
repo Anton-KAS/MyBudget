@@ -51,4 +51,66 @@ public class CurrencyServiceImpl implements CurrencyService {
         }
         return currencies;
     }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    @Override
+    public List<Currency> findAllByCurrencyEnContains(String currencyEn) {
+        return currencyRepository.findAllByCurrencyEnContains(currencyEn);
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    @Override
+    public List<Currency> findAllByCurrencyRuContains(String currencyRu) {
+        return currencyRepository.findAllByCurrencyRuContains(currencyRu);
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    @Override
+    public List<Currency> findAllBySymbolContains(String symbol) {
+        return currencyRepository.findAllBySymbolContains(symbol);
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    @Override
+    public List<Currency> findAllByIsoCodeContains(String isoCode) {
+        return currencyRepository.findAllByIsoCodeContains(isoCode);
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    @Override
+    public List<Currency> getCurrenciesBySearchWord(String searchWord) {
+        searchWord = searchWord.trim().toLowerCase();
+        List<Currency> currencies = new ArrayList<>();
+        addUniqToList(currencies, findAllByCurrencyEnContains(searchWord));
+        addUniqToList(currencies, findAllByCurrencyRuContains(searchWord));
+        addUniqToList(currencies, findAllBySymbolContains(searchWord));
+        addUniqToList(currencies, findAllByIsoCodeContains(searchWord));
+        return currencies;
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (2.12.2022)
+     */
+    private void addUniqToList(List<Currency> currencies, List<Currency> addCurrencies) {
+        for (Currency currency : addCurrencies) {
+            if (currencies.contains(currency)) continue;
+            currencies.add(currency);
+        }
+    }
 }
