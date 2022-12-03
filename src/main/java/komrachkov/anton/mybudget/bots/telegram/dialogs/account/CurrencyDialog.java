@@ -59,9 +59,6 @@ public class CurrencyDialog extends DialogImpl {
         if (update.hasMessage() && !update.hasCallbackQuery()) {
             String searchWord = UpdateParameter.getMessageText(update);
             if (searchWord.length() != 0) {
-//                text = messageText.setChatId(UpdateParameter.getChatId(update)).getText();
-//                inlineKeyboardMarkup = currenciesKeyboard.getKeyboard(searchWord.toLowerCase());
-//                executeData(update, ExecuteMode.SEND);
                 return false;
             }
         }

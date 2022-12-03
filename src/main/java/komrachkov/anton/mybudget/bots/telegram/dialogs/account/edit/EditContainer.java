@@ -6,6 +6,7 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.account.*;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogStepsContainer;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.*;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.edit.EditConfirmKeyboard;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.CurrencyText;
 import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.SaveText;
 import komrachkov.anton.mybudget.services.*;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
@@ -48,7 +49,7 @@ public class EditContainer implements DialogStepsContainer {
                         new DescriptionDialog(botMessageService, telegramUserService, new AccountText(),
                                 new DescriptionKeyboard(currentDialogName)))
                 .put(CURRENCY.getName(),
-                        new CurrencyDialog(botMessageService, telegramUserService, new AccountText(),
+                        new CurrencyDialog(botMessageService, telegramUserService, new CurrencyText(),
                                 new CurrenciesKeyboard(currentDialogName), currencyService))
                 .put(BANK.getName(),
                         new BankDialog(botMessageService, telegramUserService, new AccountText(),
