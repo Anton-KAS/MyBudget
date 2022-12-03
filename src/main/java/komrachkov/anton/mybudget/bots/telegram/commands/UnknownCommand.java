@@ -1,21 +1,21 @@
 package komrachkov.anton.mybudget.bots.telegram.commands;
 
-import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
-import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import komrachkov.anton.mybudget.bots.telegram.commands.util.CommandControllerTestImpl;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.commands.UnknownKeyboard;
+import komrachkov.anton.mybudget.bots.telegram.texts.commands.UnknownText;
 import komrachkov.anton.mybudget.services.TelegramUserService;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.util.CommandControllerImpl;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Anton Komrachkov
  * @since 0.1
  */
 
-public class UnknownCommand extends CommandControllerImpl {
-
-    public UnknownCommand(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                          ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
-        super(botMessageService, telegramUserService, defaultExecuteMode, messageText, keyboard);
+@Component
+public class UnknownCommand extends CommandControllerTestImpl {
+    @Autowired
+    public UnknownCommand(TelegramUserService telegramUserService, UnknownText messageText, UnknownKeyboard keyboard) {
+        super(telegramUserService, messageText, keyboard);
     }
 }

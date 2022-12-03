@@ -10,7 +10,7 @@ import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
  */
 
 @DisplayName("Unit-level testing for CommandContainer")
-public class CommandContainerTest extends AbstractContainerTest {
+public class CommandControllerTest extends AbstractContainerTest {
     @Override
     protected void setContainer() {
         container = new CommandContainer(botMessageServiceMock, telegramUserServiceMock);

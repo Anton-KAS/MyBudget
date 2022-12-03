@@ -3,6 +3,8 @@ package komrachkov.anton.mybudget.bots.telegram.texts.commands;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.models.TelegramUser;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -11,10 +13,12 @@ import java.util.Optional;
  * @since 0.2
  */
 
+@Component
 public class MenuText implements MessageText {
     private final TelegramUserService telegramUserService;
     private Long userId;
 
+    @Autowired
     public MenuText(TelegramUserService telegramUserService) {
         this.telegramUserService = telegramUserService;
     }

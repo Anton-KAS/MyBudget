@@ -36,9 +36,9 @@ public class CallbackContainer implements Container {
     public CallbackContainer(BotMessageService botMessageService, TelegramUserService telegramUserService,
                              AccountService accountService) {
         callbackMap = ImmutableMap.<String, CommandController>builder()
-                .put(MENU.getName(),
-                        new MenuCommand(botMessageService, telegramUserService, defaultExecuteMode,
-                                new MenuText(telegramUserService), new MenuKeyboard()))
+//                .put(MENU.getName(),
+//                        new MenuCommand(botMessageService, telegramUserService, defaultExecuteMode,
+//                                new MenuText(telegramUserService), new MenuKeyboard()))
                 .put(ACCOUNTS.getName(),
                         new AccountsCallback(botMessageService, telegramUserService, defaultExecuteMode,
                                 new AccountsText(telegramUserService), new AccountsKeyboard()))

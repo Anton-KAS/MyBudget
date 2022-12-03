@@ -1,5 +1,7 @@
 package komrachkov.anton.mybudget.bots.telegram.bot;
 
+import komrachkov.anton.mybudget.bots.telegram.commands.util.ToDoList;
+import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +38,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private String token;
 
     private final TelegramUserService telegramUserService;
+    private final BotMessageService botMessageService;
 
     private final CommandContainer commandContainer;
     private final CallbackContainer callbackContainer;
@@ -44,10 +47,12 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Autowired
     public TelegramBot(TelegramUserService telegramUserService, AccountService accountService,
                        CurrencyService currencyService, AccountTypeService accountTypeService,
-                       BankService bankService) {
+                       BankService bankService, CommandContainer commandContainer) {
         this.telegramUserService = telegramUserService;
-        this.commandContainer = new CommandContainer(
-                new BotMessageServiceImpl(this), telegramUserService);
+        this.botMessageService = new BotMessageServiceImpl(this);
+        this.commandContainer = commandContainer;
+//        this.commandContainer = new CommandContainer(
+//                new BotMessageServiceImpl(this), telegramUserService);
         this.callbackContainer = new CallbackContainer(
                 new BotMessageServiceImpl(this), telegramUserService, accountService);
         this.dialogContainer = new DialogContainer(
@@ -87,42 +92,56 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     private void onTextMessageReceived(Update update) {
+        ToDoList toDoList = null;
         long chatId = UpdateParameter.getChatId(update);
+        String messageText = UpdateParameter.getMessageText(update);
         if (ResponseWaitingMap.contains(chatId)) {
             String identifier = ResponseWaitingMap.get(chatId).getName();
             onWaitingReceived(update, identifier);
-            return;
-        }
 
-        String messageText = UpdateParameter.getMessageText(update);
-        if (messageText.startsWith(COMMAND_PREFIX)) {
+            return;
+
+        } else if (messageText.startsWith(COMMAND_PREFIX)) {
             String commandIdentifier = messageText.split(" ")[0].toLowerCase();
             System.out.println("COMMAND ID: " + commandIdentifier); //TODO: Add project Logger
-            commandContainer.retrieve(commandIdentifier).execute(update);
-            return;
+            toDoList = commandContainer.retrieve(commandIdentifier).execute(update);
+        } else {
+            commandContainer.retrieve(NO.getName()).execute(update);
         }
-        commandContainer.retrieve(NO.getName()).execute(update);
+
+        if (toDoList == null) return;
+        while (toDoList.hasToDo()) {
+            ToDoList.ToDo toDo = toDoList.pollToDo();
+            botMessageService.executeAndUpdateUser(telegramUserService, toDo.getUpdate(), toDo.getExecuteMode(),
+                    toDo.getText(), toDo.getInlineKeyboardMarkup());
+        }
     }
 
     private void onWaitingReceived(Update update, String identifier) {
+        ToDoList toDoList = null;
         System.out.println("WAITING BY: " + identifier); //TODO: Add project Logger
         if (commandContainer.contains(identifier)) {
             System.out.println("COMMAND CONTAINER"); //TODO: Add project Logger
-            commandContainer.retrieve(identifier).execute(update);
-            return;
-        }
-        if (callbackContainer.contains(identifier)) {
+            toDoList = commandContainer.retrieve(identifier).execute(update);
+
+        } else if (callbackContainer.contains(identifier)) {
             System.out.println("CALLBACK CONTAINER"); //TODO: Add project Logger
             callbackContainer.retrieve(identifier).execute(update);
-            return;
-        }
-        if (dialogContainer.contains(identifier)) {
+
+        } else if (dialogContainer.contains(identifier)) {
             System.out.println("DIALOG CONTAINER"); //TODO: Add project Logger
             dialogContainer.retrieve(identifier).execute(update);
-            return;
+
+        } else {
+            System.out.println("NO CONTAINER"); //TODO: Add project Logger
+            toDoList = commandContainer.retrieve(NO.getName()).execute(update);
         }
-        System.out.println("NO CONTAINER"); //TODO: Add project Logger
-        commandContainer.retrieve(NO.getName()).execute(update);
+        if (toDoList == null) return;
+        while (toDoList.hasToDo()) {
+            ToDoList.ToDo toDo = toDoList.pollToDo();
+            botMessageService.executeAndUpdateUser(telegramUserService, toDo.getUpdate(), toDo.getExecuteMode(),
+                    toDo.getText(), toDo.getInlineKeyboardMarkup());
+        }
     }
 
     private void onCallbackReceived(Update update) {
