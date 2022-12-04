@@ -15,7 +15,6 @@ public enum CallbackNamesImpl implements CommandNames {
     MENU("menu"),
     ACCOUNTS("accounts"),
     ACCOUNT("acc"),
-    CANCEL_DIALOG("cancelDialog"),
     CLOSE("close"),
     NOTHING("nothing"),
     NO("");

@@ -1,7 +1,9 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.util.DialogKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -9,8 +11,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
 import java.util.Arrays;
@@ -27,13 +27,11 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNam
  */
 
 public abstract class DialogImpl implements Dialog {
-    protected final BotMessageService botMessageService;
     protected final TelegramUserService telegramUserService;
     protected final MessageText messageText;
-    protected Keyboard keyboard;
+    protected DialogKeyboard keyboard;
 
-    protected Long userId;
-    protected Long chatId;
+    protected String dialogName;
     protected Integer dialogStep;
     protected ExecuteMode defaultExecuteMode;
     protected String text;
@@ -41,9 +39,8 @@ public abstract class DialogImpl implements Dialog {
 
     protected final String askText;
 
-    public DialogImpl(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                      MessageText messageText, Keyboard keyboard, String askText) {
-        this.botMessageService = botMessageService;
+    public DialogImpl(TelegramUserService telegramUserService,
+                      MessageText messageText, DialogKeyboard keyboard, String askText) {
         this.telegramUserService = telegramUserService;
         this.messageText = messageText;
         this.keyboard = keyboard;
@@ -51,48 +48,43 @@ public abstract class DialogImpl implements Dialog {
     }
 
     @Override
-    public boolean commit(Update update) {
-        return true;
+    public ToDoList commit(Update update) {
+        ToDoList toDoList = new ToDoList();
+        toDoList.setResultCommit(true);
+        return toDoList;
     }
 
     @Override
-    public void skip(Update update) {
+    public ToDoList skip(Update update) {
+        return new ToDoList();
     }
 
     @Override
-    public void execute(Update update) {
-        this.userId = UpdateParameter.getUserId(update);
-        this.chatId = UpdateParameter.getChatId(update);
-        this.dialogStep = getDialogStepFromCallback(update);
-        ExecuteMode executeMode = getExecuteMode(update, dialogStep);
+    public ToDoList execute(Update update) {
+        long chatId = UpdateParameter.getChatId(update);
         Optional<String> dialogStepString = DialogsState.getDialogStepById(chatId, CURRENT_DIALOG_STEP.getId());
         dialogStepString.ifPresent(s -> dialogStep = Integer.parseInt(s));
-//        TODO: 4 last row... think about it...
-        executeByOrder(update, executeMode);
+
+        if (dialogStep == null) dialogStep = getDialogStepFromCallback(update);
+        ExecuteMode executeMode = getExecuteMode(update, dialogStep);
+
+        return execute(update, executeMode);
     }
 
     @Override
-    public void execute(Update update, ExecuteMode executeMode) {
-        executeByOrder(update, executeMode);
+    public ToDoList execute(Update update, ExecuteMode executeMode) {
+        long chatId = UpdateParameter.getChatId(update);
+        text = messageText.setChatId(chatId).getText();
+        if (keyboard != null) inlineKeyboardMarkup = keyboard.getKeyboard();
+
+        ToDoList toDoList = new ToDoList();
+        toDoList.addToDo(executeMode, update, text, inlineKeyboardMarkup);
+        return toDoList;
     }
 
     @Override
-    public void executeByOrder(Update update, ExecuteMode executeMode) {
-        setData(update);
-        executeData(update, executeMode);
-    }
+    public void setDefaultExecuteMode() {
 
-    @Override
-    public void setData(Update update) {
-        if (userId == null) userId = UpdateParameter.getUserId(update);
-        text = messageText.setChatId(UpdateParameter.getChatId(update)).getText();
-        inlineKeyboardMarkup = keyboard.getKeyboard();
-    }
-
-    @Override
-    public void executeData(Update update, ExecuteMode executeMode) {
-        botMessageService.executeAndUpdateUser(telegramUserService, update, executeMode,
-                String.format(text, askText), inlineKeyboardMarkup);
     }
 
     @Override
@@ -113,6 +105,13 @@ public abstract class DialogImpl implements Dialog {
             return ExecuteMode.EDIT;
         }
         return ExecuteMode.SEND;
+    }
+
+    @Override
+    public Dialog setCurrentDialogName(String dialogName) {
+        this.dialogName = dialogName;
+        if (keyboard != null) keyboard.setDialogName(dialogName);
+        return this;
     }
 
     protected Integer getDialogStepFromCallback(Update update) {

@@ -1,12 +1,14 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
-import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
+import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogImpl;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.TypeKeyboard;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.models.AccountType;
 import komrachkov.anton.mybudget.services.AccountTypeService;
@@ -19,41 +21,38 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefa
  * @since 0.2
  */
 
+@Component
+@Scope("prototype")
 public class TypeDialog extends DialogImpl {
-    private final AccountTypeService accountTypeService;
     private final static String ASK_TEXT = "Выберете тип счета:";
-    private final TypeKeyboard typeKeyboard = (TypeKeyboard) keyboard;
+    private final TypeKeyboard typeKeyboard;
+    private final AccountTypeService accountTypeService;
 
-    public TypeDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                      MessageText messageText, TypeKeyboard keyboard, AccountTypeService accountTypeService) {
-        super(botMessageService, telegramUserService, messageText, keyboard, ASK_TEXT);
+    @Autowired
+    public TypeDialog(TelegramUserService telegramUserService, AccountDialogText messageText, TypeKeyboard keyboard,
+                      AccountTypeService accountTypeService) {
+        super(telegramUserService, messageText, keyboard, ASK_TEXT);
+        this.typeKeyboard = keyboard;
         this.accountTypeService = accountTypeService;
     }
 
     @Override
-    public void executeByOrder(Update update, ExecuteMode executeMode) {
-        typeKeyboard.setAccountTypeService(accountTypeService);
-        setData(update);
-        executeData(update, executeMode);
-    }
-
-    @Override
-    public boolean commit(Update update) {
-        this.userId = UpdateParameter.getUserId(update);
-        this.chatId = UpdateParameter.getUserId(update);
+    public ToDoList commit(Update update) {
+        ToDoList toDoList = new ToDoList();
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
-
-        if (callbackData == null || callbackData.length <= OPERATION_DATA.ordinal()) return false;
+        if (callbackData == null || callbackData.length <= OPERATION_DATA.ordinal()) return toDoList;
 
         int accountTypeId = Integer.parseInt(callbackData[OPERATION_DATA.ordinal()]);
         AccountType accountType = accountTypeService.findById(accountTypeId).orElse(null);
-        if (accountType == null) return false;
+        if (accountType == null) return toDoList;
 
+        long chatId = UpdateParameter.getUserId(update);
         addToDialogMap(chatId, AccountNames.TYPE, String.valueOf(accountTypeId),
                 String.format(AccountNames.TYPE.getStepTextPattern(), "%s", accountType.getTitleRu()));
         if (String.valueOf(accountTypeId).equals(CASH_ID.getId())) {
             addToDialogMap(chatId, AccountNames.BANK, null, null);
         }
-        return true;
+        toDoList.setResultCommit(true);
+        return toDoList;
     }
 }

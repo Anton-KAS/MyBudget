@@ -2,6 +2,7 @@ package komrachkov.anton.mybudget.bots.telegram.keyboards.callback;
 
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
@@ -15,6 +16,7 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNam
  * @since 0.2
  */
 
+@Component
 public class AccountKeyboard implements Keyboard {
     public final static String FROM = ACCOUNT.getName();
     public final static String RETURN_TO = ACCOUNTS.getName();

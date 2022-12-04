@@ -1,8 +1,9 @@
 package komrachkov.anton.mybudget.bots.telegram.commands;
 
 import com.google.common.collect.ImmutableMap;
-import komrachkov.anton.mybudget.bots.telegram.commands.util.CommandControllerTest;
-import komrachkov.anton.mybudget.bots.telegram.commands.util.ContainerTest;
+import komrachkov.anton.mybudget.bots.telegram.callbacks.AccountsCallback;
+import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
+import komrachkov.anton.mybudget.bots.telegram.util.Container;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,17 +15,17 @@ import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.
  */
 
 @Component
-public class CommandContainer implements ContainerTest {
-    private final ImmutableMap<String, CommandControllerTest> commandMap;
-    private final CommandControllerTest unknownCommand;
+public class CommandContainer implements Container {
+    private final ImmutableMap<String, CommandController> commandMap;
+    private final CommandController unknownCommand;
 
     @Autowired
     public CommandContainer(UnknownCommand unknownCommand, StartCommand startCommand, HelpCommand helpCommand,
                             StopCommand stopCommand, CancelCommand cancelCommand, NoCommand noCommand,
-                            StatCommand statCommand, MenuCommand menuCommand) {
+                            StatCommand statCommand, MenuCommand menuCommand, AccountsCallback accountsCallback) {
         this.unknownCommand = unknownCommand;
 
-        commandMap = ImmutableMap.<String, CommandControllerTest>builder()
+        commandMap = ImmutableMap.<String, CommandController>builder()
                 .put(START.getName(), startCommand)
                 .put(HELP.getName(), helpCommand)
                 .put(STOP.getName(), stopCommand)
@@ -32,14 +33,13 @@ public class CommandContainer implements ContainerTest {
                 .put(NO.getName(), noCommand)
                 .put(STAT.getName(), statCommand)
                 .put(MENU.getName(), menuCommand)
-//                .put(ACCOUNTS.getName(), new AccountsCallback(sendBotMessageService, telegramUserService,
-//                        defaultExecuteMode, new AccountsText(telegramUserService), new AccountsKeyboard()))
+                .put(ACCOUNTS.getName(), accountsCallback)
                 .build();
 
     }
 
     @Override
-    public CommandControllerTest retrieve(String identifier) {
+    public CommandController retrieve(String identifier) {
         return commandMap.getOrDefault(identifier, unknownCommand);
     }
 

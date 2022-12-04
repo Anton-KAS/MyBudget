@@ -1,4 +1,4 @@
-package komrachkov.anton.mybudget.bots.telegram.texts.commands;
+package komrachkov.anton.mybudget.bots.telegram.texts;
 
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import org.springframework.stereotype.Component;

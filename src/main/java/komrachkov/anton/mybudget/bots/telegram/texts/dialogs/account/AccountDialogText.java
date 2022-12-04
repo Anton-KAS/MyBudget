@@ -4,6 +4,7 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
@@ -16,10 +17,11 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefa
  * @since 0.2
  */
 
-public class AccountText implements MessageText {
+@Component
+public class AccountDialogText implements MessageText {
     private Long chatId;
 
-    public AccountText() {
+    public AccountDialogText() {
     }
 
     @Override

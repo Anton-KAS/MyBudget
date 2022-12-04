@@ -2,7 +2,7 @@ package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
-import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -30,7 +30,7 @@ public abstract class AbstractStartDialogTest extends AbstractAccountDialogTest 
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AccountText.class);
+        return Mockito.mock(AccountDialogText.class);
     }
 
     @Test

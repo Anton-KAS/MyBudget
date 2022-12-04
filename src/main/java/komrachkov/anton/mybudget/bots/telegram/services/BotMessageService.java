@@ -15,7 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 public interface BotMessageService {
 
     Integer executeMessage(ExecuteMode executeMode, long chatId, Integer messageId, String message,
-                           InlineKeyboardMarkup inlineKeyboardMarkup);
+                           InlineKeyboardMarkup inlineKeyboardMarkup, String callbackQueryId);
 
     Integer sendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
@@ -39,7 +39,7 @@ public interface BotMessageService {
      * @author Anton Komrachkov
      * @since 0.4
      */
-    void sendPopup(String callbackQueryId, String message);
+    Integer sendPopup(String callbackQueryId, String message);
 
     Integer execute(TelegramBot telegramBot, BotApiMethod message);
 }

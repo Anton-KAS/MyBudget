@@ -3,7 +3,7 @@ package komrachkov.anton.mybudget.bots.telegram.commands;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
-import komrachkov.anton.mybudget.bots.telegram.texts.commands.NoText;
+import komrachkov.anton.mybudget.bots.telegram.texts.NoText;
 import komrachkov.anton.mybudget.bots.telegram.util.AbstractCommandControllerTest;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
 

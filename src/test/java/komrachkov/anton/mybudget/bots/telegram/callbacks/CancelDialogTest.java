@@ -1,9 +1,12 @@
 package komrachkov.anton.mybudget.bots.telegram.callbacks;
 
+import komrachkov.anton.mybudget.bots.telegram.dialogs.CancelDialog;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.commands.CancelKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.texts.callback.CancelDialogText;
+import komrachkov.anton.mybudget.bots.telegram.texts.commands.CancelText;
 import komrachkov.anton.mybudget.bots.telegram.util.AbstractCommandControllerTest;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
@@ -23,8 +26,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
  */
 
 @DisplayName("Unit-level testing for CancelDialogCallback")
-public class CancelDialogCallbackTest extends AbstractCallbackTest {
+public class CancelDialogTest extends AbstractCallbackTest {
     private static final CommandNames TEST_COMMAND_NAME = ACCOUNTS;
+
+    private static final CancelText cancelTextMock = Mockito.mock(CancelText.class);
+    private static final CancelKeyboard cancelKeyboardMock = Mockito.mock(CancelKeyboard.class);
 
     @Override
     @BeforeEach
@@ -41,8 +47,7 @@ public class CancelDialogCallbackTest extends AbstractCallbackTest {
 
     @Override
     public CommandController getCommand() {
-        return new CancelDialogCallback(botMessageServiceMock, telegramUserServiceMock, AbstractCommandControllerTest.DEFAULT_EXECUTE_MODE, messageTextMock,
-                keyboardMock, callbackContainerMock);
+        return new CancelDialog(telegramUserServiceMock, cancelTextMock, cancelKeyboardMock, callbackContainerMock);
     }
 
     @Override

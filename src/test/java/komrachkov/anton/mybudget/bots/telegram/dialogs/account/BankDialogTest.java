@@ -6,7 +6,7 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.BanksKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
-import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
 import komrachkov.anton.mybudget.models.Bank;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -61,7 +61,7 @@ public class BankDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AccountText.class);
+        return Mockito.mock(AccountDialogText.class);
     }
 
     @Override

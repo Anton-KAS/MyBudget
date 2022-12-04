@@ -39,7 +39,7 @@ public class BotMessageServiceTest {
         sendMessage.setDisableNotification(true);
 
         //when
-        botMessageService.executeMessage(ExecuteMode.SEND, chatId, null, message, null);
+        botMessageService.executeMessage(ExecuteMode.SEND, update, null, message, null);
 
         //then
         Mockito.verify(telegramBotMock).execute(sendMessage);

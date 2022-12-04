@@ -10,6 +10,7 @@ import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
 public enum DialogNamesImpl implements CommandNames {
     ADD_ACCOUNT("addAcc"),
     EDIT_ACCOUNT("editAcc"),
+    CANCEL_DIALOG("cancelDialog"),
     DELETE_CONFIRM("deleteConfirm"),
     DELETE_EXECUTE("deleteExecute");
 

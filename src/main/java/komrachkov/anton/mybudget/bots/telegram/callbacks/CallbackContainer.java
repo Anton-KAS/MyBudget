@@ -1,23 +1,11 @@
 package komrachkov.anton.mybudget.bots.telegram.callbacks;
 
 import com.google.common.collect.ImmutableMap;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.callback.AccountKeyboard;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.callback.AccountsKeyboard;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.commands.MenuKeyboard;
-import komrachkov.anton.mybudget.bots.telegram.texts.callback.AccountText;
-import komrachkov.anton.mybudget.bots.telegram.texts.callback.CancelDialogText;
-import komrachkov.anton.mybudget.bots.telegram.texts.commands.MenuText;
-import komrachkov.anton.mybudget.services.AccountService;
-import komrachkov.anton.mybudget.services.TelegramUserService;
 import komrachkov.anton.mybudget.bots.telegram.commands.MenuCommand;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.CancelDialogKeyboard;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.callback.NoKeyboard;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.texts.callback.AccountsText;
-import komrachkov.anton.mybudget.bots.telegram.texts.callback.NoText;
 import komrachkov.anton.mybudget.bots.telegram.util.Container;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.*;
 
@@ -28,36 +16,23 @@ import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImp
  * @since 0.2
  */
 
+@Component
 public class CallbackContainer implements Container {
     private final ImmutableMap<String, CommandController> callbackMap;
     private final CommandController unknownCommand;
-    private final static ExecuteMode defaultExecuteMode = ExecuteMode.EDIT;
 
-    public CallbackContainer(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                             AccountService accountService) {
+    @Autowired
+    public CallbackContainer(MenuCommand menuCommand, AccountsCallback accountsCallback, UnknownCallback unknownCallback,
+                             AccountCallback accountCallback, CloseCallback closeCallback, NoCallback noCallback) {
+        unknownCommand = unknownCallback;
+
         callbackMap = ImmutableMap.<String, CommandController>builder()
-//                .put(MENU.getName(),
-//                        new MenuCommand(botMessageService, telegramUserService, defaultExecuteMode,
-//                                new MenuText(telegramUserService), new MenuKeyboard()))
-                .put(ACCOUNTS.getName(),
-                        new AccountsCallback(botMessageService, telegramUserService, defaultExecuteMode,
-                                new AccountsText(telegramUserService), new AccountsKeyboard()))
-                .put(ACCOUNT.getName(),
-                        new AccountCallback(botMessageService, telegramUserService, defaultExecuteMode,
-                                new AccountText(), new AccountKeyboard(), accountService))
-                .put(CLOSE.getName(),
-                        new CloseCallback(botMessageService, telegramUserService, defaultExecuteMode,
-                                null, null))
-                .put(NO.getName(),
-                        new NoCallback(botMessageService, telegramUserService, defaultExecuteMode,
-                                new NoText(), new NoKeyboard()))
-                .put(CANCEL_DIALOG.getName(),
-                        new CancelDialogCallback(botMessageService, telegramUserService, defaultExecuteMode,
-                                new CancelDialogText(), new CancelDialogKeyboard(), this))
+                .put(MENU.getName(), menuCommand)
+                .put(ACCOUNTS.getName(), accountsCallback)
+                .put(ACCOUNT.getName(), accountCallback)
+                .put(CLOSE.getName(), closeCallback)
+                .put(NO.getName(), noCallback)
                 .build();
-
-        unknownCommand = new UnknownCallback(botMessageService, telegramUserService, defaultExecuteMode,
-                new NoText(), new NoKeyboard());
     }
 
     /**

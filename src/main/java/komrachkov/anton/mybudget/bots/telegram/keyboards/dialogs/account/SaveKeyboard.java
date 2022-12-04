@@ -1,5 +1,7 @@
 package komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.DialogKeyboardImpl;
 
@@ -8,10 +10,9 @@ import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.DialogKeyboardI
  * @since 0.2
  */
 
+@Component
+@Scope("prototype")
 public class SaveKeyboard extends DialogKeyboardImpl {
-    public SaveKeyboard(String currentDialogName) {
-        super(currentDialogName);
-    }
 
     @Override
     public InlineKeyboardMarkup getKeyboard() {

@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
-import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -65,7 +65,7 @@ public class TypeDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AccountText.class);
+        return Mockito.mock(AccountDialogText.class);
     }
 
     @Override

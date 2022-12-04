@@ -1,4 +1,4 @@
-package komrachkov.anton.mybudget.bots.telegram.keyboards.commands;
+package komrachkov.anton.mybudget.bots.telegram.keyboards;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -10,7 +10,7 @@ import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
  */
 
 @Component
-public class NoKeyboard implements Keyboard {
+public class UnknownKeyboard implements Keyboard {
     @Override
     public InlineKeyboardMarkup getKeyboard() {
         return null;

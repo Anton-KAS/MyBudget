@@ -4,7 +4,6 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,7 +11,7 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
-import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
 import java.util.Optional;
@@ -52,7 +51,7 @@ public class StartBalanceDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AccountText.class);
+        return Mockito.mock(AccountDialogText.class);
     }
 
     @Override

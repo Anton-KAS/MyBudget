@@ -5,7 +5,7 @@ package komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account;
  * @since 0.4 (03.12.2022)
  */
 
-public class CurrencyText extends AccountText{
+public class CurrencyDialogText extends AccountDialogText {
 
     @Override
     public String getText() {

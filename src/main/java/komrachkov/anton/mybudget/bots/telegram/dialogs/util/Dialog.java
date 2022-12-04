@@ -1,5 +1,6 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.util;
 
+import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
@@ -11,18 +12,13 @@ import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
 
 public interface Dialog extends CommandController {
 
-    boolean commit(Update update);
+    ToDoList commit(Update update);
 
-    void skip(Update update);
-
-    void executeByOrder(Update update, ExecuteMode executeMode);
-
-    void setData(Update update);
-
-    void executeData(Update update, ExecuteMode executeMode);
+    ToDoList skip(Update update);
 
     void addToDialogMap(long userId, CommandDialogNames name, String stringId, String text);
 
     ExecuteMode getExecuteMode(Update update, Integer dialogStep);
 
+    Dialog setCurrentDialogName(String dialogName);
 }

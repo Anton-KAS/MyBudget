@@ -1,31 +1,34 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.account.edit;
 
-import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
+import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
+import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.ConfirmDialog;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.edit.EditConfirmKeyboard;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 
 /**
  * @author Anton Komrachkov
  * @since 0.2
  */
 
+@Component
 public class EditConfirmDialog extends ConfirmDialog {
-    private final EditConfirmKeyboard editConfirmKeyboard = (EditConfirmKeyboard) keyboard;
+    private final EditConfirmKeyboard editConfirmKeyboard;
 
-    public EditConfirmDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                             MessageText messageText, Keyboard keyboard) {
-        super(botMessageService, telegramUserService, messageText, keyboard);
-
+    @Autowired
+    public EditConfirmDialog(TelegramUserService telegramUserService, AccountDialogText messageText, EditConfirmKeyboard keyboard) {
+        super(telegramUserService, messageText, keyboard);
+        this.editConfirmKeyboard = keyboard;
     }
 
     @Override
-    public void setData(Update update) {
+    public ToDoList execute(Update update, ExecuteMode executeMode) {
         editConfirmKeyboard.setChatId(UpdateParameter.getChatId(update));
-        super.setData(update);
+        return super.execute(update, executeMode);
     }
 }

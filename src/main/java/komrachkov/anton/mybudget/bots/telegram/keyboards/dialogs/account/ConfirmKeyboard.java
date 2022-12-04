@@ -10,10 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 
 public abstract class ConfirmKeyboard extends DialogKeyboardImpl {
 
-    public ConfirmKeyboard(String currentDialogName) {
-        super(currentDialogName);
-    }
-
     @Override
     abstract public InlineKeyboardMarkup getKeyboard();
 }

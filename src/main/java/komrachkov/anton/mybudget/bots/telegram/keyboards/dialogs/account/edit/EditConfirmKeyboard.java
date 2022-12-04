@@ -2,6 +2,7 @@ package komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.edit;
 
 import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.ConfirmKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 
@@ -14,13 +15,10 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNam
  * @since 0.2
  */
 
+@Component
 public class EditConfirmKeyboard extends ConfirmKeyboard {
     private final static String RETURN_TO = ACCOUNTS.getName();
     private long chatId;
-
-    public EditConfirmKeyboard(String currentDialogName) {
-        super(currentDialogName);
-    }
 
     public InlineKeyboardMarkup getKeyboard() {
         InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboardBuilder();

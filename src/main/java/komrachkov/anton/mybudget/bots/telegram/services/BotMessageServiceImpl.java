@@ -37,7 +37,7 @@ public class BotMessageServiceImpl implements BotMessageService {
 
     @Override
     public Integer executeMessage(ExecuteMode executeMode, long chatId, Integer messageId, String message,
-                                  InlineKeyboardMarkup inlineKeyboardMarkup) {
+                                  InlineKeyboardMarkup inlineKeyboardMarkup, String callbackQueryId) {
         switch (executeMode) {
             case SEND -> {
                 return sendMessageDisabledNotification(chatId, message, inlineKeyboardMarkup);
@@ -47,6 +47,9 @@ public class BotMessageServiceImpl implements BotMessageService {
             }
             case DELETE -> {
                 return deleteMessage(chatId, messageId);
+            }
+            case POPUP -> {
+                return sendPopup(callbackQueryId, message);
             }
         }
         return null;
@@ -115,7 +118,8 @@ public class BotMessageServiceImpl implements BotMessageService {
         if (text == null) return;
 
         Integer sendMessageId = executeMessage(executeMode, UpdateParameter.getChatId(update),
-                UpdateParameter.getMessageId(update), text, inlineKeyboardMarkup);
+                UpdateParameter.getMessageId(update), text, inlineKeyboardMarkup,
+                UpdateParameter.getCallbackQueryId(update).orElse(null));
 
         boolean hasMatch = Arrays.stream(text.split("\n")).anyMatch(n -> n.matches(".*/(\\d+) .*"));
         if (inlineKeyboardMarkup == null && !hasMatch) return;
@@ -134,15 +138,15 @@ public class BotMessageServiceImpl implements BotMessageService {
      * @since 0.4
      */
     @Override
-    public void sendPopup(String callbackQueryId, String message) {
-        if (callbackQueryId == null) return;
+    public Integer sendPopup(String callbackQueryId, String message) {
+        if (callbackQueryId == null) return null;
         AnswerCallbackQuery answerCallbackQuery = new AnswerCallbackQuery();
         answerCallbackQuery.setCallbackQueryId(callbackQueryId);
         answerCallbackQuery.setText(message);
         answerCallbackQuery.setShowAlert(false);
         answerCallbackQuery.setCacheTime(2);
 
-        execute(telegramBot, answerCallbackQuery);
+        return execute(telegramBot, answerCallbackQuery);
     }
 
     private void removeInlineKeyboard(TelegramUserService telegramUserService,
@@ -183,11 +187,11 @@ public class BotMessageServiceImpl implements BotMessageService {
         int messageId = UpdateParameter.getMessageId(update);
 
         String text = update.getCallbackQuery().getMessage().getText();
-        executeMessage(ExecuteMode.EDIT, chatId, messageId, cleanTextTags(text), null);
+        executeMessage(ExecuteMode.EDIT, chatId, messageId, cleanTextTags(text), null, null);
     }
 
     private void executeRemoveInlineKeyboard(long chatId, int messageId, String messageText) {
-        executeMessage(ExecuteMode.EDIT, chatId, messageId, cleanTextTags(messageText), null);
+        executeMessage(ExecuteMode.EDIT, chatId, messageId, cleanTextTags(messageText), null, null);
     }
 
     private String cleanTextTags(String text) {
