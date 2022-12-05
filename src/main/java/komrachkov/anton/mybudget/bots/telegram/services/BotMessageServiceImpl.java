@@ -29,7 +29,7 @@ import java.util.Optional;
 public class BotMessageServiceImpl implements BotMessageService {
     private final TelegramBot telegramBot;
     private final TelegramUserService telegramUserService;
-    private final static int CACHE_TIME = 2;
+    public final static int CACHE_TIME = 2;
 
     public BotMessageServiceImpl(TelegramBot telegramBot, TelegramUserService telegramUserService) {
         this.telegramBot = telegramBot;
