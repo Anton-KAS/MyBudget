@@ -39,21 +39,20 @@ public class CancelDialog extends CommandControllerImpl {
      * @since 0.4 (04.12.2022)
      */
     @Override
-    public void setDefaultExecuteMode() {
+    public void setDefaultExecuteMode(Update update) {
         this.defaultExecuteMode = ExecuteMode.getCallbackExecuteMode();
     }
 
     @Override
     public ToDoList execute(Update update, ExecuteMode executeMode) {
-        long chatId = UpdateParameter.getChatId(update);
-        ResponseWaitingMap.remove(chatId);
-        DialogsState.removeAllDialogs(chatId);
-
         ToDoList toDoList = new ToDoList();
+        long chatId = UpdateParameter.getChatId(update);
+
         Optional<String> callbackQueryId = UpdateParameter.getCallbackQueryId(update);
-        callbackQueryId.ifPresent(s -> toDoList.addToDo(executeMode, update, text));
+        callbackQueryId.ifPresent(s -> toDoList.addToDo(ExecuteMode.POPUP, update, text));
 
         if (update.hasCallbackQuery()) {
+
             Optional<String> dialogStep = DialogsState.getDialogStepById(chatId, START_FROM_CALLBACK.getId());
             if (dialogStep.isEmpty()) return toDoList;
 
@@ -68,6 +67,10 @@ public class CancelDialog extends CommandControllerImpl {
 
             toDoList.addAll(callbackContainer.retrieve(identifier).execute(update));
         }
+
+        ResponseWaitingMap.remove(chatId);
+        DialogsState.removeAllDialogs(chatId);
+
         return toDoList;
     }
 }

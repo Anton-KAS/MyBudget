@@ -31,11 +31,22 @@ public abstract class CommandControllerImpl implements CommandController {
      * @since 0.4 (04.12.2022)
      */
     @Override
-    public abstract void setDefaultExecuteMode();
+    public void setDefaultExecuteMode(Update update) {
+        this.defaultExecuteMode = autoDefineExecuteMode(update);
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (04.12.2022)
+     */
+    protected ExecuteMode autoDefineExecuteMode(Update update) {
+        if (update.hasCallbackQuery()) return ExecuteMode.EDIT;
+        return ExecuteMode.SEND;
+    }
 
     @Override
     public ToDoList execute(Update update) {
-        setDefaultExecuteMode();
+        setDefaultExecuteMode(update);
         return execute(update, defaultExecuteMode);
     }
 

@@ -23,15 +23,6 @@ public class StatCommand extends CommandControllerImpl {
         super(telegramUserService, messageText, keyboard);
     }
 
-    /**
-     * @author Anton Komrachkov
-     * @since 0.4 (04.12.2022)
-     */
-    @Override
-    public void setDefaultExecuteMode() {
-        this.defaultExecuteMode = ExecuteMode.getCommandExecuteMode();
-    }
-
     @Override
     public ToDoList execute(Update update, ExecuteMode executeMode) {
         int activeUserCount = telegramUserService.retrieveAllActiveUsers().size();

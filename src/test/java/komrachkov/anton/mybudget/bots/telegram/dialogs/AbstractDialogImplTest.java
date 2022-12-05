@@ -88,7 +88,7 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     @MethodSource("sourceGetExecuteMode")
     public void shouldProperlyGetExecuteMode(Update update, Integer dialogStep, ExecuteMode expected) {
         //when
-        ExecuteMode result = getCommand().getExecuteMode(update, dialogStep);
+        ExecuteMode result = getCommand().autoDefineExecuteMode(update, dialogStep);
 
         //then
         assertEquals(expected, result);

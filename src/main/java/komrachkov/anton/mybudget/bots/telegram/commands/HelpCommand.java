@@ -5,8 +5,10 @@ import komrachkov.anton.mybudget.bots.telegram.texts.commands.HelpText;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandControllerImpl;
+import org.checkerframework.checker.guieffect.qual.UIPackage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
  * @author Anton Komrachkov
@@ -25,7 +27,7 @@ public class HelpCommand extends CommandControllerImpl {
      * @since 0.4 (04.12.2022)
      */
     @Override
-    public void setDefaultExecuteMode() {
+    public void setDefaultExecuteMode(Update update) {
         this.defaultExecuteMode = ExecuteMode.getCommandExecuteMode();
     }
 }

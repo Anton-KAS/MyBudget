@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountText implements MessageText {
     private final AccountService accountService;
-    private Long userId;
     private int accountId;
 
     @Autowired
@@ -31,7 +30,6 @@ public class AccountText implements MessageText {
 
     @Override
     public MessageText setChatId(Long userId) {
-        this.userId = userId;
         return this;
     }
 

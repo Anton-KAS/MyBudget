@@ -12,5 +12,5 @@ public interface CommandController {
 
     ToDoList execute(Update update, ExecuteMode executeMode);
 
-    void setDefaultExecuteMode();
+    void setDefaultExecuteMode(Update update);
 }

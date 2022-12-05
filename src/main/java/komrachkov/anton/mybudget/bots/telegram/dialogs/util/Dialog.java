@@ -18,7 +18,7 @@ public interface Dialog extends CommandController {
 
     void addToDialogMap(long userId, CommandDialogNames name, String stringId, String text);
 
-    ExecuteMode getExecuteMode(Update update, Integer dialogStep);
+    ExecuteMode autoDefineExecuteMode(Update update, Integer dialogStep);
 
     Dialog setCurrentDialogName(String dialogName);
 }

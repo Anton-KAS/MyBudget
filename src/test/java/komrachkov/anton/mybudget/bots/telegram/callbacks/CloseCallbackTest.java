@@ -34,21 +34,19 @@ public class CloseCallbackTest {
     public void shouldProperlyExecuteDeleteMessage() {
         //given
         Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
-        CloseCallback closeCallback = new CloseCallback(botMessageService, telegramUserService, ExecuteMode.SEND,
-                null, null);
+        CloseCallback closeCallback = new CloseCallback(telegramUserService);
 
         //when
         closeCallback.execute(update);
 
         //then
-        Mockito.verify(botMessageService, Mockito.times(1)).deleteMessage(TEST_USER_ID, TEST_MESSAGE_ID);
+        Mockito.verify(botMessageService, Mockito.times(1)).deleteMessage(update);
     }
     @Test
     public void shouldProperlyExecuteUpdateUser() {
         //given
         Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
-        CloseCallback closeCallback = new CloseCallback(botMessageService, telegramUserService, ExecuteMode.SEND,
-                null, null);
+        CloseCallback closeCallback = new CloseCallback(telegramUserService);
 
         //when
         closeCallback.execute(update);

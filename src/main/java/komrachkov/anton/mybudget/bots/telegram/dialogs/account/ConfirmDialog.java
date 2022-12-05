@@ -25,7 +25,7 @@ public abstract class ConfirmDialog extends DialogImpl {
     }
 
     @Override
-    public ToDoList execute(Update update, ExecuteMode executeMode) {
+    public ToDoList commit(Update update) {
         ToDoList toDoList = new ToDoList();
 
         this.callbackData = UpdateParameter.getCallbackData(update).orElse(null);

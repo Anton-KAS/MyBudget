@@ -42,7 +42,7 @@ public class UnknownDialog extends CommandControllerImpl implements Dialog {
     }
 
     @Override
-    public ExecuteMode getExecuteMode(Update update, Integer dialogStep) {
+    public ExecuteMode autoDefineExecuteMode(Update update, Integer dialogStep) {
         return ExecuteMode.SEND;
     }
 
@@ -52,7 +52,7 @@ public class UnknownDialog extends CommandControllerImpl implements Dialog {
     }
 
     @Override
-    public void setDefaultExecuteMode() {
+    public void setDefaultExecuteMode(Update update) {
         defaultExecuteMode = ExecuteMode.SEND;
     }
 }

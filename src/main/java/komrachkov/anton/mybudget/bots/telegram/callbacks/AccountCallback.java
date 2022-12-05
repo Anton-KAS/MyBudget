@@ -8,6 +8,7 @@ import komrachkov.anton.mybudget.bots.telegram.util.*;
 import komrachkov.anton.mybudget.models.TelegramUser;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -23,22 +24,16 @@ import org.telegram.telegrambots.meta.api.objects.Update;
  */
 
 @Component
+@Scope("prototype")
 public class AccountCallback extends CommandControllerImpl {
+    private final AccountText accountText;
     private final AccountKeyboard accountKeyboard;
 
     @Autowired
     public AccountCallback(TelegramUserService telegramUserService, AccountText messageText, AccountKeyboard keyboard) {
         super(telegramUserService, messageText, keyboard);
+        this.accountText = messageText;
         this.accountKeyboard = keyboard;
-    }
-
-    /**
-     * @author Anton Komrachkov
-     * @since 0.4 (04.12.2022)
-     */
-    @Override
-    public void setDefaultExecuteMode() {
-        this.defaultExecuteMode = ExecuteMode.getCallbackExecuteMode();
     }
 
     @Override
@@ -64,6 +59,7 @@ public class AccountCallback extends CommandControllerImpl {
             }
         }
         if (accountId != null) {
+            accountText.setAccountId(accountId);
             accountKeyboard.setAccountId(accountId);
             toDoList = super.execute(update, executeMode);
         }

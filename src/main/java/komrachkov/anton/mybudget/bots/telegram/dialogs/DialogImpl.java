@@ -66,7 +66,7 @@ public abstract class DialogImpl implements Dialog {
         dialogStepString.ifPresent(s -> dialogStep = Integer.parseInt(s));
 
         if (dialogStep == null) dialogStep = getDialogStepFromCallback(update);
-        ExecuteMode executeMode = getExecuteMode(update, dialogStep);
+        ExecuteMode executeMode = autoDefineExecuteMode(update, dialogStep);
 
         return execute(update, executeMode);
     }
@@ -74,7 +74,7 @@ public abstract class DialogImpl implements Dialog {
     @Override
     public ToDoList execute(Update update, ExecuteMode executeMode) {
         long chatId = UpdateParameter.getChatId(update);
-        text = messageText.setChatId(chatId).getText();
+        text = String.format(messageText.setChatId(chatId).getText(), askText);
         if (keyboard != null) inlineKeyboardMarkup = keyboard.getKeyboard();
 
         ToDoList toDoList = new ToDoList();
@@ -83,8 +83,16 @@ public abstract class DialogImpl implements Dialog {
     }
 
     @Override
-    public void setDefaultExecuteMode() {
+    public void setDefaultExecuteMode(Update update) {
+        this.defaultExecuteMode = autoDefineExecuteMode(update, dialogStep);
+    }
 
+    @Override
+    public ExecuteMode autoDefineExecuteMode(Update update, Integer dialogStep) {
+        if (update.hasCallbackQuery() && dialogStep != null && dialogStep > FIRST_STEP_INDEX.ordinal()) {
+            return ExecuteMode.EDIT;
+        }
+        return ExecuteMode.SEND;
     }
 
     @Override
@@ -97,14 +105,6 @@ public abstract class DialogImpl implements Dialog {
         if (dialogStepData.isPresent() && dialogStepData.get().equals(String.valueOf(CONFIRM.ordinal()))) {
             DialogsState.replaceById(chatId, CAN_SAVE.getId(), "true");
         }
-    }
-
-    @Override
-    public ExecuteMode getExecuteMode(Update update, Integer dialogStep) {
-        if (update.hasCallbackQuery() && dialogStep != null && dialogStep > FIRST_STEP_INDEX.ordinal()) {
-            return ExecuteMode.EDIT;
-        }
-        return ExecuteMode.SEND;
     }
 
     @Override

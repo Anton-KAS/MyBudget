@@ -4,8 +4,6 @@ import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDial
 import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;

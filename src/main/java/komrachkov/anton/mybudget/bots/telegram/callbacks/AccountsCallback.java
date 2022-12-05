@@ -6,6 +6,7 @@ import komrachkov.anton.mybudget.bots.telegram.texts.callback.AccountsText;
 import komrachkov.anton.mybudget.bots.telegram.util.*;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -22,20 +23,12 @@ import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImp
  */
 
 @Component
+@Scope("prototype")
 public class AccountsCallback extends CommandControllerImpl {
 
     @Autowired
     public AccountsCallback(TelegramUserService telegramUserService, AccountsText messageText, AccountsKeyboard keyboard) {
         super(telegramUserService, messageText, keyboard);
-    }
-
-    /**
-     * @author Anton Komrachkov
-     * @since 0.4 (04.12.2022)
-     */
-    @Override
-    public void setDefaultExecuteMode() {
-        this.defaultExecuteMode = ExecuteMode.getCallbackExecuteMode();
     }
 
     @Override

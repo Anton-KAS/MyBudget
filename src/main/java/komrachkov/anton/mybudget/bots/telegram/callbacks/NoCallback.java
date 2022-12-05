@@ -6,6 +6,7 @@ import komrachkov.anton.mybudget.services.TelegramUserService;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandControllerImpl;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
  * @author Anton Komrachkov
@@ -25,7 +26,7 @@ public class NoCallback extends CommandControllerImpl {
      * @since 0.4 (04.12.2022)
      */
     @Override
-    public void setDefaultExecuteMode() {
+    public void setDefaultExecuteMode(Update update) {
         this.defaultExecuteMode = ExecuteMode.getCallbackExecuteMode();
     }
 }

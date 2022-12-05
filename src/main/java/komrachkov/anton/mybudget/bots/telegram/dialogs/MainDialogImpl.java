@@ -24,12 +24,12 @@ public abstract class MainDialogImpl implements MainDialog {
 
     @Override
     public ToDoList execute(Update update) {
-        setDefaultExecuteMode();
+        setDefaultExecuteMode(update);
         return execute(update, defaultExecuteMode);
     }
 
     @Override
-    public void setDefaultExecuteMode() {
+    public void setDefaultExecuteMode(Update update) {
         defaultExecuteMode = ExecuteMode.SEND;
     }
 }

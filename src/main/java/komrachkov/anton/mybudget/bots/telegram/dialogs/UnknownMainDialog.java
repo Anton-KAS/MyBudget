@@ -6,6 +6,8 @@ import komrachkov.anton.mybudget.services.TelegramUserService;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.MainDialog;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandControllerImpl;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
+import org.checkerframework.checker.guieffect.qual.UIPackage;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 /**
  * @author Anton Komrachkov
@@ -19,7 +21,7 @@ public class UnknownMainDialog extends CommandControllerImpl implements MainDial
     }
 
     @Override
-    public void setDefaultExecuteMode() {
+    public void setDefaultExecuteMode(Update update) {
         defaultExecuteMode = ExecuteMode.SEND;
     }
 }

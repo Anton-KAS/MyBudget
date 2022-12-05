@@ -23,7 +23,7 @@ public class HelpCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new HelpCommand(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
+        return new HelpCommand(telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package komrachkov.anton.mybudget.bots.telegram.bot;
 
+import komrachkov.anton.mybudget.bots.telegram.services.BotMessageServiceImpl;
 import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.services.*;
@@ -11,7 +12,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
 import komrachkov.anton.mybudget.bots.telegram.commands.CommandContainer;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogContainer;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageServiceImpl;
 import komrachkov.anton.mybudget.bots.telegram.util.ResponseWaitingMap;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 
@@ -48,10 +48,11 @@ public class TelegramBot extends TelegramLongPollingBot {
     public TelegramBot(TelegramUserService telegramUserService, CommandContainer commandContainer,
                        CallbackContainer callbackContainer, DialogContainer dialogContainer) {
         this.telegramUserService = telegramUserService;
-        this.botMessageService = new BotMessageServiceImpl(this);
         this.commandContainer = commandContainer;
         this.callbackContainer = callbackContainer;
         this.dialogContainer = dialogContainer;
+
+        this.botMessageService = new BotMessageServiceImpl(this, telegramUserService);
     }
 
     @Override
@@ -84,8 +85,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (toDoList == null) return;
         while (toDoList.hasToDo()) {
             ToDoList.ToDo toDo = toDoList.pollToDo();
-            botMessageService.executeAndUpdateUser(telegramUserService, toDo.update(), toDo.executeMode(),
-                    toDo.text(), toDo.inlineKeyboardMarkup());
+            botMessageService.executeAndUpdateUser(toDo.update(), toDo.executeMode(), toDo.text(), toDo.inlineKeyboardMarkup());
         }
     }
 

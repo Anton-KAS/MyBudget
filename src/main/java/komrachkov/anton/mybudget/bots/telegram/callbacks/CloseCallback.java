@@ -24,7 +24,7 @@ public class CloseCallback extends CommandControllerImpl {
      * @since 0.4 (04.12.2022)
      */
     @Override
-    public void setDefaultExecuteMode() {
+    public void setDefaultExecuteMode(Update update) {
         this.defaultExecuteMode = ExecuteMode.getCallbackExecuteMode();
     }
 
