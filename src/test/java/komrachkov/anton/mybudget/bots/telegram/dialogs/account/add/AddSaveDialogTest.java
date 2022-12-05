@@ -1,9 +1,11 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.account.add;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AbstractSaveDialogTest;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.SaveKeyboard;
 import komrachkov.anton.mybudget.models.Account;
 import org.junit.jupiter.api.DisplayName;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
+import org.mockito.Mockito;
 
 /**
  * @author Anton Komrachkov
@@ -12,10 +14,11 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
 
 @DisplayName("Unit-level testing for AddAccountSaveDialog")
 public class AddSaveDialogTest extends AbstractSaveDialogTest {
+    private final static SaveKeyboard saveKeyboardMock = Mockito.mock(SaveKeyboard.class);
 
     @Override
     protected Dialog getCommand() {
-        return new AddSaveDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock,
+        return new AddSaveDialog(telegramUserServiceMock, accountTextMock, saveKeyboardMock,
                 callbackContainerMock, accountTypeServiceMock, currencyServiceMock, bankServiceMock, accountServiceMock);
     }
 

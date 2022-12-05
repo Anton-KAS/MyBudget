@@ -5,7 +5,9 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddConfirmDia
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddContainer;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddSaveDialog;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddStartDialog;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogStepsContainer;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
+import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,6 +58,8 @@ public class AccountDialogTest extends AbstractMainDialogImplTest {
     protected final static AddConfirmDialog CONFIRM_ADD_ACCOUNT_DIALOG_MOCK = Mockito.mock(AddConfirmDialog.class);
     protected final static AddSaveDialog ADD_ACCOUNT_SAVE_DIALOG_MOCK = Mockito.mock(AddSaveDialog.class);
 
+    protected final static DialogStepsContainer dialogStepsContainerMock = Mockito.mock(DialogStepsContainer.class);
+
 
     @BeforeAll
     public static void beforeAll() {
@@ -71,15 +75,18 @@ public class AccountDialogTest extends AbstractMainDialogImplTest {
         Mockito.when(ADD_CONTAINER_MOCK.retrieve(CONFIRM.getName())).thenReturn(CONFIRM_ADD_ACCOUNT_DIALOG_MOCK);
         Mockito.when(ADD_CONTAINER_MOCK.retrieve(SAVE.getName())).thenReturn(ADD_ACCOUNT_SAVE_DIALOG_MOCK);
 
-        Mockito.when(START_ADD_ACCOUNT_DIALOG_MOCK.commit(Mockito.any(Update.class))).thenReturn(true);
-        Mockito.when(typeDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
-        Mockito.when(titleDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
-        Mockito.when(descriptionDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
-        Mockito.when(currencyDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
-        Mockito.when(bankDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
-        Mockito.when(startBalanceDialogMock.commit(Mockito.any(Update.class))).thenReturn(true);
-        Mockito.when(CONFIRM_ADD_ACCOUNT_DIALOG_MOCK.commit(Mockito.any(Update.class))).thenReturn(true);
-        Mockito.when(ADD_ACCOUNT_SAVE_DIALOG_MOCK.commit(Mockito.any(Update.class))).thenReturn(true);
+        ToDoList toDoList = Mockito.mock(ToDoList.class);
+        Mockito.when(toDoList.isResultCommit()).thenReturn(true);
+
+        Mockito.when(START_ADD_ACCOUNT_DIALOG_MOCK.commit(Mockito.any(Update.class))).thenReturn(toDoList);
+        Mockito.when(typeDialogMock.commit(Mockito.any(Update.class))).thenReturn(toDoList);
+        Mockito.when(titleDialogMock.commit(Mockito.any(Update.class))).thenReturn(toDoList);
+        Mockito.when(descriptionDialogMock.commit(Mockito.any(Update.class))).thenReturn(toDoList);
+        Mockito.when(currencyDialogMock.commit(Mockito.any(Update.class))).thenReturn(toDoList);
+        Mockito.when(bankDialogMock.commit(Mockito.any(Update.class))).thenReturn(toDoList);
+        Mockito.when(startBalanceDialogMock.commit(Mockito.any(Update.class))).thenReturn(toDoList);
+        Mockito.when(CONFIRM_ADD_ACCOUNT_DIALOG_MOCK.commit(Mockito.any(Update.class))).thenReturn(toDoList);
+        Mockito.when(ADD_ACCOUNT_SAVE_DIALOG_MOCK.commit(Mockito.any(Update.class))).thenReturn(toDoList);
     }
 
     @Override
@@ -87,7 +94,7 @@ public class AccountDialogTest extends AbstractMainDialogImplTest {
     public void beforeEach() {
         super.beforeEach();
 
-        this.accountDialog = new AccountDialog(botMessageServiceMock, telegramUserServiceMock, ADD_CONTAINER_MOCK);
+//        this.accountDialog = new AccountDialog(telegramUserServiceMock, dialogStepsContainerMock);
     }
 
     @Test

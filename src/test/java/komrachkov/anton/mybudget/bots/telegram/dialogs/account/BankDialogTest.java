@@ -56,7 +56,7 @@ public class BankDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public Dialog getCommand() {
-        return new BankDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardBankMock, bankServiceMock);
+        return new BankDialog(telegramUserServiceMock, accountTextMock, keyboardBankMock, bankServiceMock);
     }
 
     @Override
@@ -76,11 +76,10 @@ public class BankDialogTest extends AbstractAccountDialogTest {
         int times = expected ? 1 : 0;
 
         //when
-        boolean result = getCommand().commit(update);
+        boolean result = getCommand().commit(update).isResultCommit();
 
         //then
         assertEquals(expected, result);
-//        Mockito.verify(telegramUserServiceMock, Mockito.times(times)).checkUser(telegramUserServiceMock, update);
     }
 
     public static Stream<Arguments> sourceBankCommit() {

@@ -6,7 +6,6 @@ import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.models.AccountType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -59,8 +58,7 @@ public class TypeDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public Dialog getCommand() {
-        return new TypeDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock,
-                typeKeyboardMock, accountTypeServiceMock);
+        return new TypeDialog(telegramUserServiceMock, accountTextMock, typeKeyboardMock, accountTypeServiceMock);
     }
 
     @Override
@@ -72,18 +70,6 @@ public class TypeDialogTest extends AbstractAccountDialogTest {
     public void shouldReturnTrueByExecuteCommit(Update update) {
     }
 
-    @Test
-    public void shouldProperlySetAccountTypeServiceToKeyboard() {
-        //given
-        Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
-
-        //when
-        getCommand().execute(update);
-
-        //then
-        Mockito.verify(typeKeyboardMock).setAccountTypeService(accountTypeServiceMock);
-    }
-
     @ParameterizedTest
     @MethodSource("sourceCurrencyCommit")
     public void shouldProperlyExecuteCommit(Update update, int testCurrencyId,
@@ -93,11 +79,10 @@ public class TypeDialogTest extends AbstractAccountDialogTest {
         int times = expected ? 1 : 0;
 
         //when
-        boolean result = getCommand().commit(update);
+        boolean result = getCommand().commit(update).isResultCommit();
 
         //then
         assertEquals(expected, result);
-//        Mockito.verify(telegramUserServiceMock, Mockito.times(times)).checkUser(telegramUserServiceMock, update);
     }
 
     public static Stream<Arguments> sourceCurrencyCommit() {

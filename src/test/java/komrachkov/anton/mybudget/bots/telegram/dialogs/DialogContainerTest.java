@@ -1,33 +1,30 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs;
 
-import komrachkov.anton.mybudget.services.AccountService;
-import komrachkov.anton.mybudget.services.AccountTypeService;
-import komrachkov.anton.mybudget.services.BankService;
-import komrachkov.anton.mybudget.services.CurrencyService;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddAccountDialog;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.account.edit.EditAccountDialog;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
-import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
 import komrachkov.anton.mybudget.bots.telegram.util.AbstractContainerTest;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
 /**
+ * Unit-tests for {@link DialogContainer}
  * @author Anton Komrachkov
  * @since 0.2
  */
 
 @DisplayName("Unit-level testing for DialogContainer")
 public class DialogContainerTest extends AbstractContainerTest {
-    private final AccountTypeService accountTypeServiceMock = Mockito.mock(AccountTypeService.class);
-    private final CurrencyService currencyServiceMock = Mockito.mock(CurrencyService.class);
-    private final BankService bankServiceMock = Mockito.mock(BankService.class);
-    private final AccountService accountServiceMock = Mockito.mock(AccountService.class);
-    private final CallbackContainer callbackContainerMock = new CallbackContainer(
-            botMessageServiceMock, telegramUserServiceMock, accountServiceMock);
+    private final static UnknownDialog unknownDialogMock = Mockito.mock(UnknownDialog.class);
+    private final static DeleteConfirmDialog deleteConfirmDialogMock = Mockito.mock(DeleteConfirmDialog.class);
+    private final static DeleteExecuteDialog deleteExecuteDialogMock = Mockito.mock(DeleteExecuteDialog.class);
+    private final static AddAccountDialog addAccountDialogMock = Mockito.mock(AddAccountDialog.class);
+    private final static EditAccountDialog editAccountDialogMock = Mockito.mock(EditAccountDialog.class);
+    private final static CancelDialog cancelDialogMock = Mockito.mock(CancelDialog.class);
 
     @Override
     protected void setContainer() {
-        container = new DialogContainer(botMessageServiceMock, telegramUserServiceMock, callbackContainerMock,
-                accountTypeServiceMock, currencyServiceMock, bankServiceMock, accountServiceMock);
+        container = new DialogContainer(unknownDialogMock, deleteConfirmDialogMock, deleteExecuteDialogMock,
+                addAccountDialogMock, editAccountDialogMock, cancelDialogMock);
     }
 
     @Override
@@ -37,7 +34,6 @@ public class DialogContainerTest extends AbstractContainerTest {
 
     @Override
     protected void setUnknownCommand() {
-        unknownCommand = new UnknownDialog(botMessageServiceMock, telegramUserServiceMock, ExecuteMode.SEND,
-                messageTextMock, keyboardMock);
+        unknownCommand = Mockito.mock(UnknownDialog.class);
     }
 }

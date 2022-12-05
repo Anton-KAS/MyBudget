@@ -1,7 +1,10 @@
 package komrachkov.anton.mybudget.bots.telegram.commands;
 
+import komrachkov.anton.mybudget.bots.telegram.keyboards.commands.StartKeyboard;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.commands.StatKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.texts.commands.StartText;
+import komrachkov.anton.mybudget.bots.telegram.texts.commands.StatText;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 import komrachkov.anton.mybudget.bots.telegram.util.AbstractCommandControllerTest;
@@ -16,6 +19,9 @@ import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.
 
 @DisplayName("Unit-level testing for StartCommand")
 public class StartCommandTest extends AbstractCommandControllerTest {
+    private final static StartText startTextMock = Mockito.mock(StartText.class);
+    private final static StartKeyboard startKeyboardMock = Mockito.mock(StartKeyboard.class);
+
     @Override
     protected String getCommandName() {
         return START.getName();
@@ -23,7 +29,7 @@ public class StartCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new StartCommand(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
+        return new StartCommand(telegramUserServiceMock, startTextMock, startKeyboardMock);
     }
 
     @Override

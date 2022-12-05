@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.provider.Arguments;
 import org.mockito.Mockito;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
 
 import java.util.stream.Stream;
@@ -30,8 +29,7 @@ public class EditStartDialogTest extends AbstractStartDialogTest {
 
     @Override
     public Dialog getCommand() {
-        return new EditStartDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock,
-                DialogNamesImpl.ADD_ACCOUNT, accountServiceMock);
+        return new EditStartDialog(telegramUserServiceMock, accountTextMock, accountServiceMock);
     }
 
     public static Stream<Arguments> sourceStartCommit() {

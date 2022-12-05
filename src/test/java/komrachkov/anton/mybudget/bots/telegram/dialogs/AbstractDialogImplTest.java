@@ -49,7 +49,7 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     @MethodSource("sourceCommit")
     public void shouldReturnTrueByExecuteCommit(Update update) {
         //when
-        boolean result = getCommand().commit(update);
+        boolean result = getCommand().commit(update).isResultCommit();
 
         //then
         assertTrue(result);

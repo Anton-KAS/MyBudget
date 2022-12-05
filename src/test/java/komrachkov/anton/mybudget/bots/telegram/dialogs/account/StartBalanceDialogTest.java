@@ -1,6 +1,7 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.StartBalanceKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +31,7 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.StartBalan
 
 @DisplayName("Unit-level testing for account.StartBalanceDialog")
 public class StartBalanceDialogTest extends AbstractAccountDialogTest {
+    private final static StartBalanceKeyboard startBalanceKeyboardMock = Mockito.mock(StartBalanceKeyboard.class);
     // TODO: Change extends class to AbstractAccountDialogTest
     public static final CommandNames TEST_COMMAND_NAME = ACCOUNT;
 
@@ -45,7 +47,7 @@ public class StartBalanceDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public Dialog getCommand() {
-        return new StartBalanceDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock,
+        return new StartBalanceDialog(telegramUserServiceMock, accountTextMock, startBalanceKeyboardMock,
                 currencyServiceMock);
     }
 
@@ -69,12 +71,10 @@ public class StartBalanceDialogTest extends AbstractAccountDialogTest {
         int timesExpectedFalse = !expected ? 1 : 0;
 
         //when
-        boolean result = getCommand().commit(update);
+        boolean result = getCommand().commit(update).isResultCommit();
 
         //then
         assertEquals(expected, result);
-        Mockito.verify(botMessageServiceMock, Mockito.times(timesExpectedFalse)).executeAndUpdateUser(
-                telegramUserServiceMock, update, ExecuteMode.SEND, VERIFY_EXCEPTION_TEXT, null);
     }
 
     public static Stream<Arguments> sourceStartBalanceCommit() {

@@ -15,7 +15,6 @@ public class AddStartDialogTest extends AbstractStartDialogTest {
 
     @Override
     public Dialog getCommand() {
-        return new AddStartDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock,
-                DialogNamesImpl.ADD_ACCOUNT);
+        return new AddStartDialog(telegramUserServiceMock, accountTextMock);
     }
 }

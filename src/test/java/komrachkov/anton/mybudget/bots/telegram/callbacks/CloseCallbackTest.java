@@ -1,7 +1,6 @@
 package komrachkov.anton.mybudget.bots.telegram.callbacks;
 
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +20,6 @@ public class CloseCallbackTest {
     protected static long TEST_USER_ID = 123456789L;
     protected static long TEST_CHAT_ID = TEST_USER_ID;
     protected static int TEST_MESSAGE_ID = 123;
-    protected static ExecuteMode DEFAULT_EXECUTE_MODE = ExecuteMode.SEND;
 
     protected BotMessageService botMessageService = Mockito.mock(BotMessageService.class);
     protected TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
@@ -52,7 +50,7 @@ public class CloseCallbackTest {
         closeCallback.execute(update);
 
         //then
-        Mockito.verify(botMessageService, Mockito.times(1)).updateUser(telegramUserService, update);
+        Mockito.verify(botMessageService, Mockito.times(1)).updateUser(update);
     }
 
     protected Update givenUpdate(long userId, long chatId) {

@@ -65,7 +65,7 @@ public class CurrencyDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public Dialog getCommand() {
-        return new CurrencyDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock,
+        return new CurrencyDialog(telegramUserServiceMock, accountTextMock,
                 currenciesKeyboardMock, currencyServiceMock);
     }
 
@@ -88,30 +88,6 @@ public class CurrencyDialogTest extends AbstractAccountDialogTest {
 
         //then
         Mockito.verify(currenciesKeyboardMock).setUserId(TEST_USER_ID);
-    }
-
-    @Test
-    public void shouldProperlySetTelegramServiceToKeyboard() {
-        //given
-        Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
-
-        //when
-        getCommand().execute(update);
-
-        //then
-        Mockito.verify(currenciesKeyboardMock).setTelegramUserService(telegramUserServiceMock);
-    }
-
-    @Test
-    public void shouldProperlySetCurrencyServiceToKeyboard() {
-        //given
-        Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
-
-        //when
-        getCommand().execute(update);
-
-        //then
-        Mockito.verify(currenciesKeyboardMock).setCurrencyService(currencyServiceMock);
     }
 
     @ParameterizedTest
@@ -144,11 +120,10 @@ public class CurrencyDialogTest extends AbstractAccountDialogTest {
         int times = expected ? 1 : 0;
 
         //when
-        boolean result = getCommand().commit(update);
+        boolean result = getCommand().commit(update).isResultCommit();
 
         //then
         assertEquals(expected, result);
-//        Mockito.verify(telegramUserServiceMock, Mockito.times(times)).checkUser(telegramUserServiceMock, update);
     }
 
     public static Stream<Arguments> sourceCurrencyCommit() {

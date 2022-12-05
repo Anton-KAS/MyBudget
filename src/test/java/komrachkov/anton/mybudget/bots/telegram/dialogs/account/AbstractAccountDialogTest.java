@@ -1,5 +1,7 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
+import komrachkov.anton.mybudget.bots.telegram.texts.callback.AccountText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
 import komrachkov.anton.mybudget.models.*;
 import komrachkov.anton.mybudget.services.AccountService;
@@ -46,6 +48,8 @@ public abstract class AbstractAccountDialogTest extends AbstractDialogImplTest {
     protected final static Bank bankMock = Mockito.mock(Bank.class);
     protected final static Account accountMock = Mockito.mock(Account.class);
     protected final static Country countryMock = Mockito.mock(Country.class);
+
+    protected final static AccountDialogText accountTextMock = Mockito.mock(AccountDialogText.class);
 
     @Override
     @BeforeEach

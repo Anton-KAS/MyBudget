@@ -115,7 +115,7 @@ abstract public class AbstractCommandControllerTest {
 
         //then
         Mockito.verify(botMessageServiceMock, Mockito.times(1)).executeAndUpdateUser(
-                telegramUserServiceMock, update, ExecuteMode.SEND, TEST_TEXT, TEST_INLINE_KEYBOARD);
+                update, ExecuteMode.SEND, TEST_TEXT, TEST_INLINE_KEYBOARD);
     }
 
     @Test
@@ -128,7 +128,7 @@ abstract public class AbstractCommandControllerTest {
 
         //then
         Mockito.verify(botMessageServiceMock, Mockito.times(1)).executeAndUpdateUser(
-                telegramUserServiceMock, update, ExecuteMode.EDIT, TEST_TEXT, TEST_INLINE_KEYBOARD);
+                update, ExecuteMode.EDIT, TEST_TEXT, TEST_INLINE_KEYBOARD);
     }
 
     protected Update givenUpdate(long userId, long chatId) {

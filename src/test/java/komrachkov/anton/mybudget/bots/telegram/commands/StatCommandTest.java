@@ -1,5 +1,6 @@
 package komrachkov.anton.mybudget.bots.telegram.commands;
 
+import komrachkov.anton.mybudget.bots.telegram.keyboards.commands.StatKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,9 @@ import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.
 
 @DisplayName("Unit-level testing for StatCommand")
 public class StatCommandTest extends AbstractCommandControllerTest {
+    private final static StatText statTextMock = Mockito.mock(StatText.class);
+    private final static StatKeyboard statKeyboardMock = Mockito.mock(StatKeyboard.class);
+
     @Override
     protected String getCommandName() {
         return STAT.getName();
@@ -26,7 +30,7 @@ public class StatCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new StatCommand(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
+        return new StatCommand(telegramUserServiceMock, statTextMock, statKeyboardMock);
     }
 
     @Override

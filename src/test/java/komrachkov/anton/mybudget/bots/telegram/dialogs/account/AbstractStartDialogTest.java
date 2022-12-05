@@ -39,14 +39,14 @@ public abstract class AbstractStartDialogTest extends AbstractAccountDialogTest 
         Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
 
         //when - then
-        assertDoesNotThrow(() -> getCommand().executeByOrder(update, DEFAULT_EXECUTE_MODE));
+        assertDoesNotThrow(() -> getCommand().execute(update, DEFAULT_EXECUTE_MODE));
     }
 
     @ParameterizedTest
     @MethodSource("sourceStartCommit")
     public void shouldProperlyExecuteCommit(Update update, boolean expected) {
         //when
-        boolean result = getCommand().commit(update);
+        boolean result = getCommand().commit(update).isResultCommit();
 
         //then
         assertEquals(expected, result);

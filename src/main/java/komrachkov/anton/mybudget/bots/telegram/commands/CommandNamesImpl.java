@@ -15,7 +15,7 @@ public enum CommandNamesImpl implements CommandNames {
     STAT("/stat"),
     MENU("/menu"),
     ACCOUNTS("/accounts"),
-    NO("");
+    NO("no");
 
     private final String name;
 

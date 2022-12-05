@@ -23,7 +23,8 @@ public class CallbackContainer implements Container {
 
     @Autowired
     public CallbackContainer(MenuCommand menuCommand, AccountsCallback accountsCallback, UnknownCallback unknownCallback,
-                             AccountCallback accountCallback, CloseCallback closeCallback, NoCallback noCallback) {
+                             AccountCallback accountCallback, CloseCallback closeCallback,
+                             NothingCallback nothingCallback, NoCallback noCallback) {
         unknownCommand = unknownCallback;
 
         callbackMap = ImmutableMap.<String, CommandController>builder()
@@ -31,6 +32,7 @@ public class CallbackContainer implements Container {
                 .put(ACCOUNTS.getName(), accountsCallback)
                 .put(ACCOUNT.getName(), accountCallback)
                 .put(CLOSE.getName(), closeCallback)
+                .put(NOTHING.getName(), nothingCallback)
                 .put(NO.getName(), noCallback)
                 .build();
     }

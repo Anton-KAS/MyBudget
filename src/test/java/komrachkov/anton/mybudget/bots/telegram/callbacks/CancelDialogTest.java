@@ -90,7 +90,7 @@ public class CancelDialogTest extends AbstractCallbackTest {
         getCommand().execute(update);
 
         //then
-        Mockito.verify(botMessageServiceMock, Mockito.times(1)).sendPopup(AbstractCommandControllerTest.TEST_CALLBACK_ID, AbstractCommandControllerTest.TEST_TEXT);
+        Mockito.verify(botMessageServiceMock, Mockito.times(1)).sendPopup(update, AbstractCommandControllerTest.TEST_TEXT);
     }
 
     @Test
@@ -102,7 +102,7 @@ public class CancelDialogTest extends AbstractCallbackTest {
         getCommand().execute(update, ExecuteMode.EDIT);
 
         //then
-        Mockito.verify(botMessageServiceMock, Mockito.times(1)).sendPopup(AbstractCommandControllerTest.TEST_CALLBACK_ID, AbstractCommandControllerTest.TEST_TEXT);
+        Mockito.verify(botMessageServiceMock, Mockito.times(1)).sendPopup(update, AbstractCommandControllerTest.TEST_TEXT);
     }
 
     @Override

@@ -17,6 +17,6 @@ public class EditConfirmDialogTest extends AbstractConfirmDialogTest {
 
     @Override
     public Dialog getCommand() {
-        return new EditConfirmDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, EDIT_CONFIRM_KEYBOARD_MOCK);
+        return new EditConfirmDialog(telegramUserServiceMock, accountTextMock, EDIT_CONFIRM_KEYBOARD_MOCK);
     }
 }

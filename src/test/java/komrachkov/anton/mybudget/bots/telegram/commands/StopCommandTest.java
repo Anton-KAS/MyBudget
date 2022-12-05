@@ -1,5 +1,6 @@
 package komrachkov.anton.mybudget.bots.telegram.commands;
 
+import komrachkov.anton.mybudget.bots.telegram.keyboards.commands.StopKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.texts.commands.StopText;
 import komrachkov.anton.mybudget.models.TelegramUser;
@@ -21,6 +22,9 @@ import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.
 
 @DisplayName("Unit-level testing for StopCommand")
 public class StopCommandTest extends AbstractCommandControllerTest {
+    private final static StopText stopTextMock = Mockito.mock(StopText.class);
+    private final static StopKeyboard stopKeyboardMock = Mockito.mock(StopKeyboard.class);
+
     @Override
     protected String getCommandName() {
         return STOP.getName();
@@ -28,7 +32,7 @@ public class StopCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new StopCommand(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
+        return new StopCommand(telegramUserServiceMock, stopTextMock, stopKeyboardMock);
     }
 
     @Override

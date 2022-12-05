@@ -5,6 +5,7 @@ import komrachkov.anton.mybudget.bots.telegram.texts.NoText;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandControllerImpl;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -17,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class NoCallback extends CommandControllerImpl {
 
+    @Autowired
     public NoCallback(TelegramUserService telegramUserService, NoText messageText, NoKeyboard keyboard) {
         super(telegramUserService, messageText, keyboard);
     }

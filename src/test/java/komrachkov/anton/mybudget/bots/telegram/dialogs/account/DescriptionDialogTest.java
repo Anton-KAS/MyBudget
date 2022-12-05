@@ -2,9 +2,9 @@ package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.DescriptionKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -24,6 +24,7 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNam
 
 @DisplayName("Unit-level testing for account.DescriptionDialog")
 public class DescriptionDialogTest extends AbstractAccountDialogTest {
+    private final static DescriptionKeyboard descriptionKeyboardMock = Mockito.mock(DescriptionKeyboard.class);
 
     @Override
     protected String getCommandName() {
@@ -37,7 +38,7 @@ public class DescriptionDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public Dialog getCommand() {
-        return new DescriptionDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock);
+        return new DescriptionDialog(telegramUserServiceMock, accountTextMock, descriptionKeyboardMock);
     }
 
     @Override
@@ -57,13 +58,10 @@ public class DescriptionDialogTest extends AbstractAccountDialogTest {
         int timesNonExpected = !expected && !update.hasCallbackQuery() ? 1 : 0;
 
         //when
-        boolean result = getCommand().commit(update);
+        boolean result = getCommand().commit(update).isResultCommit();
 
         //then
         assertEquals(expected, result);
-        Mockito.verify(botMessageServiceMock, Mockito.times(timesNonExpected)).executeAndUpdateUser(telegramUserServiceMock, update, ExecuteMode.SEND,
-                String.format(DescriptionDialog.VERIFY_EXCEPTION_TEXT, DescriptionDialog.MAX_DESCRIPTION_LENGTH), keyboardMock.getKeyboard());
-//        Mockito.verify(telegramUserServiceMock, Mockito.times(timesExpected)).checkUser(telegramUserServiceMock, update);
     }
 
     public static Stream<Arguments> sourceDescriptionCommit() {

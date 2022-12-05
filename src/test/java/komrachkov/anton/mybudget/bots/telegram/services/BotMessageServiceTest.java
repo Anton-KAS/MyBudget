@@ -1,6 +1,7 @@
 package komrachkov.anton.mybudget.bots.telegram.services;
 
 import komrachkov.anton.mybudget.bots.telegram.bot.TelegramBot;
+import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,12 +19,12 @@ import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 public class BotMessageServiceTest {
 
     private final TelegramBot telegramBotMock = Mockito.mock(TelegramBot.class);
-    ;
+    private final TelegramUserService telegramUserServiceMock = Mockito.mock(TelegramUserService.class);
     private BotMessageService botMessageService;
 
     @BeforeEach
     public void init() {
-        botMessageService = new BotMessageServiceImpl(telegramBotMock);
+        botMessageService = new BotMessageServiceImpl(telegramBotMock, telegramUserServiceMock);
     }
 
     @Test
@@ -39,7 +40,7 @@ public class BotMessageServiceTest {
         sendMessage.setDisableNotification(true);
 
         //when
-        botMessageService.executeMessage(ExecuteMode.SEND, update, null, message, null);
+        botMessageService.executeMessage(ExecuteMode.SEND, null, message, null);
 
         //then
         Mockito.verify(telegramBotMock).execute(sendMessage);

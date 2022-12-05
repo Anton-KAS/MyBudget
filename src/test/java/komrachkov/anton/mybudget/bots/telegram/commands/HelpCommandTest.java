@@ -1,5 +1,6 @@
 package komrachkov.anton.mybudget.bots.telegram.commands;
 
+import komrachkov.anton.mybudget.bots.telegram.keyboards.commands.HelpKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
@@ -16,6 +17,9 @@ import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.
 
 @DisplayName("Unit-level testing for HelpCommand")
 public class HelpCommandTest extends AbstractCommandControllerTest {
+    private final static HelpText helpTextMock = Mockito.mock(HelpText.class);
+    private final static HelpKeyboard helpKeyboardMock = Mockito.mock(HelpKeyboard.class);
+
     @Override
     protected String getCommandName() {
         return HELP.getName();
@@ -23,7 +27,7 @@ public class HelpCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new HelpCommand(telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
+        return new HelpCommand(telegramUserServiceMock, helpTextMock, helpKeyboardMock);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package komrachkov.anton.mybudget.bots.telegram.callbacks;
 
 import komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.callback.AccountsKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.bots.telegram.texts.callback.AccountsText;
 import komrachkov.anton.mybudget.bots.telegram.util.AbstractCommandControllerTest;
@@ -15,6 +16,9 @@ import org.mockito.Mockito;
 
 @DisplayName("Unit-level testing for AccountsCallback")
 public class AccountsCallbackTest extends AbstractCommandControllerTest {
+    private final static AccountsText accountsTextMock = Mockito.mock(AccountsText.class);
+    private final static AccountsKeyboard accountsKeyboardMock = Mockito.mock(AccountsKeyboard.class);
+
     @Override
     protected String getCommandName() {
         return CommandNamesImpl.ACCOUNTS.getName();
@@ -22,7 +26,7 @@ public class AccountsCallbackTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new AccountsCallback(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
+        return new AccountsCallback(telegramUserServiceMock, accountsTextMock, accountsKeyboardMock);
     }
 
     @Override

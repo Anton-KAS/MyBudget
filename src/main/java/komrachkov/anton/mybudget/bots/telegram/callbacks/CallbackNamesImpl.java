@@ -17,7 +17,7 @@ public enum CallbackNamesImpl implements CommandNames {
     ACCOUNT("acc"),
     CLOSE("close"),
     NOTHING("nothing"),
-    NO("");
+    NO("no");
 
     private final String name;
 

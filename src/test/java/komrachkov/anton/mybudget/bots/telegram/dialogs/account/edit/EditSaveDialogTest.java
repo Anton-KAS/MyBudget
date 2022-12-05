@@ -1,6 +1,7 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.account.edit;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AbstractSaveDialogTest;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.SaveKeyboard;
 import komrachkov.anton.mybudget.models.Account;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @DisplayName("Unit-level testing for EditAccountSaveDialog")
 public class EditSaveDialogTest extends AbstractSaveDialogTest {
+    private final static SaveKeyboard saveKeyboardMock = Mockito.mock(SaveKeyboard.class);
 
     @Override
     @BeforeEach
@@ -27,7 +29,7 @@ public class EditSaveDialogTest extends AbstractSaveDialogTest {
 
     @Override
     protected Dialog getCommand() {
-        return new EditSaveDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock,
+        return new EditSaveDialog(telegramUserServiceMock, accountTextMock, saveKeyboardMock,
                 callbackContainerMock, accountTypeServiceMock, currencyServiceMock, bankServiceMock, accountServiceMock);
     }
 
