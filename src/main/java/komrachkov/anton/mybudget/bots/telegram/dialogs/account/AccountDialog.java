@@ -60,7 +60,7 @@ public abstract class AccountDialog extends MainDialogImpl {
     private void getStepNums(Update update) {
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
         if (!DialogsState.hasDialogs(chatId) || (callbackData != null &&
-                callbackData[CallbackIndex.OPERATION_DATA.ordinal()].equals(AccountNames.START.getName()))) {
+                callbackData[CallbackIndex.OPERATION.ordinal()].equals(AccountNames.START.getName()))) {
             currentStep = DialogIndex.FIRST_STEP_INDEX.ordinal();
             lastStep = DialogIndex.FIRST_STEP_INDEX.ordinal();
         } else {
