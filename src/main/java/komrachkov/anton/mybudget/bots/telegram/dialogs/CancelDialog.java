@@ -49,6 +49,7 @@ public class CancelDialog extends CommandControllerImpl {
         long chatId = UpdateParameter.getChatId(update);
 
         Optional<String> callbackQueryId = UpdateParameter.getCallbackQueryId(update);
+        text = messageText.setChatId(chatId).getText();
         callbackQueryId.ifPresent(s -> toDoList.addToDo(ExecuteMode.POPUP, update, text));
 
         if (update.hasCallbackQuery()) {

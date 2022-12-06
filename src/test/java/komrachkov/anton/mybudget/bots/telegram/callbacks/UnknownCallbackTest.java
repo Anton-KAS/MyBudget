@@ -9,14 +9,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 
 /**
+ * Unit-tests for {@link UnknownCallback}
  * @since 0.2
  * @author Anton Komrachkov
  */
 
-@DisplayName("Unit-level testing for UnknownCallback")
+@DisplayName("Unit-level testing for callbacks.UnknownCallback")
 public class UnknownCallbackTest extends AbstractCommandControllerTest {
-    private final static NoText noTextMock = Mockito.mock(NoText.class);
-    private final static NoKeyboard noKeyboardMock = Mockito.mock(NoKeyboard.class);
+    private final NoText noTextMock = Mockito.mock(NoText.class);
+    private final NoKeyboard noKeyboardMock = Mockito.mock(NoKeyboard.class);
 
     @Override
     public String getCommandName() {
@@ -30,6 +31,6 @@ public class UnknownCallbackTest extends AbstractCommandControllerTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(NoText.class);
+        return noTextMock;
     }
 }

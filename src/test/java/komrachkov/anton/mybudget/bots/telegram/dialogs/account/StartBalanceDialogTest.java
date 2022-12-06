@@ -53,7 +53,7 @@ public class StartBalanceDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AccountDialogText.class);
+        return accountTextMock;
     }
 
     @Override

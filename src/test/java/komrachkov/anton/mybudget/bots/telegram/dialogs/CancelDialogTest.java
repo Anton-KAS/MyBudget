@@ -1,5 +1,6 @@
-package komrachkov.anton.mybudget.bots.telegram.callbacks;
+package komrachkov.anton.mybudget.bots.telegram.dialogs;
 
+import komrachkov.anton.mybudget.bots.telegram.callbacks.AbstractCallbackTest;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.CancelDialog;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
@@ -29,8 +30,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class CancelDialogTest extends AbstractCallbackTest {
     private static final CommandNames TEST_COMMAND_NAME = ACCOUNTS;
 
-    private static final CancelText cancelTextMock = Mockito.mock(CancelText.class);
-    private static final CancelKeyboard cancelKeyboardMock = Mockito.mock(CancelKeyboard.class);
+    private final CancelText cancelTextMock = Mockito.mock(CancelText.class);
+    private final CancelKeyboard cancelKeyboardMock = Mockito.mock(CancelKeyboard.class);
 
     @Override
     @BeforeEach
@@ -52,7 +53,7 @@ public class CancelDialogTest extends AbstractCallbackTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(CancelDialogText.class);
+        return cancelTextMock;
     }
 
     @Test
@@ -81,35 +82,27 @@ public class CancelDialogTest extends AbstractCallbackTest {
         assertFalse(DialogsState.hasDialogs(TEST_CHAT_ID));
     }
 
-    @Test
-    public void shouldProperlyExecuteSendPopup() {
-        //given
-        Update update = AbstractCommandControllerTest.getCallbackUpdateWithData(AbstractCommandControllerTest.TEST_DATA);
-
-        //when
-        getCommand().execute(update);
-
-        //then
-        Mockito.verify(botMessageServiceMock, Mockito.times(1)).sendPopup(update, AbstractCommandControllerTest.TEST_TEXT);
-    }
-
-    @Test
-    public void shouldProperlyExecuteSendPopupExecuteMode() {
-        //given
-        Update update = AbstractCommandControllerTest.getCallbackUpdateWithData(AbstractCommandControllerTest.TEST_DATA);
-
-        //when
-        getCommand().execute(update, ExecuteMode.EDIT);
-
-        //then
-        Mockito.verify(botMessageServiceMock, Mockito.times(1)).sendPopup(update, AbstractCommandControllerTest.TEST_TEXT);
-    }
-
-    @Override
-    public void shouldProperlyExecuteAndUpdateUser() {
-    }
-
-    @Override
-    public void shouldProperlyExecuteAndUpdateUserExecuteMode() {
-    }
+//    @Test
+//    public void shouldProperlyExecuteSendPopup() {
+//        //given
+//        Update update = AbstractCommandControllerTest.getCallbackUpdateWithData(AbstractCommandControllerTest.TEST_DATA);
+//
+//        //when
+//        getCommand().execute(update);
+//
+//        //then
+//        Mockito.verify(botMessageServiceMock, Mockito.times(1)).sendPopup(update, AbstractCommandControllerTest.TEST_TEXT);
+//    }
+//
+//    @Test
+//    public void shouldProperlyExecuteSendPopupExecuteMode() {
+//        //given
+//        Update update = AbstractCommandControllerTest.getCallbackUpdateWithData(AbstractCommandControllerTest.TEST_DATA);
+//
+//        //when
+//        getCommand().execute(update, ExecuteMode.EDIT);
+//
+//        //then
+//        Mockito.verify(botMessageServiceMock, Mockito.times(1)).sendPopup(update, AbstractCommandControllerTest.TEST_TEXT);
+//    }
 }

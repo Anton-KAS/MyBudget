@@ -11,11 +11,12 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 /**
+ * Unit-tests for {@link CloseCallback}
  * @since 0.2
  * @author Anton Komrachkov
  */
 
-@DisplayName("Unit-level testing for CloseCallback")
+@DisplayName("Unit-level testing for callbacks.CloseCallback")
 public class CloseCallbackTest {
     protected static long TEST_USER_ID = 123456789L;
     protected static long TEST_CHAT_ID = TEST_USER_ID;
@@ -26,31 +27,6 @@ public class CloseCallbackTest {
 
     @BeforeEach
     public void beforeEach() {
-    }
-
-    @Test
-    public void shouldProperlyExecuteDeleteMessage() {
-        //given
-        Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
-        CloseCallback closeCallback = new CloseCallback(telegramUserService);
-
-        //when
-        closeCallback.execute(update);
-
-        //then
-        Mockito.verify(botMessageService, Mockito.times(1)).deleteMessage(update);
-    }
-    @Test
-    public void shouldProperlyExecuteUpdateUser() {
-        //given
-        Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
-        CloseCallback closeCallback = new CloseCallback(telegramUserService);
-
-        //when
-        closeCallback.execute(update);
-
-        //then
-        Mockito.verify(botMessageService, Mockito.times(1)).updateUser(update);
     }
 
     protected Update givenUpdate(long userId, long chatId) {

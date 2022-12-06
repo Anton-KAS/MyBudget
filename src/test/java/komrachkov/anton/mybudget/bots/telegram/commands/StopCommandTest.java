@@ -16,14 +16,15 @@ import java.util.Optional;
 import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.STOP;
 
 /**
+ * Unit-tests for {@link StopCommand}
  * @since 0.2
  * @author Anton Komrachkov
  */
 
-@DisplayName("Unit-level testing for StopCommand")
+@DisplayName("Unit-level testing for commands.StopCommand")
 public class StopCommandTest extends AbstractCommandControllerTest {
-    private final static StopText stopTextMock = Mockito.mock(StopText.class);
-    private final static StopKeyboard stopKeyboardMock = Mockito.mock(StopKeyboard.class);
+    private final StopText stopTextMock = Mockito.mock(StopText.class);
+    private final StopKeyboard stopKeyboardMock = Mockito.mock(StopKeyboard.class);
 
     @Override
     protected String getCommandName() {
@@ -37,7 +38,7 @@ public class StopCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(StopText.class);
+        return stopTextMock;
     }
 
     @Test

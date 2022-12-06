@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,6 @@ abstract public class AbstractCommandControllerTest {
 
     protected static ExecuteMode DEFAULT_EXECUTE_MODE = ExecuteMode.SEND;
 
-    protected BotMessageService botMessageServiceMock = Mockito.mock(BotMessageService.class);
     protected TelegramUserService telegramUserServiceMock = Mockito.mock(TelegramUserService.class);
     protected Keyboard keyboardMock = Mockito.mock(Keyboard.class);
     protected MessageText messageTextMock;
@@ -103,32 +101,6 @@ abstract public class AbstractCommandControllerTest {
 
         //then
         Mockito.verify(messageTextMock, Mockito.times(1)).getText();
-    }
-
-    @Test
-    public void shouldProperlyExecuteAndUpdateUser() {
-        //given
-        Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
-
-        //when
-        getCommand().execute(update);
-
-        //then
-        Mockito.verify(botMessageServiceMock, Mockito.times(1)).executeAndUpdateUser(
-                update, ExecuteMode.SEND, TEST_TEXT, TEST_INLINE_KEYBOARD);
-    }
-
-    @Test
-    public void shouldProperlyExecuteAndUpdateUserExecuteMode() {
-        //given
-        Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
-
-        //when
-        getCommand().execute(update, ExecuteMode.EDIT);
-
-        //then
-        Mockito.verify(botMessageServiceMock, Mockito.times(1)).executeAndUpdateUser(
-                update, ExecuteMode.EDIT, TEST_TEXT, TEST_INLINE_KEYBOARD);
     }
 
     protected Update givenUpdate(long userId, long chatId) {

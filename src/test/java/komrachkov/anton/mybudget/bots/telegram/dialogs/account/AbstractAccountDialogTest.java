@@ -49,7 +49,7 @@ public abstract class AbstractAccountDialogTest extends AbstractDialogImplTest {
     protected final static Account accountMock = Mockito.mock(Account.class);
     protected final static Country countryMock = Mockito.mock(Country.class);
 
-    protected final static AccountDialogText accountTextMock = Mockito.mock(AccountDialogText.class);
+    protected final AccountDialogText accountTextMock = Mockito.mock(AccountDialogText.class);
 
     @Override
     @BeforeEach

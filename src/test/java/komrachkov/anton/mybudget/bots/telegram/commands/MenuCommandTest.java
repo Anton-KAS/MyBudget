@@ -11,14 +11,15 @@ import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
 import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.MENU;
 
 /**
+ * Unit-tests for {@link MenuCommand}
  * @since 0.2
  * @author Anton Komrachkov
  */
 
-@DisplayName("Unit-level testing for MenuCommand")
+@DisplayName("Unit-level testing for commands.MenuCommand")
 public class MenuCommandTest extends AbstractCommandControllerTest {
-    private final static MenuText menuTextMock = Mockito.mock(MenuText.class);
-    private final static MenuKeyboard menuKeyboardMock = Mockito.mock(MenuKeyboard.class);
+    private final MenuText menuTextMock = Mockito.mock(MenuText.class);
+    private final MenuKeyboard menuKeyboardMock = Mockito.mock(MenuKeyboard.class);
 
     @Override
     protected String getCommandName() {
@@ -32,6 +33,6 @@ public class MenuCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(MenuText.class);
+        return menuTextMock;
     }
 }

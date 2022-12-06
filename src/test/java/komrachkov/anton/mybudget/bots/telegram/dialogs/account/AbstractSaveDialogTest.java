@@ -65,6 +65,7 @@ public abstract class AbstractSaveDialogTest extends AbstractAccountDialogTest {
         //given
         Update update = getCallbackUpdateWithData(TEST_DATA);
         Account expectedAccount = getExpectedAccount();
+        Mockito.when(accountTextMock.setChatId(TEST_CHAT_ID)).thenReturn(accountTextMock);
 
         //when
         getCommand().execute(update);
@@ -87,13 +88,5 @@ public abstract class AbstractSaveDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public void shouldProperlyExecuteGetTextExecuteMode() {
-    }
-
-    @Override
-    public void shouldProperlyExecuteAndUpdateUser() {
-    }
-
-    @Override
-    public void shouldProperlyExecuteAndUpdateUserExecuteMode() {
     }
 }

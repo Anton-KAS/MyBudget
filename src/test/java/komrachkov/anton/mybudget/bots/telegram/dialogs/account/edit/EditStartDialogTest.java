@@ -10,6 +10,8 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
 
 import java.util.stream.Stream;
 
+import static komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl.EDIT_ACCOUNT;
+
 /**
  * @author Anton Komrachkov
  * @since 0.2
@@ -30,6 +32,11 @@ public class EditStartDialogTest extends AbstractStartDialogTest {
     @Override
     public Dialog getCommand() {
         return new EditStartDialog(telegramUserServiceMock, accountTextMock, accountServiceMock);
+    }
+
+    @Override
+    protected String getTestDialogName() {
+        return EDIT_ACCOUNT.getName();
     }
 
     public static Stream<Arguments> sourceStartCommit() {

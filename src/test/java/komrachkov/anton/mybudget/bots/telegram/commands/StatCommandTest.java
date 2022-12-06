@@ -14,14 +14,15 @@ import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.STAT;
 
 /**
+ * Unit-tests for {@link StatCommand}
  * @since 0.2
  * @author Anton Komrachkov
  */
 
-@DisplayName("Unit-level testing for StatCommand")
+@DisplayName("Unit-level testing for commands.StatCommand")
 public class StatCommandTest extends AbstractCommandControllerTest {
-    private final static StatText statTextMock = Mockito.mock(StatText.class);
-    private final static StatKeyboard statKeyboardMock = Mockito.mock(StatKeyboard.class);
+    private final StatText statTextMock = Mockito.mock(StatText.class);
+    private final StatKeyboard statKeyboardMock = Mockito.mock(StatKeyboard.class);
 
     @Override
     protected String getCommandName() {
@@ -35,7 +36,7 @@ public class StatCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public MessageText getMockMessageText() {
-        StatText statText = Mockito.mock(StatText.class);
+        StatText statText = statTextMock;
         Mockito.when(statText.setActiveUserCount(TEST_USER_LIST_SIZE)).thenReturn(statText);
         return statText;
     }

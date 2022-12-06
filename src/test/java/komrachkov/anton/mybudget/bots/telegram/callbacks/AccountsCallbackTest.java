@@ -10,14 +10,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
 
 /**
+ * Unit-tests for {@link AccountsCallback}
  * @since 0.2
  * @author Anton Komrachkov
  */
 
-@DisplayName("Unit-level testing for AccountsCallback")
+@DisplayName("Unit-level testing for callbacks.AccountsCallback")
 public class AccountsCallbackTest extends AbstractCommandControllerTest {
-    private final static AccountsText accountsTextMock = Mockito.mock(AccountsText.class);
-    private final static AccountsKeyboard accountsKeyboardMock = Mockito.mock(AccountsKeyboard.class);
+    private final AccountsText accountsTextMock = Mockito.mock(AccountsText.class);
+    private final AccountsKeyboard accountsKeyboardMock = Mockito.mock(AccountsKeyboard.class);
 
     @Override
     protected String getCommandName() {
@@ -31,6 +32,6 @@ public class AccountsCallbackTest extends AbstractCommandControllerTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AccountsText.class);
+        return accountsTextMock;
     }
 }

@@ -11,14 +11,15 @@ import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
 import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.NO;
 
 /**
+ * Unit-tests for {@link NoCommand}
  * @since 0.2
  * @author Anton Komrachkov
  */
 
-@DisplayName("Unit-level testing for NoCommand")
+@DisplayName("Unit-level testing for commands.NoCommand")
 public class NoCommandTest extends AbstractCommandControllerTest {
-    private final static NoText noTextMock = Mockito.mock(NoText.class);
-    private final static NoKeyboard noKeyboardMock = Mockito.mock(NoKeyboard.class);
+    private final NoText noTextMock = Mockito.mock(NoText.class);
+    private final NoKeyboard noKeyboardMock = Mockito.mock(NoKeyboard.class);
 
     @Override
     protected String getCommandName() {
@@ -32,6 +33,6 @@ public class NoCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(NoText.class);
+        return noTextMock;
     }
 }

@@ -13,7 +13,7 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl.AD
  * @since 0.2
  */
 
-@DisplayName("Unit-level testing for AddAccountContainer")
+@DisplayName("Unit-level testing for dialog.account.AddContainer")
 public class AddContainerTest extends AbstractAccountContainerTest {
     private final static AddStartDialog addStartDialogMock = Mockito.mock(AddStartDialog.class);
     private final static AddConfirmDialog addConfirmDialogMock = Mockito.mock(AddConfirmDialog.class);

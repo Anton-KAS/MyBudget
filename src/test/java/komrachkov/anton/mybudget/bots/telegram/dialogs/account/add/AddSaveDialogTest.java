@@ -8,13 +8,14 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
 import org.mockito.Mockito;
 
 /**
+ * Unit-tests for {@link AddSaveDialog}
  * @author Anton Komrachkov
  * @since 0.2
  */
 
-@DisplayName("Unit-level testing for AddAccountSaveDialog")
+@DisplayName("Unit-level testing for dialog.account.AddSaveDialog")
 public class AddSaveDialogTest extends AbstractSaveDialogTest {
-    private final static SaveKeyboard saveKeyboardMock = Mockito.mock(SaveKeyboard.class);
+    private final SaveKeyboard saveKeyboardMock = Mockito.mock(SaveKeyboard.class);
 
     @Override
     protected Dialog getCommand() {

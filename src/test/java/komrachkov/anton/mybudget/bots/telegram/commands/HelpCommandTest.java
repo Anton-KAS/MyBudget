@@ -11,14 +11,15 @@ import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
 import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.HELP;
 
 /**
+ * Unit-tests for {@link HelpCommand}
  * @since 0.2
  * @author Anton Komrachkov
  */
 
-@DisplayName("Unit-level testing for HelpCommand")
+@DisplayName("Unit-level testing for commands.HelpCommand")
 public class HelpCommandTest extends AbstractCommandControllerTest {
-    private final static HelpText helpTextMock = Mockito.mock(HelpText.class);
-    private final static HelpKeyboard helpKeyboardMock = Mockito.mock(HelpKeyboard.class);
+    private final HelpText helpTextMock = Mockito.mock(HelpText.class);
+    private final HelpKeyboard helpKeyboardMock = Mockito.mock(HelpKeyboard.class);
 
     @Override
     protected String getCommandName() {
@@ -32,6 +33,6 @@ public class HelpCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(HelpText.class);
+        return helpTextMock;
     }
 }
