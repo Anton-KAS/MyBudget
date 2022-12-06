@@ -48,6 +48,7 @@ public abstract class AccountDialog extends MainDialogImpl {
         skipNextStep(update);
         updateStepsInDialogMap();
 
+        System.out.println("EXECUTE: lastStep: " + lastStep + " | " + AccountNames.values()[lastStep].getName());
         return toDoList.addAll(dialogContainer.retrieve(AccountNames.values()[lastStep].getName()).execute(update));
     }
 
@@ -94,6 +95,7 @@ public abstract class AccountDialog extends MainDialogImpl {
         }
 
         ToDoList toDoList = dialogContainer.retrieve(AccountNames.values()[currentStep].getName()).commit(update);
+        System.out.println("COMMIT: currentStep: " + currentStep + " | " + AccountNames.values()[currentStep].getName());
         if (toDoList.isResultCommit()) {
             Optional<String> lastStepOpt = DialogsState.getByStepId(chatId, LAST_STEP.getId());
             if (lastStepOpt.isEmpty()) return toDoList;

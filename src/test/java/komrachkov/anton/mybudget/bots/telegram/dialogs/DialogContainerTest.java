@@ -1,6 +1,7 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddAccountDialog;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddAccountDialogTest;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.edit.EditAccountDialog;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
