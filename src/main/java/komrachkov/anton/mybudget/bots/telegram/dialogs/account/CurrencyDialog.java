@@ -1,14 +1,16 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogImpl;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
-import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
+import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.models.Currency;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.CurrenciesKeyboard;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.services.CurrencyService;
 
@@ -24,42 +26,46 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefa
  * @since 0.2
  */
 
+@Component
+@Scope("prototype")
 public class CurrencyDialog extends DialogImpl {
     private final CurrencyService currencyService;
     private final static int PAGE_INDEX = 5;
     private final static String ASK_TEXT = "Выберете валюту счета:";
-    private final CurrenciesKeyboard currenciesKeyboard = (CurrenciesKeyboard) keyboard;
+    private final CurrenciesKeyboard currenciesKeyboard;
 
-    public CurrencyDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                          MessageText messageText, Keyboard keyboard,
+    @Autowired
+    public CurrencyDialog(TelegramUserService telegramUserService, AccountDialogText messageText, CurrenciesKeyboard keyboard,
                           CurrencyService currencyService) {
-        super(botMessageService, telegramUserService, messageText, keyboard, ASK_TEXT);
+        super(telegramUserService, messageText, keyboard, ASK_TEXT);
+        this.currenciesKeyboard = keyboard;
         this.currencyService = currencyService;
     }
 
     @Override
-    public void executeByOrder(Update update, ExecuteMode executeMode) {
-        this.userId = UpdateParameter.getUserId(update);
+    public ToDoList execute(Update update, ExecuteMode executeMode) {
         setKeyboardPage(update);
-        setKeyboardServices();
+        currenciesKeyboard.setUserId(UpdateParameter.getUserId(update));
 
+        ToDoList toDoList = new ToDoList();
         String searchWord = UpdateParameter.getMessageText(update);
         if (!update.hasCallbackQuery() && !searchWord.contains(COMMAND_PREFIX)) {
             text = messageText.setChatId(UpdateParameter.getChatId(update)).getText();
             inlineKeyboardMarkup = currenciesKeyboard.getKeyboard(searchWord.toLowerCase());
-            executeData(update, ExecuteMode.SEND);
-        } else super.executeByOrder(update, executeMode);
+            toDoList.addToDo(executeMode, update, text, inlineKeyboardMarkup);
+            return toDoList;
+        } else return super.execute(update, executeMode);
     }
 
     @Override
-    public boolean commit(Update update) {
-        this.userId = UpdateParameter.getUserId(update);
-        this.chatId = UpdateParameter.getUserId(update);
+    public ToDoList commit(Update update) {
+        long chatId = UpdateParameter.getUserId(update);
+        ToDoList toDoList = new ToDoList();
 
         if (update.hasMessage() && !update.hasCallbackQuery()) {
             String searchWord = UpdateParameter.getMessageText(update);
             if (searchWord.length() != 0) {
-                return false;
+                return toDoList;
             }
         }
 
@@ -68,21 +74,23 @@ public class CurrencyDialog extends DialogImpl {
                 (update.hasCallbackQuery() &&
                         callbackData.length > PAGE_INDEX &&
                         callbackData[PAGE_INDEX - 1].equals(PAGE.getId())))
-            return false;
+            return toDoList;
 
         int currencyId;
         if (callbackData.length > OPERATION_DATA.ordinal())
             currencyId = Integer.parseInt(callbackData[OPERATION_DATA.ordinal()]);
-        else return false;
+        else return toDoList;
 
         Optional<Currency> currency = currencyService.findById(currencyId);
-        if (currency.isEmpty()) return false;
+        if (currency.isEmpty()) return toDoList;
 
         String text = String.format(CURRENCY.getStepTextPattern(),
                 "%s", currency.get().getSymbol() + " - " + currency.get().getCurrencyRu());
 
         addToDialogMap(chatId, CURRENCY, String.valueOf(currencyId), text);
-        return true;
+
+        toDoList.setResultCommit(true);
+        return toDoList;
     }
 
     private void setKeyboardPage(Update update) {
@@ -95,11 +103,5 @@ public class CurrencyDialog extends DialogImpl {
             page = 1;
         }
         currenciesKeyboard.setPage(page);
-    }
-
-    private void setKeyboardServices() {
-        currenciesKeyboard.setUserId(userId);
-        currenciesKeyboard.setTelegramUserService(telegramUserService);
-        currenciesKeyboard.setCurrencyService(currencyService);
     }
 }

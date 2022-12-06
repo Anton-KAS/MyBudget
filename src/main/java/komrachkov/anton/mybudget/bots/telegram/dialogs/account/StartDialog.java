@@ -5,11 +5,10 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogImpl;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.bots.telegram.util.ResponseWaitingMap;
+import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -24,50 +23,38 @@ import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImp
  */
 
 public abstract class StartDialog extends DialogImpl {
-    protected final DialogNamesImpl dialogName;
     protected String[] callbackData;
 
-    public StartDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                       MessageText messageText, Keyboard keyboard, DialogNamesImpl dialogName) {
-        super(botMessageService, telegramUserService, messageText, keyboard, null);
-        this.dialogName = dialogName;
+    public StartDialog(TelegramUserService telegramUserService, AccountDialogText messageText) {
+        super(telegramUserService, messageText, null, null);
     }
 
     @Override
-    public void execute(Update update) {
+    public ToDoList execute(Update update, ExecuteMode executeMode) {
+        return new ToDoList();
     }
 
-    @Override
-    public void execute(Update update, ExecuteMode executeMode) {
-    }
 
     @Override
-    public void executeByOrder(Update update, ExecuteMode executeMode) {
-    }
-
-    @Override
-    public void setData(Update update) {
-    }
-
-    @Override
-    public void executeData(Update update, ExecuteMode executeMode) {
-    }
-
-    @Override
-    public boolean commit(Update update) {
-        this.chatId = UpdateParameter.getChatId(update);
+    public ToDoList commit(Update update) {
+        long chatId = UpdateParameter.getChatId(update);
         DialogsState.removeAllDialogs(chatId);
         this.callbackData = UpdateParameter.getCallbackData(update).orElse(null);
 
-        if (callbackData == null) return false;
-        var dialogSteps = new HashMap<String, String>();
-        if (callbackData.length <= CallbackIndex.FROM.ordinal()) return false;
+        ToDoList toDoList = new ToDoList();
+        if (callbackData == null) return toDoList;
 
-        dialogSteps.put(DialogMapDefaultName.DIALOG_ID.getId(), dialogName.getName());
+        var dialogSteps = new HashMap<String, String>();
+        if (callbackData.length <= CallbackIndex.FROM.ordinal()) return toDoList;
+
+        if (dialogName == null) return toDoList;
+        dialogSteps.put(DialogMapDefaultName.DIALOG_ID.getId(), dialogName);
         dialogSteps.put(DialogMapDefaultName.START_FROM_ID.getId(), callbackData[CallbackIndex.FROM.ordinal()]);
 
         DialogsState.putDialogStateMap(chatId, ACCOUNT, dialogSteps);
         ResponseWaitingMap.put(chatId, DialogNamesImpl.ADD_ACCOUNT);
-        return true;
+
+        toDoList.setResultCommit(true);
+        return toDoList;
     }
 }

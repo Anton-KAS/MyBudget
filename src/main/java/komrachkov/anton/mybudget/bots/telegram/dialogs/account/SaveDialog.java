@@ -4,13 +4,9 @@ import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogImpl;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
-import komrachkov.anton.mybudget.bots.telegram.util.CommandNames;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
-import komrachkov.anton.mybudget.bots.telegram.util.ResponseWaitingMap;
-import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.util.DialogKeyboard;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
+import komrachkov.anton.mybudget.bots.telegram.util.*;
 import komrachkov.anton.mybudget.models.Bank;
 import komrachkov.anton.mybudget.services.*;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -33,13 +29,11 @@ public abstract class SaveDialog extends DialogImpl {
     protected final AccountTypeService accountTypeService;
     protected final BankService bankService;
     protected final AccountService accountService;
-    //protected Map<String, String> dialogMap;
 
-    public SaveDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                      MessageText messageText, Keyboard keyboard,
+    public SaveDialog(TelegramUserService telegramUserService, AccountDialogText messageText, DialogKeyboard keyboard,
                       CallbackContainer callbackContainer, AccountTypeService accountTypeService,
                       CurrencyService currencyService, BankService bankService, AccountService accountService) {
-        super(botMessageService, telegramUserService, messageText, keyboard, null);
+        super(telegramUserService, messageText, keyboard, null);
         this.callbackContainer = callbackContainer;
         this.currencyService = currencyService;
         this.accountTypeService = accountTypeService;
@@ -47,17 +41,12 @@ public abstract class SaveDialog extends DialogImpl {
         this.accountService = accountService;
     }
 
-    public void setData(Update update) {
-        this.userId = UpdateParameter.getUserId(update);
-        this.chatId = UpdateParameter.getChatId(update);
-        //this.dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
-    }
-
     @Override
-    public void executeData(Update update, ExecuteMode executeMode) {
-        botMessageService.sendPopup(UpdateParameter.getCallbackQueryId(update).orElse(null),
-                messageText.setChatId(UpdateParameter.getChatId(update)).getText());
+    public ToDoList execute(Update update, ExecuteMode executeMode) {
+        ToDoList toDoList = new ToDoList();
+        toDoList.addToDo(ExecuteMode.POPUP, update, messageText.setChatId(UpdateParameter.getChatId(update)).getText());
 
+        long chatId = UpdateParameter.getChatId(update);
         Optional<String> stepId = DialogsState.getDialogStepById(chatId, DialogMapDefaultName.START_FROM_CALLBACK.getId());
         stepId.ifPresent(s -> update.getCallbackQuery().setData(s));
 
@@ -70,21 +59,21 @@ public abstract class SaveDialog extends DialogImpl {
         if (dialogCommandName.isPresent()) {
             ResponseWaitingMap.put(chatId, dialogCommandName.get());
             Optional<CommandNames> commandNameOpt = DialogsState.getCommandName(chatId);
-            commandNameOpt.ifPresent(s -> callbackContainer.retrieve(s.getName()).execute(update, ExecuteMode.SEND));
+            commandNameOpt.ifPresent(s -> toDoList.addAll(callbackContainer.retrieve(s.getName()).execute(update, ExecuteMode.SEND)));
         } else {
-            fromStartIdOpt.ifPresent(s -> callbackContainer.retrieve(s).execute(update, ExecuteMode.SEND));
+            fromStartIdOpt.ifPresent(s -> toDoList.addAll(callbackContainer.retrieve(s).execute(update, ExecuteMode.SEND)));
         }
-
+        return toDoList;
     }
 
-    protected Bank getBank() {
+    protected Bank getBank(long chatId) {
         Optional<String> bankOpt = DialogsState.getByStepId(chatId, BANK.getName());
         if (bankOpt.isPresent() && bankService.findById(Integer.parseInt(bankOpt.get())).isPresent())
             return bankService.findById(Integer.parseInt(bankOpt.get())).get();
         else return null;
     }
 
-    public BigDecimal getStartBalance() {
+    public BigDecimal getStartBalance(long chatId) {
         Optional<String> startBalanceOpt = DialogsState.getByStepId(chatId, START_BALANCE.getName());
         if (startBalanceOpt.isEmpty()) return new BigDecimal(0);
         return new BigDecimal(startBalanceOpt.get());

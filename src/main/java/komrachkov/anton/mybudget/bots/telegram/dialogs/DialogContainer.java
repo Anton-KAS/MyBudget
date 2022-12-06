@@ -1,51 +1,40 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs;
 
 import com.google.common.collect.ImmutableMap;
-import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountDialog;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddContainer;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.account.edit.EditContainer;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.account.add.AddAccountDialog;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.account.edit.EditAccountDialog;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
 import komrachkov.anton.mybudget.bots.telegram.util.Container;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
-import komrachkov.anton.mybudget.services.*;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.callback.NoKeyboard;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.texts.callback.NoText;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import static komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl.*;
 
 /**
  * @author Anton Komrachkov
  * @since 0.2
  */
 
+@Component
 public class DialogContainer implements Container {
     private final ImmutableMap<String, CommandController> dialogMap;
     private final CommandController unknownDialog;
 
-    public DialogContainer(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                           CallbackContainer callbackContainer, AccountTypeService accountTypeService,
-                           CurrencyService currencyService, BankService bankService, AccountService accountService) {
+    @Autowired
+    public DialogContainer(UnknownDialog unknownDialog, DeleteConfirmDialog deleteConfirmDialog,
+                           DeleteExecuteDialog deleteExecuteDialog, AddAccountDialog addAccountDialog,
+                           EditAccountDialog editAccountDialog, CancelDialog cancelDialog) {
 
-        AddContainer addContainer = new AddContainer(botMessageService, telegramUserService,
-                callbackContainer, accountTypeService, currencyService, bankService, accountService);
-
-        EditContainer editContainer = new EditContainer(botMessageService, telegramUserService,
-                callbackContainer, accountTypeService, currencyService, bankService, accountService);
+        this.unknownDialog = unknownDialog;
 
         dialogMap = ImmutableMap.<String, CommandController>builder()
-                .put(DialogNamesImpl.ADD_ACCOUNT.getName(),
-                        new AccountDialog(botMessageService, telegramUserService, addContainer))
-                .put(DialogNamesImpl.EDIT_ACCOUNT.getName(),
-                        new AccountDialog(botMessageService, telegramUserService, editContainer))
-                .put(DialogNamesImpl.DELETE_CONFIRM.getName(),
-                        new DeleteConfirmDialog(botMessageService, telegramUserService))
-                .put(DialogNamesImpl.DELETE_EXECUTE.getName(),
-                        new DeleteExecuteDialog(botMessageService, telegramUserService, callbackContainer, accountService))
+                .put(DELETE_CONFIRM.getName(), deleteConfirmDialog)
+                .put(DELETE_EXECUTE.getName(), deleteExecuteDialog)
+                .put(ADD_ACCOUNT.getName(), addAccountDialog)
+                .put(EDIT_ACCOUNT.getName(), editAccountDialog)
+                .put(CANCEL_DIALOG.getName(), cancelDialog)
                 .build();
 
-        unknownDialog = new UnknownDialog(botMessageService, telegramUserService, ExecuteMode.SEND,
-                new NoText(), new NoKeyboard());
-        //TODO: Execute command подумать, может задавать автоматически
     }
 
     @Override

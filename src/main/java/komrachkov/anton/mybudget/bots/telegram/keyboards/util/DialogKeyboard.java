@@ -8,4 +8,5 @@ package komrachkov.anton.mybudget.bots.telegram.keyboards.util;
 public interface DialogKeyboard extends Keyboard {
     Keyboard setUserId(long userId);
 
+    Keyboard setDialogName(String dialogName);
 }

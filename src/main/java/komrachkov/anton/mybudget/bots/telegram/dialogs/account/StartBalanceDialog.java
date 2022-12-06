@@ -2,15 +2,18 @@ package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogImpl;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogPattern;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
-import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.StartBalanceKeyboard;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
+import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.models.Currency;
 import komrachkov.anton.mybudget.services.CurrencyService;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
 import java.math.BigDecimal;
@@ -24,40 +27,44 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNam
  * @since 0.2
  */
 
+@Component
+@Scope("prototype")
 public class StartBalanceDialog extends DialogImpl {
     protected final CurrencyService currencyService;
     protected final static String ASK_TEXT = "Введите текущий баланс счета:";
     public final static String VERIFY_EXCEPTION_TEXT = "Введите только одно число";
     protected final static String DEFAULT_BALANCE_TEXT = "0.0";
 
-    public StartBalanceDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                              MessageText messageText, Keyboard keyboard, CurrencyService currencyService) {
-        super(botMessageService, telegramUserService, messageText, keyboard, ASK_TEXT);
+    @Autowired
+    public StartBalanceDialog(TelegramUserService telegramUserService, AccountDialogText messageText, StartBalanceKeyboard keyboard,
+                              CurrencyService currencyService) {
+        super(telegramUserService, messageText, keyboard, ASK_TEXT);
         this.currencyService = currencyService;
     }
 
     @Override
-    public boolean commit(Update update) {
-        this.userId = UpdateParameter.getUserId(update);
-        this.chatId = UpdateParameter.getChatId(update);
-        String receivedText = UpdateParameter.getMessageText(update);
+    public ToDoList commit(Update update) {
+        ToDoList toDoList = new ToDoList();
 
+        String receivedText = UpdateParameter.getMessageText(update);
         if (update.hasCallbackQuery() || !receivedText.matches(DialogPattern.CURRENCY_AMOUNT.getRegex())) {
-            botMessageService.executeAndUpdateUser(telegramUserService, update, ExecuteMode.SEND,
-                    VERIFY_EXCEPTION_TEXT, null);
-            return false;
+            toDoList.addToDo(ExecuteMode.SEND, update, VERIFY_EXCEPTION_TEXT);
+            return toDoList;
         }
 
+        long chatId = UpdateParameter.getChatId(update);
         BigDecimal startBalance = getStartBalance(receivedText, chatId);
 
         addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
                 String.format(START_BALANCE.getStepTextPattern(), "%s", startBalance));
-        return true;
+
+        toDoList.setResultCommit(true);
+        return toDoList;
     }
 
     @Override
-    public void skip(Update update) {
-        this.chatId = UpdateParameter.getChatId(update);
+    public ToDoList skip(Update update) {
+        long chatId = UpdateParameter.getChatId(update);
         BigDecimal startBalance = getStartBalance(DEFAULT_BALANCE_TEXT, chatId);
 
         Optional<String> startBalanceOpt = DialogsState.getByStepId(chatId, START_BALANCE.getName());
@@ -66,6 +73,7 @@ public class StartBalanceDialog extends DialogImpl {
             addToDialogMap(chatId, START_BALANCE, startBalance.toString(),
                     String.format(START_BALANCE.getStepTextPattern(), "%s", startBalance));
         }
+        return new ToDoList();
     }
 
     private BigDecimal getStartBalance(String text, long chatId) {

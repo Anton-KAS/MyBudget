@@ -1,19 +1,19 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.account.edit;
 
 import komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackIndex;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
-import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
 import komrachkov.anton.mybudget.bots.telegram.util.ResponseWaitingMap;
+import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
+import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.models.Account;
 import komrachkov.anton.mybudget.models.Bank;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.StartDialog;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.services.AccountService;
 
 import java.util.Optional;
@@ -30,33 +30,31 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNam
  * @since 0.2
  */
 
+@Component
 public class EditStartDialog extends StartDialog {
     private final AccountService accountService;
 
-    public EditStartDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                           MessageText messageText, Keyboard keyboard, DialogNamesImpl dialogName,
+    @Autowired
+    public EditStartDialog(TelegramUserService telegramUserService, AccountDialogText messageText,
                            AccountService accountService) {
-        super(botMessageService, telegramUserService, messageText, keyboard, dialogName);
+        super(telegramUserService, messageText);
         this.accountService = accountService;
     }
 
     @Override
-    public void executeByOrder(Update update, ExecuteMode executeMode) {
-    }
+    public ToDoList commit(Update update) {
+        ToDoList toDoList = super.commit(update);
+        if (!toDoList.isResultCommit()) return toDoList;
+        toDoList.setResultCommit(false);
 
-    @Override
-    public boolean commit(Update update) {
-        if (!super.commit(update)) return false;
+        long chatId = UpdateParameter.getChatId(update);
+        if (!DialogsState.hasDialogs(chatId)) return toDoList;
 
-//        Map<String, String> dialogMap = DialogsState.getDialogStateMap(chatId).orElse(null);
-//        if (dialogMap == null) return false;
-        if (!DialogsState.hasDialogs(chatId)) return false;
-
-        if (callbackData.length <= CallbackIndex.OPERATION_DATA.ordinal()) return false;
+        if (callbackData.length <= CallbackIndex.OPERATION_DATA.ordinal()) return toDoList;
 
         int accountId = Integer.parseInt(callbackData[CallbackIndex.OPERATION_DATA.ordinal()]);
         Account account = accountService.findById(accountId).orElse(null);
-        if (account == null) return false;
+        if (account == null) return toDoList;
 
         DialogsState.put(chatId, START_FROM_CALLBACK.getId(),
                 String.format("%s_%s_%s_%s_%s", NORMAL.getId(), ACCOUNTS.getName(), ACCOUNT.getName(), "show", accountId));
@@ -77,7 +75,7 @@ public class EditStartDialog extends StartDialog {
         if (account.getDescription() == null) description = "";
         else description = account.getDescription();
 
-        fillDataToDialogMap(account, description, bankId, bankText);
+        fillDataToDialogMap(chatId, account, description, bankId, bankText);
 
         for (int i = START.ordinal() + 1; i < CONFIRM.ordinal(); i++) {
             String stepIdText = AccountNames.values()[i].getStepIdText();
@@ -87,10 +85,12 @@ public class EditStartDialog extends StartDialog {
             }
         }
         ResponseWaitingMap.put(chatId, EDIT_ACCOUNT);
-        return true;
+
+        toDoList.setResultCommit(true);
+        return toDoList;
     }
 
-    private void fillDataToDialogMap(Account account, String description, String bankId, String bankText) {
+    private void fillDataToDialogMap(long chatId, Account account, String description, String bankId, String bankText) {
         addToDialogMap(chatId, TYPE, String.valueOf(account.getAccountType().getId()),
                 String.format(TYPE.getStepTextPattern(), "%s", account.getAccountType().getTitleRu()));
 

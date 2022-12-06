@@ -4,13 +4,14 @@ import komrachkov.anton.mybudget.bots.telegram.bot.TelegramBot;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackIndex;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackOperator;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.*;
+import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
+import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogStepsContainer;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
-import komrachkov.anton.mybudget.bots.telegram.dialogs.util.MainDialogImpl;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.MainDialogImpl;
 
 import java.util.Optional;
 
@@ -24,31 +25,31 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefa
  * @since 0.2
  */
 
-public class AccountDialog extends MainDialogImpl {
+public abstract class AccountDialog extends MainDialogImpl {
     private final DialogStepsContainer dialogContainer;
     private long chatId;
     private Integer currentStep;
     private int lastStep;
 
-    public AccountDialog(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                         DialogStepsContainer dialogContainer) {
-        super(botMessageService, telegramUserService);
+    public AccountDialog(TelegramUserService telegramUserService, DialogStepsContainer dialogContainer) {
+        super(telegramUserService);
         this.dialogContainer = dialogContainer;
     }
 
     @Override
-    public void execute(Update update) {
+    public ToDoList execute(Update update, ExecuteMode executeMode) {
         this.chatId = UpdateParameter.getChatId(update);
 
         System.out.println("DIALOG MAP: " + DialogsState.stateToString(chatId)); // TODO: Add project logger
 
         getStepNums(update);
         checkDialogCommand(update);
-        skipOrCommitStep(update);
+        ToDoList toDoList = skipOrCommitStep(update);
         skipNextStep(update);
         updateStepsInDialogMap();
 
-        dialogContainer.retrieve(AccountNames.values()[lastStep].getName()).execute(update);
+        System.out.println("EXECUTE: lastStep: " + lastStep + " | " + AccountNames.values()[lastStep].getName());
+        return toDoList.addAll(dialogContainer.retrieve(AccountNames.values()[lastStep].getName()).execute(update));
     }
 
     private void getStepNums(Update update) {
@@ -81,28 +82,29 @@ public class AccountDialog extends MainDialogImpl {
         }
     }
 
-    private void skipOrCommitStep(Update update) {
-        if (currentStep == null) return;
+    private ToDoList skipOrCommitStep(Update update) {
+        if (currentStep == null) return new ToDoList();
 
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
         if (update.hasCallbackQuery() && callbackData != null &&
                 callbackData.length > CallbackIndex.OPERATION_DATA.ordinal() &&
                 callbackData[CallbackIndex.OPERATION_DATA.ordinal()].equals(DialogMapDefaultName.NEXT.getId())) {
 
-            dialogContainer.retrieve(AccountNames.values()[currentStep].getName()).skip(update);
             getNextStepNum(update);
-            return;
+            return dialogContainer.retrieve(AccountNames.values()[currentStep].getName()).skip(update);
         }
 
-        boolean result = dialogContainer.retrieve(AccountNames.values()[currentStep].getName()).commit(update);
-        if (result) {
+        ToDoList toDoList = dialogContainer.retrieve(AccountNames.values()[currentStep].getName()).commit(update);
+        System.out.println("COMMIT: currentStep: " + currentStep + " | " + AccountNames.values()[currentStep].getName());
+        if (toDoList.isResultCommit()) {
             Optional<String> lastStepOpt = DialogsState.getByStepId(chatId, LAST_STEP.getId());
-            if (lastStepOpt.isEmpty()) return;
+            if (lastStepOpt.isEmpty()) return toDoList;
             lastStep = Integer.parseInt(lastStepOpt.get());
             getNextStepNum(update);
         } else {
             lastStep = currentStep;
         }
+        return toDoList;
     }
 
     private void skipNextStep(Update update) {

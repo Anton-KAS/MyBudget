@@ -1,6 +1,7 @@
 package komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs;
 
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
@@ -14,6 +15,7 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefa
  * @since 0.2
  */
 
+@Component
 public class DeleteConfirmDialogKeyboard implements Keyboard {
     private Update update;
 

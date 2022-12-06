@@ -6,7 +6,7 @@ import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.BanksKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
-import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
 import komrachkov.anton.mybudget.models.Bank;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,12 +56,12 @@ public class BankDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public Dialog getCommand() {
-        return new BankDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardBankMock, bankServiceMock);
+        return new BankDialog(telegramUserServiceMock, accountTextMock, keyboardBankMock, bankServiceMock);
     }
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AccountText.class);
+        return accountTextMock;
     }
 
     @Override
@@ -76,11 +76,10 @@ public class BankDialogTest extends AbstractAccountDialogTest {
         int times = expected ? 1 : 0;
 
         //when
-        boolean result = getCommand().commit(update);
+        boolean result = getCommand().commit(update).isResultCommit();
 
         //then
         assertEquals(expected, result);
-//        Mockito.verify(telegramUserServiceMock, Mockito.times(times)).checkUser(telegramUserServiceMock, update);
     }
 
     public static Stream<Arguments> sourceBankCommit() {

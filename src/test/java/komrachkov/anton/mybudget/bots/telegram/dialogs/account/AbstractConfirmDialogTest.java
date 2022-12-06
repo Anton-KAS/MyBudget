@@ -2,8 +2,6 @@ package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
-import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountText;
-import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.CONFIRM;
@@ -26,7 +24,7 @@ public abstract class AbstractConfirmDialogTest extends AbstractAccountDialogTes
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AccountText.class);
+        return accountTextMock;
     }
 
     @Override

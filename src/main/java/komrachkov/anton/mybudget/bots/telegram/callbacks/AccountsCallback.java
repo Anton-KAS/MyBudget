@@ -1,15 +1,14 @@
 package komrachkov.anton.mybudget.bots.telegram.callbacks;
 
 import komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
-import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
-import komrachkov.anton.mybudget.bots.telegram.util.ResponseWaitingMap;
-import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.callback.AccountsKeyboard;
+import komrachkov.anton.mybudget.bots.telegram.texts.callback.AccountsText;
+import komrachkov.anton.mybudget.bots.telegram.util.*;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.util.CommandControllerImpl;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl.ACCOUNT;
 
@@ -23,16 +22,19 @@ import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImp
  * @since 0.2
  */
 
+@Component
+@Scope("prototype")
 public class AccountsCallback extends CommandControllerImpl {
 
-    public AccountsCallback(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                            ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
-        super(botMessageService, telegramUserService, defaultExecuteMode, messageText, keyboard);
+    @Autowired
+    public AccountsCallback(TelegramUserService telegramUserService, AccountsText messageText, AccountsKeyboard keyboard) {
+        super(telegramUserService, messageText, keyboard);
     }
 
     @Override
-    public void executeByOrder(Update update, ExecuteMode executeMode) {
-        super.executeByOrder(update, executeMode);
+    public ToDoList execute(Update update, ExecuteMode executeMode) {
+        ToDoList toDoList = super.execute(update, executeMode);
         ResponseWaitingMap.put(UpdateParameter.getChatId(update), ACCOUNT);
+        return toDoList;
     }
 }

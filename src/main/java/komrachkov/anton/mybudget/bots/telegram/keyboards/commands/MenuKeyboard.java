@@ -2,6 +2,7 @@ package komrachkov.anton.mybudget.bots.telegram.keyboards.commands;
 
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImpl;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackType;
@@ -11,6 +12,7 @@ import komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackType;
  * @since 0.2
  */
 
+@Component
 public class MenuKeyboard implements Keyboard {
     public final String FROM = "menu";
     public final String ACCOUNTS_BUTTON_TEXT = "Счета";

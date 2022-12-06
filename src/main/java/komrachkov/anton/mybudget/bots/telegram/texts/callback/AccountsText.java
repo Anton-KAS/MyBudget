@@ -4,6 +4,8 @@ import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.models.Account;
 import komrachkov.anton.mybudget.models.TelegramUser;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,7 @@ import java.util.Optional;
  * @since 0.2
  */
 
+@Component
 public class AccountsText implements MessageText {
     private final TelegramUserService telegramUserService;
     private Long userId;
@@ -24,6 +27,7 @@ public class AccountsText implements MessageText {
 
     private final static String TEXT_TOTAL = "\n\n<b>Общий баланс: <i>%s</i></b>";
 
+    @Autowired
     public AccountsText(TelegramUserService telegramUserService) {
         this.telegramUserService = telegramUserService;
     }

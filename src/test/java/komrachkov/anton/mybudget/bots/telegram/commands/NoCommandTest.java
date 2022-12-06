@@ -1,21 +1,26 @@
 package komrachkov.anton.mybudget.bots.telegram.commands;
 
+import komrachkov.anton.mybudget.bots.telegram.keyboards.NoKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import org.junit.jupiter.api.DisplayName;
 import org.mockito.Mockito;
-import komrachkov.anton.mybudget.bots.telegram.texts.commands.NoText;
+import komrachkov.anton.mybudget.bots.telegram.texts.NoText;
 import komrachkov.anton.mybudget.bots.telegram.util.AbstractCommandControllerTest;
 import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
 
 import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.NO;
 
 /**
+ * Unit-tests for {@link NoCommand}
  * @since 0.2
  * @author Anton Komrachkov
  */
 
-@DisplayName("Unit-level testing for NoCommand")
+@DisplayName("Unit-level testing for commands.NoCommand")
 public class NoCommandTest extends AbstractCommandControllerTest {
+    private final NoText noTextMock = Mockito.mock(NoText.class);
+    private final NoKeyboard noKeyboardMock = Mockito.mock(NoKeyboard.class);
+
     @Override
     protected String getCommandName() {
         return NO.getName();
@@ -23,11 +28,11 @@ public class NoCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new NoCommand(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
+        return new NoCommand(telegramUserServiceMock, noTextMock, noKeyboardMock);
     }
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(NoText.class);
+        return noTextMock;
     }
 }

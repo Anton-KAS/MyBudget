@@ -2,13 +2,13 @@ package komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account;
 
 import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.DialogKeyboardImpl;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.InlineKeyboardBuilder;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import komrachkov.anton.mybudget.models.Account;
 import komrachkov.anton.mybudget.models.Currency;
 import komrachkov.anton.mybudget.models.TelegramUser;
 import komrachkov.anton.mybudget.services.CurrencyService;
 import komrachkov.anton.mybudget.services.TelegramUserService;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.*;
@@ -21,16 +21,19 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl.*;
  * @since 0.2
  */
 
+@Component
+@Scope("prototype")
 public class CurrenciesKeyboard extends DialogKeyboardImpl {
-    private CurrencyService currencyService;
-    private TelegramUserService telegramUserService;
+    private final CurrencyService currencyService;
+    private final TelegramUserService telegramUserService;
     private int page;
     private final static int NUM_IN_PAGE = 5;
     private final static String TEXT_BUTTON_PATTERN = "%s - %s";
 
-    public CurrenciesKeyboard(String currentDialogName) {
-        super(currentDialogName);
-        this.callbackPattern = String.format(callbackPattern, CURRENCY.getName(), "%s");
+    public CurrenciesKeyboard(TelegramUserService telegramUserService, CurrencyService currencyService) {
+        super();
+        this.telegramUserService = telegramUserService;
+        this.currencyService = currencyService;
     }
 
     @Override
@@ -98,6 +101,8 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
      * @since 0.4 (2.12.2022)
      */
     private InlineKeyboardBuilder getKeyboardForPage(List<Currency> currencies) {
+        String callbackFormat = String.format(CALLBACK_FORMAT, currentDialogName, currentDialogName, CURRENCY.getName(), "%s");
+
         page = Math.max(page, 1);
         InlineKeyboardBuilder inlineKeyboardBuilder = new InlineKeyboardBuilder();
 
@@ -106,7 +111,7 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
             Currency currency = currencies.get(i);
             inlineKeyboardBuilder.addRow()
                     .addButton(String.format(TEXT_BUTTON_PATTERN, currency.getSymbol(), currency.getCurrencyRu()),
-                            String.format(callbackPattern, currency.getId()));
+                            String.format(callbackFormat, currency.getId()));
         }
         return inlineKeyboardBuilder;
     }
@@ -129,14 +134,6 @@ public class CurrenciesKeyboard extends DialogKeyboardImpl {
         else if (page > 1) inlineKeyboardBuilder.addEmptyButton();
 
         return inlineKeyboardBuilder;
-    }
-
-    public void setCurrencyService(CurrencyService currencyService) {
-        this.currencyService = currencyService;
-    }
-
-    public void setTelegramUserService(TelegramUserService telegramUserService) {
-        this.telegramUserService = telegramUserService;
     }
 
     public void setPage(int page) {

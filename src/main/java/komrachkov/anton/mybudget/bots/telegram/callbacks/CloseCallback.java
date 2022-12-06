@@ -1,14 +1,9 @@
 package komrachkov.anton.mybudget.bots.telegram.callbacks;
 
-import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
-import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
+import komrachkov.anton.mybudget.bots.telegram.util.*;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
-import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
-import komrachkov.anton.mybudget.bots.telegram.util.CommandControllerImpl;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
-import komrachkov.anton.mybudget.bots.telegram.util.ResponseWaitingMap;
 
 /**
  * Закрытие текущего окна меню (удаление сообщения с меню)
@@ -17,18 +12,29 @@ import komrachkov.anton.mybudget.bots.telegram.util.ResponseWaitingMap;
  * @since 0.2
  */
 
+@Component
 public class CloseCallback extends CommandControllerImpl {
 
-    public CloseCallback(BotMessageService botMessageService, TelegramUserService telegramUserService,
-                         ExecuteMode defaultExecuteMode, MessageText messageText, Keyboard keyboard) {
-        super(botMessageService, telegramUserService, defaultExecuteMode, messageText, keyboard);
+    public CloseCallback(TelegramUserService telegramUserService) {
+        super(telegramUserService, null, null);
+    }
+
+    /**
+     * @author Anton Komrachkov
+     * @since 0.4 (04.12.2022)
+     */
+    @Override
+    public void setDefaultExecuteMode(Update update) {
+        this.defaultExecuteMode = ExecuteMode.getCallbackExecuteMode();
     }
 
     @Override
-    protected void executeData(Update update, ExecuteMode executeMode) {
+    public ToDoList execute(Update update, ExecuteMode executeMode) {
         long chatId = UpdateParameter.getChatId(update);
-        botMessageService.deleteMessage(chatId, UpdateParameter.getMessageId(update));
-        botMessageService.updateUser(telegramUserService, update);
         ResponseWaitingMap.remove(chatId);
+
+        ToDoList toDoList = new ToDoList();
+        toDoList.addToDo(ExecuteMode.DELETE, update);
+        return toDoList;
     }
 }

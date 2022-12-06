@@ -10,10 +10,9 @@ import static komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackNamesImp
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackOperator.*;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackType.DIALOG;
 import static komrachkov.anton.mybudget.bots.telegram.callbacks.util.CallbackType.NORMAL;
+import static komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl.*;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName.NEXT;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogMapDefaultName.PAGE;
-import static komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl.DELETE_CONFIRM;
-import static komrachkov.anton.mybudget.bots.telegram.dialogs.DialogNamesImpl.DELETE_EXECUTE;
 
 /**
  * @author Anton Komrachkov
@@ -91,7 +90,7 @@ public class InlineKeyboardBuilder {
     public InlineKeyboardBuilder addCancelDialogButton(String from) {
         String buttonText = "⛔️  Отменить";
         String buttonCallback = String.format(EASY_MOVING_CALLBACK_PATTERN,
-                NORMAL.getId(), from, CANCEL_DIALOG.getName());
+                DIALOG.getId(), from, CANCEL_DIALOG.getName());
         addButton(buttonText, buttonCallback);
         return this;
     }

@@ -1,6 +1,7 @@
 package komrachkov.anton.mybudget.bots.telegram.texts.commands;
 
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import org.springframework.stereotype.Component;
 
 import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.*;
 import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.STAT;
@@ -10,6 +11,7 @@ import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.
  * @since 0.2
  */
 
+@Component
 public class HelpText implements MessageText {
 
     @Override

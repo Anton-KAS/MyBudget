@@ -49,7 +49,7 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     @MethodSource("sourceCommit")
     public void shouldReturnTrueByExecuteCommit(Update update) {
         //when
-        boolean result = getCommand().commit(update);
+        boolean result = getCommand().commit(update).isResultCommit();
 
         //then
         assertTrue(result);
@@ -88,7 +88,7 @@ public abstract class AbstractDialogImplTest extends AbstractCommandControllerTe
     @MethodSource("sourceGetExecuteMode")
     public void shouldProperlyGetExecuteMode(Update update, Integer dialogStep, ExecuteMode expected) {
         //when
-        ExecuteMode result = getCommand().getExecuteMode(update, dialogStep);
+        ExecuteMode result = getCommand().autoDefineExecuteMode(update, dialogStep);
 
         //then
         assertEquals(expected, result);

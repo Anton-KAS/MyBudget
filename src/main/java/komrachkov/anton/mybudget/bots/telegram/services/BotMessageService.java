@@ -1,8 +1,6 @@
 package komrachkov.anton.mybudget.bots.telegram.services;
 
-import komrachkov.anton.mybudget.bots.telegram.bot.TelegramBot;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
-import komrachkov.anton.mybudget.services.TelegramUserService;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -14,8 +12,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 
 public interface BotMessageService {
 
-    Integer executeMessage(ExecuteMode executeMode, long chatId, Integer messageId, String message,
-                           InlineKeyboardMarkup inlineKeyboardMarkup);
+    void executeAndUpdateUser(Update update, ExecuteMode executeMode, String text,
+                              InlineKeyboardMarkup inlineKeyboardMarkup);
 
     Integer sendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
@@ -23,23 +21,24 @@ public interface BotMessageService {
      * @author Anton Komrachkov
      * @since 0.4
      */
-    Integer sendMessageDisabledNotification(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
+    Integer sendMessageDisabledNotification(Update update, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
+
+    Integer editMessage(Update update, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
     Integer editMessage(long chatId, int messageId, String message, InlineKeyboardMarkup inlineKeyboardMarkup);
 
-    Integer deleteMessage(long chatId, int messageId);
-
-    void executeAndUpdateUser(TelegramUserService telegramUserService,
-                              Update update, ExecuteMode executeMode, String text,
-                              InlineKeyboardMarkup inlineKeyboardMarkup);
-
-    void updateUser(TelegramUserService telegramUserService, Update update);
+    Integer deleteMessage(Update update);
 
     /**
      * @author Anton Komrachkov
      * @since 0.4
      */
-    void sendPopup(String callbackQueryId, String message);
+    Integer sendPopup(Update update, String message);
 
-    Integer execute(TelegramBot telegramBot, BotApiMethod message);
+    Integer executeMessage(ExecuteMode executeMode, Update update, String message,
+                           InlineKeyboardMarkup inlineKeyboardMarkup);
+
+    void updateUser(Update update);
+
+    Integer execute(BotApiMethod message);
 }

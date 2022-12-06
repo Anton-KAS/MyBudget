@@ -1,5 +1,6 @@
 package komrachkov.anton.mybudget.bots.telegram.commands;
 
+import komrachkov.anton.mybudget.bots.telegram.keyboards.commands.StatKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,12 +14,16 @@ import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.STAT;
 
 /**
+ * Unit-tests for {@link StatCommand}
  * @since 0.2
  * @author Anton Komrachkov
  */
 
-@DisplayName("Unit-level testing for StatCommand")
+@DisplayName("Unit-level testing for commands.StatCommand")
 public class StatCommandTest extends AbstractCommandControllerTest {
+    private final StatText statTextMock = Mockito.mock(StatText.class);
+    private final StatKeyboard statKeyboardMock = Mockito.mock(StatKeyboard.class);
+
     @Override
     protected String getCommandName() {
         return STAT.getName();
@@ -26,12 +31,12 @@ public class StatCommandTest extends AbstractCommandControllerTest {
 
     @Override
     public CommandController getCommand() {
-        return new StatCommand(botMessageServiceMock, telegramUserServiceMock, DEFAULT_EXECUTE_MODE, messageTextMock, keyboardMock);
+        return new StatCommand(telegramUserServiceMock, statTextMock, statKeyboardMock);
     }
 
     @Override
     public MessageText getMockMessageText() {
-        StatText statText = Mockito.mock(StatText.class);
+        StatText statText = statTextMock;
         Mockito.when(statText.setActiveUserCount(TEST_USER_LIST_SIZE)).thenReturn(statText);
         return statText;
     }

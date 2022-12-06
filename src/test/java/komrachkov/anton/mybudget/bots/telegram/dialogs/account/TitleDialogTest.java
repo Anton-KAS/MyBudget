@@ -1,6 +1,7 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
+import komrachkov.anton.mybudget.bots.telegram.keyboards.dialogs.account.TitleKeyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,14 +10,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
-import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountText;
-import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
 
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNames.TITLE;
-import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.TitleDialog.VERIFY_EXCEPTION_TEXT;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.TitleDialog.MAX_TITLE_LENGTH;
 import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.TitleDialog.MIN_TITLE_LENGTH;
 
@@ -27,6 +25,7 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.TitleDialo
 
 @DisplayName("Unit-level testing for account.TitleDialog")
 public class TitleDialogTest extends AbstractAccountDialogTest {
+    private final static TitleKeyboard titleKeyboardMock = Mockito.mock(TitleKeyboard.class);
 
     @Override
     protected String getCommandName() {
@@ -40,12 +39,12 @@ public class TitleDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public Dialog getCommand() {
-        return new TitleDialog(botMessageServiceMock, telegramUserServiceMock, messageTextMock, keyboardMock);
+        return new TitleDialog(telegramUserServiceMock, accountTextMock, titleKeyboardMock);
     }
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AccountText.class);
+        return accountTextMock;
     }
 
     @Override
@@ -55,18 +54,11 @@ public class TitleDialogTest extends AbstractAccountDialogTest {
     @ParameterizedTest
     @MethodSource("sourceTitleCommit")
     public void shouldProperlyExecuteCommit(Update update, boolean expected) {
-        //given
-        int timesExpected = expected ? 1 : 0;
-        int timesNonExpected = !expected && !update.hasCallbackQuery() ? 1 : 0;
-
         //when
-        boolean result = getCommand().commit(update);
+        boolean result = getCommand().commit(update).isResultCommit();
 
         //then
         assertEquals(expected, result);
-        Mockito.verify(botMessageServiceMock, Mockito.times(timesNonExpected)).executeAndUpdateUser(telegramUserServiceMock, update, ExecuteMode.SEND,
-                String.format(VERIFY_EXCEPTION_TEXT, MIN_TITLE_LENGTH, MAX_TITLE_LENGTH), keyboardMock.getKeyboard());
-//        Mockito.verify(telegramUserServiceMock, Mockito.times(timesExpected)).checkUser(telegramUserServiceMock, update);
     }
 
     public static Stream<Arguments> sourceTitleCommit() {

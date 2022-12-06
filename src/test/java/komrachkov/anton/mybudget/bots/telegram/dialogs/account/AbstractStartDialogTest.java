@@ -1,13 +1,14 @@
 package komrachkov.anton.mybudget.bots.telegram.dialogs.account;
 
+import komrachkov.anton.mybudget.bots.telegram.commands.CommandContainer;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.CommandDialogNames;
+import komrachkov.anton.mybudget.bots.telegram.dialogs.util.Dialog;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
-import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountText;
+import komrachkov.anton.mybudget.bots.telegram.util.CommandController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.stream.Stream;
@@ -23,6 +24,8 @@ import static komrachkov.anton.mybudget.bots.telegram.dialogs.account.AccountNam
 
 public abstract class AbstractStartDialogTest extends AbstractAccountDialogTest {
 
+    protected abstract String getTestDialogName();
+
     @Override
     protected String getCommandName() {
         return START.getName();
@@ -30,7 +33,7 @@ public abstract class AbstractStartDialogTest extends AbstractAccountDialogTest 
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AccountText.class);
+        return accountTextMock;
     }
 
     @Test
@@ -39,14 +42,18 @@ public abstract class AbstractStartDialogTest extends AbstractAccountDialogTest 
         Update update = givenUpdate(TEST_USER_ID, TEST_CHAT_ID);
 
         //when - then
-        assertDoesNotThrow(() -> getCommand().executeByOrder(update, DEFAULT_EXECUTE_MODE));
+        assertDoesNotThrow(() -> getCommand().execute(update, DEFAULT_EXECUTE_MODE));
     }
 
     @ParameterizedTest
     @MethodSource("sourceStartCommit")
     public void shouldProperlyExecuteCommit(Update update, boolean expected) {
+        //then
+        Dialog command = getCommand();
+        command.setCurrentDialogName(getTestDialogName());
+
         //when
-        boolean result = getCommand().commit(update);
+        boolean result = command.commit(update).isResultCommit();
 
         //then
         assertEquals(expected, result);
@@ -94,13 +101,5 @@ public abstract class AbstractStartDialogTest extends AbstractAccountDialogTest 
 
     @Override
     public void shouldProperlyExecuteGetTextExecuteMode() {
-    }
-
-    @Override
-    public void shouldProperlyExecuteAndUpdateUser() {
-    }
-
-    @Override
-    public void shouldProperlyExecuteAndUpdateUserExecuteMode() {
     }
 }

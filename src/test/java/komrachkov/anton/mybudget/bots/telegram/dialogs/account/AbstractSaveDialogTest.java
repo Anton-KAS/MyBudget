@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import komrachkov.anton.mybudget.bots.telegram.callbacks.CallbackContainer;
 import komrachkov.anton.mybudget.bots.telegram.dialogs.util.DialogsState;
-import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountText;
+import komrachkov.anton.mybudget.bots.telegram.texts.dialogs.account.AccountDialogText;
 
 import java.util.Date;
 
@@ -57,7 +57,7 @@ public abstract class AbstractSaveDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public MessageText getMockMessageText() {
-        return Mockito.mock(AccountText.class);
+        return Mockito.mock(AccountDialogText.class);
     }
 
     @Test
@@ -65,6 +65,7 @@ public abstract class AbstractSaveDialogTest extends AbstractAccountDialogTest {
         //given
         Update update = getCallbackUpdateWithData(TEST_DATA);
         Account expectedAccount = getExpectedAccount();
+        Mockito.when(accountTextMock.setChatId(TEST_CHAT_ID)).thenReturn(accountTextMock);
 
         //when
         getCommand().execute(update);
@@ -87,13 +88,5 @@ public abstract class AbstractSaveDialogTest extends AbstractAccountDialogTest {
 
     @Override
     public void shouldProperlyExecuteGetTextExecuteMode() {
-    }
-
-    @Override
-    public void shouldProperlyExecuteAndUpdateUser() {
-    }
-
-    @Override
-    public void shouldProperlyExecuteAndUpdateUserExecuteMode() {
     }
 }

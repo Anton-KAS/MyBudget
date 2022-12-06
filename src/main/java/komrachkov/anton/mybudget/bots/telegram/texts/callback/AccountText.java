@@ -1,26 +1,26 @@
 package komrachkov.anton.mybudget.bots.telegram.texts.callback;
 
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
+import komrachkov.anton.mybudget.bots.telegram.texts.NoText;
 import komrachkov.anton.mybudget.models.Account;
 import komrachkov.anton.mybudget.models.Bank;
 import komrachkov.anton.mybudget.services.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Anton Komrachkov
  * @since 0.2
  */
 
+@Component
 public class AccountText implements MessageText {
-    private AccountService accountService;
-    private Long userId;
+    private final AccountService accountService;
     private int accountId;
 
-    public AccountText() {
-    }
-
-    public AccountText setAccountService(AccountService accountService) {
+    @Autowired
+    public AccountText(AccountService accountService) {
         this.accountService = accountService;
-        return this;
     }
 
     public AccountText setAccountId(int accountId) {
@@ -30,7 +30,6 @@ public class AccountText implements MessageText {
 
     @Override
     public MessageText setChatId(Long userId) {
-        this.userId = userId;
         return this;
     }
 
