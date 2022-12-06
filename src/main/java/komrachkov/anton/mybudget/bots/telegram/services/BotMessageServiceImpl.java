@@ -2,9 +2,11 @@ package komrachkov.anton.mybudget.bots.telegram.services;
 
 import komrachkov.anton.mybudget.bots.telegram.bot.TelegramBot;
 import komrachkov.anton.mybudget.bots.telegram.util.ExecuteMode;
+import komrachkov.anton.mybudget.bots.telegram.util.Logger;
 import komrachkov.anton.mybudget.bots.telegram.util.UpdateParameter;
 import komrachkov.anton.mybudget.models.TelegramUser;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -26,7 +28,9 @@ import java.util.Optional;
  */
 
 @Service
+@Log4j2
 public class BotMessageServiceImpl implements BotMessageService {
+    private String logStartText = "";
     private final TelegramBot telegramBot;
     private final TelegramUserService telegramUserService;
     public final static int CACHE_TIME = 2;
@@ -38,6 +42,7 @@ public class BotMessageServiceImpl implements BotMessageService {
 
     public void executeAndUpdateUser(Update update, ExecuteMode executeMode, String text,
                                      InlineKeyboardMarkup inlineKeyboardMarkup) {
+        logStartText = Logger.getLogStartText(update);
         removeInlineKeyboard(update, executeMode);
 
         if (executeMode == null) return;
@@ -84,11 +89,12 @@ public class BotMessageServiceImpl implements BotMessageService {
         long chatId = UpdateParameter.getChatId(update);
         SendMessage sendMessage = getSendMessage(chatId, message, inlineKeyboardMarkup);
         sendMessage.setDisableNotification(true);
-        return execute(sendMessage);
+        return execute(sendMessage, update);
     }
 
     @Override
     public Integer sendMessage(long chatId, String message, InlineKeyboardMarkup inlineKeyboardMarkup) {
+        if (logStartText.equals("")) logStartText = Logger.getLogStartText(chatId);
         SendMessage sendMessage = getSendMessage(chatId, message, inlineKeyboardMarkup);
         return execute(sendMessage);
     }
@@ -125,6 +131,7 @@ public class BotMessageServiceImpl implements BotMessageService {
         if (inlineKeyboardMarkup != null) editMessage.setReplyMarkup(inlineKeyboardMarkup);
         if (message != null) editMessage.setText(message);
 
+        if (logStartText.equals("")) logStartText = Logger.getLogStartText(chatId);
         return execute(editMessage);
     }
 
@@ -137,7 +144,7 @@ public class BotMessageServiceImpl implements BotMessageService {
         Optional<TelegramUser> telegramUser = telegramUserService.findById(UpdateParameter.getUserId(update));
         telegramUser.ifPresent(TelegramUser::removeLastMessage);
 
-        return execute(deleteMessage);
+        return execute(deleteMessage, update);
     }
 
     /**
@@ -155,7 +162,7 @@ public class BotMessageServiceImpl implements BotMessageService {
         answerCallbackQuery.setShowAlert(false);
         answerCallbackQuery.setCacheTime(CACHE_TIME);
 
-        return execute(answerCallbackQuery);
+        return execute(answerCallbackQuery, update);
     }
 
     @Override
@@ -212,15 +219,24 @@ public class BotMessageServiceImpl implements BotMessageService {
     public Integer execute(BotApiMethod botApiMethod) {
         try {
             Serializable sendMessage = telegramBot.execute(botApiMethod);
-            if (sendMessage != null) return getSendMessageId(sendMessage);
-        } catch (TelegramApiRequestException tre) {
-            System.out.println("TelegramApiRequestException"); // TODO: Add logging to the project
-            System.out.println(tre.getErrorCode());
-            System.out.println(tre.getMessage());
-        } catch (TelegramApiException e) {
-            e.printStackTrace(); // TODO: Add logging to the project
+            if (sendMessage != null) {
+                Integer sendMessageId = getSendMessageId(sendMessage);
+                log.info(logStartText + "Executed message id: " + sendMessageId);
+                return sendMessageId;
+            }
+        } catch (TelegramApiRequestException tare) {
+            log.warn(logStartText + "TelegramApiRequestException: " + tare.getErrorCode() + " " + tare.getMessage());
+        } catch (TelegramApiException tae) {
+            log.warn(logStartText + "TelegramApiException: " + Arrays.toString(tae.getStackTrace()));
         }
+        log.info(logStartText + "Executed message id: null");
         return null;
+    }
+
+    @Override
+    public Integer execute(BotApiMethod message, Update update) {
+        logStartText = Logger.getLogStartText(update);
+        return execute(message);
     }
 
     private Integer getSendMessageId(Serializable sendMessage) {
@@ -238,8 +254,8 @@ public class BotMessageServiceImpl implements BotMessageService {
         String sendMessageIdString = sendMessageString.substring(startIndex, endIndex);
         try {
             return Integer.valueOf(sendMessageIdString);
-        } catch (NumberFormatException ignore) {
-            // TODO: Add project Logger
+        } catch (NumberFormatException nfe) {
+            log.warn(logStartText + "NumberFormatException: " + nfe.getMessage());
         }
         return null;
     }

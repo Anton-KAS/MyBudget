@@ -7,6 +7,7 @@ import komrachkov.anton.mybudget.bots.telegram.texts.callback.AccountText;
 import komrachkov.anton.mybudget.bots.telegram.util.*;
 import komrachkov.anton.mybudget.models.TelegramUser;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
 @Scope("prototype")
+@Log4j2
 public class AccountCallback extends CommandControllerImpl {
     private final AccountText accountText;
     private final AccountKeyboard accountKeyboard;
