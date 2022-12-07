@@ -41,4 +41,5 @@ public interface BotMessageService {
     void updateUser(Update update);
 
     Integer execute(BotApiMethod message);
+    Integer execute(BotApiMethod message, Update update);
 }

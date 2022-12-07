@@ -3,6 +3,7 @@ package komrachkov.anton.mybudget.bots.telegram.util;
 import komrachkov.anton.mybudget.bots.telegram.keyboards.util.Keyboard;
 import komrachkov.anton.mybudget.bots.telegram.texts.MessageText;
 import komrachkov.anton.mybudget.services.TelegramUserService;
+import lombok.extern.log4j.Log4j2;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
@@ -11,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
  * @since 0.2
  */
 
+@Log4j2
 public abstract class CommandControllerImpl implements CommandController {
     protected final TelegramUserService telegramUserService;
     protected ExecuteMode defaultExecuteMode;

@@ -1,9 +1,11 @@
 package komrachkov.anton.mybudget.bots.telegram.bot;
 
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageServiceImpl;
+import komrachkov.anton.mybudget.bots.telegram.util.Logger;
 import komrachkov.anton.mybudget.bots.telegram.util.ToDoList;
 import komrachkov.anton.mybudget.bots.telegram.services.BotMessageService;
 import komrachkov.anton.mybudget.services.*;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,6 +30,7 @@ import static komrachkov.anton.mybudget.bots.telegram.commands.CommandNamesImpl.
  */
 
 @Component
+@Log4j2
 public class TelegramBot extends TelegramLongPollingBot {
     public static String COMMAND_PREFIX = "/";
 
@@ -36,6 +39,9 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Value("${telegram.bot.token}")
     private String token;
+
+    private long chatId;
+    private String logStartText;
 
     private final TelegramUserService telegramUserService;
     private final BotMessageService botMessageService;
@@ -67,12 +73,16 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(update); //TODO: Add project Logger
-        telegramUserService.checkUser(telegramUserService, update);
+        chatId = UpdateParameter.getChatId(update);
+        this.logStartText = Logger.getLogStartText(update);
+        log.info(logStartText + "Received Telegram Update " + UpdateParameter.getMessageId(update));
+        log.debug(logStartText + update);
 
+        telegramUserService.checkUser(telegramUserService, update);
         ToDoList toDoList;
         if (update.hasCallbackQuery() && UpdateParameter.getCallbackData(update).isPresent()
                 && UpdateParameter.getCallbackData(update).get()[0].equals(NOTHING.getName())) {
+            log.info(logStartText + "Do nothing. Callback: " + UpdateParameter.getCallbackData(update));
             return;
         } else if (update.hasMessage() && update.getMessage().hasText()) {
             toDoList = onTextMessageReceived(update);
@@ -85,12 +95,12 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (toDoList == null) return;
         while (toDoList.hasToDo()) {
             ToDoList.ToDo toDo = toDoList.pollToDo();
+            log.info(logStartText + "ToDo for bot message service: " + toDo.executeMode());
             botMessageService.executeAndUpdateUser(toDo.update(), toDo.executeMode(), toDo.text(), toDo.inlineKeyboardMarkup());
         }
     }
 
     private ToDoList onTextMessageReceived(Update update) {
-        long chatId = UpdateParameter.getChatId(update);
         if (ResponseWaitingMap.contains(chatId)) {
             String identifier = ResponseWaitingMap.get(chatId).getName();
             return onWaitingReceived(update, identifier);
@@ -99,56 +109,55 @@ public class TelegramBot extends TelegramLongPollingBot {
         String messageText = UpdateParameter.getMessageText(update);
         if (messageText.startsWith(COMMAND_PREFIX)) {
             String commandIdentifier = messageText.split(" ")[0].toLowerCase();
-            System.out.println("COMMAND ID: " + commandIdentifier); //TODO: Add project Logger
+            log.info(logStartText + "Command received: " + commandIdentifier);
             return commandContainer.retrieve(commandIdentifier).execute(update);
         }
-
+        log.info(logStartText + "No command received: " + UpdateParameter.getMessageText(update));
         return commandContainer.retrieve(NO.getName()).execute(update);
     }
 
     private ToDoList onWaitingReceived(Update update, String identifier) {
-        System.out.println("WAITING BY: " + identifier); //TODO: Add project Logger
+        log.info(logStartText + "Waiting response: " + identifier);
         if (commandContainer.contains(identifier)) {
-            System.out.println("COMMAND CONTAINER"); //TODO: Add project Logger
+            log.info(logStartText + "Command: " + identifier);
             return commandContainer.retrieve(identifier).execute(update);
         }
 
         if (callbackContainer.contains(identifier)) {
-            System.out.println("CALLBACK CONTAINER"); //TODO: Add project Logger
+            log.info(logStartText + "Callback: " + identifier);
             return callbackContainer.retrieve(identifier).execute(update);
         }
 
         if (dialogContainer.contains(identifier)) {
-            System.out.println("DIALOG CONTAINER"); //TODO: Add project Logger
+            log.info(logStartText + "Dialog: " + identifier);
             return dialogContainer.retrieve(identifier).execute(update);
         }
 
-        System.out.println("NO CONTAINER"); //TODO: Add project Logger
+        log.warn(logStartText + "UNKNOWN: " + identifier);
         return commandContainer.retrieve(NO.getName()).execute(update);
 
     }
 
     private ToDoList onCallbackReceived(Update update) {
-        long messageId = UpdateParameter.getMessageId(update);
-        long chatId = UpdateParameter.getChatId(update);
-        System.out.println("Message id: " + messageId); //TODO: Add project Logger
-        System.out.println("Chat id: " + chatId); //TODO: Add project Logger
-
         String[] callbackData = UpdateParameter.getCallbackData(update).orElse(null);
-        System.out.println("Call data: " + Arrays.toString(callbackData)); //TODO: Add project Logger
+        log.info(logStartText + "Callback received: " + Arrays.toString(callbackData));
         if (callbackData == null || callbackData.length <= TO.ordinal()) {
+            log.warn(logStartText + "UNKNOWN: " + Arrays.toString(callbackData));
             return callbackContainer.retrieve(NO.getName()).execute(update);
         }
 
         String callbackType = callbackData[TYPE.ordinal()];
         if (callbackType.equals(NORMAL.getId())) {
+            log.info(logStartText + "Callback from: " + callbackData[FROM.ordinal()] + ", to: " + callbackData[TO.ordinal()]);
             return callbackContainer.retrieve(callbackData[TO.ordinal()]).execute(update);
         }
 
         if (callbackType.equals(DIALOG.getId()) && dialogContainer.contains(callbackData[TO.ordinal()])) {
+            log.info(logStartText + "Dialog from: " + callbackData[FROM.ordinal()] + ", to: " + callbackData[TO.ordinal()]);
             return dialogContainer.retrieve(callbackData[TO.ordinal()]).execute(update);
         }
 
+        log.warn(logStartText + "UNKNOWN: " + Arrays.toString(callbackData));
         return callbackContainer.retrieve(NO.getName()).execute(update);
     }
 }
