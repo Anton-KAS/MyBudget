@@ -1,6 +1,7 @@
 package komrachkov.anton.mybudget.services;
 
 import komrachkov.anton.mybudget.repositories.TelegramUserRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
+@Log4j2
 public class TelegramUserServiceImpl implements TelegramUserService {
 
     private final TelegramUserRepository telegramUserRepository;
@@ -34,6 +36,7 @@ public class TelegramUserServiceImpl implements TelegramUserService {
         if (telegramUser.getCreatedAt() == null) telegramUser.setCreatedAt(new Date());
         telegramUser.setLastActive(new Date());
         telegramUserRepository.save(telegramUser);
+        log.info("Save telegram user to DB: " + telegramUser.getId());
     }
 
     @Override
@@ -41,6 +44,7 @@ public class TelegramUserServiceImpl implements TelegramUserService {
     public void setLastActive(TelegramUser telegramUser) {
         telegramUser.setLastActive(new Date());
         telegramUserRepository.save(telegramUser);
+        log.info("Save telegram user to DB: " + telegramUser.getId());
     }
 
     @Override
@@ -51,6 +55,7 @@ public class TelegramUserServiceImpl implements TelegramUserService {
         telegramUser.setLastMessageText(messageText);
         telegramUser.setLastMessageTimestamp(new Date());
         telegramUserRepository.save(telegramUser);
+        log.info("Set last message to telegram user in DB: " + messageId + " -> " + telegramUser.getId());
     }
 
     @Override
