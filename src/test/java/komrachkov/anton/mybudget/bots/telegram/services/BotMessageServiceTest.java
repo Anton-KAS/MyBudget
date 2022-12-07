@@ -206,6 +206,8 @@ public class BotMessageServiceTest {
         Mockito.when(message.getMessageId()).thenReturn(TEST_MESSAGE_ID);
         Mockito.when(from.getId()).thenReturn(TEST_USER_ID);
         Mockito.when(callbackQuery.getId()).thenReturn(TEST_CALLBACK_QUERY_ID);
+        Mockito.when(callbackQuery.getFrom()).thenReturn(from);
+        Mockito.when(callbackQuery.getMessage()).thenReturn(message);
 
         message.setFrom(from);
         update.setCallbackQuery(callbackQuery);
